@@ -1,0 +1,9 @@
+seed: 42
+gold_test_file: resultados/gold_test_set_30.json
+silver_clean_file: resultados/banco_dados_iana_v3_clean.json
+val_ratio: 0.10
+stratify_by: doenca_alvo_identificada
+exclude_filters:
+  - ner_status_not_ok
+  - soap_status_not_ok
+output_dir: data/splits/

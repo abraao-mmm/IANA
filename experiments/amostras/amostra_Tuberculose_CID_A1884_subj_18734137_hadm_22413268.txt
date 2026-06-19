@@ -1,0 +1,438 @@
+=== DIAGNÓSTICO PRINCIPAL CONFIRMADO ===
+Doença Alvo: Tuberculose
+Código CID (ICD) Faturado: A1884
+========================================
+
+ 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___
+ 
+Chief Complaint:
+Fevers
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+Ms ___ is a ___ woman with a history of HTN, HLD, 
+Raynaud's, significant TB risk factors and positive quant Gold, 
+and multiple recent hospitalizations for fevers in the setting 
+of pericarditis and pericardial/pleural effusions, who presented 
+from her PCP's office with recurrent fevers and persistent 
+pleuritic chest pain following conclusion of an antibiotic 
+course for HCAP. Ms. ___ presented to her PCP's office today 
+with fevers up to 101.3 x 2 nights (measured at home) after 
+completing her course of oral cefpodoxime for presumed HCAP. 
+Fevers were associated with her usual intermittent, nondrenching 
+night sweats and dry cough. She took Tylenol with improvement in 
+fevers. This morning, she took her blood pressure, and it was 
+low (100s systolic) and heart rate was high (100s), so she held 
+her Atenolol and she presented to Urgent Care. In her PCP's 
+office, VS were 97.5 104 145/90 16 99% RA.  Exam was notable for 
+tachycardia and a slight diastolic murmur. No labs or imaging 
+were performed. Decision was made to directly admit to ___ 
+Medicine for further management. 
+
+Of note, Ms. ___ was admitted on ___ for acute 
+pericarditis and discharged on colchicine and an ibuprofen 
+taper, but her symptoms worsened and she was subsequently 
+re-admitted on ___ for chest pain and found on outpatient 
+TTE with moderately sized pericardial effusion.  Her effusion 
+remained stable without tamponade physiology, but she developed 
+fevers of 103 with a new chest discomfort different from her 
+episodes of pericarditis a/w worsening cough and admitted 
+___ for r/o pulmonary TB and treatment of presumed HCAP 
+and discharged home to complete a course of antibiotics. During 
+her most recent hospitalization from ___, she was treated 
+for presumed HCAP after being ruled-out for active pulmonary TB 
+and was medically cleared by infectious disease for discharge. 
+Notably, she declined pericardiocentesis to rule out pericardial 
+TB. Given marked clinical improvement on IV antibiotics, she was 
+therefore discharged home to complete a course of antibiotics 
+with cefpodoxime (fluoroquinolones avoided because of concern 
+for TB).  However, after completing cefpodoxime on ___, she 
+spiked another fever with chills and night sweats.  She 
+presented to urgent care on ___ with fevers, pleuritic chest 
+pain, hypotension, and tachycardia. 
+
+Notably, over the past month, Ms. ___ reports having had 
+worsening night sweats, nonproductive cough, and chest pain with 
+deep inspiration.  She says that her night sweats had occurred 
+about ___ years prior, and was evaluated by Dr. ___ ___.  In 
+___, while applying to be a volunteer at ___, her quant 
+gold testing was notably positive.  She did not get treated at 
+that time.  Ms. ___ is a former ___ and ___ with 
+significant occupational exposures to TB, having traveled 
+extensively oversees and worked on several medical missions.  
+She denies any hemoptysis, but has had a chronic hacking cough 
+for several months.  No palpitations, lightheadedness, 
+dizziness. Taking good PO and making good urine. 
+
+On arrival to the floor, she was started on IV 
+vancomycin/cefepime and given tylenol for fevers. She was
+continued on colchicine and ibuprofen.  She had a negative UA, 
+and CXR with trace bilateral pleural effusions.  Labs notable 
+for a normal lactate and leukocytosis of 11.5. She had two 
+negative trops and EKG without e/o ischemia. TTE showed 
+decreased pericardial effusion with no tamponade. Pulsus was 10. 
+  She continues to report chills, nightsweats, and a dry cough. 
+She continues to have chest tightness with deep inspiration.  No 
+rhinorrhea, abdominal pain, nausea, vomiting, new diarrhea, or 
+rashes.
+ 
+Past Medical History:
+PAST MEDICAL HISTORY:  
+1. CARDIAC RISK FACTORS: +hypertension, +dyslipidemia, NO DM
+2. CARDIAC HISTORY:  
+- CABG:  None
+- PERCUTANEOUS CORONARY INTERVENTIONS:  None
+- PACING/ICD:  None
+3. OTHER PAST MEDICAL HISTORY:
+IPMN (intraductal papillary mucinous neoplasm)
+Osteopenia
+Colonic Adenoma
+Pericarditis
+Pleural effusions
+Positive quantiferon gold
+Raynaud's
+ 
+Social History:
+___
+Family History:
+Father: MI
+Mother: ___
+Paternal family +cancers
+ 
+Physical Exam:
+ADMISSION EXAM:
+====================
+VS: Tc 100 Tmax 100.3 BP 125/67 (103-154) HR 92-100 O2Sat 95% on 
+RA 
+General- Alert, oriented, in no acute distress  
+HEENT- Sclera anicteric, MMM, oropharynx clear  
+Neck- supple, JVP not elevated, no LAD  
+Lymph- no lymphadenopathy in the periauricular, cervical, 
+anterior chains
+Lungs- Clear to auscultation bilaterally, no wheezes, rales, 
+rhonchi  
+CV- Regular rate and rhythm, normal S1 + S2, no murmurs, rubs, 
+gallops  
+Abdomen- soft, non-tender, non-distended, bowel sounds present,
+no rebound tenderness or guarding, no organomegaly  
+Ext- warm, well perfused, 2+ pulses, no clubbing, cyanosis or 
+edema    
+Neuro - A&Ox3
+
+DISCHARGE EXAM:
+====================
+Vitals: T 99.4 BP 124/59 HR 95 RR 16 O2Sat 94% RA
+General: Well-appearing, in NAD
+HEENT: Normocephalic atraumatic, no conjunctival injection, 
+sclera anicteric. 
+Neck: JVP elevated, ___ at 30 degrees. No periauricular, 
+anterior, clavicular chain lymphadenopathy.
+Lungs: Clear to auscultation bilaterally. No wheezes, rhonchi, 
+rales, stridor.
+CV: Tachycardic, normal rhythm. No murmurs, rubs, gallops.    
+Ext: Warm and well perfused. No clubbing, cyanosis, edema.
+NEURO: Anxious, A&Ox3. CNII-XII grossly intact.
+ 
+Pertinent Results:
+ADMISSION LABS:
+=======================
+___ 06:55PM BLOOD WBC-11.5* RBC-4.03 Hgb-12.2 Hct-36.9 
+MCV-92 MCH-30.3 MCHC-33.1 RDW-13.0 RDWSD-42.5 Plt ___
+___ 06:55PM BLOOD Neuts-77* Bands-1 Lymphs-16* Monos-5 
+Eos-0 Baso-0 ___ Metas-1* Myelos-0 AbsNeut-8.97* 
+AbsLymp-1.84 AbsMono-0.58 AbsEos-0.00* AbsBaso-0.00*
+___ 06:55PM BLOOD Hypochr-NORMAL Anisocy-NORMAL 
+Poiklo-NORMAL Macrocy-NORMAL Microcy-NORMAL Polychr-OCCASIONAL
+___ 06:55PM BLOOD Plt Smr-HIGH Plt ___
+___ 06:55PM BLOOD Glucose-102* UreaN-10 Creat-0.6 Na-137 
+K-4.5 Cl-96 HCO3-27 AnGap-19
+___ 06:55PM BLOOD CK(CPK)-58
+___ 06:55PM BLOOD CK-MB-2 cTropnT-<0.01
+___ 06:55PM BLOOD Calcium-9.6 Phos-3.5 Mg-2.0
+___ 07:51PM BLOOD Lactate-1.6
+
+___ 10:30PM URINE Blood-NEG Nitrite-NEG Protein-TR 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-6.0 Leuks-NEG
+___ 10:30PM URINE Color-Yellow Appear-Clear Sp ___
+___ 10:30PM URINE RBC-2 WBC-<1 Bacteri-NONE Yeast-NONE 
+Epi-1
+
+OTHER PERTINENT LABS:
+=======================
+___ 03:00PM BLOOD ___
+___ 03:00PM BLOOD RheuFac-12
+___ 03:00PM BLOOD ANCA-NEGATIVE B
+___ 03:00PM BLOOD TSH-1.6
+___ 11:55AM BLOOD D-Dimer-3813*
+___ 06:45AM BLOOD ___ VIRUS B ANTIBODIES-PND
+___ 06:45AM BLOOD SED RATE-Test      
+___ 04:00PM BLOOD MYCOPLASMA PNEUMONIAE ANTIBODIES (IGG, 
+IGM)-PND
+___ 07:28PM BLOOD BRUCELLA ANTIBODY, AGGLUTINATION-PND
+___ 06:55PM BLOOD CK-MB-2 cTropnT-<0.01
+___ 06:40AM BLOOD cTropnT-<0.01
+
+MICRO:
+=======================
+___ 10:30 pm URINE     Site: CLEAN CATCH
+
+                            **FINAL REPORT ___
+
+   URINE CULTURE (Final ___:    NO GROWTH. 
+
+___ 7:00 pm BLOOD CULTURE      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   Blood Culture, Routine (Final ___:    NO GROWTH. 
+
+IMAGING/STUDIES:
+=======================
+CXR ___:
+IMPRESSION: 
+The lungs are well expanded and clear.  The mediastinal 
+contours, hila, and
+cardiac borders are stable. Trace bilateral pleural effusions 
+are slightly
+improved from ___. Biapical scarring is unchanged.
+ 
+TTE ___:
+The estimated right atrial pressure is ___ mmHg. Regional left 
+ventricular wall motion is normal. Overall left ventricular 
+systolic function is normal (LVEF>55%). Right ventricular 
+chamber size and free wall motion are normal. There is no aortic 
+valve stenosis. There is a very small pericardial effusion. 
+There are no echocardiographic signs of tamponade. 
+IMPRESSION: Very small pericardial effusion. No tamponade. 
+Compared with the prior study (images reviewed) of ___, 
+the findings are similar. 
+
+CTA ___:
+IMPRESSION:
+1. No evidence of pulmonary embolism or aortic abnormality.
+2. Slight interval increase in small bilateral pleural effusions 
+with
+associated relaxation atelectasis.
+3. Unchanged small to moderate pericardial effusion without 
+peripheral
+enhancement to suggest pericarditis.
+4. Similar appearance of mild pulmonary edema.
+
+DISCHARGE LABS:
+=======================
+___ 06:45AM BLOOD WBC-8.8 RBC-3.81* Hgb-11.3 Hct-34.7 
+MCV-91 MCH-29.7 MCHC-32.6 RDW-12.7 RDWSD-42.2 Plt ___
+___ 06:45AM BLOOD Neuts-67.2 ___ Monos-7.9 Eos-0.7* 
+Baso-0.7 Im ___ AbsNeut-5.94 AbsLymp-1.94 AbsMono-0.70 
+AbsEos-0.06 AbsBaso-0.06
+___ 06:45AM BLOOD Plt ___
+___ 06:45AM BLOOD Glucose-92 UreaN-7 Creat-0.6 Na-137 K-4.3 
+Cl-95* HCO3-30 AnGap-16
+___ 06:45AM BLOOD Albumin-3.4* Calcium-9.2 Phos-3.5 Mg-2.1
+___ 06:45AM BLOOD ALT-61* AST-38 LD(LDH)-184 AlkPhos-208* 
+TotBili-0.4
+___ 06:45AM BLOOD CRP-87.8*
+ 
+Brief Hospital Course:
+___ with a history of HTN, HLD, Raynaud's, significant TB risk 
+factors and positive quant gold, and multiple recent admissions 
+for recurrent fevers in the setting of pericarditis and 
+pericardial/pleural effusions, who presented with recrudescence 
+of fevers following conclusion of an antibiotic course for HCAP.
+
+# Pericarditis: On admission, patient presented with persistent 
+pleuritic chest pain similar to her prior episodes of 
+pericarditis. She also had fevers, similar to her last 
+presentation.  Symptoms appear to wax and wane over the past 
+month, etiology thought likely to be viral or TB pericarditis. 
+TTE demonstrated resolving small pericardial effusion without 
+tamponade physiology. Infectious, rheumatologic, and endocrine 
+work-up thus far has been unrevealing. Notably, patient has 
+extensive occupational TB exposures and history of positive 
+Quant Gold in ___ and longstanding positive PPD dating back to 
+___ (per OMR note by Dr. ___, she had a 22mm of 
+induration, repeated in ___ that was positive again) supporting 
+pericardial TB. HIV negative, and blood cultures negative. ID 
+was consulted and thinks the clinical picture is likely 
+consistent with tuberculosis pericarditis. They recommended 
+pericardial biopsy which was discussed with the patient, but she 
+declined pursuing this. ID does not recommend starting 
+tuberculosis therapy at this time unless the patient is willing 
+to commit to the full course of treatment and accept the 
+diagnostic uncertainty. We continued the patient on ibuprofen 
+and adjunctive colchicine. On discharge, she has pending 
+Brucella, Mycoplasma pneumonia, and ___ serologies.
+
+# Sinus tachycardia: Most likely due to accidentally not 
+ordering atenolol on admission resulting in beta blocker 
+withdrawal and rebound tachycardia.  
+
+# Fevers and nightsweats: On admission, patient presented with 
+recurrent fevers and persistent nondrenching nightsweats for 
+nearly a month in the setting of recurrent pericarditis with 
+pericardial effusion and pleural effusions. Given her multiple 
+TB risk factors, clinical symptoms of fevers/chronic cough/night 
+sweats and positive Quant Gold, per evaluation by infectious 
+disease, there is a high index of suspicion for TB pericarditis. 
+Symptoms highly concerning for TB pericarditis, as infectious, 
+endocrine, and rheumatologic work-up thus far negative. 
+Malignancy still possible though PFA cytology from prior 
+admission was negative for malignant cells. Given concern during 
+her last hospitalization that fevers may have been attenuated by 
+the concurrent use of high dose NSAID for treatment of 
+pericarditis, we held her NSAIDs from ___ without 
+rescrudescence of fevers. NSAIDs were restarted to prevent 
+pericarditis recurrence with planned taper.
+
+# HTN: Gradually restarted atenolol home dose. Continued home 
+HCTZ
+
+# HLD: Continued home pravastatin.
+
+# Nutrition: Mutivitamins 1 TAB PO/NG DAILY 
+
+# Osteopenia: Vitamin D 1000 UNIT PO/NG DAILY
+
+# GERD: Calcium Carbonate 500 mg PO/NG QID:PRN heartburn, 
+Omeprazole 40 mg PO DAILY.
+
+TRANSITIONAL ISSUES:
+=================================
+# Ibuprofen was held from ___ but restarted prior to 
+discharge. We recommend that you follow-up with your PCP 
+regarding appropriate taper.  Ibuprofen taper for pericariditis: 
+600mg three times a day for 2 weeks ___ then 600mg two 
+times a day for 2 weeks (___), then stop. 
+# Should symptoms persist and patient become interested in 
+potential pericardial biopsy, please arrange for outpatient 
+follow-up with ___ clinic.
+# CT scan on ___ showed a slight interval increase in the small 
+bilateral pleural effusions. We recommend following this up with 
+your PCP. If you develop increased shortness of breath, this may 
+indicate that you will need your pleural effusion tapped again 
+by interventional pulmonology. 
+# CT scan also showed some incidental findings that we recommend 
+follow-up in ___ months by your PCP: 1) a single enlarged right 
+hilar lymph node that measures up to 1.3 cm in short axis and 
+2)a 3 mm left upper lobe pulmonary nodule is noted. 
+# Recommend follow-up TTE in ___ weeks to assess pericardial 
+effusion
+# Will need follow-up of: 
+-Serum mycoplasma, brucella, and ___
+-Blood cultures 
+-ESR
+-Sputum cultures for TB
+# Contact: ___ ___
+# Code status: full 
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Atenolol 50 mg PO DAILY 
+2. Calcium Carbonate 500 mg PO QID:PRN heartburn 
+3. Multivitamins 1 TAB PO DAILY 
+4. Omeprazole 40 mg PO DAILY 
+5. Pravastatin 20 mg PO QPM 
+6. Hydrochlorothiazide 25 mg PO DAILY 
+7. Vitamin D 1000 UNIT PO DAILY 
+8. Colchicine 0.6 mg PO BID 
+9. Ibuprofen 600 mg PO Q8H 
+
+ 
+Discharge Medications:
+1. Atenolol 50 mg PO DAILY 
+2. Calcium Carbonate 500 mg PO QID:PRN heartburn 
+3. Colchicine 0.6 mg PO BID 
+4. Hydrochlorothiazide 25 mg PO DAILY 
+5. Ibuprofen 600 mg PO Q8H 
+6. Multivitamins 1 TAB PO DAILY 
+7. Omeprazole 40 mg PO DAILY 
+8. Pravastatin 20 mg PO QPM 
+9. Vitamin D 1000 UNIT PO DAILY 
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Primary Diagnosis:
+Pericarditis
+Tachycardia
+Pericardial effusion
+Pleural effusion
+Pulmonary nodule
+
+Secondary Diagnosis: 
+Hyperlipidemia
+Hypertension
+
+Primary Diagnosis:
+Pericarditis
+Tachycardia
+Pericardial effusion
+Pleural effusion
+
+Secondary Diagnosis: 
+Hyperlipidemia
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Ms. ___,
+
+It was a pleasure participating in your care while you were at 
+___.  You were admitted to the 
+hospital for recurrent fevers after your last admission to the 
+hospital.  You were started on antibiotics in the Emergency 
+Department but your chest x-ray was normal.  We believe that 
+your symptoms are related to your persistent pericarditis, which 
+is going to take time to resolve. We are still concerned that 
+your pericarditis could be due to tuberculosis and recommended 
+that you undergo a biopsy of the sac around the heart 
+(pericardium) to help diagnose this condition, however after 
+discussing the risks and benefits with you in conjunction with 
+the infectious disease team, you opted to forego this procedure 
+at this time. 
+
+You will need to have a follow-up echocardiogram in the next ___ 
+weeks to evaluate the fluid around your heart (pericardial 
+effusion). You will also be completing your ibuprofen taper for 
+pericarditis. 
+
+You are now medically cleared to be discharged from the 
+hospital.  Please call your doctor or return to the Emergency 
+Department if you have any new or worsening symptoms that 
+concern you.
+
+Please resume all regular home medications, unless specifically 
+advised not to take a particular medication. Also, please take 
+any new medications as prescribed.
+
+You have follow-up appointments scheduled with your primary care 
+provider as well as the infectious disease specialists, the 
+details of which are below.
+
+We wish you the very best,
+-- Your ___ Care Team
+ 
+Followup Instructions:
+___

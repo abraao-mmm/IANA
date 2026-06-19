@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 25375128 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 25375128</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 25375128 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Tuberculose<br>
+    <strong>Entidades extraídas:</strong> 53 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Cough, weight loss
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+Patient is a ___ y/o male from ___, in the ___ for the past 
+___ years.  He has no medical problems, but started to feel ill 
+during late ___ with cough, fatigue, weight loss, and 
+all of these symptoms were progressive.  Had night sweats, near 
+post tussive emesis, dyspnea at the end of coughing spells and 
+some shortness of breath when going up stairs.  He had two 
+hospitalizations for these symptoms last fall at ___ 
+___.  He was diagnosed with pneumonia during the first 
+hospitalization and given antibiotics, and he had some 
+improvement in his symptoms and was discharged after 3 days.   
+Within a week, all of these symptoms have returned, so he went 
+to ___ again, and was told he had a &quot;worse pneumonia&quot; and on 
+the second stay in ___, he remained hospitalized for about 
+a week.  After this second discharge, he states the he was 
+better, without fevers, chills, sweats, but still had ongoing 
+weight loss, cough, DOE, so he saw a primary care doctor at 
+___ after he obtained ___ who 
+ordered a CXR and CT scan at ___, and CT scan shows right 
+upper lobe cavitary pneumonia concerning for TB so he was 
+referred for admission.  
+He has had a nearly 85 lb weight loss, unclear over what period 
+of time.  He does not know of any TB contacts or exposures, here 
+or in ___.  Denies drug use or incarceration
+ 
+Past Medical History:
+None
+ 
+Social History:
+___
+Family History:
+No history of TB
+ 
+Physical Exam:
+___ 0802 Temp: 98.3 PO BP: 122/60 HR: 97 RR: 18 O2 sat: 95%
+O2 delivery: RA 
+ 
+GENERAL: Alert, NAD
+EYES: Anicteric, PERRL
+ENT: Ears, nose without visible redness, masses, or trauma.  
+MMM.
+No thrush. 
+Neck: Supple
+CV: heart RRR, pulses distally intact.  No ___ edema. 
+RESP: Crackles right sided. Left clear to auscultation 
+GI: Abdomen soft, scaphoid abd, nd, nt, bs+
+MSK: MAEW, strength intact and appropriate for age.
+SKIN: No rashes in examined area
+NEURO: Alert, oriented, conversant, obeys commands
+PSYCH: pleasant, appropriate affect
+ 
+Pertinent Results:
+CT scan
+Complex a cavitary lesion in the posterior segment the right 
+upper lobe and another cavitary lesion within the space segment 
+the right lower lobe along with multifocal ___ 
+nodularity is concerning for a reactivation tuberculosis with 
+transbronchial spread of infection.  The differential diagnosis 
+would also include a multifocal necrotizing pneumonia. 
+Fatty liver. 
+Small mediastinal lymph nodes could be reactive. 
+Small right pleural effusion 
+
+___ Quant Gold negative
+
+A1c 7.6
+
+Sputum: 
+Acid Fast Sputums: ___ x 2, ___ x 2  --&gt; 5 , none 
+negative
+Legionella Ag: Negative 
+
+Flu PCR: Neggative 
+
+Discharge Labs:
+- WBC: 13.6
+- Hgb: 13.6
+- Plts: 334
+
+ 
+Brief Hospital Course:
+# Pulmonary TB with RUL cavitary lesion: AFB + and NAAT positive
+for rifampin sensitive MTB. 5 AFB smears are positive for AFB. 
+Curiously his TSpot was negative, but grossly positive AFB 
+Sputusm . ID recommended starting RIPE and Treatment started 
+___ with Teaching. Patients is to continue on the following 
+meds daily. 
+- rifampin 600mg daily
+- INH 300mg daily
+- pyrazinamide 1500mg daily
+- ethambutol 1200mg daily
+- vitamin B6 50mg daily
+He also will need an Opthamology assessment once outpatient. 
+
+# Moderate Malnutrition - Most likely due to chronic TB. Patient
+with Mild depletion of body fat AND muscle mass. We encouraged 
+PO intake and supplemented diet while inpatient with Glucerna 
+Frappe TID.
+
+# Type II Diabetes - Hgb A1c 7.5%. Patient at this time not
+requiring sliding scale. ___ also be due to inflammatory state 
+of
+Chronic TB.  Will NOT start statin at this time, will await to 
+see if
+patient has liver toxicity from TB treatment
+
+# Screening - Hep A Immunized, Hep C Negative, Hep B Negative -
+Non immunized
+- Awaiting Histo, Blasto, Coccidio Abs at time of discharge 
+
+# Anemia - Anemia of Inflammation with slight iron deficiency. 
+Patient should increase his PO intake of protein to not only 
+increase his malnutrition status, but also his iron deficiency. 
+
+ 
+Medications on Admission:
+- None
+ 
+Discharge Medications:
+1.  Acetaminophen 500 mg PO Q6H:PRN Pain - Mild/Fever 
+RX *acetaminophen [Acetaminophen Extra Strength] 500 mg ___ 
+tablet(s) by mouth TID PRN Fever Disp #*30 Tablet Refills:*0 
+2.  Benzonatate 100 mg PO TID:PRN Cough 
+RX *benzonatate [Tessalon Perles] 100 mg 1 capsule(s) by mouth 
+three times a day Disp #*30 Capsule Refills:*0 
+3.  Ethambutol HCl 1200 mg PO DAILY 
+RX *ethambutol 400 mg 3 tablet(s) by mouth daily Disp #*30 
+Tablet Refills:*8 
+4.  Isoniazid ___ mg PO DAILY 
+RX *isoniazid ___ mg 1 tablet(s) by mouth Daily Disp #*30 Tablet 
+Refills:*8 
+5.  Multivitamins W/minerals 1 TAB PO DAILY 
+RX *multivitamin,tx-minerals [Multi-Vitamin HP/Minerals]  1 
+capsule(s) by mouth daily Disp #*30 Capsule Refills:*9 
+6.  Pyrazinamide 1500 mg PO DAILY 
+RX *pyrazinamide 500 mg 3 tablet(s) by mouth daily Disp #*30 
+Tablet Refills:*8 
+7.  Pyridoxine 50 mg PO DAILY 
+RX *pyridoxine (vitamin B6) 50 mg 1 tablet(s) by mouth daily 
+Disp #*30 Tablet Refills:*8 
+8.  Rifampin 600 mg PO Q24H 
+RX *rifampin 300 mg 2 capsule(s) by mouth daily Disp #*30 
+Capsule Refills:*8 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Pulmonary Mycobacterium Tuberculosis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+You were admitted to ___ with the diagnosis of TB. Your 
+cough you have had an organism in it known as Mycobacterium 
+Tuberculosis. This is a VERY contagious bacteria and is spread 
+through the air. It is important that you get very good coverage 
+for your TB and so you will be going to ___ to be observed 
+for your therapy. 
+With this therapy you may still have fevers. You will still have 
+a cough. but you should be feeling better very soon! 
+
+Thanks for allowing us to take care of you,
+___ - ___
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(10)</span></h3>
+  <ul>
+    <li>Tuberculose pulmonar</li>
+    <li>Desnutrição moderada</li>
+    <li>Diabetes Mellitus tipo 2</li>
+    <li>Anemia de inflamação</li>
+    <li>Deficiência de ferro</li>
+    <li>Pneumonia cavitária</li>
+    <li>Pneumonia necrotizante multifocal</li>
+    <li>Hepatite B não imunizada</li>
+    <li>Hepatite C negativa</li>
+    <li>Hepatite A imunizada</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Tosse</li>
+    <li>Perda de peso</li>
+    <li>Fadiga</li>
+    <li>Suores noturnos</li>
+    <li>Emese pós-tussiva</li>
+    <li>Dispneia</li>
+    <li>Estertores no lado direito</li>
+    <li>Abdome escavado</li>
+    <li>Nódulos multifocais</li>
+    <li>Derrame pleural direito</li>
+    <li>Linfonodos mediastinais pequenos</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Rifampina 600 mg</li>
+    <li>Isoniazida 300 mg</li>
+    <li>Pirazinamida 1500 mg</li>
+    <li>Etambutol 1200 mg</li>
+    <li>Piridoxina 50 mg</li>
+    <li>Glucerna Frappe</li>
+    <li>Acetaminofeno 500 mg</li>
+    <li>Benzonatato 100 mg</li>
+    <li>Multivitamínicos com minerais</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(11)</span></h3>
+  <ul>
+    <li>Quantiferon Gold-Negativo</li>
+    <li>Hemoglobina A1c-7.6%</li>
+    <li>Bacilos Ácido-Fast (AFB) - 5 positivos</li>
+    <li>NAAT para Mycobacterium tuberculosis-Positivo</li>
+    <li>Legionella Ag-Negativo</li>
+    <li>Flu PCR-Negativo</li>
+    <li>WBC-13.6</li>
+    <li>Hemoglobina-13.6</li>
+    <li>Plaquetas-334</li>
+    <li>Hemoglobina A1c-7.5%</li>
+    <li>TSpot-Negativo</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(11)</span></h3>
+  <ul>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Tomografia computadorizada (CT scan)</li>
+    <li>Esputo para Bacilos Ácido-Fast (AFB)</li>
+    <li>Teste TSpot</li>
+    <li>Teste para Legionella</li>
+    <li>Teste para Influenza (PCR)</li>
+    <li>Sorologia para Hepatite A</li>
+    <li>Sorologia para Hepatite B</li>
+    <li>Sorologia para Hepatite C</li>
+    <li>Sorologia para Blastomicose</li>
+    <li>Sorologia para Coccidioidomicose</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Mycobacterium tuberculosis</li>
+  </ul>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, relatando queixa principal de tosse e perda de peso. História da Doença Atual: Paciente refere início de sintomas no final do ano passado, com tosse, fadiga, perda de peso progressiva, sudorese noturna, emese próxima à tosse, dispneia ao final dos acessos de tosse e falta de ar ao subir escadas. Relata duas internações hospitalares no outono passado para tratamento de pneumonia; na primeira, recebeu antibióticos com melhora transitória, mas os sintomas retornaram em uma semana. Na segunda internação, permaneceu por cerca de uma semana com diagnóstico de pneumonia mais grave. Após a alta da segunda internação, relata ausência de febre, calafrios ou suores, mas persistência de perda de peso, tosse e dispneia de esforço. Paciente refere ter realizado tomografia computadorizada (TC) que mostrou pneumonia cavitária no lobo superior direito, suspeita de tuberculose, sendo então encaminhado para internação. Relata perda de peso de aproximadamente 38 kg (85 libras), sem saber o período exato. Nega contato ou exposição conhecida a tuberculose, nega uso de drogas ou histórico de encarceramento. Revisão de Sistemas: Nega febre, calafrios ou suores atuais. Nega dor torácica. Nega hemoptise. Nega diarreia ou vômitos. Nega alterações visuais. Nega dor abdominal. Nega dor nas articulações. Histórico Médico Pregresso: Nega doenças médicas prévias. Nega cirurgias ou procedimentos invasivos. Nega alergias a medicamentos.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura: 98,3°F (oral); PA: 122/60 mmHg; FC: 97 bpm; FR: 18 irpm; SpO2: 95% em ar ambiente. Geral: Alerta, sem queixas aparentes. Olhos: Ictericia ausente, pupilas isocóricas e reagentes à luz. ORL: Ouvidos e nariz sem vermelhidão visível, massas ou trauma. Mucosas orais hidratadas, sem candidíase (sapinho). Pescoço: Suplê. Cardiovascular: Rítmico, sem sopros, pulsos distais intactos, sem edema em membros inferiores. Respiratório: Estertores (crepitações) à direita; pulmão esquerdo claro à ausculta. Abdominal: Flácido, escavado, sem dor à palpação, sem náuseas ou vômitos, ruídos hidroaéreos presentes. Músculo-esquelético: Amplitude de movimento preservada, força intacta e adequada para a idade. Pele: Sem erupções cutâneas na área examinada. Neurológico: Alerta, orientado, conversante, obedece comandos. Psicológico: Agradável, afeto apropriado.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma: Leucócitos (WBC): 13.600/mm³; Hemoglobina (Hgb): 13,6 g/dL; Plaquetas (Plts): 334.000/mm³. Bioquímica: Hemoglobina Glicada (A1c): 7,6%. Sorologias e Testes Microbiológicos: T-SPOT (Quant Gold): Negativo. Legionella (Antígeno): Negativo. PCR para Influenza: Negativo. Baciloscopia de Escarro (AFB): 5 amostras realizadas, todas positivas para Bacilos Ácido-Fast (BAF). NAAT (Teste Molecular): Positivo para Mycobacterium tuberculosis sensível à rifampicina. Hepatites: Hepatite A (Imunizado); Hepatite C (Negativo); Hepatite B (Negativo). Outros: Em espera para resultados de Histoplasma, Blastomyces e Coccidioides.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada (TC) de Tórax: Lesão cavitária complexa no segmento posterior do lobo superior direito e outra lesão cavitária no segmento do lobo inferior direito, associadas a nodularidade multifocal, sugestiva de tuberculose reativa com disseminação transbrônquica. Diferencial inclui pneumonia necrosante multifocal. Esteatose hepática (fígado gorduroso). Linfonodos mediastinais pequenos, possivelmente reativos. Pequeno derrame pleural à direita.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com quadro clínico de tosse crônica, perda de peso significativa (aprox. 38 kg) e sudorese noturna, evoluindo com duas internações prévias por pneumonia. O diagnóstico de Tuberculose Pulmonar foi confirmado por baciloscopia de escarro positiva (5 amostras) e NAAT positivo para Mycobacterium tuberculosis sensível à rifampicina, apesar do teste T-SPOT negativo (falso negativo possível em imunossupressão ou doença disseminada). A TC de tórax é altamente sugestiva de TB reativa com cavitações e disseminação. Diagnóstico principal: Tuberculose Pulmonar ativa. Diagnósticos associados: Desnutrição moderada (provavelmente secundária à TB crônica, com depleção de gordura e massa muscular); Diabetes Mellitus Tipo 2 (A1c 7,6%, possivelmente exacerbada pelo estado inflamatório da TB); Anemia de inflamação com leve deficiência de ferro. Paciente iniciou tratamento com esquema RIPE (Rifampicina, Isoniazida, Pirazinamida, Etambutol) e Vitamina B6. Equipe de Doenças Infecciosas consultada e orientou início imediato da terapia. Não há indicação de estatinas no momento devido ao risco de toxicidade hepática pelo tratamento da TB. Paciente será encaminhado para unidade de cuidados estendidos para monitoramento da terapia.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na alta (posologia diária): 1. Rifampicina 600 mg (2 cápsulas de 300 mg) por via oral, uma vez ao dia. 2. Isoniazida 300 mg (1 comprimido) por via oral, uma vez ao dia. 3. Pirazinamida 1500 mg (3 comprimidos de 500 mg) por via oral, uma vez ao dia. 4. Etambutol 1200 mg (3 comprimidos de 400 mg) por via oral, uma vez ao dia. 5. Piridoxina (Vitamina B6) 50 mg (1 comprimido) por via oral, uma vez ao dia. 6. Multivitamínico com minerais (1 cápsula) por via oral, uma vez ao dia. 7. Acetaminofeno 500 mg por via oral, a cada 6 horas, conforme necessário para dor leve ou febre. 8. Benzonatato 100 mg por via oral, 3 vezes ao dia, conforme necessário para tosse. Orientações ao paciente: A tuberculose é altamente contagiosa e transmitida pelo ar. É crucial aderir rigorosamente ao tratamento para evitar resistência bacteriana. Pode persistir febre e tosse inicialmente, mas a melhora clínica deve ocorrer em breve. Encaminhamentos: Avaliação oftalmológica ambulatorial (devido ao uso de Etambutol). Seguimento com especialista em doenças infecciosas e pneumologia. Exames de seguimento: Monitoramento de função hepática e renal. Retorno programado conforme orientação da unidade de cuidados estendidos. Dieta: Aumentar ingestão oral de proteínas para melhorar estado nutricional e deficiência de ferro. Uso de suplemento nutricional (Glucerna) conforme prescrito anteriormente.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+[
+  {
+    "model_id": "pucpr/biobertpt-clin",
+    "name": "BioBERTpt-clin",
+    "license": "Apache 2.0",
+    "status": "ok",
+    "detail": null
+  },
+  {
+    "model_id": "google/medgemma-4b-it",
+    "name": "MedGemma 4B",
+    "license": "HAI-DEF",
+    "status": "ok",
+    "detail": null
+  },
+  {
+    "model_id": "google/gemma-4-e4b-it",
+    "name": "Gemma 4 E4B",
+    "license": "Gemma License",
+    "status": "ok",
+    "detail": null
+  },
+  {
+    "model_id": "Qwen/Qwen3.5-4B",
+    "name": "Qwen3.5-4B",
+    "license": "Apache 2.0",
+    "status": "ok",
+    "detail": null
+  }
+]

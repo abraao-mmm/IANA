@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 23349971 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 23349971</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 23349971 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 54
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___               Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Patient recorded as having No Known Allergies to Drugs
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Fever
+ 
+Major Surgical or Invasive Procedure:
+___ guided biopsy of T11 fracture site.
+
+ 
+History of Present Illness:
+___ year old, originally from ___, who initially presented with 
+mid back pain approximately 2 months ago. The pain was present 
+upon awakening one day without any prior trauma. The pain would 
+radiate to left and right side, was intermittent but progressive 
+until 2 weeks ago when the severity was so great he could not 
+ambulate. The patient also reports night sweats and intermittent 
+fever up to 101 over past four weeks. He also estimates a 10 lb 
+weight loss over the past month which he attributes to poor 
+appetite. He recalls a trauma when falling from his bike 4 
+months ago but did not at that time sustain injury. 
+
+ 
+Past Medical History:
+PMHx: none
+
+ 
+Social History:
+___
+Family History:
+Family Hx: no history of heart disease, no history of cancers
+
+ 
+Physical Exam:
+VS T 102.3 BP 112/72 HR 110 RR 18 O2Sat 97RA
+Gen: NAD, AAOx3
+HEENT: NC/AT, PERRLA, EOMI, mmm
+NECK: no LAD
+COR: S1S2, regular rhythm, tachycardic, no m/r/g  
+PULM: CTA b/l, no wheezing or rhonchi anteriorly
+ABD: + bowel sounds, soft, nd, nt 
+BACK: tenderness on palpation of the T10-12 area. Dressing 
+intact, mild bleeding 
+Skin: warm extremities, no rash
+EXT: 2+ DP, no edema/c/c, no CVA tenderness
+Neuro: moving all extremities, ___ strength, CN ___ intact, 
+reflexes 2+ b/l, babinsky downgoing  
+
+ 
+Pertinent Results:
+___ 11:50AM   ___ PTT-33.5 ___
+___ 07:18PM URINE  BLOOD-NEG NITRITE-NEG PROTEIN-NEG 
+GLUCOSE-NEG KETONE-NEG BILIRUBIN-NEG UROBILNGN-NEG PH-5.0 
+LEUK-NEG
+___ 07:18PM URINE  COLOR-Straw APPEAR-Clear SP ___
+___ 07:27PM   PLT COUNT-467*
+___ 07:27PM   NEUTS-78.7* LYMPHS-15.6* MONOS-4.7 EOS-0.7 
+BASOS-0.3
+___ 07:27PM   WBC-9.4 RBC-3.54* HGB-9.5* HCT-28.4* MCV-80* 
+MCH-26.8* MCHC-33.4 RDW-13.3
+___ 07:27PM   estGFR-Using this
+___ 07:27PM   GLUCOSE-110* UREA N-6 CREAT-0.6 SODIUM-134 
+POTASSIUM-3.9 CHLORIDE-101 TOTAL CO2-25 ANION GAP-12
+___ 07:37PM   LACTATE-1.___dmitted and placed on Vancomycin emperically.  All cultures 
+remained negative for 72 hours.  He persisted in having fevers, 
+as he had for the preceeding months.  As he was clinically 
+unchanged than he had been for months, and cx. were unrevealing, 
+and he was clinically stable, he was discharged back to home 
+with follow up in the ___ clinic arranged for three days from 
+discharge.
+ 
+Medications on Admission:
+Percocet
+ 
+Discharge Medications:
+1. Percocet ___ mg Tablet Sig: ___ Tablets PO every ___ hours 
+as needed for pain.
+Disp:*30 Tablet(s)* Refills:*0*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+T 11 compression fracture concerning for Pott&#x27;s Disease
+ 
+Discharge Condition:
+Stable.  Fevers to 102, consistent with known febrile process of 
+the past two months.  No new culture data, blood cultures 
+negative for 72 hours, nothing grown on T11 biopsy, no AFB on 
+smears.  Hepatitis serologies sent and pending. 
+
+ 
+Discharge Instructions:
+Take all medications as prescribed. 
+
+Return to the ___ Emergency department for;
+
+High fevers (higher than you have been experiencing for the past 
+two months) associated with increased malaise;
+
+back pain that is dramatically worse
+
+Any other acute concerns. 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(2)</span></h3>
+  <ul>
+    <li>Fratura de compressão de T11</li>
+    <li>Doença de Pott</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Dor lombar</li>
+    <li>Sudorese noturna</li>
+    <li>Perda de peso</li>
+    <li>Anorexia</li>
+    <li>Taquicardia</li>
+    <li>sensibilidade à palpação à palpação na região T10-12</li>
+    <li>Sangramento leve no curativo</li>
+    <li>Extremidades quentes</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(2)</span></h3>
+  <ul>
+    <li>Percocet</li>
+    <li>Vancomicina</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(37)</span></h3>
+  <ul>
+    <li>PTT-33.5</li>
+    <li>Urina - Sangue-Negativo</li>
+    <li>Urina - Nitrito-Negativo</li>
+    <li>Urina - Proteína-Negativo</li>
+    <li>Urina - Glicose-Negativo</li>
+    <li>Urina - Cetonas-Negativo</li>
+    <li>Urina - Bilirrubina-Negativo</li>
+    <li>Urina - Urobilinogênio-Negativo</li>
+    <li>Urina - pH-5.0</li>
+    <li>Urina - Leucócitos-Negativo</li>
+    <li>Plaquetas-467</li>
+    <li>Neutrófilos-78.7%</li>
+    <li>Linfócitos-15.6%</li>
+    <li>Monócitos-4.7%</li>
+    <li>Eosinófilos-0.7%</li>
+    <li>Basófilos-0.3%</li>
+    <li>Leucócitos (WBC)-9.4</li>
+    <li>Hemácias (RBC)-3.54</li>
+    <li>Hemoglobina (HGB)-9.5</li>
+    <li>Hematócrito (HCT)-28.4</li>
+    <li>VCM-80</li>
+    <li>HCM-26.8</li>
+    <li>HCMC-33.4</li>
+    <li>RDW-13.3</li>
+    <li>Glicose-110</li>
+    <li>Ureia-6</li>
+    <li>Creatinina-0.6</li>
+    <li>Sódio-134</li>
+    <li>Potássio-3.9</li>
+    <li>Cloreto-101</li>
+    <li>CO2 Total-25</li>
+    <li>Gap de Ânion-12</li>
+    <li>Lactato-1.1</li>
+    <li>Culturas de sangue-Negativo (72 horas)</li>
+    <li>Biopsia de T11-Negativo (sem crescimento)</li>
+    <li>Esfregaços para AFB-Negativo</li>
+    <li>Sorologias para Hepatite-Pendente</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(4)</span></h3>
+  <ul>
+    <li>Biópsia guiada do local da fratura de T11</li>
+    <li>Culturas de sangue</li>
+    <li>Esfregaços para bacilos álcool-ácido resistentes (AFB)</li>
+    <li>Sorologias para Hepatite</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino relata queixa principal de febre. História da doença atual: Paciente refere início de dor na região média das costas há aproximadamente 2 meses, surgida ao acordar sem trauma prévio imediato. A dor irradiava para os lados esquerdo e direito, sendo intermitente, mas progressiva. Há 2 semanas, a intensidade da dor aumentou a ponto de impedir a deambulação. Relata também sudorese noturna e febre intermitente (chegando a 38,3°C/101°F) nas últimas 4 semanas. Estima perda de peso de 4,5 kg (10 libras) no último mês, atribuída à perda de apetite. Refere histórico de queda de bicicleta há 4 meses, mas nega lesão naquele momento. Nega outras queixas sistêmicas específicas além das relatadas. Histórico médico pregresso: Nega doenças prévias. Nega alergias a medicamentos. Histórico familiar: Nega histórico de doenças cardíacas ou neoplasias na família.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 39,0°C (102,3°F), PA 112/72 mmHg, FC 110 bpm, FR 18 irpm, SpO2 97% em ar ambiente. Exame Físico: Geral: Paciente alerta e orientado x3, sem aspecto de doença aguda. Cabeça, Olhos, Ouvidos, Nariz e Garganta: Normocéfalo, atrófico, pupilas isocóricas e fotorreagentes, movimentos oculares intactos, mucosas úmidas. Pescoço: Sem linfadenopatia. Cardiovascular: Bulhas cardíacas S1 e S2 normofonéticas, ritmo regular, taquicárdico, sem sopros, atritos ou galopos. Pulmões: Murmúrio vesicular presente bilateralmente, sem sibilos ou roncos na ausculta anterior. Abdome: RHA presentes, flácido, não doloroso à palpação, sem massas. Dorso: Dor à palpação na região T10-T12. Curativo intacto com leve sangramento. Pele: Extremidades quentes, sem rash cutâneo. Extremidades: Pulso dorsal pedioso 2+, sem edema, sem cianose ou cianose, sem dor à percussão costovertebral. Neurológico: Movimentação de todos os membros, força preservada, nervos cranianos íntegros, reflexos 2+ bilateralmente, sinal de Babinsky negativo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo: Leucócitos (WBC) 9.400/mm³, Hemácias (RBC) 3,54 milhões/mm³, Hemoglobina (HGB) 9,5 g/dL, Hematócrito (HCT) 28,4%, Plaquetas (PLT) 467.000/mm³. Diferencial Leucocitário: Neutrófilos 78,7%, Linfócitos 15,6%, Monócitos 4,7%, Eosinófilos 0,7%, Basófilos 0,3%. Índices Hematimétricos: VCM 80 fL, HCM 26,8 pg, CHCM 33,4 g/dL, RDW 13,3%. Bioquímica Sanguínea: Glicose 110 mg/dL, Ureia 6 mg/dL, Creatinina 0,6 mg/dL, Sódio 134 mEq/L, Potássio 3,9 mEq/L, Cloreto 101 mEq/L, CO2 Total 25 mEq/L, Gap Aniônico 12. Lactato: 1,___ mg/dL. Coagulação: PTT 33,5 segundos. Urinálise: Cor palha, aspecto claro, pH 5,0. Negativo para sangue, nitrito, proteína, glicose, cetonas, bilirrubina, urobilinogênio e leucócitos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Biópsia guiada do local da fratura em T11: Sem crescimento de microrganismos no cultivo. Esfregaços para bacilos álcool-ácido resistentes (BAAR/AFB) negativos. Nota: O texto menciona fratura de compressão em T11, mas não descreve achados detalhados de radiografia ou tomografia além da confirmação da fratura e do procedimento de biópsia.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com quadro clínico de febre prolongada, sudorese noturna, perda de peso e dor lombar progressiva com fratura de compressão em T11. O quadro é altamente sugestivo de espondilodiscite infecciosa, especificamente Doença de Pott (tuberculose espinhal), dada a apresentação clínica clássica (febre, sudorese, perda de peso) e a localização da lesão. O paciente foi internado e iniciou tratamento empírico com Vancomicina. Culturas de sangue permaneceram negativas por 72 horas. A biópsia da lesão em T11 não apresentou crescimento bacteriano e os esfregaços para BAAR foram negativos até o momento. Sorologias para hepatite foram solicitadas e estão pendentes. O paciente permanece clinicamente estável, embora com febre persistente compatível com o processo febril de 2 meses de evolução. Diante da estabilidade clínica e da ausência de novos dados microbiológicos, optou-se pela alta hospitalar com seguimento ambulatorial próximo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Medicamentos na alta: Percocet (Oxicodona/Acetaminofeno) 1 comprimido por via oral a cada ___ horas conforme necessário para dor. Dispensado: 30 comprimidos. Sem renovações. 2. Orientações ao paciente: Tomar todos os medicamentos conforme prescrito. Retornar ao Pronto Socorro em caso de febre alta (superior à experimentada nos últimos 2 meses) associada a mal-estar aumentado, dor nas costas dramaticamente piorada ou qualquer outra preocupação aguda. 3. Encaminhamentos: Retorno agendado para a clínica de ___ em 3 dias após a alta. 4. Exames de seguimento: Aguardar resultados das sorologias para hepatite. Monitorar evolução clínica e dor lombar.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '23349971';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

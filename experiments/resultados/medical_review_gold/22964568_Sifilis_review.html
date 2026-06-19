@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 22964568 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 22964568</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 22964568 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Sifilis<br>
+    <strong>Entidades extraídas:</strong> 69 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: NEUROLOGY
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___
+ 
+Chief Complaint:
+aphasia
+ 
+Major Surgical or Invasive Procedure:
+none
+
+ 
+History of Present Illness:
+___ ___ is an ___
+woman with a past medical history of HFpEF, hypertension,
+hyperlipidemia, urinary retention with chronic Foley who 
+presents
+with acute onset aphasia.
+
+History is obtained from patient&#x27;s niece ___ who is at 
+bedside.
+___ has been staying with ___ since her discharge from
+rehab.  ___ reports that she was at work today when she
+received a call that ___ had fallen after eating lunch.  It
+is unclear why she fell, but ___ reports that after the fall
+___ was talking normally and walking independently.  ___
+believes that patient hit her head, but there was no loss of
+consciousness.  ___ then spoke with patient again at 330, at
+which time they had a normal conversation per her report.  At 4
+___, ___ was found down on the ground and unable to speak,
+though ___ cannot tell us who found her.  Patient said that
+they were not sure what was wrong as shortly after ___ was
+found she got a &quot;burst of strength&quot; and was able to move her
+right side again.  However during this  time ___ was not
+speaking at all.  They called EMS, and patient was brought in 
+for
+evaluation.  In the ED, patient had a CT head which showed a
+small left occipital bleed,  And therefore she was not a TPA
+candidate.  The CTA showed tortuous vasculature particularly in
+the PCAs, but no large vessel occlusion or aneurysm noted.
+
+ 
+Past Medical History:
+Per ___ sheet 
+Essential hypertension
+Hyperlipidemia
+Hemiplegia and hemiparesis following unspecified cerebrovascular
+disease affecting right dominant side
+Anemia
+Unspecified hyperosmolality and hyponatremia
+Pneumonia
+Retention of urine unspecified
+ 
+Social History:
+___
+Family History:
+She does not know her family history. Her
+niece states that there is no family history of seizure, stroke,
+aneurysm that she knows of.
+ 
+Physical Exam:
+Admission Exam 
+Physical Exam:
+Vitals: T: 97.8 HR 88 BP 190/80 BP 18 SaO2 100% RA 
+General: Awake, NAD.
+HEENT: NC/AT, no scleral icterus noted, MMM, no lesions noted in
+oropharynx
+Neck: Supple, no carotid bruits appreciated. No nuchal rigidity
+Pulmonary: Normal work of breathing
+Cardiac: RRR, warm, ___
+Abdomen: soft, ___
+Extremities: 2+ ___ edema.
+Skin: no rashes or lesions noted.
+ 
+Neurologic:  
+-Mental Status: awake, will track and regard examiner. Answers 
+no
+questions and follows no commands. Will sometimes mimic. Moaned
+in pain, no other words formed.  
+
+CN  
+VFF to confrontation, pupils 4mm-&gt;2mm bilaterally
+III,IV,VI: left gaze preference, able to look to midline
+spontaneously. Unable to doll&#x27;s to the right because she resists
+eye closure very strongly.  There is a mild right facial droop
+with decreased activation.  She looks towards noise.  Unable to
+evaluate tongue due to understanding.
+
+Motor: Decreased bulk, paratonia noted
+Right upper extremity able to maintain antigravity but drifts
+towards bed but did not hit the bed.
+Left upper extremity able to maintain antigravity without drift.
+Right lower extremity withdraws to noxious in plane of bed.  No
+antigravity movement seen.
+Left lower extremity withdraws to noxious in plane of the head 
+no
+antigravity movement seen.
+
+-Sensory: withdraws to noxious 
+ 
+-Coordination: unable to assess  
+
+-Gait: deferred
+
+Discharge Exam
+Tmax: 37.2 °C (98.9 °F)
+T current: 36.6 °C (97.9 °F)
+HR: 85 (63 - 90) bpm
+BP: 143/59(82) {112/46(67) - 144/99(105)} mmHg
+RR: 17 (12 - 24) insp/min
+SPO2: 99% 
+Heart rhythm: SR (Sinus Rhythm)
+
+Net I/O: -600ml past 24h
+
+ General: Awake, alert
+ Neck: Supple, no carotid bruits appreciated. No nuchal rigidity
+ Pulmonary: bilateral rhonchi/rales
+ Cardiac: RRR, nl. S1S2, no M/R/G noted
+ Abdomen: soft, NT/ND, normoactive bowel sounds, no masses or
+organomegaly noted.
+ Extremities: No ___ edema.
+ Skin: no rashes or lesions noted.
+
+Neurologic:
+-Mental Status: awake, bright, smiling, alert, oriented to self,
+place, month, able to speak in full sentences and discuss 
+medical
+care appropriately. 
+
+CN  
+VFF to confrontation, pupils post surgical but reactive 4mm-&gt;2mm
+bilaterally
+III,IV,VI: normal primary gaze, EOMI. There is a mild
+right nasolabial fold flattening which has improved from
+presentation.  
+
+Motor: Decreased bulk, paratonia noted in right side
+Right upper extremity able to maintain antigravity with some
+drift but not to bed.
+Left upper extremity able to maintain antigravity without drift.
+Right lower extremity antigravity spontaneously with some drift
+Left lower extremity antigravity spontaneously with some drift
+
+-Sensory: intact to light touch throughout
+ 
+-Coordination: no truncal ataxia noted
+
+-Gait: deferred
+
+ 
+Pertinent Results:
+___ ___ -  
+1. Moderately motion degraded exam. 
+2. New acute to subacute punctate ischemic infarct in the left 
+pons. 
+3. Expected evolution of a known small medial left occipital 
+lobe hematoma, 
+essentially unchanged in size compared to prior CT head 
+performed ___. 
+4. Stable chronic left frontal subdural hematoma with overlying 
+pachymeningeal 
+thickening. 
+
+CTH ___ - 
+  
+1.  Low density subdural 6 mm left sided fluid collection, 
+consistent with 
+chronic subdural vs hygroma.  This is unchanged. 
+2.  Unchanged parenchymal hemorrhage in the left 
+parietooccipital region.  No new hemorrhage. 
+
+___ 06:27AM BLOOD ___ 
+___ Plt ___
+___ 10:05AM BLOOD ___ 
+___ Im ___ 
+___
+___ 09:04AM BLOOD ___ 
+___ RBC ___ REVI
+___ 06:27AM BLOOD Plt ___
+___ 08:50AM BLOOD ___ ___
+___ 06:30AM BLOOD ___
+___ 04:40AM BLOOD Ret ___ Abs ___
+___ 06:27AM BLOOD ___ 
+___
+___ 06:30AM BLOOD ___ LD(LDH)-213 ___ 
+___
+___ 05:40AM BLOOD ___
+___ 06:27AM BLOOD ___
+___ 05:56AM BLOOD ___
+___ 08:50AM BLOOD ___
+___ 08:55AM BLOOD ___
+___ 05:55AM BLOOD ___
+___ 06:10AM BLOOD ___ B
+___ 05:55AM BLOOD ___
+___ 06:10AM BLOOD ___
+___ 06:30AM BLOOD ___ SPECIFI
+___ 05:50AM BLOOD Trep ___
+___ 05:55AM BLOOD Trep ___
+___ 09:08PM BLOOD ___
+___ 06:00PM BLOOD ___ 
+___
+ 
+Brief Hospital Course:
+___ is an ___ woman with a past medical
+history of HFpEF, hypertension, hyperlipidemia, right 
+hemiparesis from prior stroke who presents with acute onset 
+aphasia. Her hospital workup was extensive. She was originally 
+found to have a small occipital hemorrhage that did not explain 
+her clinical picture. Further, she experienced 4 seizure like 
+episodes with right facial twitching and bilateral arm shaking. 
+Multiple EEGs showed epileptiform discharges but no active 
+seizures. she was started on Keppra 500mg PO BID. She was found 
+to be fluid overloaded, for which medicine was consulted. she 
+was diuresed aggressively and her fluid status improved, and she 
+was discharged with her home diuretic regimen of furosemide 40mg 
+po daily. Her encephalopathy persisted throughout her 
+hospitalization, and upon repeat imaging she was found to have a 
+punctate right pontine infarct, a subacute to chronic subdural 
+hematoma, and focal pachymeningeal enhancement. She underwent a 
+lumbar puncture which revealed elevated opening pressure of 33, 
+otherwise largely unremarkable. She had blood work which 
+revealed positive treponemal antibodies and positive RPR, 
+supporting our working diagnosis of neurosyphilis, although at 
+time of discharge, the CSF VDRL is still pending. She was 
+started on Penicillin G 3 million units IV q4h through a PICC 
+line which was placed during her hospitalization. Her condition 
+improved significantly and she was discharged to rehab. Her 
+hospitalization was also complicated by dysphagia, she had a 
+video swallow study done on ___ which revealed no remaining 
+concerns wtih swallowing. Also, on routine lab work she was 
+found to be anemic, with a profile consistent with iron 
+deficiency anemia, for which she was started on ferrous sulfate 
+PO daily, and the inpatient team recommended outpatient follow 
+up with possible colonoscopy after discharge. She was also found 
+to have a PPD+, but quantiferon indeterminate, likely due to 
+latent TB infection. multiple chest imaging studies revealed no 
+concern for active TB. 
+
+# Transitional Issues
+- Cr remains elevated at time of discharge to 1.9, baseline ~1.3
+- latent TB to be followed up by PCP
+- GI referral for outpatient colonoscopy in ___, they will 
+contact pt to schedule
+- consider weaning off Keppra as appropriate in outpatient 
+setting
+- CSF VDRL negative
+
+# Neurosyphilis
+- neurology follow up ___ ___ at 11am
+- CSF VDRL pending
+- Continue Penicillin G 3 million units IV q4h x 14d last day 
+___
+
+# Seizures
+- likely provoked in setting of neurosyphilis
+- continue Keppra 500mg po bid on discharge
+- consider DC Keppra as appropriate as outpatient
+
+# Pontine punctate infarct
+- continue aspirin 81mg, atorvastatin 80mg
+
+# CHF
+- Continue Furosemide 40mg PO QD
+- follow up with primary care
+
+# TB
+- PPD+, quantiferon gold indeterminate
+- as per medicine consult team, low suspicion of neuroTB causing 
+clinical picture
+- continue to monitor for pulmonary symptoms
+
+# Iron deficiency anemia
+- per records, seems baseline Hgb ~8.5, throughout 
+hospitalization HgB ~7.5, referred for outpatient colonoscopy
+
+# Intracerebral Hemorrhage
+- follow up w stroke neurology ___ ___ 11am
+
+# ___
+- baseline cr 1.3, elevated to 1.9 on discharge, likely a result 
+of contrast vs captopril vs cardiorenal injury
+- follow up w PCP
+
+# ___
+- HgBa1c 7.1% 
+- continue home diabetes regimen
+
+AHA/ASA Core Measures for Intracerebral Hemorrhage
+1. Dysphagia screening before any PO intake? (x) Yes - () No
+2. DVT Prophylaxis administered? (x) Yes - () No
+3. Smoking cessation counseling given? () Yes - (x) No [reason 
+(x) ___ - () unable to participate]
+4. Stroke education (personal modifiable risk factors, how to 
+activate EMS for stroke, stroke warning signs and symptoms, 
+prescribed medications, need for followup) given (verbally or 
+written)? (x) Yes - () No
+5. Assessment for rehabilitation and/or rehab services 
+considered? (x) Yes - () No
+
+AHA/ASA Core Measures for Ischemic Stroke and Transient Ischemic 
+Attack
+1. Dysphagia screening before any PO intake? (x) Yes, confirmed 
+done - () Not confirmed Ã¢â¬â () No
+2. DVT Prophylaxis administered? (x) Yes - () No
+3. Antithrombotic therapy administered by end of hospital day 2? 
+(x) Yes - () No
+4. LDL documented? (x) Yes (LDL = 49 ) - () No
+5. Intensive statin therapy administered? (simvastatin 80mg, 
+simvastatin 80mg/ezetemibe 10mg, atorvastatin 40mg or 80 mg, 
+rosuvastatin 20mg or 40mg, for LDL &gt; 100) (x) Yes - () No [if 
+LDL if LDL &gt;70, reason not given:
+[ ] Statin medication allergy
+[ ] Other reasons documented by physician/advanced practice 
+nurse/physician ___ (physician/APN/PA) or pharmacist
+[ ] ___ less than 70 mg/dL]
+6. Smoking cessation counseling given? () Yes - (x) No [reason 
+(x) ___ - () unable to participate]
+7. Stroke education (personal modifiable risk factors, how to 
+activate EMS for stroke, stroke warning signs and symptoms, 
+prescribed medications, need for followup) given (verbally or 
+written)? (x) Yes - () No
+8. Assessment for rehabilitation or rehab services considered? 
+(x) Yes - () No
+9. Discharged on statin therapy? (x) Yes - () No [if LDL &gt;70, 
+reason not given:
+[ ] Statin medication allergy
+[ ] Other reasons documented by physician/advanced practice 
+nurse/physician ___ (physician/APN/PA) or pharmacist
+[ ] ___ less than 70 mg/dL
+10. Discharged on antithrombotic therapy? (x) Yes [Type: (x) 
+Antiplatelet - () Anticoagulation] - () No
+11. Discharged on oral anticoagulation for patients with atrial 
+fibrillation/flutter? () Yes - () No - (x) N/A
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Citalopram 10 mg PO DAILY 
+2. Furosemide 20 mg PO DAILY 
+3. Metoprolol Succinate XL 25 mg PO DAILY 
+4. Ranitidine 150 mg PO DAILY 
+5. SITagliptin 50 mg oral DAILY 
+6. Aspirin 81 mg PO DAILY 
+7. Atorvastatin 80 mg PO QPM 
+8. MetFORMIN (Glucophage) 500 mg PO DAILY 
+9. Omeprazole 20 mg PO DAILY 
+
+ 
+Discharge Medications:
+1.  CARVedilol 12.5 mg PO BID  
+2.  Ferrous Sulfate (Liquid) 300 mg PO DAILY  
+3.  LevETIRAcetam 500 mg PO Q12H  
+4.  Penicillin G Potassium 3 Million Units IV Q4H Duration: 14 
+Days  
+5.  Furosemide 40 mg PO DAILY  
+6.  Aspirin 81 mg PO DAILY  
+7.  Atorvastatin 80 mg PO QPM  
+8.  Citalopram 10 mg PO DAILY  
+9.  MetFORMIN (Glucophage) 500 mg PO DAILY  
+10.  Omeprazole 20 mg PO DAILY  
+11.  Ranitidine 150 mg PO DAILY  
+12.  SITagliptin 50 mg oral DAILY  
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Neurosyphilis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - requires assistance or aid (walker 
+or cane).
+
+ 
+Discharge Instructions:
+Dear ___,
+
+You were hospitalized due to symptoms of altered mental status 
+resulting from Syphilis, an infection which can affect the brain 
+and blood vessels that feed the brain. The brain is the part of 
+your body that controls and directs all the other parts of your 
+body, so damage to the brain from being deprived of its blood 
+supply can result in a variety of symptoms.
+
+We are changing your medications as follows:
+START Penicillin G IV, every 4 hours, for 14 days total, last 
+day ___
+
+Please take your other medications as prescribed.
+
+Please follow up with Neurology and your primary care physician 
+as listed below.
+
+If you experience any of the symptoms below, please seek 
+emergency medical attention by calling Emergency Medical 
+Services (dialing 911). In particular, since stroke can recur, 
+please pay attention to the sudden onset and persistence of 
+these symptoms:
+- Sudden partial or complete loss of vision
+- Sudden loss of the ability to speak words from your mouth
+- Sudden loss of the ability to understand others speaking to 
+you
+- Sudden weakness of one side of the body
+- Sudden drooping of one side of the face
+- Sudden loss of sensation of one side of the body
+
+Sincerely,
+Your ___ Neurology Team
+
+Weigh yourself every morning, call MD if weight goes up more 
+than 3 lbs.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(18)</span></h3>
+  <ul>
+    <li>Neurosífilis</li>
+    <li>Acidente Vascular Cerebral (AVC) isquêmico pontino agudo</li>
+    <li>Hematoma subdural crônico esquerdo</li>
+    <li>Hematoma intracerebral occipital esquerdo</li>
+    <li>Hematoma subdural frontal esquerdo crônico</li>
+    <li>Espessamento pachimeningeal</li>
+    <li>Insuficiência cardíaca com fração de ejeção preservada (HFpEF)</li>
+    <li>Hipertensão arterial sistêmica</li>
+    <li>Dislipidemia</li>
+    <li>Anemia ferropriva</li>
+    <li>Infecção latente por Mycobacterium tuberculosis</li>
+    <li>Diabetes Mellitus</li>
+    <li>Disfagia</li>
+    <li>Encefalopatia</li>
+    <li>Hemiparesia direita</li>
+    <li>Hemiplegia direita</li>
+    <li>Retenção urinária</li>
+    <li>Convulsões (episódios convulsivos)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(16)</span></h3>
+  <ul>
+    <li>Afasia</li>
+    <li>Queda</li>
+    <li>Tremores faciais direitos</li>
+    <li>Agitação dos braços bilaterais</li>
+    <li>Droop facial direito</li>
+    <li>Preferência de olhar para a esquerda</li>
+    <li>Paratonia</li>
+    <li>Edema de membros inferiores</li>
+    <li>Roncos/crepitações bilaterais</li>
+    <li>Flattening do sulco nasolabial direito</li>
+    <li>Alteração do estado mental</li>
+    <li>Gemidos em resposta à dor</li>
+    <li>Mímica</li>
+    <li>Perda de força no lado direito</li>
+    <li>Dificuldade de fala</li>
+    <li>Dificuldade de compreensão</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(13)</span></h3>
+  <ul>
+    <li>Citalopram 10 mg PO diário</li>
+    <li>Furosemida 20 mg PO diário</li>
+    <li>Metoprolol Succinato XL 25 mg PO diário</li>
+    <li>Ranitidina 150 mg PO diário</li>
+    <li>Sitagliptina 50 mg PO diário</li>
+    <li>Aspirina 81 mg PO diário</li>
+    <li>Atorvastatina 80 mg PO à noite</li>
+    <li>Metformina 500 mg PO diário</li>
+    <li>Omeprazol 20 mg PO diário</li>
+    <li>Carvedilol 12.5 mg PO 2x ao dia</li>
+    <li>Sulfato Ferroso 300 mg PO diário</li>
+    <li>Levetiracetam 500 mg PO 2x ao dia</li>
+    <li>Penicilina G Potássica 3 milhões de unidades IV a cada 4 horas por 14 dias</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(15)</span></h3>
+  <ul>
+    <li>LDH-213</li>
+    <li>Anticorpos treponêmicos-Positivo</li>
+    <li>RPR-Positivo</li>
+    <li>CSF VDRL-Pendente</li>
+    <li>CSF VDRL-Negativo</li>
+    <li>PPD-Positivo</li>
+    <li>Quantiferon Gold-Indeterminado</li>
+    <li>Hemoglobina (Hgb) ~7.5-8.5 g/dL</li>
+    <li>Hemoglobina A1c (HbA1c)-7.1%</li>
+    <li>LDL-49 mg/dL</li>
+    <li>Creatinina (Cr)-1.9 mg/dL (na alta)</li>
+    <li>Pressão de abertura da punção lombar-33 cm H2O</li>
+    <li>EEG-Desenvolvimentos epiléptiformes (sem convulsões ativas)</li>
+    <li>Cultura de sangue-Não relatada positiva</li>
+    <li>Cultura de líquor-Não relatada positiva</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(7)</span></h3>
+  <ul>
+    <li>Tomografia Computadorizada (TC) de crânio</li>
+    <li>Angiografia por TC (CTA)</li>
+    <li>Eletroencefalograma (EEG)</li>
+    <li>Punção lombar</li>
+    <li>Estudo de deglutição por vídeo</li>
+    <li>Raios-X de tórax (múltiplos)</li>
+    <li>Colonoscopia (recomendada para acompanhamento ambulatorial)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino, idosa, com histórico médico pregresso de insuficiência cardíaca com fração de ejeção preservada (HFpEF), hipertensão arterial sistêmica, hiperlipidemia, hemiplegia e hemiparesia decorrentes de doença cerebrovascular prévia (lado direito dominante), anemia, hiperosmolaridade e hiponatremia não especificadas, pneumonia e retenção urinária com cateter de Foley crônico. A história da doença atual foi obtida da sobrinha da paciente, que estava ao lado do leito. A sobrinha relatou que a paciente estava em casa desde a alta de reabilitação. No dia da admissão, a sobrinha recebeu uma ligação informando que a paciente havia caído após o almoço. Não foi claro o motivo da queda, mas a sobrinha relatou que, após a queda, a paciente estava falando normalmente e caminhando de forma independente. A sobrinha acredita que a paciente bateu a cabeça, mas não houve perda de consciência. Posteriormente, a sobrinha conversou com a paciente às 15h30, momento em que a conversa estava normal. Às 16h, a paciente foi encontrada no chão, incapaz de falar. A sobrinha não soube informar quem a encontrou. A paciente relatou não saber o que havia acontecido, pois, pouco após ser encontrada, teve um &quot;surto de força&quot; e conseguiu mover novamente o lado direito do corpo. No entanto, durante esse período, a paciente não conseguia falar. Foi acionado o serviço de emergência médica (SAMU) e a paciente foi trazida para avaliação. A paciente refere histórico de infecção por sífilis (implícito no diagnóstico de neurosífilis tratado, embora o relato direto do paciente sobre a infecção não esteja explícito no texto, o foco é a queixa de afasia e a evolução). A paciente nega alergias a medicamentos ou reações adversas. A sobrinha relata não haver histórico familiar de convulsões, AVC ou aneurismas.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+Sinais Vitais: Temperatura 97,8°F, Frequência Cardíaca 88 bpm, Pressão Arterial 190/80 mmHg, Frequência Respiratória 18 irpm, SatO2 100% em ar ambiente.
+Geral: Paciente acordada, sem angústia aparente.
+Cabeça e Pescoço: Crânio e olhos normais/atraumáticos, sem icterícia escleral, mucosas úmidas e coradas, sem lesões na orofaringe. Pescoço suplex, sem sopros carotídeos, sem rigidez de nuca.
+Pulmões: Trabalho respiratório normal.
+Cardiovascular: Ritmo cardíaco regular, quente.
+Abdome: Macio.
+Extremidades: Edema 2+.
+Pele: Sem erupções ou lesões.
+Neurológico:
+- Estado Mental: Acordada, segue e observa o examinador. Não responde a perguntas nem segue comandos. Às vezes imita. Gemia em resposta à dor, sem formação de outras palavras.
+- Nervos Cranianos: Campo visual livre à confrontação, pupilas 4mm-&gt;2mm bilateralmente. III, IV, VI: preferência de olhar para a esquerda, capaz de olhar para a linha média espontaneamente. Incapaz de realizar teste de boneca para a direita devido à forte resistência ao fechamento dos olhos. Há leve queda facial direita com ativação diminuída. Olha em direção ao ruído. Incapaz de avaliar a língua devido à falta de compreensão.
+- Motor: Diminuição da massa muscular, paratonia notada. Membro superior direito capaz de manter contra a gravidade, mas com desvio em direção à cama (não toca a cama). Membro superior esquerdo capaz de manter contra a gravidade sem desvio. Membro inferior direito retira-se ao estímulo nocivo no plano da cama. Nenhum movimento contra a gravência observado. Membro inferior esquerdo retira-se ao estímulo nocivo no plano da cabeça; nenhum movimento contra a gravência observado.
+- Sensitivo: Retira-se ao estímulo nocivo.
+- Coordenação: Incapaz de avaliar.
+- Marcha: Adiada.
+
+Exame de Alta:
+Sinais Vitais: Temperatura máxima 37,2°C (98,9°F), Temperatura atual 36,6°C (97,9°F), Frequência Cardíaca 85 bpm, Pressão Arterial 143/59 mmHg, Frequência Respiratória 17 irpm, SatO2 99%.
+Geral: Acordada, alerta.
+Pescoço: Suplex, sem sopros carotídeos, sem rigidez de nuca.
+Pulmões: Roncos/crepitações bilaterais.
+Cardiovascular: Ritmo regular, sons cardíacos normais S1S2, sem sopros, atrito ou galope.
+Abdome: Macio, não doloroso à palpação, sem defesa, ruídos hidroaéreos normoativos, sem massas ou organomegalias.
+Extremidades: Sem edema.
+Pele: Sem erupções ou lesões.
+Neurológico:
+- Estado Mental: Acordada, radiante, sorridente, alerta, orientada para si, lugar e mês, capaz de falar em frases completas e discutir cuidados médicos de forma apropriada.
+- Nervos Cranianos: Campo visual livre à confrontação, pupilas pós-cirúrgicas mas reativas 4mm-&gt;2mm bilateralmente. III, IV, VI: olhar primário normal, movimentos oculares intactos. Há leve achatamento do sulco nasolabial direito, que melhorou desde a apresentação.
+- Motor: Diminuição da massa muscular, paratonia notada no lado direito. Membro superior direito capaz de manter contra a gravidade com algum desvio, mas não toca a cama. Membro superior esquerdo capaz de manter contra a gravidade sem desvio. Membro inferior direito com movimento contra a gravidade espontâneo com algum desvio. Membro inferior esquerdo com movimento contra a gravidade espontâneo com algum desvio.
+- Sensitivo: Intacto ao toque leve em toda a extensão.
+- Coordenação: Sem ataxia troncal notada.
+- Marcha: Adiada.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica:
+- LDH (Desidrogenase Láctica): 213 U/L.
+- Hemoglobina (Hb): ~7,5 g/dL durante a internação (linha de base ~8,5 g/dL).
+- Creatinina (Cr): 1,9 mg/dL na alta (linha de base ~1,3 mg/dL).
+- Glicemia de jejum/HbA1c: HbA1c 7,1%.
+- LDL: 49 mg/dL.
+- Perfil de Ferro: Consistente com anemia ferropriva.
+
+Sorologias e Marcadores Infecciosos:
+- Anticorpos treponêmicos: Positivos.
+- RPR (Reação de Plasma Reagente): Positivo.
+- VDRL do Líquor (Líquor Cefalorraquidiano): Negativo (pendente no momento da alta, confirmado negativo posteriormente).
+- PPD (Teste Tuberculínico): Positivo.
+- Quantiferon Gold: Indeterminado.
+
+Outros:
+- Pressão de abertura da punção lombar: 33 cmH2O (elevada).
+- Líquor: Demais parâmetros largely unremarkable (sem alterações significativas além da pressão).
+- Urina: Não especificada no texto, mas paciente com retenção urinária prévia.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada de Crânio (CT Head):
+- Exame moderadamente degradado por movimento.
+- Novo infarto isquêmico pontual agudo a subagudo na ponte esquerda.
+- Evolução esperada de um hematoma medial conhecido no lobo occipital esquerdo, essencialmente inalterado em tamanho comparado à TC anterior.
+- Hematoma subdural frontal esquerdo crônico estável com espessamento pachimeningeal subjacente.
+- Coleção líquida subdural de baixa densidade de 6 mm no lado esquerdo, consistente com hematoma subdural crônico vs. higroma (inalterado).
+- Hemorragia parenquimatosa inalterada na região parieto-occipital esquerda. Nenhuma nova hemorragia.
+
+Outras Imagens:
+- Múltiplos estudos de imagem torácica: Sem preocupação para tuberculose ativa.
+- Estudo de deglutição por vídeo: Sem preocupações residuais com a deglutição.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente idosa com histórico de múltiplas comorbidades (HFpEF, HTA, HLP, AVC prévio com sequelas motoras) que apresentou quadro agudo de afasia e alteração do estado mental. A investigação inicial revelou hemorragia occipital pequena e infarto pontino agudo. O quadro clínico evoluiu com episódios convulsivos (tremores faciais e agitação dos braços) e encefalopatia persistente. A presença de anticorpos treponêmicos positivos e RPR positivo, juntamente com a pressão de abertura elevada na punção lombar e achados de imagem sugestivos (hematoma subdural crônico, espessamento pachimeningeal), sustentam o diagnóstico de Neurosífilis. Os episódios convulsivos são considerados provavelmente provocados pelo contexto da neurosífilis. A paciente também apresentou anemia ferropriva (provável sangramento gastrointestinal oculto, requerendo investigação) e infecção latente por tuberculose (PPD+, Quantiferon indeterminado), embora a suspeita de TB neurológica seja baixa. A função renal apresentou piora aguda (Cr 1,9 mg/dL), possivelmente relacionada ao contraste, captopril ou lesão cardiorenal. A paciente apresentou melhora significativa do estado mental e da função motora após o início do tratamento com Penicilina G e controle da sobrecarga hídrica. Diagnósticos principais: Neurosífilis, Infarto pontino agudo, Hematoma subdural crônico, Anemia ferropriva, Infecção latente por tuberculose, Insuficiência cardíaca descompensada (resolvida com diuréticos).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Penicilina G Potássica: 3 milhões de unidades IV a cada 4 horas, por 14 dias (último dia programado para ___).
+2. LevETIRAcetam (Keppra): 500 mg PO a cada 12 horas (considerar descontinuação no ambulatório conforme avaliação).
+3. Furosemida: 40 mg PO diariamente.
+4. Aspirina: 81 mg PO diariamente.
+5. Atorvastatina: 80 mg PO à noite.
+6. Ferrous Sulfate (Sulfato Ferroso): 300 mg PO diariamente.
+7. Carvedilol: 12,5 mg PO a cada 12 horas.
+8. Citalopram: 10 mg PO diariamente.
+9. MetFORMIN (Glucophage): 500 mg PO diariamente.
+10. Omeprazol: 20 mg PO diariamente.
+11. Ranitidina: 150 mg PO diariamente.
+12. Sitagliptina: 50 mg PO diariamente.
+
+Orientações ao Paciente:
+- Monitorar peso diariamente pela manhã; contatar médico se houver ganho de peso superior a 1,3 kg (3 lbs).
+- Reconhecer sinais de AVC recorrente: perda súbita de visão, dificuldade súbita de fala ou compreensão, fraqueza súbita de um lado do corpo, queda facial súbita, perda súbita de sensibilidade. Em caso de sintomas, chamar emergência (911).
+- Continuar regime de medicamentos conforme prescrito.
+
+Encaminhamentos e Seguimento:
+- Neurologia: Retorno agendado para ___ às 11h.
+- Médico de Família (PCP): Retorno para acompanhamento geral, monitoramento da infecção latente por tuberculose e função renal (Creatinina).
+- Gastroenterologia: Encaminhamento para colonoscopia ambulatorial agendada em ___ (para investigação da anemia ferropriva).
+- Reabilitação: Alta para unidade de cuidados estendidos/reabilitação.
+
+Exames de Seguimento:
+- Monitorar VDRL do líquor (já negativo).
+- Monitorar função renal e eletrólitos.
+- Investigação de sangramento gastrointestinal (colonoscopia).
+- Avaliação para descontinuação de anticonvulsivante (Keppra) no futuro.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

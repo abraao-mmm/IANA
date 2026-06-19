@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 27321074 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 27321074</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 27321074 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong> A1781 &nbsp;|&nbsp;
+    <strong>Categoria:</strong> TB complexa<br>
+    <strong>Entidades extraídas:</strong> 137 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Headaches
+ 
+Major Surgical or Invasive Procedure:
+___: Posterior fossa craniotomy for resection of cerebellar 
+lesion
+___: Placement of right frontal EVD
+___: Removal of right frontal EVD
+
+ 
+History of Present Illness:
+___ year old male with no prior medical history who originally 
+presented to his PCP ___ for evaluation of multiple symptomatic 
+complaints including blood per rectum in ___ that resolved 
+after few days. However, in ___ the patient started 
+to have abdominal pain, diarrhea, and bright red blood in stool. 
+Then 1 week prior to presentation the patient developed 
+headache, throat pain, and swollen lymph nodes in the neck with 
+fevers. The patient&#x27;s PCP referred him to have a CT of the 
+abdomen and pelvis as well as a NCHCT. 
+ 
+Past Medical History:
+BRBPR ___
+ 
+Social History:
+Tobacco: Current; ___ cig PPD. 
+Alcohol: None. 
+Recreational Drugs: None
+ 
+Physical Exam:
+-------------
+on admission:
+-------------
+Temp: 98.8   HR: 60   BP: 110/74   RR: 14   O2: 100% RA 
+Gen: WD/WN, very uncomfortable
+
+HEENT: 
+Pupils:    PERRL     
+EOMs: Intact 
+Neck: Supple.
+
+Extrem: Warm and well-perfused.
+
+Neuro:
+Mental status: Awake and alert, cooperative with exam, 
+normalaffect.
+Orientation: Oriented to person, place, and date.
+
+Language: Speech fluent with good comprehension and repetition.
+Naming intact. No dysarthria or paraphasic errors.
+
+Cranial Nerves:
+I: Not tested
+II: Pupils equally round and reactive to light, 3 to 2mm 
+bilaterally. 
+III, IV, VI: Extraocular movements intact bilaterally without
+nystagmus.
+V, VII: Facial strength and sensation intact and symmetric.
+VIII: Hearing intact to voice.
+XII: Tongue midline without fasciculations.
+
+Motor: Normal bulk and tone bilaterally. No abnormal movements,
+tremors. Strength full power ___ throughout. No pronator drift
+
+Sensation: Intact to light touch
+
+-------------
+at discharge:
+-------------
+___ ___ Temp: 97.9 PO BP: 122/75 R Lying HR: 118 RR: 18 O2 
+sat: 98% O2 delivery: Ra   
+GENERAL: Alert and interactive. In no acute distress.
+HEENT:  Pupils equal, round, and reactive bilaterally, 
+extraocular muscles intact. Sclera anicteric. MMM. Several small 
+scattered flesh-colored and pink papules on cheeks and temples.
+CARDIAC: RRR. Audible S1 and S2. No murmurs/rubs/gallops.
+LUNGS: Clear to auscultation bilaterally. No increased work of 
+breathing.
+ABDOMEN: Non-distended, non-tender to palpation, BS+, no rebound 
+or guarding
+EXTREMITIES: No clubbing, cyanosis, or edema. Pulses DP/Radial 
+2+ bilaterally. 
+SKIN: Warm, dry. Scattered erythematous papular rash on chest, 
+upper abdomen, and upper back, sparing the arms and legs (non 
+tender to palpation).
+NEUROLOGIC: A&amp;Ox3. No focal deficits. 
+ 
+Pertinent Results:
+==============================
+ADMISSION LABS
+==============================
+___ 09:55PM BLOOD WBC-11.4* RBC-3.82* Hgb-10.7* Hct-32.6* 
+MCV-85 MCH-28.0 MCHC-32.8 RDW-12.4 RDWSD-38.4 Plt ___
+___ 09:55PM BLOOD Neuts-80.4* Lymphs-11.4* Monos-7.4 
+Eos-0.0* Baso-0.2 Im ___ AbsNeut-9.19* AbsLymp-1.30 
+AbsMono-0.85* AbsEos-0.00* AbsBaso-0.02
+___ 09:55PM BLOOD Glucose-150* UreaN-4* Creat-0.6 Na-128* 
+K-3.6 Cl-93* HCO3-23 AnGap-12
+___ 06:20AM BLOOD Calcium-9.5 Phos-4.1 Mg-2.1
+___ 12:03AM BLOOD ALT-67* AST-25 LD(LDH)-135 AlkPhos-93 
+TotBili-0.2
+___ 01:34AM BLOOD calTIBC-307 Ferritn-1165* TRF-236
+
+==============================
+HIV LABS
+==============================
+___ 08:09AM BLOOD HIV Ab-POSITIVE* HIV1-POSITIVE* 
+HIV2-NEGATIVE
+___ 04:30PM BLOOD HIV1 VL-5.0*
+___ 12:03AM BLOOD  WBC-15.3* Lymph-7* Abs ___ CD3%-77 
+Abs CD3-829 CD4%-3 Abs CD4-35* CD8%-72 Abs CD8-775* 
+CD4/CD8-0.05*
+___ 06:15AM BLOOD HIV GENOTYPING-PND
+
+==============================
+TB LABS
+==============================
+___ 7:59 pm TISSUE      CEREBELLUM LESION. 
+      ADD ON ACID FAST CULTURE AND SMEAR PER ___. ___ 
+ON ___
+      AT 1121. 
+
+   GRAM STAIN (Final ___: 
+      NO POLYMORPHONUCLEAR LEUKOCYTES SEEN. 
+      NO MICROORGANISMS SEEN. 
+
+   TISSUE (Final ___:    NO GROWTH. 
+
+   ANAEROBIC CULTURE (Final ___:    NO GROWTH. 
+
+   FUNGAL CULTURE (Final ___:    NO FUNGUS ISOLATED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+      Reported to and read back by ___ (___) AND
+      ___ @ 15:00, ___. 
+      MYCOBACTERIUM TUBERCULOSIS COMPLEX. 
+         Identified by ___ Laboratory ,REPORT DATE: 
+___. 
+
+___ 11:52 am CSF;SPINAL FLUID      Source: Shunt. 
+
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+      This is a concentrated smear made by cytospin method, 
+please refer to
+      hematology for a quantitative white blood cell count.. 
+
+   FLUID CULTURE (Final ___:    NO GROWTH. 
+
+   ACID FAST CULTURE (Preliminary): 
+      The sensitivity of an AFB smear on CSF is very low.. 
+      If present, AFB may take ___ weeks to grow.. 
+
+___ 2:50 pm SPUTUM      Source: Expectorated. 
+
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+
+   ACID FAST SMEAR (Final ___: 
+      Reported to and read back by ___ (___) AND
+      ___ (___) @ 15:55, ___. 
+      ACIDFAST BACILLI.    FEW seen on concentrated smear. 
+
+   ACID FAST CULTURE (Preliminary): 
+      AFB GROWN IN CULTURE; ADDITIONAL INFORMATION TO FOLLOW. 
+
+   MTB Direct Amplification (Final ___: 
+      M. TUBERCULOSIS DNA NOT DETECTED BY NAAT: A negative NAAT 
+cannot rule
+      out TB  or other mycobacterial infection. 
+      . 
+      NAAT results will be followed by confirmatory testing with
+      conventional culture and DST methods. This TB NAAT method 
+has not
+      been approved by FDA for clinical diagnostic purposes. 
+However, this
+      laboratory has established assay performance by in-house 
+validation
+      in accordance with CLIA standards. 
+      . 
+      Test done at ___ Mycobacteriology 
+Laboratory.. 
+
+___ 3:49 pm BLOOD CULTURE ( MYCO/F LYTIC BOTTLE)
+      Source: Venipuncture. 
+
+   BLOOD/FUNGAL CULTURE (Pending):    No growth to date. 
+
+   BLOOD/AFB CULTURE (Pending):    No growth to date. 
+
+___ 05:48AM BLOOD QUANTIFERON-TB GOLD-Test 
+Test                          Result              Reference 
+Range/Units
+QUANTIFERON(R)-TB GOLD        INDETERMINATE  A    NEGATIVE
+ 
+Results are indeterminate for 
+response to ESAT-6,TB7.7 and/or 
+CFP-10 test antigens.
+ 
+Test                          Result              Reference 
+Range/Units
+NIL                           0.12                IU/mL
+MITOGEN-NIL                   0.04                IU/mL
+TB-NIL                        0.09                IU/mL
+     
+
+___ 3:01 am SPUTUM      Source: Expectorated. 
+
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+
+   ACID FAST SMEAR (Final ___: 
+      Reported to and read back by ___ (___) AND
+      ___ (___) @ 15:55, ___. 
+      ACIDFAST BACILLI.    FEW seen on concentrated smear. 
+
+   ACID FAST CULTURE (Preliminary): 
+      AFB GROWN IN CULTURE; ADDITIONAL INFORMATION TO FOLLOW. 
+
+___ 6:30 am SPUTUM      Source: Expectorated. 
+
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+
+   FUNGAL CULTURE (Final ___: 
+      GRAM STAIN OF THIS SPECIMEN INDICATES CONTAMINATION WITH
+      OROPHARYNGEAL SECRETIONS AND INVALIDATES RESULTS. 
+      Specimen is only screened for Cryptococcus species. New 
+specimen is
+      recommended. 
+
+   ACID FAST SMEAR (Final ___: 
+      ACIDFAST BACILLI.    NUMEROUS seen on concentrated smear. 
+
+   ACID FAST CULTURE (Preliminary): 
+      AFB GROWN IN CULTURE; ADDITIONAL INFORMATION TO FOLLOW.    
+.  . 
+         SUSCEPTIBILITY REPORT RECEIVED FROM CDC. REPORT DATE: 
+___. 
+         . 
+         Please see results in the &quot;reports&quot; tab under 
+&quot;Pathology&quot; in OMR.. 
+
+   MTB Direct Amplification (Final ___: 
+      Reported to and read back by ___ (___) AND 
+___
+      (___) @ 15:30, ___. 
+      POSITIVE FOR M. TUBERCULOSIS BY MTD. 
+         M. TUBERCULOSIS DNA DETECTED BY NAAT: Consistent with 
+TB infection
+         by NA amplification test.  . 
+         RIFAMPIN SUSCEPTIBLE BY NAAT: Rifampin- resistance is 
+unlikely but
+         cannot be definitively excluded with this method.  . 
+         NAAT results will be followed by confirmatory testing 
+with
+         conventional culture and DST methods. This TB NAAT 
+method has not
+         been approved by FDA for clinical diagnostic purposes. 
+However,
+         this laboratory has established assay performance by 
+in-house
+         validation in accordance with CLIA standards.  . 
+         Test done at ___ Mycobacteriology 
+Laboratory..
+
+___ 3:00 pm CSF;SPINAL FLUID      Source: Shunt. 
+
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+      This is a concentrated smear made by cytospin method, 
+please refer to
+      hematology for a quantitative white blood cell count.. 
+
+   FLUID CULTURE (Final ___:    NO GROWTH. 
+
+   ACID FAST CULTURE (Preliminary): 
+      The sensitivity of an AFB smear on CSF is very low.. 
+      If present, AFB may take ___ weeks to grow.. 
+
+___ 1:18 pm SPUTUM      Source: Induced. 
+
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+___ 9:32 pm SPUTUM      Source: Induced. 
+
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+___ 5:50 pm SPUTUM      Source: Induced. 
+
+   GRAM STAIN (Final ___: 
+      ___ PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions.. 
+      Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+==============================
+OTHER MICRO:
+==============================
+___ BCx x2 negative
+
+URINE CULTURE (Final ___: 
+      MIXED BACTERIAL FLORA ( &gt;= 3 COLONY TYPES), CONSISTENT 
+WITH SKIN
+      AND/OR GENITAL CONTAMINATION. 
+
+C. difficile PCR (Final ___: 
+      NEGATIVE. 
+
+___ BCx negative
+
+___ 3:49 pm BLOOD CULTURE ( MYCO/F LYTIC BOTTLE)
+      Source: Venipuncture. 
+
+   BLOOD/FUNGAL CULTURE (Pending):    No growth to date. 
+
+   BLOOD/AFB CULTURE (Pending):    No growth to date. 
+
+___ 3:49 pm SEROLOGY/BLOOD      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   RPR w/check for Prozone (Final ___: 
+      NONREACTIVE. 
+      Reference Range: Non-Reactive. 
+
+___ 3:49 pm Blood (Toxo)      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   TOXOPLASMA IgG ANTIBODY (Final ___: 
+      NEGATIVE FOR TOXOPLASMA IgG ANTIBODY BY EIA. 
+
+   TOXOPLASMA IgM ANTIBODY (Final ___: 
+      NEGATIVE FOR TOXOPLASMA IgM ANTIBODY BY EIA. 
+      INTERPRETATION:  NO ANTIBODY DETECTED. 
+
+___ 07:00AM BLOOD HBsAg-NEG HBsAb-NEG HBcAb-NEG HAV Ab-NEG
+___ 07:00AM BLOOD HCV Ab-NEG
+___ 06:02PM BLOOD BARTONELLA (ROCHALIMEA) HENSELAE 
+ANTIBODIES, IGG AND IGM-Test      
+Test                          Result              Reference 
+Range/Units
+B. HENSELAE AB (IGG), SCREEN  Negative            
+B. HENSELAE AB (IGM), SCREEN  Negative            
+___ 04:30PM BLOOD EBV PCR, QUANTITATIVE, WHOLE BLOOD-Test: 
+5516 (reference &lt;200 copies/mL)     
+
+___ 7:00 am Blood (CMV AB)
+
+                            **FINAL REPORT ___
+
+   CMV IgG ANTIBODY (Final ___: 
+      POSITIVE FOR CMV IgG ANTIBODY BY EIA. 
+
+   CMV IgM ANTIBODY (Final ___: 
+      NEGATIVE FOR CMV IgM ANTIBODY BY EIA. 
+      INTERPRETATION:  INFECTION AT UNDETERMINED TIME. 
+      A positive IgG result generally indicates past exposure. 
+      Infection with CMV once contracted remains latent and may 
+reactivate
+      when immunity is compromised. 
+      Greatly elevated serum protein with IgG levels ___ mg/dl 
+may cause 
+      interference with CMV IgM results. 
+      If current infection is suspected, submit follow-up serum 
+in ___
+      weeks. 
+
+==============================
+DISCHARGE LABS
+==============================
+___ 06:45AM BLOOD Glucose-78 UreaN-17 Creat-0.6 Na-136 
+K-4.5 Cl-100 HCO3-26 AnGap-10
+___ 06:45AM BLOOD Albumin-3.5 Calcium-8.8 Phos-4.5 Mg-2.2
+___ 07:20AM BLOOD WBC-4.0 RBC-3.65* Hgb-11.5* Hct-35.4* 
+MCV-97 MCH-31.5 MCHC-32.5 RDW-20.0* RDWSD-68.3* Plt ___
+
+==============================
+IMAGING
+==============================
+___ CT ABD/PELVIS WITH CONTRAST
+IMPRESSION: 
+1. Findings concerning for primary rectal malignancy with 
+multiple mesorectal 
+necrotic lymph nodes and necrotic metastatic abdominopelvic 
+adenopathy. 
+2. Partially visualized sub 4 mm nonspecific lung nodules, 
+however worrisome 
+for metastatic disease in this setting. 
+
+___ CT HEAD WITH AND WITHOUT CONTRAST
+IMPRESSION: 
+2 cm right cerebellar ring-enhancing lesion with surrounding 
+edema and 
+resultant moderate to severe obstructive hydrocephalus.  
+Differential 
+diagnosis includes malignancy or infection.  MRI brain with and 
+without 
+contrast is recommended for further evaluation. 
+
+___ MRI HEAD WITH AND WITHOUT CONTRAST
+IMPRESSION:  
+1. Right cerebellar peripherally enhancing mass with adjacent 
+edema and mass 
+effect on fourth ventricle, ventriculomegaly, ___elow 
+foramen magnum, concerning for early abscess related to 
+infectious process 
+such as tuberculoma or toxoplasmosis in the setting of 
+immunocompromise 
+status, with differential consideration of primary or metastatic 
+malignancy or 
+tumefactive demyelination less likely. 
+2. Limited imaging of skullbase and cervical tissues suggest 
+multiple 
+retropharyngeal abscesses and/or necrotic lymph nodes.  If 
+clinically 
+indicated, consider correlation with tissue sampling. 
+
+___ CT HEAD WITHOUT CONTRAST
+IMPRESSION: 
+1. Degree of hydrocephalus has mildly worsened as compared to CT 
+head ___.  Right frontal approach ventriculostomy drainage 
+catheter 
+terminates within the frontal horn right lateral ventricle, 
+unchanged 
+position. 
+2. Hemorrhage is grossly unchanged as compared to ___.  However 
+there is mildly increased mass effect in the posterior fossa 
+with mildly 
+worsened effacement of the fourth ventricle as compared to ___. 
+
+___ CT CHEST WITHOUT CONTRAST
+IMPRESSION: 
+1. ___ opacities in multiple segments of the right upper 
+lobe.  The 
+etiology of these findings is nonspecific but can be secondary 
+to 
+tuberculosis, aspiration, or bronchiolitis. 
+2. There is mediastinal lymphadenopathy and subcentimeter axilla 
+lymph nodes 
+which are borderline enlarged in size, nonspecific in etiology. 
+
+___ MRI HEAD WITH AND WITHOUT CONTRAST
+IMPRESSION: 
+1. Postsurgical changes from suboccipital craniotomy and 
+resection, with 
+nonspecific enhancement as described, and no definite residual 
+peripherally 
+enhancing mass identified. 
+2. Stable mass effect in the posterior fossa including 
+effacement of the 
+fourth ventricle with associated left and right lateral 
+ventricle and third 
+ventricle hydrocephalus with question interval progression of 
+inferior 
+migration of cerebellar tonsils and vermis into foramina magnum. 
+
+3. Right frontal approach ventriculostomy catheter, stable, 
+including 
+pericatheter trace hemorrhage and edema. 
+4. Unchanged right cerebellar FLAIR signal hyperintensity, 
+likely vasogenic 
+edema. 
+5. Re-demonstration of peripherally enhancing lesions in the 
+retropharyngeal 
+space and bilateral cervical soft tissues at level II, possibly 
+necrotic nodes 
+or abscesses, again not well-evaluated. 
+
+___ CT HEAD WITHOUT CONTRAST
+IMPRESSION: 
+1. Status post suboccipital craniotomy with evolving 
+postsurgical changes 
+including decreased pneumocephalus and edema, and similar 
+effacement of the 
+fourth ventricle. 
+2. Stable mild ventriculomegaly. 
+3. Trace blood products layering in the posterior horn of the 
+right lateral 
+ventricle and along the right frontal ventriculostomy tract are 
+unchanged.  No 
+new or increasing hemorrhage. 
+
+___ LENIS
+IMPRESSION:  
+No evidence of deep venous thrombosis in the right or left lower 
+extremity 
+veins. 
+
+==============================
+___ SURGICAL PATHOLOGY
+==============================
+1. Cerebellar lesion, resection:
+- Mixed inflammatory infiltrate with necrosis, most consistent 
+with mycobacterial infection, see note.
+2. Cerebellar lesion, resection:
+- Cerebellar tissue with focal, poorly formed granulomas with 
+Langerhans type multinucleated giant
+cells in a background of a mixed inflammation and necrosis 
+consistent with mycobacterial infection,
+see note.
+Note: Abundant AFB and ___ positive bacilli are seen.These are 
+also Brown and Brenn (Gram
+stain) positive but are negative for GMS and PAS stains. 
+Immunostains for HSV1/2, Treponema, and
+___
+Department of Pathology Patient: ___ 2 of 3
+CMV are negative. Cytokeratin cocktail (AE1 &amp; AE3, and CAM 5.2) 
+is negative. Abundant
+macrophages seen (CD68 positive). Trichrome highlights scant 
+connective tissue.
+Toxoplasma stain shows focal nuclear staining (part 1B). The 
+staining does not morphologically
+conform to tachyzoites or bradyzoites and no definite toxoplasma 
+organisms are noted on H&amp;E.The
+stain may represent a cross-reaction to another antigen. 
+However, toxoplasmosis cannot be
+excluded and additional testing to rule out Toxoplasmosis should 
+be considered. Clinical correlation
+is required.
+Immunostain for SV40 (for ___ virus) is pending and will be 
+reported in an addendum.
+Slides and stains for Gram, AFB and ___ were reviewed by Dr. 
+___ (Microbiology) and he
+concurs.
+
+ 
+Brief Hospital Course:
+Patient summary statement for admission
+=========================================
+Mr. ___ is a ___ year old man with no past medical history who 
+presented with approximately 1 month of headaches, abdominal 
+pain, found to have rim enhancing cerebellar lesion on CTH s/p 
+posterior fossa craniotomy and resection, tissue consistent with 
+tuberculoma (AFB+, MTB-PCR+), diffuse necrotic lymphadenopathy, 
+pulmonary nodules (AFB+ sputum), rectal thickening on CT A/P, 
+findings consistent with disseminated tuberculosis, also newly 
+diagnosed HIV (CD4 34).
+
+Acute medical/surgical issues addressed
+=========================================
+#Cerebellar tuberculoma s/p posterior fossa craniotomy and 
+resection:
+MRI showed Right cerebellar peripherally enhancing mass with 
+adjacent edema and mass 
+effect on fourth ventricle with ventriculomegaly, concerning for 
+possible early abscess related to infectious process 
+(tuberculoma or toxoplasmosis) or primary or metastatic tumor. 
+MRI also revealed multiple retropharyneal abscesses and/or 
+necrotic lymph nodes in his neck. He was taken to the OR on ___ 
+for posterior fossa craniotomy for resection of lesion. Right 
+frontal EVD placed due to hydrocephalus. Cerebellar tissue PCR 
+subsequently noted to be positive for TB and he was started on 
+RIPE therapy (Day 1: ___. CSF cultures pending, no growth 
+to date. Toxo-PCR on cerebellar tissue negative. Patient was 
+started on Mannitol due to increased edema on CTH, weaned off 
+and discontinued. EVD was removed ___, sutures removed ___ 
+with no issues. Patient remained neurologically intact with goal 
+serum sodium of &gt;140. On dexamethasone taper.
+
+#Pulmonary TB:
+CT abdomen/pelvis showed partially visualized sub 4 mm 
+nonspecific lung nodules. CT chest with ___ opacities in 
+multiple segments of the right upper lobe. Sputum positive for 
+AFB. Initiated RIPE therapy on ___. Patient with no pulmonary 
+symptoms throughout admission. Repeat induced sputum cultures x3 
+collected ___ negative for acid fast bacilli on 
+concentrated smear. Pt cleared to be off respiratory precautions 
+after 2 weeks of RIPE treatment and negative repeat sputums. 
+Scheduled for TB follow up at ___ TB clinic, and 
+for follow up by the Department of ___ Health. 
+
+#HIV, new diagnosis:
+VL 5.0, CD4 35. ART therapy (dolutegravir 50mg PO Qday, Truvada 
+1 tab PO Qday) started ___, no clinical evidence of ___. 
+Patient has history of MSM. He and fiancée are aware of 
+diagnosis, pt requests that his diagnosis not be discussed with 
+other family and friends. ___ for HIV follow up with Dr. 
+___ in ___ clinic. EBV PCR positive. CMV IgG 
+positive, CMV IgM negative, toxo IgG and IgM negative, hep A B 
+and C negative. Fiancé tested for HIV per ID. 
+
+# Multiple mesorectal necrotic lymph nodes and necrotic 
+metastatic abdominopelvic adenopathy
+CT/ABD pelvis showing mesorectal thickening concerning for 
+primary rectal malignancy. Per discussion with medicine and ID 
+teams, lymphadenopathy and area of rectal wall thickening seen 
+on CT is most likely another manifestation of disseminated TB. 
+Given patient&#x27;s hx of sexual assault and inability to tolerate 
+enemas or invasive procedures at this time, decision made to 
+defer flex/sig at this time. RIPE therapy, as above.
+
+#Rash
+Erythematous papules over shoulders, upper back and upper chest. 
+Some response to Sarna but still pruritic. Most likely drug 
+reaction, has been present since early in admission with no 
+recent changes. Also has mild xerosis. No extension of rash 
+since transfer to Medicine service two weeks ago. Newer papules 
+on face more likely steroid acne. Treated with Eucerin, Sarna, 
+hydrocortisone 2.5% ointment.
+
+Chronic issues pertinent to admission
+========================================
+None
+
+TRANSITIONAL ISSUES:
+====================
+HIV1 Viral Load: 5.0
+HIV-1 Genotyping (Virtual Phenotype) pending at time of 
+discharge. 
+EBV DNA, QN PCR 5516
+ART initiated Day 1: ___ (dolutegravir 50mg QD and truvada 1 
+tablet PO QD)
+RIPE therapy initiated Day 1: ___
+
+[] Patient discharged on bowel regimen and famotidine while on 
+steroids. Please discontinue when no longer needed. 
+[] Fiance needs to be rechecked for TB in ___ weeks.
+[] Azithromycin should be started as outpatient per ID for MAC 
+prophylaxis. (Patient has antibiotic filled, but he knows not to 
+start medication until speaking with ID.) 
+[] Steroid taper below. 
+[] Department of Public Health will visit with patient and 
+roommates on ___. 
+[] Patient with rectal thickening most likely in setting of 
+disseminated TB. Deferred colonoscopy given patient preference. 
+Please consider repeat imaging to verify resolution with RIPE 
+therapy. 
+[] Medications at bedside including RIPE, HIV therapy. 
+[] F/u vaccination schedule: patient received influenza vaccine 
+and first dose of Menactra and Hep B (40mcg instead of 20mcg 
+because of immunocompromised status) on ___
+[] Continue Bactrim DS 1 tab PO Qday for Toxo ppx
+
+-Steroid regimen for CNS TB:
+ Dexamethasone 20mg PO Qday for 2 weeks (end ___
+ Dexamethasone 12mg PO Qday for 1 week (end ___
+ Dexamethasone 6mg PO Qday for 1 week (end ___
+ Dexamethasone 4mg PO Qday for 1 week (___)
+ Dexamethasone 3mg PO Qday for 1 week (___) 
+ Dexamethasone 2mg PO Qday for 1 week (___)
+ Dexamethasone 1mg PO Qday for 1 week (___) 
+ Stop dexamethasone
+
+At discharge fax to the ___: Discharge Summary[X] ___ 1[X] 
+___ 2[X] TO ___ ___
+
+FAX D/C summary, medication list, sputum cultures and x-ray to
+___ and ___
+
+#CODE: Full (presumed) 
+#CONTACT: ___ Relationship: fiancé Cell phone:
+___ 
+
+&gt;30 Minutes spent on Complex Discharge 
+ 
+Medications on Admission:
+Omeprazole 20mg PO daily 
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+#Disseminated tuberculosis
+#Cerebellar tuberculoma
+#HIV
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear ___,
+It was a privilege caring for you at ___.  
+
+WHY WAS I IN THE HOSPITAL?  
+- You were admitted to the hospital because you were having 
+headaches and abdominal pain
+
+WHAT HAPPENED TO ME IN THE HOSPITAL?  
+- You had CT and MRI imaging of your head that showed that you 
+had a mass in the cerebellum. This was removed by Neurosurgery 
+and was found to be a tuberculoma.
+- Testing including CT imaging of your chest and sputum cultures 
+showed that you had TB in your lungs.
+- You were started on treatment for TB with a regimen called 
+&quot;RIPE&quot; (rifabutin, isoniazid, pyrazinamide, ethambutol). After 2 
+weeks of therapy, you had repeat sputum tests which showed that 
+the treatment was working and you no longer have TB in the 
+sputum.
+- CT imaging showed that you have large lymph nodes and rectal 
+wall thickening that is likely caused by disseminated TB and is 
+causing your bloody stools and abdominal pain. It should improve 
+on RIPE therapy.
+- Blood tests showed that you have HIV. You were started on 
+anti-retroviral therapy (dolutegravir and Truvada).
+
+WHAT SHOULD I DO AFTER I LEAVE THE HOSPITAL?  
+- Please continue to take all of your medications and follow-up 
+with your appointments as listed below.
+- Do not start azithromycin without speaking to ID doctors. 
+
+We wish you the best!  
+
+Sincerely,  
+Your ___ Team  
+
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(14)</span></h3>
+  <ul>
+    <li>Tuberculose disseminada</li>
+    <li>Tuberculoma cerebelar</li>
+    <li>HIV (Vírus da Imunodeficiência Humana)</li>
+    <li>Infecção por EBV (Vírus de Epstein-Barr)</li>
+    <li>Infecção latente por Citomegalovírus (CMV)</li>
+    <li>Linfadenopatia necrótica mesorretal</li>
+    <li>Linfadenopatia necrótica abdominopélvica</li>
+    <li>Hidrocefalia obstrutiva</li>
+    <li>Abscesso retrofaríngeo</li>
+    <li>Nódulos pulmonares</li>
+    <li>Espessamento da parede retal</li>
+    <li>Reação medicamentosa (rash)</li>
+    <li>Acne esteroide</li>
+    <li>Xerose cutânea</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Cefaleia</li>
+    <li>Dor abdominal</li>
+    <li>Diarreia</li>
+    <li>Hematoquezia (sangue vivo nas fezes)</li>
+    <li>Dor de garganta</li>
+    <li>Linfadenopatia cervical</li>
+    <li>Febre</li>
+    <li>Rash papular eritematoso (peito, abdômen superior, costas)</li>
+    <li>Prurido</li>
+    <li>Papulas faciais</li>
+    <li>Xerose</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(18)</span></h3>
+  <ul>
+    <li>Rifabutina</li>
+    <li>Isoniazida</li>
+    <li>Pirazinamida</li>
+    <li>Etambutol</li>
+    <li>Dolutegravir 50mg PO QD</li>
+    <li>Truvada 1 comprimido PO QD</li>
+    <li>Dexametasona (taper: 20mg, 12mg, 6mg, 4mg, 3mg, 2mg, 1mg PO QD)</li>
+    <li>Mannitol</li>
+    <li>Azitromicina (profilaxia para MAC)</li>
+    <li>Bactrim DS 1 comprimido PO QD (profilaxia para Toxoplasmose)</li>
+    <li>Famotidina</li>
+    <li>Omeprazol 20mg PO diário</li>
+    <li>Sarna</li>
+    <li>Eucerin</li>
+    <li>Hidrocortisona 2.5% pomada</li>
+    <li>Vacina contra influenza</li>
+    <li>Menactra (vacina meningocócica)</li>
+    <li>Vacina contra Hepatite B 40mcg</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(71)</span></h3>
+  <ul>
+    <li>WBC-11.4</li>
+    <li>Hgb-10.7</li>
+    <li>Hct-32.6</li>
+    <li>Neuts-80.4</li>
+    <li>Lymphs-11.4</li>
+    <li>AbsNeut-9.19</li>
+    <li>Glucose-150</li>
+    <li>Na-128</li>
+    <li>ALT-67</li>
+    <li>Ferritn-1165</li>
+    <li>HIV Ab-Positivo</li>
+    <li>HIV1-Positivo</li>
+    <li>HIV2-Negativo</li>
+    <li>HIV1 VL-5.0</li>
+    <li>WBC-15.3</li>
+    <li>Lymph-7</li>
+    <li>CD4%-3</li>
+    <li>Abs CD4-35</li>
+    <li>CD4/CD8-0.05</li>
+    <li>HIV GENOTYPING-Pendente</li>
+    <li>Gram stain (Cerebelo): Sem microrganismos</li>
+    <li>Cultura de tecido (Cerebelo): Sem crescimento</li>
+    <li>Cultura anaeróbia (Cerebelo): Sem crescimento</li>
+    <li>Cultura fúngica (Cerebelo): Sem fungo isolado</li>
+    <li>AFB Smear (Cerebelo): Sem bacilos ácido-resistentes</li>
+    <li>Cultura AFB (Cerebelo): Complexo Mycobacterium tuberculosis identificado</li>
+    <li>Gram stain (Líquor): 1+ PMNs</li>
+    <li>Cultura de líquido (Líquor): Sem crescimento</li>
+    <li>Gram stain (Escarro): Contaminação extensa</li>
+    <li>Cultura respiratória (Escarro): Teste cancelado</li>
+    <li>AFB Smear (Escarro 1): Bacilos ácido-resistentes (poucos)</li>
+    <li>Cultura AFB (Escarro 1): Crescimento de AFB</li>
+    <li>MTB Direct Amplification (Escarro 1): DNA de M. tuberculosis não detectado</li>
+    <li>Cultura de sangue (AFB): Pendente</li>
+    <li>Cultura de sangue (Fúngica): Pendente</li>
+    <li>Quantiferon-TB Gold: Indeterminado</li>
+    <li>AFB Smear (Escarro 2): Bacilos ácido-resistentes (numerosos)</li>
+    <li>Cultura AFB (Escarro 2): Crescimento de AFB</li>
+    <li>MTB Direct Amplification (Escarro 2): Positivo para M. tuberculosis</li>
+    <li>RPR: Não reativo</li>
+    <li>Toxoplasma IgG: Negativo</li>
+    <li>Toxoplasma IgM: Negativo</li>
+    <li>HBsAg: Negativo</li>
+    <li>HBsAb: Negativo</li>
+    <li>HBcAb: Negativo</li>
+    <li>HAV Ab: Negativo</li>
+    <li>HCV Ab: Negativo</li>
+    <li>Bartonella henselae IgG: Negativo</li>
+    <li>Bartonella henselae IgM: Negativo</li>
+    <li>EBV PCR: 5516 copies/mL</li>
+    <li>CMV IgG: Positivo</li>
+    <li>CMV IgM: Negativo</li>
+    <li>WBC-4.0</li>
+    <li>Hgb-11.5</li>
+    <li>Hct-35.4</li>
+    <li>RDW-20.0</li>
+    <li>Cultura de urina: Flora bacteriana mista (contaminação)</li>
+    <li>C. difficile PCR: Negativo</li>
+    <li>Cultura de sangue (BCx): Negativo</li>
+    <li>Toxo-PCR (tecido cerebelar): Negativo</li>
+    <li>Imunohistoquímica HSV1/2: Negativo</li>
+    <li>Imunohistoquímica Treponema: Negativo</li>
+    <li>Imunohistoquímica CMV: Negativo</li>
+    <li>Imunohistoquímica Citoceratina: Negativo</li>
+    <li>Imunohistoquímica CD68: Positivo (macrófagos)</li>
+    <li>Imunohistoquímica Toxoplasma: Focal (sem conformidade morfológica)</li>
+    <li>Imunohistoquímica SV40: Pendente</li>
+    <li>AFB (tecido cerebelar): Bacilos positivos</li>
+    <li>Gram (tecido cerebelar): Bacilos positivos</li>
+    <li>GMS (tecido cerebelar): Negativo</li>
+    <li>PAS (tecido cerebelar): Negativo</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(19)</span></h3>
+  <ul>
+    <li>Craniotomia da fossa posterior para ressecção de lesão cerebelar</li>
+    <li>Colocação de cateter ventricular externo (EVD) frontal direito</li>
+    <li>Remoção do cateter ventricular externo (EVD) frontal direito</li>
+    <li>Tomografia computadorizada (TC) de abdômen e pelve com contraste</li>
+    <li>Tomografia computadorizada (TC) de crânio sem contraste (NCHCT)</li>
+    <li>Tomografia computadorizada (TC) de crânio com e sem contraste</li>
+    <li>Ressonância magnética (RM) de crânio com e sem contraste</li>
+    <li>Tomografia computadorizada (TC) de tórax sem contraste</li>
+    <li>Ultrassonografia Doppler venoso (LENIS)</li>
+    <li>Biópsia de lesão cerebelar (ressecção)</li>
+    <li>Punção lombar (coleta de líquor via shunt)</li>
+    <li>Coleta de escarro (expectorado e induzido)</li>
+    <li>Cultura de sangue</li>
+    <li>Sorologias diversas (HIV, TB, Toxo, Hepatites, EBV, CMV, Bartonella)</li>
+    <li>PCR para M. tuberculosis (NAAT/MTD)</li>
+    <li>Teste Quantiferon-TB Gold</li>
+    <li>Cultura de urina</li>
+    <li>PCR para C. difficile</li>
+    <li>Imunohistoquímica (HSV, Treponema, CMV, Toxoplasma, SV40, CD68, Citoceratina, GMS, PAS)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(4)</span></h3>
+  <ul>
+    <li>Mycobacterium tuberculosis</li>
+    <li>Vírus da Imunodeficiência Humana tipo 1 (HIV-1)</li>
+    <li>Vírus de Epstein-Barr (EBV)</li>
+    <li>Citomegalovírus (CMV)</li>
+  </ul>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, sem histórico médico prévio relevante, que apresentou-se com queixa principal de cefaleia. História da Doença Atual (HDA): O paciente relatou episódios prévios de sangue no reto (BRBPR) que se resolveram espontaneamente. Posteriormente, desenvolveu dor abdominal, diarreia e sangue vivo nas fezes. Uma semana antes da admissão, iniciou cefaleia, dor de garganta, linfonodos cervicais aumentados e febre. O médico de atenção primária solicitou tomografia computadorizada (TC) de abdome/pélvis e TC de crânio sem contraste. O paciente nega uso de álcool ou drogas recreativas. Tabagista atual (___ cigarros/dia). Histórico de sexo com homens (MSM).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na Admissão: Temperatura 98.8°F, FC 60 bpm, PA 110/74 mmHg, FR 14 irpm, SpO2 100% em ar ambiente.
+Exame Físico na Admissão:
+- Geral: Paciente bem desenvolvido/bem nutrido (WD/WN), muito desconfortável.
+- HEENT: Pupilas isocóricas e fotorreagentes (PERRL). Movimentos oculares extraoculares (EOM) íntegros. Pescoço suplexível.
+- Extremidades: Quentes e bem perfundidas.
+- Neurológico: Alerta, orientado, cooperativo, afeto normal. Orientado a pessoa, lugar e data. Linguagem fluente, boa compreensão e repetição. Nomeação íntegra. Sem disartria ou erros parafásicos. Nervos Cranianos: II (pupilas reagentes, 3-2mm), III, IV, VI (movimentos íntegros, sem nistagmo), V, VII (força e sensibilidade faciais íntegras e simétricas), VIII (audição íntegra), XII (língua na linha média, sem fasciculações). Motor: Volume e tônus normais bilateralmente. Sem movimentos anormais ou tremores. Força plena em todos os grupos musculares. Sem desvio pronador. Sensação: Íntegra ao toque leve.
+
+Sinais Vitais na Alta: Temperatura 97.9°F (oral), PA 122/75 mmHg, FC 118 bpm (deitado), FR 18 irpm, SpO2 98% em ar ambiente.
+Exame Físico na Alta:
+- Geral: Alerta e interativo. Sem sofrimento agudo.
+- HEENT: Pupilas isocóricas, redondas e reagentes bilateralmente. Músculos extraoculares íntegros. Escleras anictéricas. Mucosas orais úmidas e rosadas (MMM). Várias pequenas pápulas espalhadas, cor de carne e rosadas, nas bochechas e têmporas.
+- Cardíaco: Rítmico, sem sopros, atritos ou galopos. S1 e S2 audíveis.
+- Pulmões: Limpos à ausculta bilateralmente. Sem aumento do trabalho respiratório.
+- Abdome: Não distendido, não doloroso à palpação, ruídos hidroaéreos presentes, sem rebote ou defesa.
+- Extremidades: Sem clubbing, cianose ou edema. Pulsos dorsais do pé e radiais 2+ bilateralmente.
+- Pele: Quente e seca. Erupção papular eritematosa espalhada no tórax, abdome superior e parte superior das costas, poupando braços e pernas (não dolorosa à palpação).
+- Neurológico: Orientado x3. Sem déficits focais.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica (Admissão):
+- Leucócitos (WBC): 11.4 x10^3/µL (Elevado)
+- Hemácias (RBC): 3.82 x10^6/µL (Baixo)
+- Hemoglobina (Hgb): 10.7 g/dL (Baixo)
+- Hematócrito (Hct): 32.6% (Baixo)
+- MCV: 85 fL
+- MCH: 28.0 pg
+- MCHC: 32.8 g/dL
+- RDW: 12.4%
+- Plaquetas: (Valor não especificado no texto)
+- Neutrófilos: 80.4% (Elevado)
+- Linfócitos: 11.4% (Baixo)
+- Monócitos: 7.4%
+- Eosinófilos: 0.0% (Baixo)
+- Basófilos: 0.2%
+- Glicose: 150 mg/dL (Elevado)
+- Ureia (BUN): 4 mg/dL
+- Creatinina: 0.6 mg/dL
+- Sódio (Na): 128 mEq/L (Baixo)
+- Potássio (K): 3.6 mEq/L
+- Cloreto (Cl): 93 mEq/L
+- Bicarbonato (HCO3): 23 mEq/L
+- Gap Aniónico: 12
+- Cálcio: 9.5 mg/dL
+- Fósforo: 4.1 mg/dL
+- Magnésio: 2.1 mg/dL
+- ALT: 67 U/L (Elevado)
+- AST: 25 U/L
+- LDH: 135 U/L
+- Fosfatase Alcalina: 93 U/L
+- Bilirrubina Total: 0.2 mg/dL
+- TIBC Calibrada: 307 µg/dL
+- Ferritina: 1165 ng/mL (Elevado)
+- Transferrina (TRF): 236 mg/dL
+
+Sorologias e Marcadores Infecciosos (Admissão):
+- HIV Anticorpo: POSITIVO
+- HIV-1: POSITIVO
+- HIV-2: NEGATIVO
+- Carga Viral HIV-1: 5.0 (Unidade não especificada, provavelmente log ou cópias, texto indica 5.0)
+- Contagem de Linfócitos T CD4: 35 células/µL (Baixo)
+- Porcentagem CD4: 3%
+- Contagem de Linfócitos T CD8: 775 células/µL
+- Porcentagem CD8: 72%
+- Relação CD4/CD8: 0.05
+- EBV PCR Quantitativo (Sangue total): 5516 cópias/mL (Elevado, referência &lt;200)
+- CMV IgG: POSITIVO
+- CMV IgM: NEGATIVO
+- Toxoplasma IgG: NEGATIVO
+- Toxoplasma IgM: NEGATIVO
+- HBsAg: NEGATIVO
+- HBsAb: NEGATIVO
+- HBcAb: NEGATIVO
+- HAV Ab: NEGATIVO
+- HCV Ab: NEGATIVO
+- Bartonella henselae IgG: NEGATIVO
+- Bartonella henselae IgM: NEGATIVO
+- RPR: NÃO REATIVO
+- Quantiferon-TB Gold: INDETERMINADO (Nil: 0.12 IU/mL, Mitógeno-Nil: 0.04 IU/mL, TB-Nil: 0.09 IU/mL)
+
+Culturas e Microbiologia:
+- Cultura de Tecido (Lesão Cerebelar): Gram: Sem PMNs ou microrganismos vistos. Aeróbia: Sem crescimento. Anaeróbia: Sem crescimento. Fúngica: Sem fungo isolado. Bacilos Ácido-Fast (BAF) direto: Não vistos. Cultura de BAF (Preliminar): Complexo Mycobacterium tuberculosis identificado.
+- Líquido Cefalorraquidiano (LCR) - Drenagem de Shunt: Gram: 1+ (&lt;1 PMN por campo). Sem microrganismos. Cultura de fluido: Sem crescimento. Cultura de BAF (Preliminar): Sensibilidade baixa, crescimento pode levar semanas.
+- Escarro (Múltiplas amostras): Gram: Contaminação extensa com secreções da via aérea superior (&gt;10 células epiteliais). Cultura bacteriana: Inválida/Cancelada. BAF direto: Algumas amostras mostraram BAF (poucos ou numerosos). Cultura de BAF: Crescimento de AFB. NAAT (MTB Direct Amplification): POSITIVO para DNA de M. tuberculosis. Suscetibilidade à Rifampina: Suscetível por NAAT.
+- Cultura de Sangue (Bactéria/Fungo/AFB): Sem crescimento até a data.
+- Cultura de Urina: Flora bacteriana mista (&gt;=3 tipos de colônias), consistente com contaminação de pele/genital.
+- PCR para C. difficile: NEGATIVO.
+
+Hemograma e Bioquímica (Alta):
+- Leucócitos (WBC): 4.0 x10^3/µL
+- Hemácias (RBC): 3.65 x10^6/µL (Baixo)
+- Hemoglobina (Hgb): 11.5 g/dL (Baixo)
+- Hematócrito (Hct): 35.4% (Baixo)
+- MCV: 97 fL
+- MCH: 31.5 pg
+- MCHC: 32.5 g/dL
+- RDW: 20.0% (Elevado)
+- Plaquetas: (Valor não especificado)
+- Glicose: 78 mg/dL
+- Ureia (BUN): 17 mg/dL
+- Creatinina: 0.6 mg/dL
+- Sódio (Na): 136 mEq/L
+- Potássio (K): 4.5 mEq/L
+- Cloreto (Cl): 100 mEq/L
+- Bicarbonato (HCO3): 26 mEq/L
+- Gap Aniónico: 10
+- Albumina: 3.5 g/dL
+- Cálcio: 8.8 mg/dL
+- Fósforo: 4.5 mg/dL
+- Magnésio: 2.2 mg/dL</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">TC de Abdome e Pélvis com Contraste:
+- Achados preocupantes para malignidade retal primária com múltiplos linfonodos mesorretais necróticos e adenopatia abdominopélvica metastática necrótica.
+- Nódulos pulmonares inespecíficos sub-4mm parcialmente visualizados, preocupantes para doença metastática neste contexto.
+
+TC de Crânio com e sem Contraste:
+- Lesão anel-enhancing de 2 cm no cerebelo direito com edema circundante e hidrocefalia obstrutiva moderada a severa resultante. Diagnóstico diferencial inclui malignidade ou infecção. Recomendado RM de crânio.
+
+RM de Crânio com e sem Contraste (Inicial):
+- Massa perifericamente realçante no cerebelo direito com edema adjacente e efeito de massa no quarto ventrículo, ventriculomegalia, herniação abaixo do forame magno, preocupante para abscesso precoce relacionado a processo infeccioso (tuberculoma ou toxoplasmose) em contexto de imunossupressão, com consideração diferencial de malignidade primária/metastática ou desmielinização tumefativa (menos provável).
+- Imagem limitada da base do crânio e tecidos cervicais sugere múltiplos abscessos retrofaríngeos e/ou linfonodos necróticos.
+
+TC de Crânio sem Contraste (Seguimento):
+- Grau de hidrocefalia levemente piorado em comparação ao TC anterior. Cateter de ventriculostomia de abordagem frontal direita termina no corno frontal do ventrículo lateral direito, posição inalterada.
+- Hemorragia grosseiramente inalterada. No entanto, há efeito de massa levemente aumentado na fossa posterior com obliteração levemente piorada do quarto ventrículo.
+
+TC de Tórax sem Contraste:
+- Opacidades em múltiplos segmentos do lobo superior direito. Etiologia inespecífica, mas pode ser secundária a tuberculose, aspiração ou bronquiolite.
+- Linfadenopatia mediastinal e linfonodos axilares subcentimétricos, levemente aumentados, etiologia inespecífica.
+
+RM de Crânio com e sem Contraste (Pós-operatório):
+- Mudanças pós-cirúrgicas de craniotomia suboccipital e ressecção, com realce inespecífico, sem massa residual perifericamente realçante definida.
+- Efeito de massa estável na fossa posterior, incluindo obliteração do quarto ventrículo com hidrocefalia dos ventrículos laterais e terceiro ventrículo, com questão de progressão intervalar da migração inferior das amígdalas cerebelares e vermis para o forame magno.
+- Cateter de ventriculostomia frontal direita estável, incluindo hemorragia traço pericateter e edema.
+- Hiperintensidade de sinal FLAIR cerebelar direito inalterada, provavelmente edema vasogênico.
+- Reapresentação de lesões perifericamente realçantes no espaço retrofaríngeo e tecidos moles cervicais bilaterais no nível II, possivelmente linfonodos necróticos ou abscessos.
+
+TC de Crânio sem Contraste (Pós-operatório tardio):
+- Status pós craniotomia suboccipital com mudanças evolutivas pós-cirúrgicas, incluindo pneumocefalia e edema diminuídos, e obliteração similar do quarto ventrículo.
+- Ventriculomegalia leve estável.
+- Produtos sanguíneos traço em camadas no corno posterior do ventrículo lateral direito e ao longo do trajeto da ventriculostomia frontal direita, inalterados. Sem hemorragia nova ou crescente.
+
+Lenis (Ultrassom Doppler Venoso):
+- Sem evidência de trombose venosa profunda nas veias dos membros inferiores direito ou esquerdo.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com diagnóstico novo de HIV (CD4=35, carga viral detectável) apresentando quadro de tuberculose disseminada com acometimento do sistema nervoso central (SNC) e pulmonar.
+
+Raciocínio Clínico:
+1. Tuberculose Disseminada: O paciente apresenta lesão cerebelar confirmada como tuberculoma por histopatologia (granulomas, necrose, bacilos ácido-fast positivos) e PCR positivo para M. tuberculosis. Há também evidência de TB pulmonar (escarro com BAF positivos e NAAT positivo para M. tuberculosis) e linfadenopatia necrótica generalizada (mesorretal, mediastinal, cervical) e espessamento retal, considerados manifestações da TB disseminada. A cultura de tecido cerebelar isolou Complexo Mycobacterium tuberculosis. A TB disseminada explica a cefaleia, febre, linfadenopatia, dor abdominal e sangramento retal.
+2. Tuberculoma Cerebelar: Lesão anel-enhancing no cerebelo direito com edema e hidrocefalia obstrutiva, tratada cirurgicamente (craniotomia e ressecção) e com colocação de drenagem ventricular externa (EVD), posteriormente removida. O paciente está em esquema de esteroides para controle do edema cerebral.
+3. HIV: Diagnóstico novo com imunossupressão grave (CD4=35). Iniciada terapia antirretroviral (TARV) com Dolutegravir e Truvada. Carga viral inicial de 5.0. Genotipagem pendente. Há reativação de EBV (PCR positivo) e infecção prévia por CMV (IgG positivo, IgM negativo). Toxoplasmose descartada por sorologia negativa e PCR no tecido negativo (embora a coloração tenha dado falso positivo, a morfologia não condizia).
+4. Outras Infecções: Quantiferon indeterminado (comum em imunossupressão grave). Culturas de sangue e LCR negativas para outros patógenos. Toxoplasmose e outras infecções oportunistas descartadas ou menos prováveis dada a confirmação de TB.
+5. Evolução: O paciente submetido a neurocirurgia, iniciado em terapia RIPE (Rifabutin, Isoniazida, Pirazinamida, Etambutol) e TARV. Após 2 semanas de tratamento, as culturas de escarro repetidas tornaram-se negativas para BAF, permitindo a suspensão das precauções respiratórias. O quadro neurológico manteve-se estável sem déficits focais. A erupção cutânea foi atribuída a reação medicamentosa ou acne esteroide, tratada topicamente.
+
+Diagnóstico Principal: Tuberculose Disseminada (com tuberculoma cerebelar e acometimento pulmonar e linfonodal).
+Diagnósticos Secundários: Infecção por HIV (AIDS), Tuberculoma Cerebelar, Linfadenopatia necrótica disseminada, Espessamento retal por TB.
+Diagnósticos Diferenciais Considerados e Excluídos: Linfoma (excluído pela histopatologia e achados de TB), Toxoplasmose cerebral (PCR negativo no tecido, sorologia negativa), Malignidade primária ou metastática (histopatologia compatível com TB), Abscesso bacteriano (culturas negativas).
+
+Conclusões das Equipes Consultadas: Infectologia confirmou TB disseminada e iniciou RIPE e TARV. Neurocirurgia realizou ressecção da lesão e manejo da hidrocefalia. A equipe de saúde pública foi acionada para notificação e acompanhamento de contatos.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta (Dose e Posologia):
+- RIPE para Tuberculose:
+  - Rifabutin: Dose conforme protocolo (iniciado no dia 1 da internação).
+  - Isoniazida: Dose conforme protocolo (iniciado no dia 1).
+  - Pirazinamida: Dose conforme protocolo (iniciado no dia 1).
+  - Etambutol: Dose conforme protocolo (iniciado no dia 1).
+- Terapia Antirretroviral (HIV):
+  - Dolutegravir: 50 mg, via oral, 1 vez ao dia.
+  - Truvada (Emtricitabina/Tenofovir): 1 comprimido, via oral, 1 vez ao dia.
+- Profilaxia para Toxoplasmose:
+  - Bactrim DS (Sulfametoxazol/Trimetoprima): 1 comprimido, via oral, 1 vez ao dia.
+- Profilaxia para MAC (Mycobacterium avium complex):
+  - Azitromicina: Iniciar em regime ambulatorial conforme orientação da Infectologia (paciente possui medicação, mas não iniciar sem falar com Infectologia).
+- Corticosteroides (Taper para TB do SNC):
+  - Dexametasona 20 mg PO QD por 2 semanas (até ___).
+  - Dexametasona 12 mg PO QD por 1 semana (até ___).
+  - Dexametasona 6 mg PO QD por 1 semana (até ___).
+  - Dexametasona 4 mg PO QD por 1 semana (até ___).
+  - Dexametasona 3 mg PO QD por 1 semana (até ___).
+  - Dexametasona 2 mg PO QD por 1 semana (até ___).
+  - Dexametasona 1 mg PO QD por 1 semana (até ___).
+  - Suspender Dexametasona.
+- Suporte/Gastrointestinal:
+  - Regime para intestino (laxantes) enquanto estiver em esteroides.
+  - Famotidina enquanto estiver em esteroides.
+  - Descontinuar quando não for mais necessário.
+- Cuidados com a Pele:
+  - Eucerin, Sarna e pomada de hidrocortisona 2.5% para erupção cutânea.
+
+Orientações ao Paciente:
+- Continuar a tomar todas as medicações conforme prescrito.
+- Não iniciar Azitromicina sem falar com os médicos da Infectologia.
+- A fiança deve ser reavaliada para TB em ___ semanas.
+- O Departamento de Saúde Pública visitará o paciente e os colegas de quarto em ___.
+- O paciente foi vacinado contra Influenza, Meningococo (Menactra) e Hepatite B (40mcg devido ao estado imunossuprimido).
+- A espessamento retal é provavelmente devido à TB disseminada; a colonoscopia foi adiada devido à preferência do paciente. Considerar repetição de imagem para verificar resolução com a terapia RIPE.
+- O paciente e sua fiança estão cientes do diagnóstico de HIV; o paciente solicitou que o diagnóstico não seja discutido com outros familiares e amigos.
+
+Encaminhamentos e Exames de Seguimento:
+- Retorno à Clínica de HIV com Dr. ___ em ___.
+- Retorno à Clínica de TB em ___.
+- Acompanhamento pelo Departamento de Saúde Pública.
+- Exames de seguimento: Monitoramento de carga viral HIV, contagem de CD4, função hepática e renal, e exames de imagem para avaliação da resolução das lesões.
+- Envio de resumo de alta, lista de medicações, culturas de escarro e raio-X para ___ e ___.
+
+Retornos Programados:
+- Retorno conforme agendado nas clínicas de Infectologia e TB.
+- Retorno para avaliação de resolução das lesões por imagem conforme orientação médica.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-08 15:18 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

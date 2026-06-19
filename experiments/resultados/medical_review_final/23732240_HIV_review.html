@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 23732240 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 23732240</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 23732240 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 116
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                    Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+fever
+ 
+Major Surgical or Invasive Procedure:
+Bone Marrow biopsy - results pending
+ 
+History of Present Illness:
+___ yo w/ HIV/AIDS, KS presents with fever and cough for one day. 
+Cough is productive of a yellow sputum. Also with sinus 
+congestion and itching eyes. + L sided pleuritic rib pain. Fever 
+subjective, no night sweats or weight loss. Denies any eye pain 
+or visual changes. No sore throat or rhinorrhea. No SOB or CP. 
+No N/V/D or abd pain. No dysuria. No new rashes. No Pt denies 
+recent travel or sick contacts, however he lives in a shelter so 
+exposed to many people. Had flu shot this year and pneumovax. 
+
+In ED pt found to be neutropenic, Temp 100.8, given cefepime and 
+bactrim for presumed PCP ___.
+
+ROS: otherwise negative
+ 
+Past Medical History:
+HIV c/b AIDS, last CD4 31 in ___, initial diagnosis ___
+Kaposi&#x27;s sarcoma
+HIV-induced ITP
+Histoplasmosis, disseminated
+Pneumocystis pneumonia
+Hypertension
+Chronic kidney disease
+Parotid hyperplasia
+Erectile dysfunction
+h/o HBV infection
+h/o pericarditis with tamponade
+ 
+Social History:
+___
+Family History:
+No history of CAD
+ 
+Physical Exam:
+VS: Tmax 100.8  Tc 98.3  124/88  102  18  94%ra
+Pain: 5
+Gen: nad, lying in bed
+Skin: diffuse KS lesions, no open wounds, LLE hyperpigmented 
+w/multiple bullous lesions, L hip bone biopsy site c/d/i
+LAD: no cervical, supraclavicular or axillary adenopathy
+Heent: op clear, no exudates or cobblestoning, eyes red, no 
+edema, no sinus tenderness
+Resp: ctab
+CV: rrr no m/r/g
+Abd: nabs, soft, nt/nd, left lower ribs w/reproducible pain
+Ext: wwp, LLE w/nonpitting edema to knee(chronic, stable)
+Neuro: alert, follows commands, answering questions 
+appropriately
+ 
+Pertinent Results:
+___ 09:00PM   GLUCOSE-91 UREA N-16 CREAT-1.5* SODIUM-138 
+POTASSIUM-3.4 CHLORIDE-101 TOTAL CO2-25 ANION GAP-15
+___ 09:00PM   ALT(SGPT)-19 AST(SGOT)-31 LD(LDH)-204 ALK 
+PHOS-80 TOT BILI-1.4
+___ 09:07PM   LACTATE-1.5
+___ 09:00PM   WBC-1.5* RBC-3.56* HGB-11.2* HCT-33.6* MCV-94 
+MCH-31.5 MCHC-33.4 RDW-14.9
+___ 09:00PM   NEUTS-32* BANDS-0 LYMPHS-46* MONOS-8 EOS-10* 
+BASOS-1 ATYPS-3* ___ MYELOS-0
+___ 09:00PM   PLT SMR-NORMAL PLT COUNT-240
+
+CXR ___ my read: no acute pulmonary process. no infiltrate, 
+edema or effusions.
+ 
+Brief Hospital Course:
+Mr. ___ is a ___ yo man with HIV/AIDS admitted with neutropenia 
+and reports of subjective fever, cough, rigors found to have 
+Influenza A.  Initially he was treated with cefepime for F&amp;N as 
+well as empiric TMP-SMX for ? PCP.  ID was consulted and 
+cefepime and TMP-SMX were stopped. Cryptococcal antigen was 
+negative.  CMV viral load was sent and is pending. Hematology 
+was consulted re: possible bone marrow biopsy due to ongoing 
+neutropenia and they believe it is likely related to his 
+advanced HIV, high VL and doubt other process, but are agreeable 
+to performing a bone marrow biopsy to fully explore the issue.  
+Of note, patient c/o LUQ pain with coughing and was found on U/S 
+of spleen to have splenomegaly, increased from previous.  
+Cryptococcal serology was negative.
+
+On ___, a bone marrow biopsy was performed and results are 
+pending at time of discharge.  Apparently, an aspirate was 
+performed, but no core biopsy was obtained as patient aborted 
+the procedure at this point after the aspirate.  Gram stain was 
+negative.  Viral stain was not possible.  
+
+There was some discussion with Infection Control here re: 
+influenza and d/c to a Homeless Shelter and when it would be 
+prudent/safe to do ___.  ___ from Infection Control 
+phoned the ___ and was advised patient could go to 
+___, and she will check with DPH re: 
+recommendation of how long he should be with contact 
+restrictions with influenza and immunosuppression (likely longer 
+than the 5 days recommended for immunocompetent patients).  He 
+will complete 5 days of Oseltamivir through ___ AM. 
+
+Patient will follow up with Dr. ___ (ID Fellow) next 
+week.
+
+Problem List:
+## Acute Influenza
+## HIV/AIDS - CD4 = 5
+## Persistent Neutropenia - likely multifactorial but largely
+secondary to high HIV VL
+## Multiple abnormal lesions within the L5 vertebral body, left 
+iliac bone, and right acetabulum - biopsy results nondiagnostic 
+x
+2 
+## Abnormal MRI of head, LP performed on last admit, results not
+yet indicative of cause
+## Significant Kaposi&#x27;s Sarcoma burden, ? disseminated  
+## Neutropenia attributed to AIDS  
+## Homelessness  
+## Hypertension  
+## CKD - stage III  
+## Splenomegaly
+
+Labs Pending at time of discharge:
+CMV viral load
+Bone marrow aspirate
+Bone marrow culture
+Blood cultures (___) - all preliminarily negative
+Mycofungal / mycolytic blood culture - 
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Atazanavir 300 mg PO DAILY 
+2. Azithromycin 1200 mg PO QTHUR 
+3. RiTONAvir 100 mg PO DAILY 
+4. Clindamycin 1 Appl TP BID 
+5. Docusate Sodium 100 mg PO BID 
+6. Fluocinonide 0.05% Cream 1 Appl TP BID 
+7. Hydrocerin 1 Appl TP BID 
+8. Senna 1 TAB PO BID:PRN constipation 
+9. Triamcinolone Acetonide 0.025% Ointment 1 Appl TP BID 
+10. Trizivir *NF* (abacavir-lamivudine-zidovudine) ___ 
+mg Oral BID 
+11. FoLIC Acid 1 mg PO DAILY 
+12. Cyanocobalamin 1000 mcg PO DAILY 
+13. Atova___ Suspension 1500 mg PO DAILY 
+
+ 
+Discharge Medications:
+1. Atovaquone Suspension 1500 mg PO DAILY 
+2. Azithromycin 1200 mg PO QTHUR 
+3. Cyanocobalamin 1000 mcg PO DAILY 
+4. Docusate Sodium 100 mg PO BID 
+5. FoLIC Acid 1 mg PO DAILY 
+6. Hydrocerin 1 Appl TP BID 
+7. Senna 1 TAB PO BID:PRN constipation 
+8. Triamcinolone Acetonide 0.025% Ointment 1 Appl TP BID 
+9. Acetaminophen 650 mg PO Q6H:PRN pain 
+10. DiphenhydrAMINE 25 mg PO Q8H:PRN puritis 
+11. Oseltamivir 75 mg PO Q12H Duration: 3 Days 
+through AM ___ 
+12. Sarna Lotion 1 Appl TP QID:PRN Pruritis 
+13. OxycoDONE (Immediate Release)  5 mg PO Q3H:PRN pain 
+14. Trizivir *NF* (abacavir-lamivudine-zidovudine) ___ 
+mg Oral BID 
+15. RiTONAvir 100 mg PO DAILY 
+16. Atazanavir 300 mg PO DAILY 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+## Acute Influenza 
+## HIV/AIDS - CD4 = 5 
+## Persistent Neutropenia - likely multifactorial but largely 
+secondary to high HIV VL 
+## Multiple abnormal lesions within the L5 vertebral body, left  
+
+iliac bone, and right acetabulum - biopsy results nondiagnostic 
+x 2  
+## Abnormal MRI of head, LP performed on last admit, results not 
+
+yet indicative of cause 
+## Significant Kaposi&#x27;s Sarcoma burden, ? disseminated  
+## Neutropenia attributed to AIDS  
+## Homelessness  
+## Hypertension  
+## CKD - stage III  
+## Splenomegaly 
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+It was a pleasure taking care of you.  You were admitted with 
+Influenza A.  Your white blood cells (especially your 
+neutrophils) remain very low and this is thought to be due your 
+chronic HIV infection. You were treated with a medication to 
+fight the flu - you need to take this for a 5 day course.  You 
+will need to be on contact precautions which is why you are 
+going to ___.
+.
+You have a low white blood cell count and should be very 
+cautious.  Wash your hands frequently and avoid ingesting fresh 
+fruit.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(12)</span></h3>
+  <ul>
+    <li>Sarcoma de Kaposi</li>
+    <li>Trombocitopenia Imune Induzida por HIV</li>
+    <li>Histoplasmose disseminada</li>
+    <li>Pneumonia por Pneumocystis jirovecii (PCP)</li>
+    <li>Hipertensão arterial sistêmica</li>
+    <li>Doença renal crônica (Estágio III)</li>
+    <li>Hepatite B (histórico de infecção)</li>
+    <li>Pericardite com tamponamento (histórico)</li>
+    <li>Neutropenia persistente</li>
+    <li>Disfunção erétil</li>
+    <li>Hiperplasia parotídea</li>
+    <li>Splenomegalia</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(15)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Tosse produtiva com escarro amarelo</li>
+    <li>Congestão sinusal</li>
+    <li>Prurido ocular</li>
+    <li>Dor pleurítica no lado esquerdo</li>
+    <li>Lesões cutâneas difusas de Sarcoma de Kaposi</li>
+    <li>Lesões bolhosas múltiplas na coxa esquerda inferior</li>
+    <li>Hiperpigmentação na coxa esquerda inferior</li>
+    <li>Olhos vermelhos</li>
+    <li>Dor nas costelas inferiores esquerdas com dor reprodutível</li>
+    <li>Edema não-pitável na coxa esquerda inferior (crônico, estável)</li>
+    <li>Dor no quadrante superior esquerdo (LUQ) ao tossir</li>
+    <li>Neutropenia</li>
+    <li>Anemia</li>
+    <li>Lesões anormais múltiplas no corpo vertebral L5, osso ilíaco esquerdo e acetábulo direito</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(20)</span></h3>
+  <ul>
+    <li>Atazanavir</li>
+    <li>Azitromicina</li>
+    <li>Ritonavir</li>
+    <li>Clindamicina</li>
+    <li>Docusato de Sódio</li>
+    <li>Fluocinonida</li>
+    <li>Hidrocortisona</li>
+    <li>Senna</li>
+    <li>Triancinolona Acetonida</li>
+    <li>Trizivir (Abacavir-Lamivudina-Zidovudina)</li>
+    <li>Ácido Fólico</li>
+    <li>Cianocobalamina</li>
+    <li>Atovaquona</li>
+    <li>Paracetamol</li>
+    <li>Difenidramina</li>
+    <li>Oseltamivir</li>
+    <li>Sarna Lotion</li>
+    <li>Oxicodona</li>
+    <li>Cefepime</li>
+    <li>Sulfametoxazol-Trimetoprima</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(44)</span></h3>
+  <ul>
+    <li>CD4-31 (histórico)</li>
+    <li>CD4-5 (atual)</li>
+    <li>WBC-1.5</li>
+    <li>Neutros-32%</li>
+    <li>Bands-0</li>
+    <li>Linfócitos-46%</li>
+    <li>Monócitos-8%</li>
+    <li>Eosinófilos-10%</li>
+    <li>Basófilos-0</li>
+    <li>Atípicos-3%</li>
+    <li>Miélocitos-0</li>
+    <li>RBC-3.56</li>
+    <li>HGB-11.2</li>
+    <li>HCT-33.6</li>
+    <li>MCV-94</li>
+    <li>MCH-31.5</li>
+    <li>MCHC-33.4</li>
+    <li>RDW-14.9</li>
+    <li>PLT COUNT-240</li>
+    <li>Glucose-91</li>
+    <li>Ureia-16</li>
+    <li>Creatinina-1.5</li>
+    <li>Sódio-138</li>
+    <li>Potássio-3.4</li>
+    <li>Cloreto-101</li>
+    <li>CO2 Total-25</li>
+    <li>Gap Aniónico-15</li>
+    <li>ALT-19</li>
+    <li>AST-31</li>
+    <li>LDH-204</li>
+    <li>Fosfatase Alcalina-80</li>
+    <li>Bilirrubina Total-1.4</li>
+    <li>Lactato-1.5</li>
+    <li>Carga viral de HIV elevada</li>
+    <li>Antígeno Cryptococcal-Negativo</li>
+    <li>Sorologia Cryptococcal-Negativo</li>
+    <li>Carga viral de CMV-Pendente</li>
+    <li>Biópsia de medula óssea-Pendente</li>
+    <li>Aspirado de medula óssea-Pendente</li>
+    <li>Cultura de medula óssea-Pendente</li>
+    <li>Culturas de sangue-Preliminarmente Negativas</li>
+    <li>Cultura Mycofungal/Micolítica de sangue-Pendente</li>
+    <li>Gram stain-Negativo</li>
+    <li>Viral stain-Não realizado</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(21)</span></h3>
+  <ul>
+    <li>Biópsia de medula óssea</li>
+    <li>Raio-X de tórax (CXR)</li>
+    <li>Ultrassom de baço</li>
+    <li>Ressonância magnética (MRI) de cabeça</li>
+    <li>Punção lombar (LP)</li>
+    <li>Aspirado de medula óssea</li>
+    <li>Cultura de sangue</li>
+    <li>Cultura de medula óssea</li>
+    <li>Cultura Mycofungal/Micolítica de sangue</li>
+    <li>Teste de Antígeno Cryptococcal</li>
+    <li>Teste de Sorologia Cryptococcal</li>
+    <li>Carga viral de CMV</li>
+    <li>Carga viral de HIV</li>
+    <li>Hemograma completo (CBC)</li>
+    <li>Perfil hepático</li>
+    <li>Gasometria/Lactato</li>
+    <li>Ureia e Creatinina</li>
+    <li>Eletrólitos</li>
+    <li>Teste de Influenza A</li>
+    <li>Gram stain</li>
+    <li>Viral stain</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(4)</span></h3>
+  <ul>
+    <li>Influenza A</li>
+    <li>HIV/AIDS</li>
+    <li>Pneumocystis jirovecii</li>
+    <li>Histoplasma capsulatum</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, portador de HIV/AIDS e Sarcoma de Kaposi, refere febre subjetiva e tosse produtiva com escarro amarelo há um dia. Relata também congestão sinusal e prurido ocular. Queixa de dor pleurítica no lado esquerdo das costelas. Nega suores noturnos, perda de peso, dor ocular, alterações visuais, dor de garganta, rinorreia, dispneia, dor torácica, náuseas, vômitos, diarreia, dor abdominal, disúria ou novas erupções cutâneas. Nega viagens recentes ou contato com doentes, porém relata moradia em abrigo para sem-teto, com exposição a muitas pessoas. Informa ter recebido vacina contra influenza e pneumococo neste ano. Paciente refere histórico de HIV com imunossupressão avançada.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura máxima 100.8°F (38.2°C), Temperatura central 98.3°F, PA 124/88 mmHg, FC 102 bpm, FR 18 irpm, SpO2 94% em ar ambiente. Dor: 5/10. 
+Geral: Paciente acamado, não aparenta doença aguda (nad). 
+Pele: Lesões difusas de Sarcoma de Kaposi, sem feridas abertas. Membro inferior esquerdo (MIE) com hiperpigmentação e múltiplas lesões bolhosas. Sítio de biópsia óssea do quadril esquerdo com sinais de eritema, calor e induração (c/d/i). 
+Linfonodos: Sem adenomegalia cervical, supraclavicular ou axilar. 
+Cabeça e Pescoço: Oropharinge limpa, sem exsudatos ou aspecto de &#x27;calçada&#x27;. Olhos vermelhos, sem edema. Sem sensibilidade à palpação dos seios da face. 
+Respiratório: Ausculta com crepitações e estertores (ctab). 
+Cardiovascular: Ritmo regular, sem sopros, atritos ou galopes. 
+Abdome: Plano, flácido, sem sensibilidade à palpação, sem defesa ou rigidez. Dor reprodutível à palpação nas costelas inferiores esquerdas. 
+Extremidades: Edema não-pitável no MIE até o joelho (crônico, estável). 
+Neurológico: Alerta, obedece comandos, responde às perguntas de forma apropriada.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo (09:00): Leucócitos (WBC) 1.5 (baixo), Neutrófilos 32%, Bastões 0%, Linfócitos 46%, Monócitos 8%, Eosinófilos 10%, Basófilos 0%, Atípicos 3%, Mielócitos 0%. Hemácias (RBC) 3.56 (baixo), Hemoglobina (HGB) 11.2 (baixo), Hematócrito (HCT) 33.6% (baixo), VCM 94, HCM 31.5, CHCM 33.4, RDW 14.9. Plaquetas (PLT) 240 (normal). 
+Bioquímica Sanguínea (09:00): Glicose 91 mg/dL, Ureia (BUN) 16 mg/dL, Creatinina 1.5 mg/dL (elevado), Sódio 138 mEq/L, Potássio 3.4 mEq/L, Cloreto 101 mEq/L, CO2 Total 25 mEq/L, Gap Aniônico 15. 
+Enzimas Hepáticas (09:00): ALT 19 U/L, AST 31 U/L, LDH 204 U/L, Fosfatase Alcalina 80 U/L, Bilirrubina Total 1.4 mg/dL. 
+Outros (09:07): Lactato 1.5 mmol/L. 
+Sorologias/Culturas: Antígeno Cryptococcus negativo. Sorologia Cryptococcus negativa. Culturas de sangue (iniciais) preliminarmente negativas. Cultura de medula óssea pendente. Carga viral de CMV pendente. 
+Observação: Paciente neutropênico na admissão.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Radiografia de Tórax: Sem processo pulmonar agudo. Sem infiltrados, edema ou derrames. 
+Ultrassonografia de Baço: Esplenomegalia, aumentada em comparação ao exame anterior. 
+Ressonância Magnética de Crânio: Anormal (detalhes específicos não descritos no texto, mas citada como achado). 
+Lesões Ósseas: Múltiplas lesões anormais no corpo vertebral L5, osso ilíaco esquerdo e acetábulo direito (biópsias anteriores não diagnósticas).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com HIV/AIDS avançado (CD4 = 5) e Sarcoma de Kaposi disseminado, admitido por febre, tosse e neutropenia. O quadro clínico evoluiu com diagnóstico confirmado de Influenza A. A neutropenia persistente é atribuída principalmente à alta carga viral do HIV e à doença avançada, embora seja multifatorial. 
+
+Durante a internação, o paciente foi inicialmente tratado empiricamente com Cefepime e TMP-SMX para neutropenia febril e suspeita de Pneumocystis jirovecii (PCP). Após confirmação de Influenza A e avaliação da Infectologia, os antibióticos foram descontinuados. O paciente recebeu Oseltamivir. 
+
+A biópsia de medula óssea foi realizada parcialmente (aspirado obtido, mas biópsia de núcleo não obtida devido à interrupção pelo paciente); os resultados estão pendentes. A esplenomegalia foi confirmada por ultrassom. As culturas de sangue foram negativas. O antígeno de Cryptococcus foi negativo. 
+
+O paciente apresenta carga viral de HIV alta, o que contribui para a imunossupressão severa e neutropenia. O Sarcoma de Kaposi é significativo. A decisão de alta para um abrigo para sem-teto foi discutida com o Controle de Infecção, sendo considerado seguro com precauções de contato devido à Influenza A e imunossupressão. O paciente completará 5 dias de tratamento para influenza.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Oseltamivir 75 mg VO a cada 12 horas por 3 dias (até ___ AM) - para tratamento de Influenza A.
+2. Trizivir (Abacavir-Lamivudina-Zidovudina) ___ mg VO 2x ao dia - terapia antirretroviral.
+3. Atazanavir 300 mg VO 1x ao dia.
+4. Ritonavir 100 mg VO 1x ao dia.
+5. Azitromicina 1200 mg VO 1x por semana (quinta-feira) - profilaxia para MAC.
+6. Atovaquona Suspensão 1500 mg VO 1x ao dia - profilaxia para PCP.
+7. Ácido Fólico 1 mg VO 1x ao dia.
+8. Cianocobalamina 1000 mcg VO 1x ao dia.
+9. Docusato Sódico 100 mg VO 2x ao dia.
+10. Senna 1 comprimido VO 2x ao dia (uso conforme necessidade para constipação).
+11. Acetaminofeno 650 mg VO a cada 6 horas (conforme necessidade para dor).
+12. Oxicodona (Liberação Imediata) 5 mg VO a cada 3 horas (conforme necessidade para dor).
+13. Diphenidramina 25 mg VO a cada 8 horas (conforme necessidade para prurido).
+14. Hidrocortisona (Hydrocerin) 1 aplicação tópica 2x ao dia.
+15. Triancinolona Acetonida 0.025% pomada 1 aplicação tópica 2x ao dia.
+16. Sarna Lotion 1 aplicação tópica 4x ao dia (conforme necessidade para prurido).
+17. Clindamicina 1 aplicação tópica 2x ao dia (prescrição anterior mantida se aplicável, verificar necessidade atual).
+
+Orientações ao Paciente:
+- Continuar precauções de contato devido à Influenza A e imunossupressão severa.
+- Lavar as mãos frequentemente.
+- Evitar ingestão de frutas frescas devido ao risco de infecção por neutropenia.
+- Completar o curso de 5 dias de Oseltamivir.
+- Monitorar sinais de infecção devido à contagem baixa de glóbulos brancos.
+
+Encaminhamentos e Seguimento:
+- Retorno com Dr. ___ (Médico Residente de Infectologia) na próxima semana.
+- Acompanhamento dos resultados pendentes: Carga viral de CMV, Biópsia de medula óssea (aspirado e cultura).
+- Monitoramento da neutropenia e evolução das lesões de Sarcoma de Kaposi.
+- Transferência para unidade de cuidados estendidos (Extended Care) conforme disposição de alta.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '23732240';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

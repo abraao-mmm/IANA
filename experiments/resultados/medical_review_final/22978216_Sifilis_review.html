@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 22978216 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 22978216</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 22978216 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 126
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___         Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___
+ 
+Chief Complaint:
+fevers
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+Mr ___ is a ___ Y/o male with hx of HIV (last CD4 333 down 
+from &gt;600), treated syphilis in ___, and who presents with 5 
+days of fever, chills and sweats. Went to the ___ over the 
+weekend, no known insect bites. no sick  contacts. He reports 
+first noting penile lesion on ___ with generalized malaise, 
+joint/muscle aches. ___ he had low grade temp of 99.0 for 
+which he took aleve. ___ myalgias and joint pains 
+resolved, saw ID who started infectious w/u. ___ evening 
+temp to 101.2 and noted spreading erythematous lesions on 
+extremity and trunk. On ___ seen at ___ with temp 102.5, 
+declined ED. CXR negative but labs notable for elevated D-dimer. 
+This morning he has a glass of milk, following which he had a 
+few episodes of non-bilious emesis followed by emesis w/ note of 
+blood streak ( 2 tablespoons of red blood ). No coffee ground 
+emesis. Had one loose non-bloody BM. In light of ongoing fever 
+and hematemesis he presented to ED as advised by ___ MD.  
+  
+In the ED, initial vs were: 08:50 0 97.0 95 120/80 20 95% . 
+Recent labs remarkable for decline in CD4 to 333 from 606. CT 
+chest w/ no PE. Vitals on Transfer:13:16 0 99.5 79 107/67 16 95% 
+RA. 
+  
+On the floor, patient reports feeling relatively well. ROS 
+essentially negative with the exception of subjective dyspnea 
+associated with fevers.   
+
+Review of sytems:  
+(+) Per HPI  
+(-) Denies headache, sinus tenderness, rhinorrhea or congestion. 
+Denies cough. Denies chest pain or tightness, palpitations. 
+Denies nausea, vomiting, diarrhea, constipation or abdominal 
+pain. No recent change in bowel or bladder habits. No dysuria. 
+Denies arthralgias or myalgias.  Ten point review of systems is 
+otherwise negative.
+ 
+Past Medical History:
+1.  Low testosterone. (on clomiphene)
+2.  Hypothyroidism. 
+3.  Obesity.  
+4.  Chronic constipation and chronic abdominal bloating. 
+5.  Sleep disorder.  He has mixed sleep-disordered breathing,
+circadian rhythm disorder. On acetazolamide and Nuvigil.
+6.  molluscum contagiosum 
+7.  Anal dysplasia.  
+8.  Allergic rhinitis and allergic cough. 
+9.  Ependymoma.  
+10.  Asymptomatic HIV infection. 
+11.  Chronic foot pain.  
+12.  Depression
+ 
+Social History:
+___
+Family History:
+-Father is deceased.  
+-Mother with coronary artery disease, hypertension, and 
+depression.  
+- uncle with prostate cancer
+- maternal aunt died of brain tumor at age ___
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM
+Vitals: 98 121/85 82 20 98ra 209.8lbs
+General:  well appearing, pleasant man in NAD 
+HEENT: MMM, slcear non-icteric, PERRLA, EOMI, OP clear
+Neck: supple, few, mobile anterior cervial LAD with mild TTP on 
+left  
+Lungs: CTABL
+CV: RRR,normal S1/s2, no mrg 
+Abdomen:  soft, NT, ND, NABS, no organomegaly 
+Ext: no edema, 2+ distal pulses  
+Skin:  ulcer on dorsum of penis w/o drainage; Few scattered 
+raised, round, erytematous lesions not involving palms/soles, 
+some with central white tip 
+Lymph: + right inguinal mildly tender LAD, no axillary LAD
+Neuro: Grossly intact, no menismus 
+
+DISCHARGE PHYSICAL EXAM
+VS:  T: 98.4  BP: 120/90 HR: ___ R: 20  O2: 99RA
+GENL: pleasant, NAD, comfortable 
+EENT: NC/AT, PERRL, EOMI, sclerae anicteric, moist mucous
+membranes, no ulcers / lesions / thrush  
+NECK:  supple, few, mobile anterior cervial LAD with mild TTP on 
+left 
+CARD: RRR, normal S1, S2, no murmurs / rubs / gallops  
+PULM: clear to auscultation bilaterally w/o wheezes / rhonchi /
+rales  
+BACK: no focal tenderness, no costovertebral angle tenderness  
+ABDM: non-distended, normoactive bowel sounds, soft, non-tender,
+no hepatosplenomegaly  
+MSK: no joint swelling or erythema  
+EXTR: warm and well perfused, no edema, 2+ DP pulses palpable
+bilaterally  
+SKIN: diffuse papular erythematous rash, some with central white 
+tip. 
+No vesicles noted.  located diffusely over the face, front of
+scalp, chest, back and legs. 
+NEURO: awake, alert and oriented x3, CN ___ intact, ___ 
+strength
+bil, reflexes 1+ bilaterally, normal sensitivity  
+PSYCH: non-anxious, normal affect 
+ 
+Pertinent Results:
+ADMISSION LABS
+___ 09:25AM BLOOD WBC-5.1 RBC-5.04 Hgb-15.6 Hct-44.5 MCV-88 
+MCH-31.1 MCHC-35.2* RDW-13.0 Plt ___
+___ 09:25AM BLOOD Neuts-68.7 ___ Monos-6.8 Eos-0 
+Baso-0.8
+___ 09:39AM BLOOD ___ PTT-25.8 ___
+___ 09:25AM BLOOD Glucose-107* UreaN-15 Creat-1.1 Na-139 
+K-4.4 Cl-105 HCO3-26 AnGap-12
+
+DISCHARGE LABS
+___ 04:54AM BLOOD WBC-4.8 RBC-4.99 Hgb-15.4 Hct-44.3 MCV-89 
+MCH-30.9 MCHC-34.8 RDW-13.5 Plt ___
+___ 04:54AM BLOOD Neuts-48* Bands-0 ___ Monos-10 
+Eos-0 Baso-0 Atyps-2* ___ Myelos-0
+___ 04:54AM BLOOD Hypochr-NORMAL Anisocy-NORMAL 
+Poiklo-NORMAL Macrocy-NORMAL Microcy-NORMAL Polychr-NORMAL
+___ 04:54AM BLOOD Plt Smr-NORMAL Plt ___
+___ 08:30AM BLOOD Parst S-NEGATIVE
+___ 04:54AM BLOOD Glucose-113* UreaN-13 Creat-1.0 Na-135 
+K-4.3 Cl-104 HCO3-25 AnGap-10
+___ 04:54AM BLOOD ALT-67* AST-68* AlkPhos-81 TotBili-0.3
+___ 04:54AM BLOOD Calcium-8.7 Phos-2.9 Mg-2.4
+
+RELEVANT LABS/MICRO
+___ 04:54AM BLOOD HBsAg-PND HBsAb-PND HBcAb-PND
+___ 04:54AM BLOOD HCV Ab-PND
+___ 04:27PM BLOOD Lactate-1.3
+___ 09:29AM BLOOD Lactate-1.0
+___ 03:10PM BLOOD BARTONELLA (ROCHALIMEA) HENSELAE 
+ANTIBODIES, IGG AND IGM-PND
+___ 08:00PM BLOOD ANAPLASMA PHAGOCYTOPHILUM (HUMAN 
+GRANULOCYTIC EHRLICHIA AGENT) IGG/IGM-PND
+___ 08:00PM BLOOD ARBOVIRUS ANTIBODY IGM AND IGG-PND
+___ 3:10 pm Blood (Toxo)
+
+   TOXOPLASMA IgG ANTIBODY (Pending): 
+
+   TOXOPLASMA IgM ANTIBODY (Pending): 
+___ 8:00 pm SEROLOGY/BLOOD
+
+                            **FINAL REPORT ___
+
+   MONOSPOT (Final ___: 
+      NEGATIVE by Latex Agglutination. 
+           (Reference Range-Negative). 
+___ SEROLOGY-PENDING
+___ CULTUREBlood Culture, 
+Routine-PENDING
+___ CULTUREBlood Culture, Routine-PENDING
+___ 11:30 am IMMUNOLOGY
+
+                            **FINAL REPORT ___
+
+   HIV-1 Viral Load/Ultrasensitive (Final ___: 
+      HIV-1 RNA is not detected. 
+___ 11:30 am SEROLOGY/BLOOD
+
+                            **FINAL REPORT ___
+
+   RAPID PLASMA REAGIN TEST (Final ___: 
+      REACTIVE. 
+      Reference Range: Non-Reactive. 
+
+   QUANTITATIVE RPR (Final ___: 
+      REACTIVE AT A TITER OF 1:2. 
+      Reference Range: Non-Reactive.
+
+___ 11:45 am THROAT FOR STREP
+
+                            **FINAL REPORT ___
+
+   R/O Beta Strep Group A (Final ___: 
+      NO BETA STREPTOCOCCUS GROUP A FOUND. 
+___ 11:30 am URINE
+
+                            **FINAL REPORT ___
+
+   Chlamydia trachomatis, Nucleic Acid Probe, with Amplification 
+(Final
+      ___: 
+      Negative for Chlamydia trachomatis by ___ System, 
+APTIMA COMBO 2
+      Assay. 
+      Validated for use on Urine Samples by the ___ 
+Microbiology
+      Laboratory. Performance characteristics on urine samples 
+were found
+      to be equivalent to those of FDA- approved TIGRIS APTIMA 
+COMBO 2
+      and/or COBAS Amplicor methods. 
+
+   NEISSERIA GONORRHOEAE (GC), NUCLEIC ACID PROBE, WITH 
+AMPLIFICATION
+      (Final ___: 
+      Negative for Neisseria gonorrhoeae by PANTHER System, 
+APTIMA COMBO 2
+      Assay. 
+      Validated for use on Urine Samples by the ___ 
+Microbiology
+      Laboratory. Performance characteristics on urine samples 
+were found
+      to be equivalent to those of FDA- approved TIGRIS APTIMA 
+COMBO 2
+      and/or COBAS Amplicor methods. 
+
+URINE
+___ 01:43PM URINE Color-Yellow Appear-Clear Sp ___
+___ 01:43PM URINE Blood-NEG Nitrite-NEG Protein-TR 
+Glucose-NEG Ketone-TR Bilirub-NEG Urobiln-NEG pH-7.5 Leuks-NEG
+___ 01:43PM URINE RBC-&lt;1 WBC-0 Bacteri-NONE Yeast-NONE 
+Epi-&lt;1
+
+IMAGING
+___ CTA CHEST
+IMPRESSION:
+1.  No evidence of acute aortic abnormality or pulmonary 
+embolus.
+2.  Hepatic steatosis.
+
+___ CXR
+IMPRESSION:  Stable right middle lobe opacity likely represents 
+epicardial fat pad and is unchanged.  No pneumonia.
+ 
+Brief Hospital Course:
+Mr. ___ is a ___ Y/o male with hx of HIV on HAART (last CD4 
+333 down from &gt;600, VL undetectable), treated syphilis in ___, 
+and who presents with 5 days of fever, chills and sweats, and 
+diffuse rash.
+
+#  suspected syphilis: Patient w/ h/o syphillis in ___ treated 
+with IM PCN therapy x 3 doses. His RPR titer from ___ was 
+reactive at 1:2. This titer has declined from original diagnosis 
+of syphilis in ___: RPR + 1:64 . (Follow up 
+serology: ___: RPR+ 1:8, ___: RPR + 1:8, ___: RPR+ 
+1:2). Patient now with penile ulcer c/w chancre and disseminated 
+nodular rash w/ reactive RPR, although titer decreased from 
+prior. Per Dr. ___ ID), will treat with IM PCN 
+2.4
+million units once a week x 3 weeks. He received his first dose 
+on ___ and will follow up with Dr. ___ the next two 
+doses. There was no indication for LP as he had no neuro 
+deficits, meningeal signs, HA, visual changes, or loss of 
+proprioception. 
+
+#  Febrile illness: CXR and CT chest w/ no PNA. U/A wnl. Urine 
+GC/chlamydia negative. Strep and monospot were negative. Patient 
+with recent travel to ___ with no know insect/ticks bites and 
+no sick contacts. No other travel. HIV viral load was 
+undetectable on ___. No meningismus or neurologic complaints. 
+Note of mild cervical and inguinal LAD on exam, but no other 
+localizing signs/symptoms. Labs were unremarkable. Prodrome can 
+be c/w Syphilis but differential also includes viral or 
+tick-borne illness. Parasite smear was sent and was negative. 
+Lyme, anaplasma, arbovirus serologies were sent and pending at 
+discharge. ID was consulted who also recommended sending toxo 
+and bartonella. Patient had T of 100.9 on admission, but 
+otherwise remained afebrile and HD stable throughout his 
+hospitalization. Given that he was clinically stable and without 
+acute complaints, he was discharged with close follow up with 
+PCP and ID. 
+
+# Hematemesis: patient had one episode s/p heaving and emesis. 
+Likely  secondary to mucosal tear in setting of emesis +/- 
+gastritits from recent NSAID use for fevers. No h/o PUD in past. 
+No recurrence and reamined HD stable. Hct was normal at 44. 
+   
+CHRONIC ISSUES
+# HIV: Recent CD4 333, VL undetectable on ___. He was 
+continued on home Atripla
+
+# hypothyroidism: continued on his home Levothyroxine and 
+Liothyronine 
+  
+TRANSITIONAL ISSUES
+-first dose of IM PCN 2.4 million given on ___, please 
+administer next two doses (Qweekly). Patient agreed to call Dr. 
+___ ID) and Dr. ___ office on ___ to 
+arrange for an appointment within a week. 
+-please follow up with pending blood cultures, lyme, anaplasma, 
+arbovirus, toxo, bartonella
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Clobetasol Propionate 0.05% Cream 1 Appl TP DAILY 
+2. Clindamycin 1 Appl TP BID 
+3. Ketoconazole Shampoo 1 Appl TP ASDIR 
+4. ClonazePAM 1 mg PO QHS Sleep Aid 
+5. AcetaZOLamide 125 mg PO Q24H 
+6. Fluticasone Propionate NASAL ___ SPRY NU BID 
+7. ClomiPRAMINE 50 mg PO 3X/WEEK (___) 
+8. Efavirenz 600 mg PO DAILY 
+9. Emtricitabine 200 mg PO Q24H 
+10. Tenofovir Disoproxil (Viread) 300 mg PO DAILY 
+11. TraMADOL (Ultram) 50 mg PO PRN Pain 
+12. albuterol sulfate 90 mcg/actuation Inhalation ___ puffs 
+every ___ hours Cough/wheezing 
+13. Levothyroxine Sodium 75 mcg PO DAILY 
+14. Liothyronine Sodium 5 mcg PO DAILY 
+
+ 
+Discharge Medications:
+1. AcetaZOLamide 125 mg PO Q24H 
+2. ClomiPRAMINE 50 mg PO 3X/WEEK (___) 
+3. ClonazePAM 1 mg PO QHS Sleep Aid 
+4. Efavirenz 600 mg PO DAILY 
+5. Emtricitabine 200 mg PO Q24H 
+6. Fluticasone Propionate NASAL ___ SPRY NU BID 
+7. Levothyroxine Sodium 75 mcg PO DAILY 
+8. Liothyronine Sodium 5 mcg PO DAILY 
+9. Tenofovir Disoproxil (Viread) 300 mg PO DAILY 
+10. TraMADOL (Ultram) 50 mg PO PRN Pain 
+11. albuterol sulfate 90 mcg/actuation INHALATION ___ PUFFS 
+EVERY ___ HOURS Cough/wheezing 
+12. Clobetasol Propionate 0.05% Cream 1 Appl TP DAILY 
+13. Clindamycin 1 Appl TP BID 
+14. Ketoconazole Shampoo 1 Appl TP ASDIR 
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+PRIMARY:
+-Suspected syphilis
+-febrile illness 
+
+SECONDARY:
+-HIV
+-hypothyroidism 
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+It was a pleasure taking care of you during your stay at ___ 
+___. You were admitted to the 
+hospital because of fevers, malaise, and a rash. Your penile 
+lesion was concerning for possible syphilis and as a result you 
+were treated with penicillin. You will need two more doses of 
+penicillin (one dose per week). Please make sure to follow up 
+with Dr. ___ to arrange for these doses. 
+
+Your rash and fevers may be secondary to a viral illness; so far 
+all your blood tests have been negative. Since you appear to be 
+feeling better, you can return home but will need close follow 
+up with Dr. ___ Dr. ___. Please make sure to call to 
+arrange appointments for next week. 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(16)</span></h3>
+  <ul>
+    <li>HIV (Vírus da Imunodeficiência Humana)</li>
+    <li>Sífilis</li>
+    <li>Hipotireoidismo</li>
+    <li>Obesidade</li>
+    <li>Distúrbio do sono (Apneia do sono mista e distúrbio do ritmo circadiano)</li>
+    <li>Molusco contagioso</li>
+    <li>Displasia anal</li>
+    <li>Rinite alérgica</li>
+    <li>Ependimoma</li>
+    <li>Depressão</li>
+    <li>Gastrite</li>
+    <li>Hepatose gordurosa (Esteatose hepática)</li>
+    <li>Doença arterial coronariana</li>
+    <li>Hipertensão arterial sistêmica</li>
+    <li>Câncer de próstata</li>
+    <li>Tumor cerebral</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(17)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Calafrios</li>
+    <li>Suores noturnos</li>
+    <li>Mal-estar geral</li>
+    <li>Mialgia</li>
+    <li>Artralgia</li>
+    <li>Lesão peniana (úlcera)</li>
+    <li>Lesões eritematosas disseminadas (exantema)</li>
+    <li>Emese (vômito)</li>
+    <li>Hematêmese</li>
+    <li>Dispnéia subjetiva</li>
+    <li>Linfadenopatia cervical anterior</li>
+    <li>Linfadenopatia inguinal</li>
+    <li>Sensibilidade à palpação cervical e inguinal</li>
+    <li>Dor crônica no pé</li>
+    <li>Bloating abdominal crônico</li>
+    <li>Constipação crônica</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(16)</span></h3>
+  <ul>
+    <li>Clobetasol Propionato 0.05% Creme</li>
+    <li>Clindamicina Tópica</li>
+    <li>Cetoconazol Shampoo</li>
+    <li>Clonazepam 1 mg</li>
+    <li>Acetazolamida 125 mg</li>
+    <li>Fluticasona Propionato Spray Nasal</li>
+    <li>Clomipramina 50 mg</li>
+    <li>Efavirenz 600 mg</li>
+    <li>Emtricitabina 200 mg</li>
+    <li>Tenofovir Disoproxil (Viread) 300 mg</li>
+    <li>Tramadol 50 mg</li>
+    <li>Salbutamol Sulfato 90 mcg/ação</li>
+    <li>Levotiroxina Sódica 75 mcg</li>
+    <li>Liotironina Sódica 5 mcg</li>
+    <li>Penicilina Benzatina (IM) 2,4 milhões de unidades</li>
+    <li>Clomifeno</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(59)</span></h3>
+  <ul>
+    <li>CD4-333 células/mm³</li>
+    <li>CD4-606 células/mm³ (histórico)</li>
+    <li>D-dimer-Elevado</li>
+    <li>WBC-5.1</li>
+    <li>Hemoglobina-15.6 g/dL</li>
+    <li>Hematócrito-44.5%</li>
+    <li>Neutrófilos-68.7%</li>
+    <li>PTT-25.8 s</li>
+    <li>Glicose-107 mg/dL</li>
+    <li>Ureia-15 mg/dL</li>
+    <li>Creatinina-1.1 mg/dL</li>
+    <li>Sódio-139 mEq/L</li>
+    <li>Potássio-4.4 mEq/L</li>
+    <li>Cloro-105 mEq/L</li>
+    <li>Bicarbonato-26 mEq/L</li>
+    <li>Gap Aniónico-12</li>
+    <li>WBC-4.8</li>
+    <li>Hemoglobina-15.4 g/dL</li>
+    <li>Hematócrito-44.3%</li>
+    <li>Neutrófilos-48%</li>
+    <li>Monócitos-10%</li>
+    <li>Atípicos-2%</li>
+    <li>ALT-67 U/L</li>
+    <li>AST-68 U/L</li>
+    <li>Fosfatase Alcalina-81 U/L</li>
+    <li>Bilirrubina Total-0.3 mg/dL</li>
+    <li>Cálcio-8.7 mg/dL</li>
+    <li>Fósforo-2.9 mg/dL</li>
+    <li>Magnésio-2.4 mg/dL</li>
+    <li>HBsAg-Pendente</li>
+    <li>HBsAb-Pendente</li>
+    <li>HBcAb-Pendente</li>
+    <li>HCV Ab-Pendente</li>
+    <li>Lactato-1.3 mmol/L</li>
+    <li>Lactato-1.0 mmol/L</li>
+    <li>Bartonella henselae (Anticorpos IgG/IgM)-Pendente</li>
+    <li>Anaplasma phagocytophilum (IgG/IgM)-Pendente</li>
+    <li>Arbovírus (IgG/IgM)-Pendente</li>
+    <li>Toxoplasma IgG-Pendente</li>
+    <li>Toxoplasma IgM-Pendente</li>
+    <li>Monospot-Negativo</li>
+    <li>HIV-1 Carga Viral-Não detectável</li>
+    <li>RPR (Plasma Reagino Rápido)-Reativo</li>
+    <li>RPR Quantitativo-Reativo (Título 1:2)</li>
+    <li>Beta Estreptococo Grupo A-Negativo</li>
+    <li>Chlamydia trachomatis-Negativo</li>
+    <li>Neisseria gonorrhoeae-Negativo</li>
+    <li>Urina: Sangue-Negativo</li>
+    <li>Urina: Nitrito-Negativo</li>
+    <li>Urina: Proteína-Traço</li>
+    <li>Urina: Glicose-Negativo</li>
+    <li>Urina: pH-7.5</li>
+    <li>Urina: Leucócitos-Negativo</li>
+    <li>Urina: RBC-&lt;1</li>
+    <li>Urina: WBC-0</li>
+    <li>Urina: Bactérias-Nenhuma</li>
+    <li>Urina: Leveduras-Nenhuma</li>
+    <li>Cultura de Sangue-Pendente</li>
+    <li>Esfregaço Parasitológico-Negativo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(18)</span></h3>
+  <ul>
+    <li>Radiografia de Tórax (CXR)</li>
+    <li>Tomografia Computadorizada de Tórax (CT Chest)</li>
+    <li>Angiotomografia Computadorizada de Tórax (CTA Chest)</li>
+    <li>Sorologia para Sífilis (RPR)</li>
+    <li>Sorologia para HIV (Carga Viral)</li>
+    <li>Sorologia para Hepatite B (HBsAg, HBsAb, HBcAb)</li>
+    <li>Sorologia para Hepatite C (HCV Ab)</li>
+    <li>Sorologia para Bartonella</li>
+    <li>Sorologia para Anaplasma</li>
+    <li>Sorologia para Arbovírus</li>
+    <li>Sorologia para Toxoplasmose (IgG e IgM)</li>
+    <li>Teste Monospot</li>
+    <li>Teste Rápido para Estreptococo Beta Grupo A</li>
+    <li>PCR para Chlamydia trachomatis (Urina)</li>
+    <li>PCR para Neisseria gonorrhoeae (Urina)</li>
+    <li>Análise de Urina (Urinálise)</li>
+    <li>Cultura de Sangue</li>
+    <li>Esfregaço Parasitológico</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente refere queixa principal de febre há 5 dias, acompanhada de calafrios e sudorese. Relata ter notado lesão peniana há alguns dias, associada a mal-estar generalizado. Menciona que, inicialmente, apresentou febre baixa de 37,2°C (99.0°F) e tomou anti-inflamatório (Aleve), com resolução temporária de mialgias e dores articulares. Relata que, na noite anterior à admissão, a febre subiu para 38,4°C (101.2°F) e notou lesões eritematosas em expansão nos membros e tronco. Refere ter sido atendido em outro serviço com febre de 39,2°C (102.5°F), mas recusou ida ao pronto-socorro na ocasião. Relata que, na manhã da admissão, após ingerir leite, teve episódios de vômitos não biliosos, seguidos de vômito com estrias de sangue (aproximadamente 2 colheres de sopa de sangue vermelho), sem vômito com aspecto de borra de café. Relata uma evacuação frouxa não sanguinolenta. Refere dispneia subjetiva associada aos episódios febris. Nega cefaleia, sensibilidade sinusal, rinorreia ou congestão nasal. Nega tosse. Nega dor ou aperto no peito, palpitações. Nega náuseas, vômitos (além do episódio descrito), diarreia, constipação ou dor abdominal. Nega alterações recentes nos hábitos intestinais ou urinários. Nega disúria. Nega artralgias ou mialgias (referindo resolução dos sintomas prévios). Nega picadas de insetos ou contato com doentes. Paciente refere histórico de HIV com imunossupressão (CD4 anterior &gt;600, atual 333) e tratamento prévio de sífilis. Nega alergias a medicamentos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na Admissão: Temperatura 36,7°C (98°F), PA 121/85 mmHg, FC 82 bpm, FR 20 irpm, SpO2 98% em ar ambiente. Peso 95,2 kg (209,8 lbs). Geral: Paciente bem aparecido, agradável, sem desconforto aparente. HEENT: Mucosas orais hidratadas, escleras não ictericas, pupilas isocóricas e fotorreagentes, motilidade ocular intacta, orofaringe limpa. Pescoço: Suplê, com alguns linfonodos cervicais anteriores móveis e levemente dolorosos à palpação à esquerda. Tórax: Ausculta pulmonar com murmúrio vesicular presente bilateralmente, sem ruídos adventícios. Cardiovascular: Rítmico, bulhas normofonéticas, sem sopros, atritos ou galopos. Abdome: Flácido, indolor à palpação, sem distensão, ruídos hidroaéreos presentes, sem hepatosplenomegalia. Extremidades: Sem edema, pulsos distais 2+ palpáveis. Pele: Úlcera no dorso do pênis sem drenagem; algumas lesões eritematosas elevadas e arredondadas espalhadas, não envolvendo palmas ou plantas, algumas com ponta branca central. Linfáticos: Linfonodos inguinais direitos aumentados e levemente dolorosos à palpação; sem linfadenopatia axilar. Neurológico: Integro grosseiramente, sem sinais de meningismo. Na alta: Temperatura 36,9°C (98,4°F), PA 120/90 mmHg, FC 79 bpm, FR 20 irpm, SpO2 99% em ar ambiente. Pele: Erupção papular eritematosa difusa, algumas com ponta branca central, localizada difusamente no rosto, couro cabeludo, tórax, costas e pernas. Sem vesículas. Neurológico: Alerta, orientado x3, pares cranianos íntegros, força 5/5 bilateralmente, reflexos 1+ bilateralmente, sensibilidade normal.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Admissão: Leucócitos 5.100/mm³, Hemoglobina 15,6 g/dL, Hematócrito 44,5%, Plaquetas (valor não especificado no texto), Neutrófilos 68,7%, Monócitos 6,8%, Eosinófilos 0%, Basófilos 0,8%. Bioquímica Admissão: Glicose 107 mg/dL, Ureia 15 mg/dL, Creatinina 1,1 mg/dL, Sódio 139 mEq/L, Potássio 4,4 mEq/L, Cloreto 105 mEq/L, Bicarbonato 26 mEq/L, Gap Aniónico 12. Coagulação Admissão: TTPa 25,8 s. Hemograma Alta: Leucócitos 4.800/mm³, Hemoglobina 15,4 g/dL, Hematócrito 44,3%, Neutrófilos 48%, Linfócitos (valor não especificado), Monócitos 10%, Eosinófilos 0%, Basófilos 0%, Atípicos 2%, Miélocitos 0%. Bioquímica Alta: Glicose 113 mg/dL, Ureia 13 mg/dL, Creatinina 1,0 mg/dL, Sódio 135 mEq/L, Potássio 4,3 mEq/L, Cloreto 104 mEq/L, Bicarbonato 25 mEq/L, Gap Aniónico 10. Enzimas Hepáticas Alta: ALT 67 U/L, AST 68 U/L, Fosfatase Alcalina 81 U/L, Bilirrubina Total 0,3 mg/dL. Eletrólitos Alta: Cálcio 8,7 mg/dL, Fósforo 2,9 mg/dL, Magnésio 2,4 mg/dL. Lactato: 1,3 mmol/L e 1,0 mmol/L. Sorologias: HBsAg (Não Detectado), HBsAb (Não Detectado), HBcAb (Não Detectado), HCV Ab (Não Detectado). HIV-1 Carga Viral: Não detectada. RPR (Rapid Plasma Reagin): Reativo. RPR Quantitativo: Reativo com título de 1:2. Monospot: Negativo. Teste para Estreptococo Beta Grupo A: Negativo. Chlamydia trachomatis (Urina): Negativo. Neisseria gonorrhoeae (Urina): Negativo. Urinálise: Cor amarela, aspecto claro, pH 7,5, Sangue negativo, Nitrito negativo, Proteína traços, Glicose negativa, Cetonas traços, Bilirrubina negativa, Urobilinogênio negativo, Leucócitos negativos. RBC &lt;1, WBC 0, Bactérias nenhuma, Leveduras nenhuma. Marcadores infecciosos pendentes: Bartonella henselae (IgG/IgM), Anaplasma phagocytophilum, Arbovírus (IgM/IgG), Toxoplasma (IgG/IgM). Culturas de sangue: Pendentes.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Angiotomografia Computadorizada (CTA) de Tórax: Impressão: 1. Sem evidência de anormalidade aguda da aorta ou embolia pulmonar. 2. Esteatose hepática. Radiografia de Tórax (CXR): Impressão: Opacidade estável no lobo médio direito, provavelmente representando almofada de gordura epicárdica e sem alterações. Sem pneumonia.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de HIV (carga viral indetectável, CD4 333 células/mm³) e sífilis tratada anteriormente, apresenta quadro febril agudo de 5 dias, calafrios, sudorese, mal-estar e erupção cutânea difusa. O exame físico revelou úlcera peniana sugestiva de cancro duro e lesões eritematosas disseminadas. A sorologia RPR foi reativa com título de 1:2, indicando possível reativação ou falha terapêutica da sífilis anterior, apesar do título ter diminuído em relação ao diagnóstico inicial (1:64). O quadro clínico de úlcera genital, rash disseminado e febre é altamente sugestivo de sífilis secundária. O paciente apresentou episódio único de hematemese, provavelmente secundário a laceração mucosa por esforço de vômito ou gastrite por uso recente de AINEs, sem recorrência e com hematócrito estável. A investigação para outras causas infecciosas (pneumonia, embolia pulmonar, mononucleose, clamídia, gonorreia, estreptococo) foi negativa. Exames para doenças transmitidas por carrapatos (Lyme, Anaplasmose) e parasitas estão pendentes. O paciente foi avaliado pela Infectologia, que descartou necessidade de punção lombar na ausência de sinais meníngeos ou déficits neurológicos. O paciente evoluiu clinicamente estável, afebril após admissão, e foi liberado para casa com plano de tratamento para sífilis.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Tratamento da Sífilis: Iniciar Penicilina G Benzatina 2,4 milhões de unidades IM, uma vez por semana por 3 semanas. O paciente recebeu a primeira dose na admissão. Orientar o paciente a agendar as duas doses subsequentes com o serviço de Infectologia (Dr. ___) dentro de uma semana. 2. HIV: Manter esquema antirretroviral em uso (Atripla: Efavirenz 600 mg, Emtricitabina 200 mg, Tenofovir 300 mg) diariamente. 3. Hipotireoidismo: Manter Levothyroxina 75 mcg e Liothyronina 5 mcg diariamente. 4. Medicamentos de suporte: Manter Acetazolamida 125 mg/dia, Clonazepam 1 mg à noite, Clomipramina 50 mg 3x/semana, TraMadol 50 mg PRN dor, Albuterol inalação PRN tosse/chiado, Clobetasol creme tópico, Clindamicina creme tópico, Shampoo de cetoconazol. 5. Seguimento: Retorno com Infectologia e Médico de Família (PCP) em 1 semana para administração das doses de penicilina e avaliação clínica. 6. Exames pendentes: Acompanhar resultados de culturas de sangue, sorologias para Lyme, Anaplasmose, Arbovírus, Toxoplasmose e Bartonella. 7. Orientações: Retornar ao pronto-socorro em caso de febre alta persistente, vômitos com sangue, dor abdominal intensa ou piora do estado geral. Manter hidratação adequada.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '22978216';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

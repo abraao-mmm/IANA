@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 29347314 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 29347314</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 29347314 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Sifilis<br>
+    <strong>Entidades extraídas:</strong> 68 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___               Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___
+ 
+Chief Complaint:
+Penicillin Desensitization
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+Pt is a ___ year old woman with PMHx significant for 2 previous 
+syphillis infections s/p treatment with Penicillin ___, 
+___ now with PCN allergy, who is now presenting for 
+penicillin desensitization for treatment of neurosyphillis.  
+
+According to the notes in ___ and the patient she was first 
+diagnosed with syphillis in the ___ at the time she was 
+pregnant with her daughter.  She said she was getting screening 
+blood work in ___.  She was a ___ at the ___ 
+and looked under the microscope herself and saw the treponemes.  
+She was given IV penicillin &quot;oil&quot; x3 doses with no adverse 
+effects.
+
+In ___, she was also found to be positive during routine 
+screening with the pregnancy of her son.  She feels that she 
+received both these infections from her husband who had never 
+been tested.  She was treated with IV penicillin at that time as 
+well without ill effect.  
+
+She remained asymptomatic without any clinical signs of 
+infection, but in ___ of this year, she was developing 
+visual symptoms.  Repeat RPR was negative, but FTA-ab was 
+positive.  MRI of the brain was not revealing for any mass 
+impinging on the chasm.  She was seen by ID in ___ who 
+recommended LP and treatment for neurosyphillis.  VDRL was 
+non-reactive in the CSF, but ID wanted to treat regardless and 
+so the patient was admitted for penicillin desensitization with 
+plan for 14 day course of IV penicillin.  
+
+On arrival to the MICU, the patient was well appearing and 
+without complaints.  
+
+ 
+Past Medical History:
+HYPERTENSION - ESSENTIAL, UNSPEC 
+HYPERCHOLESTEROLEMIA 
+Colonic polyp 
+OSTEOPOROSIS - OTHER CAUSE 
+DM (diabetes mellitus) type II controlled with renal 
+manifestation 
+Optic neuropathy
+
+Past Surgical History:
+S/p tubal ligation
+
+ 
+Social History:
+___
+Family History:
+Family History:
+Heart disease- sister, brother
+
+ 
+Physical ___:
+ADMISSION PHYSICAL EXAM:  
+Vitals: T: BP: P: R: 18 O2:  
+General: Alert, oriented, no acute distress  
+HEENT: Sclera anicteric, MMM, oropharynx clear, EOMI, PERRL  
+Neck: supple, JVP not elevated, no LAD  
+CV: Regular rate and rhythm, normal S1 + S2, no murmurs, rubs, 
+gallops  
+Lungs: Clear to auscultation bilaterally, no wheezes, rales, 
+ronchi  
+Abdomen: soft, non-tender, non-distended, bowel sounds present, 
+no organomegaly  
+GU: no foley  
+Ext: warm, well perfused, 2+ pulses, no clubbing, cyanosis or 
+edema  
+Neuro: CNII-XII intact, ___ strength upper/lower extremities, 
+grossly normal sensation, 2+ reflexes bilaterally, gait 
+deferred, finger-to-nose intact 
+
+ 
+Pertinent Results:
+ADMISSION LABS:
+___ 05:23PM BLOOD WBC-6.0 RBC-3.83* Hgb-12.5 Hct-36.2 
+MCV-95 MCH-32.6* MCHC-34.5 RDW-13.6 Plt ___
+___ 05:23PM BLOOD Neuts-49.4* ___ Monos-7.8 
+Eos-4.7* Baso-0.7
+___ 05:23PM BLOOD ___ PTT-32.6 ___
+___ 05:23PM BLOOD Glucose-181* UreaN-22* Creat-0.8 Na-140 
+K-3.4 Cl-104 HCO3-27 AnGap-12
+___ 05:23PM BLOOD Calcium-9.8 Phos-2.9 Mg-2.1
+
+DISCHARGE LABS:
+___ 05:40AM BLOOD WBC-5.7 RBC-3.84* Hgb-12.3 Hct-36.1 
+MCV-94 MCH-32.1* MCHC-34.1 RDW-13.3 Plt ___
+___ 05:40AM BLOOD Glucose-103* UreaN-18 Creat-0.9 Na-141 
+K-3.2* Cl-102 HCO3-26 AnGap-16
+___ 05:40AM BLOOD Calcium-9.7 Phos-3.0 Mg-2.___ y/o F with PMHx of DM, HTN, osteoporosis now with concern for 
+tertiary syphilis here for penicillin desensitization prior to 
+starting IV Penicillin therapy
+
+ACTIVE ISSUES:
+#)Penicillin Desensitization protocol: Patient was started on 
+protocol with 0.5 units and increased by a factor of 10 every 
+half hour. She was written for Benadryl, Methylprednisone, and 
+Epinephrine in case of an allergic reaction but did not require 
+any. After sensitization, she immediately began to receive 
+4,000,000 unit tx dose q4hrs. 
+
+#) Presumed Tertiary Syphilis: Penicillin G 4 million units q 4 
+hours x 14 days started after protocol was completed
+
+CHRONIC ISSUES:
+#) HTN: Patient continued on HCTZ 25 mg daily, Verapamil SR 240 
+mg daily
+
+#) CAD: Patient continued on Aspirin for primary prevention
+
+#) DM: Metformin 500 mg once daily- held while admitted. Patient 
+receieved ISS. 
+
+#) HL: Continued Pravastatin 40 mg daily
+
+TRANSITIONAL ISSUES:
+- Will need to continue Penicillin tx for 14 days
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. MetFORMIN (Glucophage) 500 mg PO DAILY 
+2. Hydrochlorothiazide 25 mg PO DAILY 
+3. Verapamil SR 240 mg PO Q24H 
+4. Omeprazole 20 mg PO PRN heart burn 
+5. Pravastatin 40 mg PO DAILY 
+
+ 
+Discharge Medications:
+1. Hydrochlorothiazide 25 mg PO DAILY 
+2. Omeprazole 20 mg PO PRN heart burn 
+3. Pravastatin 40 mg PO DAILY 
+4. Verapamil SR 240 mg PO Q24H 
+5. MetFORMIN (Glucophage) 500 mg PO DAILY 
+6. Penicillin G Potassium 4 Million Units IV Q4H 
+
+ 
+Discharge Disposition:
+Home With Service
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary Diagnosis:
+Anaphylaxis to penicillin
+.
+Secondary Diagnosis:
+Neurosyphillis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+It was a pleasure taking care of you while you were admitted to 
+___.  You were admitted to the 
+hospital for penicillin desensitization for treatment of your 
+presumed neurosyphillis.  You tolerated the desensitization well 
+and were started on penicillin 4gm IV every 4 hours for 14 days. 
+ You will be given the medication by an infusion company.  You 
+should follow up with your primary care doctor and infectious 
+disease doctor for further management of your neurosyphilis.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(10)</span></h3>
+  <ul>
+    <li>Sífilis terciária</li>
+    <li>Neurosífilis</li>
+    <li>Anafilaxia à penicilina</li>
+    <li>Hipertensão essencial</li>
+    <li>Hipercolesterolemia</li>
+    <li>Diabetes mellitus tipo II com manifestação renal</li>
+    <li>Osteoporose</li>
+    <li>Neuropatia óptica</li>
+    <li>Doença arterial coronariana</li>
+    <li>Pólipo colônico</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(1)</span></h3>
+  <ul>
+    <li>Sintomas visuais</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Penicilina G</li>
+    <li>Metformina</li>
+    <li>Hidroclorotiazida</li>
+    <li>Verapamil</li>
+    <li>Omeprazol</li>
+    <li>Pravastatina</li>
+    <li>Difenidramina</li>
+    <li>Metilprednisolona</li>
+    <li>Epinefrina</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(45)</span></h3>
+  <ul>
+    <li>RPR-Negativo</li>
+    <li>FTA-ab-Positivo</li>
+    <li>VDRL do líquor-Não reativo</li>
+    <li>WBC-6.0</li>
+    <li>RBC-3.83</li>
+    <li>Hgb-12.5</li>
+    <li>Hct-36.2</li>
+    <li>MCV-95</li>
+    <li>MCH-32.6</li>
+    <li>MCHC-34.5</li>
+    <li>RDW-13.6</li>
+    <li>Neuts-49.4</li>
+    <li>Monos-7.8</li>
+    <li>Eos-4.7</li>
+    <li>Baso-0.7</li>
+    <li>PTT-32.6</li>
+    <li>Glucose-181</li>
+    <li>UreaN-22</li>
+    <li>Creat-0.8</li>
+    <li>Na-140</li>
+    <li>K-3.4</li>
+    <li>Cl-104</li>
+    <li>HCO3-27</li>
+    <li>AnGap-12</li>
+    <li>Calcium-9.8</li>
+    <li>Phos-2.9</li>
+    <li>Mg-2.1</li>
+    <li>WBC-5.7</li>
+    <li>RBC-3.84</li>
+    <li>Hgb-12.3</li>
+    <li>Hct-36.1</li>
+    <li>MCV-94</li>
+    <li>MCH-32.1</li>
+    <li>MCHC-34.1</li>
+    <li>RDW-13.3</li>
+    <li>Glucose-103</li>
+    <li>UreaN-18</li>
+    <li>Creat-0.9</li>
+    <li>Na-141</li>
+    <li>K-3.2</li>
+    <li>Cl-102</li>
+    <li>HCO3-26</li>
+    <li>AnGap-16</li>
+    <li>Calcium-9.7</li>
+    <li>Phos-3.0</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(3)</span></h3>
+  <ul>
+    <li>Ressonância magnética de crânio</li>
+    <li>Punção lombar</li>
+    <li>Exame microscópico direto</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino, com queixa principal de necessidade de dessensibilização à penicilina. Relata histórico de duas infecções anteriores por sífilis, tratadas com penicilina intravenosa sem reações adversas. Refere que a primeira infecção ocorreu durante a gravidez da filha, diagnosticada por exame direto de microscopia visualizando treponemas, e a segunda durante a gravidez do filho. Atribui as infecções ao marido, que nunca foi testado. Relata que, neste ano, desenvolveu sintomas visuais. Paciente nega febre, calafrios, cefaleia intensa, náuseas, vômitos ou alterações de consciência no momento da admissão. Refere histórico médico pregresso de hipertensão arterial, hipercolesterolemia, pólipos colônicos, osteoporose, diabetes mellitus tipo II com manifestações renais e neuropatia óptica. Nega outras alergias medicamentosas além de penicilinas. Relata que foi orientada pela equipe de Infectologia a realizar punção lombar e tratamento para neurosífilis, apesar de VDRL não reativo no líquor.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura: não informada; Pressão Arterial: não informada; Frequência Cardíaca: não informada; Frequência Respiratória: 18 irpm; Saturação de Oxigênio (SpO2): não informada. Geral: Paciente alerta, orientada, sem sinais de desconforto agudo. Cabeça, Pescoço, Olhos, Ouvidos, Nariz e Garganta (HEENT): Escleras anictéricas, mucosas úmidas e coradas, orofaringe limpa, movimentos oculares intactos, pupilas isocóricas e fotorreagentes. Pescoço: Rígido, jugular não distendida, sem linfadenopatia. Cardiovascular: Ritmo regular, bulhas cardíacas normofonéticas, sem sopros, atritos ou galopos. Pulmões: Murmúrio vesicular presente bilateralmente, sem sibilos, estertores ou roncos. Abdome: Flácido, indolor à palpação, sem distensão, ruídos hidroaéreos presentes, sem hepatomegalia ou esplenomegalia. Genitourinário: Sem cateter vesical. Extremidades: Quentes, bem perfundidas, pulsos 2+ simétricos, sem clubbing, cianose ou edema. Neurológico: Nervos cranianos II a XII íntegros, força 5/5 em membros superiores e inferiores, sensibilidade grosseiramente normal, reflexos 2+ bilateralmente, marcha não avaliada, teste dedo-nariz intacto.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão (05:23 PM):
+- Hemograma: Leucócitos 6.0; Hemácias 3.83; Hemoglobina 12.5; Hematócrito 36.2; VCM 95; HCM 32.6; CHCM 34.5; RDW 13.6; Plaquetas (valor não informado no texto); Neutrófilos 49.4; Monócitos 7.8; Eosinófilos 4.7; Basófilos 0.7.
+- Coagulação: PTT 32.6.
+- Bioquímica: Glicose 181; Ureia 22; Creatinina 0.8; Sódio 140; Potássio 3.4; Cloro 104; Bicarbonato 27; Gap Aniónico 12.
+- Eletrólitos: Cálcio 9.8; Fósforo 2.9; Magnésio 2.1.
+
+Alta (05:40 AM):
+- Hemograma: Leucócitos 5.7; Hemácias 3.84; Hemoglobina 12.3; Hematócrito 36.1; VCM 94; HCM 32.1; CHCM 34.1; RDW 13.3; Plaquetas (valor não informado no texto).
+- Bioquímica: Glicose 103; Ureia 18; Creatinina 0.9; Sódio 141; Potássio 3.2; Cloro 102; Bicarbonato 26; Gap Aniónico 16.
+- Eletrólitos: Cálcio 9.7; Fósforo 3.0; Magnésio 2.0 (valor incompleto no texto original, inferido como 2.0 ou mantido como 2.).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Ressonância Magnética (RM) de crânio: Não revelou massa comprimindo o quiasma óptico.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina com histórico de sífilis tratada anteriormente, apresentando sintomas visuais sugestivos de comprometimento neurológico. Raciocínio clínico aponta para neurosífilis (sífilis terciária), corroborado por FTA-ABS positivo e sintomas neurológicos, apesar de VDRL no líquor não reativo e RPR sérico negativo. A equipe de Infectologia recomendou tratamento com penicilina intravenosa. O principal obstáculo foi a alergia documentada à penicilina (anafilaxia). A paciente foi submetida com sucesso ao protocolo de dessensibilização à penicilina, sem reações adversas durante o procedimento. Iniciou-se terapia com Penicilina G 4 milhões de unidades a cada 4 horas. Evolução durante a internação foi favorável, com tolerância ao protocolo de dessensibilização e início da antibioticoterapia. Diagnósticos principais: Neurosífilis e Anafilaxia à penicilina (condição que exigiu dessensibilização). Diagnósticos diferenciais considerados incluíam outras causas de neuropatia óptica e lesões compressivas, descartadas pela RM. Equipes consultadas: Infectologia.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Medicamentos na alta:
+   - Penicilina G Potássio 4.000.000 UI via intravenosa a cada 4 horas (para completar 14 dias de tratamento, administrado por empresa de infusão domiciliar).
+   - Hidroclorotiazida 25 mg via oral diariamente.
+   - Omeprazol 20 mg via oral conforme necessidade para azia.
+   - Pravastatina 40 mg via oral diariamente.
+   - Verapamil SR 240 mg via oral a cada 24 horas.
+   - Metformina 500 mg via oral diariamente (reiniciada após alta).
+
+2. Orientações ao paciente:
+   - Continuar o tratamento com Penicilina IV por 14 dias conforme prescrito.
+   - Monitorar sinais de reação alérgica tardia, embora o risco seja baixo após dessensibilização.
+   - Controle de comorbidades: Hipertensão, Diabetes Mellitus e Hiperlipidemia.
+
+3. Encaminhamentos e Seguimento:
+   - Retorno com médico de família (clínico geral) para acompanhamento geral.
+   - Retorno com especialista em Doenças Infecciosas para manejo contínuo da neurosífilis e monitoramento da resposta terapêutica.
+   - Acompanhamento da neuropatia óptica conforme necessário.
+
+4. Exames de seguimento:
+   - Monitoramento sorológico (RPR/VDRL) conforme orientação da Infectologia para avaliação de resposta ao tratamento.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

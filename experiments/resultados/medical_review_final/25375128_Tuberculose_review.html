@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 25375128 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 25375128</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 25375128 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 53
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Cough, weight loss
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+Patient is a ___ y/o male from ___, in the ___ for the past 
+___ years.  He has no medical problems, but started to feel ill 
+during late ___ with cough, fatigue, weight loss, and 
+all of these symptoms were progressive.  Had night sweats, near 
+post tussive emesis, dyspnea at the end of coughing spells and 
+some shortness of breath when going up stairs.  He had two 
+hospitalizations for these symptoms last fall at ___ 
+___.  He was diagnosed with pneumonia during the first 
+hospitalization and given antibiotics, and he had some 
+improvement in his symptoms and was discharged after 3 days.   
+Within a week, all of these symptoms have returned, so he went 
+to ___ again, and was told he had a &quot;worse pneumonia&quot; and on 
+the second stay in ___, he remained hospitalized for about 
+a week.  After this second discharge, he states the he was 
+better, without fevers, chills, sweats, but still had ongoing 
+weight loss, cough, DOE, so he saw a primary care doctor at 
+___ after he obtained ___ who 
+ordered a CXR and CT scan at ___, and CT scan shows right 
+upper lobe cavitary pneumonia concerning for TB so he was 
+referred for admission.  
+He has had a nearly 85 lb weight loss, unclear over what period 
+of time.  He does not know of any TB contacts or exposures, here 
+or in ___.  Denies drug use or incarceration
+ 
+Past Medical History:
+None
+ 
+Social History:
+___
+Family History:
+No history of TB
+ 
+Physical Exam:
+___ 0802 Temp: 98.3 PO BP: 122/60 HR: 97 RR: 18 O2 sat: 95%
+O2 delivery: RA 
+ 
+GENERAL: Alert, NAD
+EYES: Anicteric, PERRL
+ENT: Ears, nose without visible redness, masses, or trauma.  
+MMM.
+No thrush. 
+Neck: Supple
+CV: heart RRR, pulses distally intact.  No ___ edema. 
+RESP: Crackles right sided. Left clear to auscultation 
+GI: Abdomen soft, scaphoid abd, nd, nt, bs+
+MSK: MAEW, strength intact and appropriate for age.
+SKIN: No rashes in examined area
+NEURO: Alert, oriented, conversant, obeys commands
+PSYCH: pleasant, appropriate affect
+ 
+Pertinent Results:
+CT scan
+Complex a cavitary lesion in the posterior segment the right 
+upper lobe and another cavitary lesion within the space segment 
+the right lower lobe along with multifocal ___ 
+nodularity is concerning for a reactivation tuberculosis with 
+transbronchial spread of infection.  The differential diagnosis 
+would also include a multifocal necrotizing pneumonia. 
+Fatty liver. 
+Small mediastinal lymph nodes could be reactive. 
+Small right pleural effusion 
+
+___ Quant Gold negative
+
+A1c 7.6
+
+Sputum: 
+Acid Fast Sputums: ___ x 2, ___ x 2  --&gt; 5 , none 
+negative
+Legionella Ag: Negative 
+
+Flu PCR: Neggative 
+
+Discharge Labs:
+- WBC: 13.6
+- Hgb: 13.6
+- Plts: 334
+
+ 
+Brief Hospital Course:
+# Pulmonary TB with RUL cavitary lesion: AFB + and NAAT positive
+for rifampin sensitive MTB. 5 AFB smears are positive for AFB. 
+Curiously his TSpot was negative, but grossly positive AFB 
+Sputusm . ID recommended starting RIPE and Treatment started 
+___ with Teaching. Patients is to continue on the following 
+meds daily. 
+- rifampin 600mg daily
+- INH 300mg daily
+- pyrazinamide 1500mg daily
+- ethambutol 1200mg daily
+- vitamin B6 50mg daily
+He also will need an Opthamology assessment once outpatient. 
+
+# Moderate Malnutrition - Most likely due to chronic TB. Patient
+with Mild depletion of body fat AND muscle mass. We encouraged 
+PO intake and supplemented diet while inpatient with Glucerna 
+Frappe TID.
+
+# Type II Diabetes - Hgb A1c 7.5%. Patient at this time not
+requiring sliding scale. ___ also be due to inflammatory state 
+of
+Chronic TB.  Will NOT start statin at this time, will await to 
+see if
+patient has liver toxicity from TB treatment
+
+# Screening - Hep A Immunized, Hep C Negative, Hep B Negative -
+Non immunized
+- Awaiting Histo, Blasto, Coccidio Abs at time of discharge 
+
+# Anemia - Anemia of Inflammation with slight iron deficiency. 
+Patient should increase his PO intake of protein to not only 
+increase his malnutrition status, but also his iron deficiency. 
+
+ 
+Medications on Admission:
+- None
+ 
+Discharge Medications:
+1.  Acetaminophen 500 mg PO Q6H:PRN Pain - Mild/Fever 
+RX *acetaminophen [Acetaminophen Extra Strength] 500 mg ___ 
+tablet(s) by mouth TID PRN Fever Disp #*30 Tablet Refills:*0 
+2.  Benzonatate 100 mg PO TID:PRN Cough 
+RX *benzonatate [Tessalon Perles] 100 mg 1 capsule(s) by mouth 
+three times a day Disp #*30 Capsule Refills:*0 
+3.  Ethambutol HCl 1200 mg PO DAILY 
+RX *ethambutol 400 mg 3 tablet(s) by mouth daily Disp #*30 
+Tablet Refills:*8 
+4.  Isoniazid ___ mg PO DAILY 
+RX *isoniazid ___ mg 1 tablet(s) by mouth Daily Disp #*30 Tablet 
+Refills:*8 
+5.  Multivitamins W/minerals 1 TAB PO DAILY 
+RX *multivitamin,tx-minerals [Multi-Vitamin HP/Minerals]  1 
+capsule(s) by mouth daily Disp #*30 Capsule Refills:*9 
+6.  Pyrazinamide 1500 mg PO DAILY 
+RX *pyrazinamide 500 mg 3 tablet(s) by mouth daily Disp #*30 
+Tablet Refills:*8 
+7.  Pyridoxine 50 mg PO DAILY 
+RX *pyridoxine (vitamin B6) 50 mg 1 tablet(s) by mouth daily 
+Disp #*30 Tablet Refills:*8 
+8.  Rifampin 600 mg PO Q24H 
+RX *rifampin 300 mg 2 capsule(s) by mouth daily Disp #*30 
+Capsule Refills:*8 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Pulmonary Mycobacterium Tuberculosis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+You were admitted to ___ with the diagnosis of TB. Your 
+cough you have had an organism in it known as Mycobacterium 
+Tuberculosis. This is a VERY contagious bacteria and is spread 
+through the air. It is important that you get very good coverage 
+for your TB and so you will be going to ___ to be observed 
+for your therapy. 
+With this therapy you may still have fevers. You will still have 
+a cough. but you should be feeling better very soon! 
+
+Thanks for allowing us to take care of you,
+___ - ___
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(10)</span></h3>
+  <ul>
+    <li>Tuberculose pulmonar</li>
+    <li>Desnutrição moderada</li>
+    <li>Diabetes Mellitus tipo 2</li>
+    <li>Anemia de inflamação</li>
+    <li>Deficiência de ferro</li>
+    <li>Pneumonia cavitária</li>
+    <li>Pneumonia necrotizante multifocal</li>
+    <li>Hepatite B não imunizada</li>
+    <li>Hepatite C negativa</li>
+    <li>Hepatite A imunizada</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Tosse</li>
+    <li>Perda de peso</li>
+    <li>Fadiga</li>
+    <li>Suores noturnos</li>
+    <li>Emese pós-tussiva</li>
+    <li>Dispneia</li>
+    <li>Estertores no lado direito</li>
+    <li>Abdome escavado</li>
+    <li>Nódulos multifocais</li>
+    <li>Derrame pleural direito</li>
+    <li>Linfonodos mediastinais pequenos</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Rifampina 600 mg</li>
+    <li>Isoniazida 300 mg</li>
+    <li>Pirazinamida 1500 mg</li>
+    <li>Etambutol 1200 mg</li>
+    <li>Piridoxina 50 mg</li>
+    <li>Glucerna Frappe</li>
+    <li>Acetaminofeno 500 mg</li>
+    <li>Benzonatato 100 mg</li>
+    <li>Multivitamínicos com minerais</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(11)</span></h3>
+  <ul>
+    <li>Quantiferon Gold-Negativo</li>
+    <li>Hemoglobina A1c-7.6%</li>
+    <li>Bacilos Ácido-Fast (AFB) - 5 positivos</li>
+    <li>NAAT para Mycobacterium tuberculosis-Positivo</li>
+    <li>Legionella Ag-Negativo</li>
+    <li>Flu PCR-Negativo</li>
+    <li>WBC-13.6</li>
+    <li>Hemoglobina-13.6</li>
+    <li>Plaquetas-334</li>
+    <li>Hemoglobina A1c-7.5%</li>
+    <li>TSpot-Negativo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(11)</span></h3>
+  <ul>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Tomografia computadorizada (CT scan)</li>
+    <li>Esputo para Bacilos Ácido-Fast (AFB)</li>
+    <li>Teste TSpot</li>
+    <li>Teste para Legionella</li>
+    <li>Teste para Influenza (PCR)</li>
+    <li>Sorologia para Hepatite A</li>
+    <li>Sorologia para Hepatite B</li>
+    <li>Sorologia para Hepatite C</li>
+    <li>Sorologia para Blastomicose</li>
+    <li>Sorologia para Coccidioidomicose</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Mycobacterium tuberculosis</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, relatando queixa principal de tosse e perda de peso. História da Doença Atual: Paciente refere início de sintomas no final do ano passado, com tosse, fadiga, perda de peso progressiva, sudorese noturna, emese próxima à tosse, dispneia ao final dos acessos de tosse e falta de ar ao subir escadas. Relata duas internações hospitalares no outono passado para tratamento de pneumonia; na primeira, recebeu antibióticos com melhora transitória, mas os sintomas retornaram em uma semana. Na segunda internação, permaneceu por cerca de uma semana com diagnóstico de pneumonia mais grave. Após a alta da segunda internação, relata ausência de febre, calafrios ou suores, mas persistência de perda de peso, tosse e dispneia de esforço. Paciente refere ter realizado tomografia computadorizada (TC) que mostrou pneumonia cavitária no lobo superior direito, suspeita de tuberculose, sendo então encaminhado para internação. Relata perda de peso de aproximadamente 38 kg (85 libras), sem saber o período exato. Nega contato ou exposição conhecida a tuberculose, nega uso de drogas ou histórico de encarceramento. Revisão de Sistemas: Nega febre, calafrios ou suores atuais. Nega dor torácica. Nega hemoptise. Nega diarreia ou vômitos. Nega alterações visuais. Nega dor abdominal. Nega dor nas articulações. Histórico Médico Pregresso: Nega doenças médicas prévias. Nega cirurgias ou procedimentos invasivos. Nega alergias a medicamentos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura: 98,3°F (oral); PA: 122/60 mmHg; FC: 97 bpm; FR: 18 irpm; SpO2: 95% em ar ambiente. Geral: Alerta, sem queixas aparentes. Olhos: Ictericia ausente, pupilas isocóricas e reagentes à luz. ORL: Ouvidos e nariz sem vermelhidão visível, massas ou trauma. Mucosas orais hidratadas, sem candidíase (sapinho). Pescoço: Suplê. Cardiovascular: Rítmico, sem sopros, pulsos distais intactos, sem edema em membros inferiores. Respiratório: Estertores (crepitações) à direita; pulmão esquerdo claro à ausculta. Abdominal: Flácido, escavado, sem dor à palpação, sem náuseas ou vômitos, ruídos hidroaéreos presentes. Músculo-esquelético: Amplitude de movimento preservada, força intacta e adequada para a idade. Pele: Sem erupções cutâneas na área examinada. Neurológico: Alerta, orientado, conversante, obedece comandos. Psicológico: Agradável, afeto apropriado.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma: Leucócitos (WBC): 13.600/mm³; Hemoglobina (Hgb): 13,6 g/dL; Plaquetas (Plts): 334.000/mm³. Bioquímica: Hemoglobina Glicada (A1c): 7,6%. Sorologias e Testes Microbiológicos: T-SPOT (Quant Gold): Negativo. Legionella (Antígeno): Negativo. PCR para Influenza: Negativo. Baciloscopia de Escarro (AFB): 5 amostras realizadas, todas positivas para Bacilos Ácido-Fast (BAF). NAAT (Teste Molecular): Positivo para Mycobacterium tuberculosis sensível à rifampicina. Hepatites: Hepatite A (Imunizado); Hepatite C (Negativo); Hepatite B (Negativo). Outros: Em espera para resultados de Histoplasma, Blastomyces e Coccidioides.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada (TC) de Tórax: Lesão cavitária complexa no segmento posterior do lobo superior direito e outra lesão cavitária no segmento do lobo inferior direito, associadas a nodularidade multifocal, sugestiva de tuberculose reativa com disseminação transbrônquica. Diferencial inclui pneumonia necrosante multifocal. Esteatose hepática (fígado gorduroso). Linfonodos mediastinais pequenos, possivelmente reativos. Pequeno derrame pleural à direita.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com quadro clínico de tosse crônica, perda de peso significativa (aprox. 38 kg) e sudorese noturna, evoluindo com duas internações prévias por pneumonia. O diagnóstico de Tuberculose Pulmonar foi confirmado por baciloscopia de escarro positiva (5 amostras) e NAAT positivo para Mycobacterium tuberculosis sensível à rifampicina, apesar do teste T-SPOT negativo (falso negativo possível em imunossupressão ou doença disseminada). A TC de tórax é altamente sugestiva de TB reativa com cavitações e disseminação. Diagnóstico principal: Tuberculose Pulmonar ativa. Diagnósticos associados: Desnutrição moderada (provavelmente secundária à TB crônica, com depleção de gordura e massa muscular); Diabetes Mellitus Tipo 2 (A1c 7,6%, possivelmente exacerbada pelo estado inflamatório da TB); Anemia de inflamação com leve deficiência de ferro. Paciente iniciou tratamento com esquema RIPE (Rifampicina, Isoniazida, Pirazinamida, Etambutol) e Vitamina B6. Equipe de Doenças Infecciosas consultada e orientou início imediato da terapia. Não há indicação de estatinas no momento devido ao risco de toxicidade hepática pelo tratamento da TB. Paciente será encaminhado para unidade de cuidados estendidos para monitoramento da terapia.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na alta (posologia diária): 1. Rifampicina 600 mg (2 cápsulas de 300 mg) por via oral, uma vez ao dia. 2. Isoniazida 300 mg (1 comprimido) por via oral, uma vez ao dia. 3. Pirazinamida 1500 mg (3 comprimidos de 500 mg) por via oral, uma vez ao dia. 4. Etambutol 1200 mg (3 comprimidos de 400 mg) por via oral, uma vez ao dia. 5. Piridoxina (Vitamina B6) 50 mg (1 comprimido) por via oral, uma vez ao dia. 6. Multivitamínico com minerais (1 cápsula) por via oral, uma vez ao dia. 7. Acetaminofeno 500 mg por via oral, a cada 6 horas, conforme necessário para dor leve ou febre. 8. Benzonatato 100 mg por via oral, 3 vezes ao dia, conforme necessário para tosse. Orientações ao paciente: A tuberculose é altamente contagiosa e transmitida pelo ar. É crucial aderir rigorosamente ao tratamento para evitar resistência bacteriana. Pode persistir febre e tosse inicialmente, mas a melhora clínica deve ocorrer em breve. Encaminhamentos: Avaliação oftalmológica ambulatorial (devido ao uso de Etambutol). Seguimento com especialista em doenças infecciosas e pneumologia. Exames de seguimento: Monitoramento de função hepática e renal. Retorno programado conforme orientação da unidade de cuidados estendidos. Dieta: Aumentar ingestão oral de proteínas para melhorar estado nutricional e deficiência de ferro. Uso de suplemento nutricional (Glucerna) conforme prescrito anteriormente.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '25375128';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

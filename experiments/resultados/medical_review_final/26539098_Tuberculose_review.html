@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 26539098 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 26539098</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 26539098 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 170
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: NEUROLOGY
+ 
+Allergies: 
+Patient recorded as having No Known Allergies to Drugs
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Jumping eyes and not making sense
+ 
+Major Surgical or Invasive Procedure:
+Brain ___
+ 
+History of Present Illness:
+___ yo, female, with no pmh, p/w headache and jumping eyes. 
+10 days prior to admission the patient developed a throbbing
+headache noted in the bifrontal area.  A fever was noted at that
+time to be as high as 103.  The headache at that time began to
+get progressively worse in intensity.  The patient was 
+reportedly
+seen at an OSH where a CT scan was negative.  The fever and
+headache continued.  2 days prior to admission the patients
+family members noted that she was very weak and unstaedy on her
+feet, requiring assistance with daily tasks.  At that point the
+patient was no longer sleeping due to the intensity of the pain.
+On the day of admission the patient was barely walking and at
+that point the family noted that her eyes started jumping and 
+she
+couldn&#x27;t look to her right.  At that point the patient came in 
+to
+the ED.
+  The family notes ___ had problems swallowing
+and had sores in her mouth for over a month before the fever
+began.  They also note that while the patient did have headaches
+off and on over the last few months they were never as intense. 
+___ has no recent travel although she was living in ___
+until ___.  Her cousin notes that she had always been well as
+child.  They also note that she works as a ___ and takes care
+of many sick people including a child with a chronic illness. 
+They are unaware of any particular illness that she may have 
+been
+in contact with.
+  Upon arrival the patient was noted to have altered mental
+status with leftward eye deviation with nystagmus. A CT showed
+edema. The CSF showed highly elevated protein and WBC. An MRI 
+was
+done showing FLAIR signal
+hyperintensity and patchy enhancement involving the right 
+thalamus, mid brain, splenium of the corpus callosum,
+inferomedial temporal lobe and right cerebellum with associated
+leptomeningeal enhancement in the right cerebellum.  Broad
+spectrum antibiotics were begun at that time and the patient was
+sent to the ICU. In the ICU CT scans showed improvement of the
+edema.  Patient was transferred to step down.
+
+ 
+Past Medical History:
+none
+
+ 
+Social History:
+___
+Family History:
+Father died in an accident; mother is ___ siblings are
+healthy
+
+ 
+Physical Exam:
+Gen: patient lying in bed, opens eyes to verbal and tactile 
+stimulation.  
+HEENT:MMM, no adenopathy,positive Brudzinski, 
+CV: NL S1/S2, RRR
+Lungs: CTA b/l
+Neuro:Mental Status: patient is lethargic and drowsy, arrousable
+to stimulation, patient will follow commands, opens eyes,
+responds to questions, oriented to month and year, 
+CN: left ward eye deviation, right beat nystagmus, pupils 2 mm,
+minimally reactive, left facial droop, corneal reflexes intact, 
+Motor: left arm weakness, strength ___ in bi and tri, moves 
+lower
+extremities to command but does not cooperate for strength exam,
+left up going toe. 
+Sensory: unable to evaluate.
+Cb: unable to test due to mental status. 
+
+DISCHARGE EXAM:
+Mental status intact, knows ___ backwards easily. Speech, 
+naming, repetition, reading intact. 
+
+CN: EOMI with some increased effort to look right, horizontal 
+nystagmus with rightward gaze, few beats then fatigues. Left 
+downward skew deviation. Left facial droop sparing the upper 
+face. Otherwise intact. 
+
+Motor: 5- in left delt, tri, 4 in left
+ 
+Pertinent Results:
+ADMISSION LAB STUDIES: SERUM
+WBC-11.7*# RBC-4.37 HGB-12.1 HCT-36.3 MCV-83 MCH-27.8 MCHC-33.4 
+RDW-13.7
+NEUTS-79.7* LYMPHS-15.5* MONOS-4.0 EOS-0.4 BASOS-0.4
+PLT COUNT-409
+
+SED RATE-99* PARST SMR-NEGATIVE
+
+___ 11:16AM   LACTATE-2.2*
+___ 11:05AM   GLUCOSE-135* UREA N-6 CREAT-0.7 SODIUM-129* 
+POTASSIUM-3.6 CHLORIDE-92* TOTAL CO2-24 ANION GAP-17
+___ 11:05AM   estGFR-Using this
+___ 11:05AM   LD(LDH)-252*
+___ 11:05AM   CRP-43.1*
+
+NEGATIVE SERUM TESTS: aspergillus, B-glucan, Bartonella, 
+___, EEE, ___, Ehrlichia, anaplamsa, MS profile, 
+mycoplasma, ___, anti-Yo
+
+PENDING: Quantiferon gold, LCMV, BRUCELLA
+
+URINE:
+___ 01:30PM URINE  UCG-NEGATIVE
+___ 01:30PM URINE  COLOR-Straw APPEAR-Clear SP ___
+___ 01:30PM URINE  BLOOD-TR NITRITE-NEG PROTEIN-NEG 
+GLUCOSE-NEG KETONE-NEG BILIRUBIN-NEG UROBILNGN-NEG PH-6.5 
+LEUK-NEG
+___ 01:30PM URINE  ___ BACTERIA-NONE YEAST-NONE 
+___
+
+CSF:
+___ LP:
+WBC-1510 RBC-110* Polys-30 ___ Monos-2 Atyps-1
+
+TotProt-262* Glucose-19
+
+___ LP:
+WBC-1550 RBC-0 Polys-90 ___ Monos-4
+
+TotProt-136* Glucose-43 LD(LDH)-60
+
+___ LP: (TUBE 4)
+WBC-46 RBC-41* Polys-0 ___ Monos-3
+TotProt-63* Glucose-51 LD(LDH)-19
+
+CSF NEGATIVE STUDIES:
+TB PCR x 2, CMV, EEE, EBV, EV, HSV, ___, TOXO, varicella, ___
+
+IMAGING:
+MRI/MRV ___:
+1. FLAIR signal hyperintensity and patchy enhancement involving 
+the right 
+thalamus, mid brain, splenium of the corpus callosum, 
+inferomedial temporal lobe and right cerebellum with associated 
+leptomeningeal enhancement in the right cerebellum. These 
+findings may reflect an encephalitis of viral, bacterial or 
+fungal etiology versus ADEM. Given the time course of 
+presentation of symptoms, lymphoma or a glial neoplasm is 
+thought to be less likely. 
+  
+2. Punctate foci of restricted diffusion within the right 
+thalamus, most 
+likely caused by a secondary vasculitis causing punctate foci of 
+infarction 
+secondary to surrounding inflammatory process. 
+  
+3. Normal MRV without evidence of venous sinus thrombosis. 
+
+MRI ___:
+Mild interval decrease in enhancement within the splenium of the 
+corpus 
+callosum and right cerebellum with slightly increased prominence 
+of 
+enhancement in the right thalamus, with unchanged persistent 
+FLAIR signal 
+abnormalities within the right thalamus, mid brain, medial 
+temporal lobe, and cerebellar hemisphere compared to the prior 
+study. Unchanged foci of slow diffusion are again demonstrated. 
+These findings remain nonspecific in appearance. Findings may 
+reflect encephalitis, with a viral etiology favored, including 
+entities such as Eastern equine encephalitis. Mycobacterial, 
+typical bacterial and fungal etiologies are thought to be less 
+likely. Differential diagnoses also includes neoplasms such as 
+glioma and inflammatory etiologies such as vasculitis. 
+
+CT CHEST/AB/PELV
+1. No intrathoracic, intra-abdominal, or intra-pelvic mass or 
+lymphadenopathy 
+detected.  
+2. Enlarged uterus, with slight heterogenous enhancement of the 
+myometrium.  
+Findings could represent adenomyosis and/or intramural fibroids, 
+but CT is 
+limited in its ability to evaluate the uterus and therefore 
+pelvic ultrasound 
+is recommended for further evaluation if clinically indicated. 
+3. Pulmonary nodular density adjacent to the left major fissure 
+is unchanged 
+from ___. 
+
+DISCHARGE LABS:
+___ 09:37AM BLOOD WBC-9.5 RBC-4.31 Hgb-11.9* Hct-37.1 
+MCV-86 MCH-27.6 MCHC-32.0 RDW-16.3* Plt ___
+___ 09:37AM BLOOD Glucose-178* UreaN-12 Creat-0.7 Na-137 
+K-3.7 Cl-100 HCO3-24 AnGap-17
+     
+
+ 
+Brief Hospital Course:
+HOSPITAL COURSE:
+  Upon arrival the patient was noted to have altered mental
+status with leftward eye deviation with nystagmus. A CT showed
+edema. The CSF showed highly elevated protein and WBC. An MRI 
+was
+done showing FLAIR signal hyperintensity and patchy enhancement 
+involving the right 
+thalamus, mid brain, splenium of the corpus callosum,
+inferomedial temporal lobe and right cerebellum with associated
+leptomeningeal enhancement in the right cerebellum.  Broad
+spectrum antibiotics were begun at that time and the patient was
+sent to the ICU. 
+
+ICU:
+# Neuro:
+Patient was admitted with headache, fever and altered mental 
+status. There was initially a broad differential that included 
+brain abscess and meningoencephalitis. Head CT and MRI showed 
+multiple FLAIR and enhancing hyperintensities throughout the 
+brain (R thalamus, corpus callosum, midbrain). LP was extremely 
+significant for WBC 1150. 
+ID was consulted. Patient was started on vancomycin, CTX, 
+ampicillin, and acyclovir. Numerous bacterial, viral, parasitic 
+and fungal studies were sent from blood and CSF. PPD was placed 
+and was negative. HIV was negative. 
+Patient continued to wax and wane, and remained somnolent on 
+exam. She was started on mannitol, which did not improve her 
+exam very much, it was stopped ___ for increasing sodium 
+levels. 
+ID recommended treating empirically for TB and mycoplasma. All 
+other empiric antibiotics and antivirals were discontinued once 
+cultures were negative for 48 hours and HSV PCR was negative. 
+Patient was started on RIPE and moxifloxacin. They also 
+recommended dexamethasone to treat the inflammation that could 
+be associated with TB meningoencephalitis. Consecutive CT scans 
+showed improvement of cerebral edema. 
+
+Step Down: 
+Neuro:
+Patient&#x27;s mental status began to improve significantly after 
+decadron was started on ___.  Since that time the patient is 
+more awake and alert. A repeat LP showed stable pleocytosis but 
+no improvement. An extremely extensive workup was pursued for 
+infectious and inflammatory causes in the serum and CSF. All of 
+these studies were negative. CT of the torso was done to look 
+for underlying malignancy, and was negative. There was no sign 
+of intrapulmonary TB. Opthomology performed an eye exam to look 
+for tubercles which would suggest TB and/or malignant cells in 
+the vitreous representing lymphoma.  The eye exam was normal.
+We continued to treat the patient empirically with 
+dexamethasone, RIPE and moxifloxicin. She continued to improve 
+in terms of neurologic exam. Her left sided weakness improved 
+significantly, however she continued to have neglect of that 
+side making activity difficult for her. At discharge, her gaze 
+preference and skew deviation was improved, and nystagmus was 
+minimal. Her left facial droop was mild compared to initial 
+exam. Motor strength was 5- in left deltoid, tricep, wrist and 
+finger extensors and IP, otherwise full strength. 
+Repeat LP showed significant improvement in pleocytosis at this 
+point. MRI on day of discharge showed decreased inflammation and 
+decreased size and intensity of the prior lesions, although 
+radiology read is still pending. 
+Brain biopsy was considered at several points, however it was 
+felt that the patient was improving clinically and the biopsy 
+would not be without risks. It was determined that we would 
+continue to treat empirically for possible TB 
+meningoencephalitis and monitor clinical and radiologic status. 
+She will continue on dexamethasone at current dose. She will 
+begin to taper the steroids in 1 week. If she continues to 
+improve with steroid taper, we will not plan on biopsy. However, 
+if she does not continue to improve in the following ___ weeks 
+on current regimen, we will discuss with neurosurgery and pursue 
+a biopsy.
+
+She passsed speech and swallow bedside evaluation. She began to 
+work with ___ but requires significant reconditioning and 
+teaching to improve her left neglect and motor planning. She 
+will be discharged to ___ acute rehab.   
+
+Patient will follow up with neurology in 4 weeks. She will 
+follow up with ID in 3 weeks. She will continue current abx 
+including RIPE and moxifloxacin. She will taper steroids in 1 
+week, with a 4 week taper. She will get monthly safety labs 
+faxed to ID office. 
+
+ 
+Medications on Admission:
+motrin/tylenol; started on azythromycin for 01 day
+
+ 
+Discharge Medications:
+1. Acetaminophen 325 mg Tablet Sig: ___ Tablets PO Q6H (every 6 
+hours) as needed for fever/pain.  
+2. Heparin (Porcine) 5,000 unit/mL Solution Sig: One (1)  
+Injection TID (3 times a day).  
+3. Docusate Sodium 100 mg Capsule Sig: One (1) Capsule PO BID (2 
+times a day).  
+4. Bisacodyl 5 mg Tablet, Delayed Release (E.C.) Sig: Two (2) 
+Tablet, Delayed Release (E.C.) PO DAILY (Daily) as needed for 
+constipation.  
+5. Isoniazid ___ mg Tablet Sig: One (1) Tablet PO DAILY (Daily). 
+ 
+6. Rifampin 300 mg Capsule Sig: Two (2) Capsule PO Q24H (every 
+24 hours).  
+7. Pyridoxine 50 mg Tablet Sig: One (1) Tablet PO DAILY (Daily). 
+ 
+8. Pyrazinamide 500 mg Tablet Sig: Two (2) Tablet PO DAILY 
+(Daily).  
+9. Ethambutol 400 mg Tablet Sig: Two (2) Tablet PO DAILY 
+(Daily).  
+10. Moxifloxacin 400 mg Tablet Sig: One (1) Tablet PO DAILY 
+(Daily).  
+11. Famotidine 20 mg Tablet Sig: One (1) Tablet PO BID (2 times 
+a day).  
+12. Dexamethasone 2 mg Tablet Sig: One (1) Tablet PO Q4H (every 
+4 hours): continue until ___ at this dose,
+then taper as follows:
+___ (week 1 of taper)- 2g q6h
+___ (week 2)- 2g q6h
+___ (week 3)- 2g q8h
+___ (week 4)- 2g q12h
+then STOP.  
+13. Insulin Regular Human 100 unit/mL Solution Sig: per sliding 
+scale units Injection QHS: QHS sliding scale only
+___ 150-200= 2 units
+___ 200-250= 4 units
+___ 250-300= 6 units
+___ 300-350= 8 units
+___ 350-400= 10 units.  
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+encephalitis
+
+ 
+Discharge Condition:
+Stable
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Out of Bed with assistance to chair or 
+wheelchair.
+Neurologic Exam: Mental status intact. EOMI intact with 
+horizontal beating nystagmus on rightward gaze, left downward 
+skew. Left facial droop. Left sided weakness and inattention, 
+distal worse than proximal. Sensation intact but with variable 
+extinction to DSS on the left. Coordination intact. Reflexes 2+, 
+toes downgoing. 
+
+ 
+Discharge Instructions:
+It was a pleasure taking care of you. You were admitted with 
+fever, headache, and confusion. You were found to have elevated 
+white blood cells in your spinal fluid. You were found to have 
+areas in your brain that appeared inflammed on MRI, although the 
+cause of these lesions was not clear. You were tested for many 
+possible causes for your symptoms and these findings, but all 
+testing has been negative so far. Your spinal fluid white count 
+improved, and your MRI now looks improved as well. You were 
+treated empirically for tuberculosis with antibiotics. You were 
+also given steroids to treat the inflammation in your brain. You 
+improved greatly and will continue to improve with physical and 
+occupational therapy in rehab.
+You will continue all these antibiotics and steroids for now. 
+You will follow up with infectious diseases, who will determine 
+the final antibiotics treatment. 
+
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(8)</span></h3>
+  <ul>
+    <li>Encefalite</li>
+    <li>Pleocitose</li>
+    <li>Hiperproteinorraquia</li>
+    <li>Hipoglicorraquia</li>
+    <li>Vasculite secundária</li>
+    <li>Infarto pontual</li>
+    <li>Adenomiose</li>
+    <li>Fibromas uterinos</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(20)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Cefaleia</li>
+    <li>Alteração do estado mental</li>
+    <li>Desvio de olhar para a esquerda</li>
+    <li>Nistagmo</li>
+    <li>Paresia facial esquerda</li>
+    <li>Fraqueza no braço esquerdo</li>
+    <li>Negligência hemisférica esquerda</li>
+    <li>Desvio de inclinação para a esquerda</li>
+    <li>Sonolência</li>
+    <li>Letargia</li>
+    <li>Disfagia</li>
+    <li>Aftas bucais</li>
+    <li>Reflexo de Babinski positivo</li>
+    <li>Desvio de olhar</li>
+    <li>Nistagmo de batida para a direita</li>
+    <li>Fraqueza motora</li>
+    <li>Incapacidade de cooperar para exame de força</li>
+    <li>Edema cerebral</li>
+    <li>Nódulo pulmonar</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(20)</span></h3>
+  <ul>
+    <li>Ibuprofeno</li>
+    <li>Paracetamol</li>
+    <li>Azitromicina</li>
+    <li>Vancomicina</li>
+    <li>Ceftriaxona</li>
+    <li>Ampicilina</li>
+    <li>Aciclovir</li>
+    <li>Mannitol</li>
+    <li>Dexametasona</li>
+    <li>Isoniazida</li>
+    <li>Rifampina</li>
+    <li>Piridoxina</li>
+    <li>Pirazinamida</li>
+    <li>Etambutol</li>
+    <li>Moxifloxacino</li>
+    <li>Famotidina</li>
+    <li>Heparina</li>
+    <li>Docusato de Sódio</li>
+    <li>Bisacodila</li>
+    <li>Insulina Regular Humana</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(96)</span></h3>
+  <ul>
+    <li>WBC-11.7</li>
+    <li>RBC-4.37</li>
+    <li>HGB-12.1</li>
+    <li>HCT-36.3</li>
+    <li>MCV-83</li>
+    <li>MCH-27.8</li>
+    <li>MCHC-33.4</li>
+    <li>RDW-13.7</li>
+    <li>NEUTS-79.7</li>
+    <li>LYMPHS-15.5</li>
+    <li>MONOS-4.0</li>
+    <li>EOS-0.4</li>
+    <li>BASOS-0.4</li>
+    <li>PLT COUNT-409</li>
+    <li>SED RATE-99</li>
+    <li>PARST SMR-Negativo</li>
+    <li>LACTATE-2.2</li>
+    <li>GLUCOSE-135</li>
+    <li>UREA N-6</li>
+    <li>CREAT-0.7</li>
+    <li>SODIUM-129</li>
+    <li>POTASSIUM-3.6</li>
+    <li>CHLORIDE-92</li>
+    <li>TOTAL CO2-24</li>
+    <li>ANION GAP-17</li>
+    <li>LD(LDH)-252</li>
+    <li>CRP-43.1</li>
+    <li>Aspergillus-Negativo</li>
+    <li>B-glucan-Negativo</li>
+    <li>Bartonella-Negativo</li>
+    <li>EEE-Negativo</li>
+    <li>Ehrlichia-Negativo</li>
+    <li>Anaplamsa-Negativo</li>
+    <li>MS profile-Negativo</li>
+    <li>Mycoplasma-Negativo</li>
+    <li>Anti-Yo-Negativo</li>
+    <li>Quantiferon Gold-Pendente</li>
+    <li>LCMV-Pendente</li>
+    <li>BRUCELLA-Pendente</li>
+    <li>URINE UCG-Negativo</li>
+    <li>URINE BLOOD-TR</li>
+    <li>URINE NITRITE-Negativo</li>
+    <li>URINE PROTEIN-Negativo</li>
+    <li>URINE GLUCOSE-Negativo</li>
+    <li>URINE KETONE-Negativo</li>
+    <li>URINE BILIRUBIN-Negativo</li>
+    <li>URINE UROBILINOGN-Negativo</li>
+    <li>URINE PH-6.5</li>
+    <li>URINE LEUK-Negativo</li>
+    <li>URINE BACTERIA-Nenhum</li>
+    <li>URINE YEAST-Nenhum</li>
+    <li>CSF WBC-1510</li>
+    <li>CSF RBC-110</li>
+    <li>CSF Polys-30</li>
+    <li>CSF Monos-2</li>
+    <li>CSF Atyps-1</li>
+    <li>CSF TotProt-262</li>
+    <li>CSF Glucose-19</li>
+    <li>CSF WBC-1550</li>
+    <li>CSF RBC-0</li>
+    <li>CSF Polys-90</li>
+    <li>CSF Monos-4</li>
+    <li>CSF TotProt-136</li>
+    <li>CSF Glucose-43</li>
+    <li>CSF LD(LDH)-60</li>
+    <li>CSF WBC-46</li>
+    <li>CSF RBC-41</li>
+    <li>CSF Polys-0</li>
+    <li>CSF Monos-3</li>
+    <li>CSF TotProt-63</li>
+    <li>CSF Glucose-51</li>
+    <li>CSF LD(LDH)-19</li>
+    <li>TB PCR-Negativo</li>
+    <li>CMV-Negativo</li>
+    <li>EBV-Negativo</li>
+    <li>EV-Negativo</li>
+    <li>HSV-Negativo</li>
+    <li>TOXO-Negativo</li>
+    <li>Varicella-Negativo</li>
+    <li>PPD-Negativo</li>
+    <li>HIV-Negativo</li>
+    <li>WBC-9.5</li>
+    <li>RBC-4.31</li>
+    <li>Hgb-11.9</li>
+    <li>Hct-37.1</li>
+    <li>MCV-86</li>
+    <li>MCH-27.6</li>
+    <li>MCHC-32.0</li>
+    <li>RDW-16.3</li>
+    <li>Glucose-178</li>
+    <li>UreaN-12</li>
+    <li>Na-137</li>
+    <li>K-3.7</li>
+    <li>Cl-100</li>
+    <li>HCO3-24</li>
+    <li>AnGap-17</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(26)</span></h3>
+  <ul>
+    <li>Tomografia Computadorizada (CT) de crânio</li>
+    <li>Ressonância Magnética (MRI) de crânio</li>
+    <li>Ressonância Magnética (MRI) de crânio com contraste</li>
+    <li>Punção lombar (LP)</li>
+    <li>Tomografia Computadorizada (CT) de tórax/abdômen/pélvis</li>
+    <li>Ressonância Magnética (MRI) de crânio de seguimento</li>
+    <li>Exame oftalmológico</li>
+    <li>Avaliação de deglutição à beira do leito</li>
+    <li>Teste de PPD</li>
+    <li>Sorologias para aspergillus, B-glucan, Bartonella, EEE, Ehrlichia, Anaplamsa, MS profile, mycoplasma, anti-Yo</li>
+    <li>Sorologias para TB PCR, CMV, EEE, EBV, EV, HSV, TOXO, varicella</li>
+    <li>Culturas de sangue e líquor</li>
+    <li>Hemograma completo</li>
+    <li>Velocidade de hemossedimentação (VHS)</li>
+    <li>Lactato</li>
+    <li>Glicemia</li>
+    <li>Função renal (Ureia, Creatinina)</li>
+    <li>Eletrólitos (Sódio, Potássio, Cloreto, CO2 total)</li>
+    <li>Lactato desidrogenase (LDH)</li>
+    <li>Proteína C reativa (PCR)</li>
+    <li>Urinálise</li>
+    <li>Exame de sangue para HIV</li>
+    <li>Exame de sangue para Quantiferon Gold</li>
+    <li>Exame de sangue para LCMV</li>
+    <li>Exame de sangue para Brucella</li>
+    <li>Ressonância Magnética Venosa (MRV)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente feminina, sem histórico médico pregresso conhecido, refere queixa principal de dor de cabeça intensa e movimentos oculares anormais (&#x27;olhos pulando&#x27;). Relata que há 10 dias do internamento desenvolveu cefaleia pulsátil na região bifrontal, associada a febre que atingiu 39,4°C (103°F). A dor de cabeça progrediu em intensidade. Paciente relata que, há 2 dias do internamento, familiares notaram fraqueza extrema e instabilidade na marcha, necessitando de auxílio para atividades diárias. Refere que a dor era tão intensa que a impedia de dormir. No dia da admissão, relatou dificuldade extrema para caminhar e familiares notaram que seus olhos começaram a se mover involuntariamente e que ela não conseguia olhar para a direita. Paciente relata problemas de deglutição e feridas na boca há mais de um mês antes do início da febre. Refere episódios intermitentes de dor de cabeça nos últimos meses, porém nunca com tal intensidade. Nega viagens recentes. Relata que trabalhou cuidando de muitas pessoas doentes, incluindo uma criança com doença crônica, mas familiares desconhecem contato específico com alguma doença em particular. Paciente nega alergias a medicamentos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 39,4°C (relatada na HDA), PA não especificada no texto, FC não especificada, FR não especificada, SpO2 não especificada no texto.
+
+Exame Físico na Admissão:
+Geral: Paciente deitada na cama, abre olhos a estímulos verbais e táteis.
+HEENT: Mucosas hidratadas, sem adenomegalias, sinal de Brudzinski positivo.
+Cardiovascular: R1 e R2 normofonéticos, ritmo regular.
+Pulmões: Murmúrio vesicular presente bilateralmente, sem ruídos adventícios.
+Neurológico:
+- Estado Mental: Letárgica e sonolenta, despertável a estímulos, segue comandos, abre olhos, responde a perguntas, orientada para mês e ano.
+- Nervos Cranianos: Desvio ocular para a esquerda, nistagmo de batida para a direita, pupilas de 2 mm, minimamente reativas, ptose facial esquerda, reflexos corneanos intactos.
+- Motor: Fraqueza no membro superior esquerdo, força 3/5 em bíceps e tríceps, move membros inferiores a comando mas não coopera para exame de força, sinal de Babinski positivo (dedo do pé para cima) à esquerda.
+- Sensitivo: Não avaliado.
+- Cerebelar: Não testado devido ao estado mental.
+
+Exame Físico na Alta:
+- Estado Mental: Intacto, realiza contagem regressiva facilmente. Fala, nomeação, repetição e leitura intactos.
+- Nervos Cranianos: Movimentos oculares intactos com algum esforço aumentado para olhar à direita, nistagmo horizontal com olhar para a direita (alguns batimentos, fadiga rápida), desvio de inclinação (skew deviation) para baixo à esquerda. Ptose facial esquerda poupando a face superior. Demais intactos.
+- Motor: Força 4/5 a 5- no deltoide esquerdo, tríceps, e 4/5 em outros grupos musculares esquerdos.
+- Sensitivo: Intacto, mas com extinção variável ao toque duplo à esquerda.
+- Coordenação: Intacta.
+- Reflexos: 2+, dedos dos pés para baixo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Admissão:
+- Leucócitos (WBC): 11.7
+- Hemácias (RBC): 4.37
+- Hemoglobina (HGB): 12.1
+- Hematócrito (HCT): 36.3
+- VCM: 83
+- HCM: 27.8
+- CHCM: 33.4
+- RDW: 13.7
+- Neutrófilos: 79.7%
+- Linfócitos: 15.5%
+- Monócitos: 4.0%
+- Eosinófilos: 0.4%
+- Basófilos: 0.4%
+- Plaquetas: 409
+
+Bioquímica e Inflamatórios Admissão:
+- VHS (SED RATE): 99
+- PCR (CRP): 43.1
+- Lactato: 2.2
+- Glicose: 135
+- Ureia (Urea N): 6
+- Creatinina: 0.7
+- Sódio: 129
+- Potássio: 3.6
+- Cloreto: 92
+- CO2 Total: 24
+- Gap Aniônico: 17
+- LDH: 252
+
+Sorologias Admissão (Negativas): Aspergillus, B-glucan, Bartonella, EEE, Ehrlichia, Anaplasma, perfil MS, Mycoplasma, anti-Yo.
+
+Urina Admissão:
+- UCG: Negativo
+- Cor: Palha
+- Aspecto: Clara
+- Sangue: Traço
+- Nitrito: Negativo
+- Proteína: Negativo
+- Glicose: Negativo
+- Cetonas: Negativo
+- Bilirrubina: Negativo
+- Urobilinogênio: Negativo
+- pH: 6.5
+- Leucócitos: Negativo
+- Bactérias: Nenhuma
+- Leveduras: Nenhuma
+
+Líquido Cefalorraquidiano (LCR) - Punção 1:
+- Leucócitos (WBC): 1510
+- Hemácias (RBC): 110
+- Polimorfonucleares (Polys): 30%
+- Mononucleares (Monos): 2%
+- Atípicos: 1%
+- Proteína Total: 262
+- Glicose: 19
+
+Líquido Cefalorraquidiano (LCR) - Punção 2:
+- Leucócitos (WBC): 1550
+- Hemácias (RBC): 0
+- Polimorfonucleares (Polys): 90%
+- Mononucleares (Monos): 4%
+- Proteína Total: 136
+- Glicose: 43
+- LDH: 60
+
+Líquido Cefalorraquidiano (LCR) - Punção 3 (Tubo 4):
+- Leucócitos (WBC): 46
+- Hemácias (RBC): 41
+- Polimorfonucleares (Polys): 0%
+- Mononucleares (Monos): 3%
+- Proteína Total: 63
+- Glicose: 51
+- LDH: 19
+
+LCR - Estudos Negativos: PCR para TB x2, CMV, EEE, EBV, Enterovírus, HSV, Toxoplasma, Varicela.
+
+Hemograma Alta:
+- Leucócitos (WBC): 9.5
+- Hemácias (RBC): 4.31
+- Hemoglobina (HGB): 11.9
+- Hematócrito (HCT): 37.1
+- VCM: 86
+- HCM: 27.6
+- CHCM: 32.0
+- RDW: 16.3
+- Plaquetas: (valor não especificado no texto)
+
+Bioquímica Alta:
+- Glicose: 178
+- Ureia: 12
+- Creatinina: 0.7
+- Sódio: 137
+- Potássio: 3.7
+- Cloreto: 100
+- Bicarbonato (HCO3): 24
+- Gap Aniônico: 17</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada (TC) de Crânio (Admissão): Mostrou edema cerebral.
+
+Ressonância Magnética (RM) e Ressonância Magnética Venosa (RMV) de Crânio (Admissão):
+1. Hiperintensidade de sinal em FLAIR e realce patchy envolvendo o tálamo direito, mesencéfalo, esplenio do corpo caloso, lobo temporal inferomedial e cerebelo direito, com realce leptomeníngeo associado no cerebelo direito. Achados sugestivos de encefalite (etiologia viral, bacteriana ou fúngica) versus ADEM. Linfoma ou neoplasia glial considerados menos prováveis.
+2. Focos pontuais de restrição de difusão no tálamo direito, provavelmente causados por vasculite secundária causando focos pontuais de infarto secundário ao processo inflamatório circundante.
+3. RMV normal, sem evidência de trombose do seio venoso.
+
+Ressonância Magnética (RM) de Crânio (Repetida):
+- Diminuição intercalar leve do realce no esplenio do corpo caloso e cerebelo direito.
+- Aumento ligeiro da proeminência do realce no tálamo direito.
+- Anormalidades de sinal FLAIR persistentes e inalteradas no tálamo direito, mesencéfalo, lobo temporal medial e hemisfério cerebelar.
+- Focos de difusão lenta persistentes.
+- Achados não específicos, sugerindo encefalite com etiologia viral favorecida (incluindo encefalite equina do leste). Etiologias micobacterianas, bacterianas típicas e fúngicas consideradas menos prováveis. Diagnósticos diferenciais incluem neoplasias (glioma) e etiologias inflamatórias (vasculite).
+
+TC de Tórax/Abdome/Pelve:
+1. Nenhuma massa ou linfadenopatia intratorácica, intra-abdominal ou intrapélvica detectada.
+2. Útero aumentado, com realce heterogêneo leve do miométrio. Achados podem representar adenomiose e/ou miomas intramurais.
+3. Densidade nodular pulmonar adjacente à fissura maior esquerda, inalterada desde exame anterior.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina sem histórico prévio, apresentou quadro agudo de febre alta, cefaleia progressiva, alteração do estado mental e sinais focais neurológicos (nistagmo, desvio ocular, hemiparesia). O quadro clínico e os achados de imagem (RM com lesões multifocais no tálamo, corpo caloso, tronco cerebral e cerebelo com realce leptomeníngeo) e do LCR (pleocitose maciça com predominância de neutrófilos inicialmente, proteína muito elevada e glicose baixa) são altamente sugestivos de meningoencefalite. O diagnóstico diferencial inicial incluiu abscesso cerebral, encefalite viral (HSV, VZV, EEE), bacteriana, fúngica e tuberculose.
+
+O trabalho diagnóstico extensivo para causas infecciosas (sorologias virais, bacterianas, fúngicas, parasitárias e PCR para TB no LCR) foi negativo. A biópsia cerebral foi considerada, mas optou-se por tratamento empírico devido à melhora clínica e aos riscos do procedimento. A equipe de Doenças Infecciosas recomendou tratamento empírico para tuberculose (RIPE + moxifloxacino) e uso de corticosteroides (dexametasona) para controlar a inflamação associada à possível meningoencefalite tuberculosa, dada a apresentação clínica e a resposta parcial ao tratamento.
+
+Durante a internação, a paciente apresentou melhora significativa do estado mental e dos déficits neurológicos após o início da dexametasona e do esquema anti-tuberculose. A repetição do LCR mostrou melhora na pleocitose e a RM de controle mostrou diminuição da inflamação e do tamanho das lesões. O diagnóstico final é de encefalite de etiologia presumida tuberculosa (ou inflamatória não infecciosa respondendo ao tratamento), com evolução favorável. Paciente foi liberada para reabilitação aguda.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Acetaminofeno 325 mg: 1 a 2 comprimidos via oral a cada 6 horas conforme necessário para febre/dor.
+2. Heparina (Suína) 5.000 UI/mL: 1 injeção subcutânea 3 vezes ao dia.
+3. Docusato Sódico 100 mg: 1 cápsula via oral 2 vezes ao dia.
+4. Bisacodil 5 mg: 2 comprimidos de liberação retardada via oral diariamente conforme necessário para constipação.
+5. Isoniazida 300 mg (dose presumida baseada no padrão RIPE): 1 comprimido via oral diariamente.
+6. Rifampina 300 mg: 2 cápsulas via oral a cada 24 horas.
+7. Piridoxina 50 mg: 1 comprimido via oral diariamente.
+8. Pirazinamida 500 mg: 2 comprimidos via oral diariamente.
+9. Etambutol 400 mg: 2 comprimidos via oral diariamente.
+10. Moxifloxacino 400 mg: 1 comprimido via oral diariamente.
+11. Famotidina 20 mg: 1 comprimido via oral 2 vezes ao dia.
+12. Dexametasona 2 mg: 1 comprimido via oral a cada 4 horas até [data], seguido de esquema de desmame:
+   - Semana 1: 2 mg a cada 6 horas.
+   - Semana 2: 2 mg a cada 6 horas.
+   - Semana 3: 2 mg a cada 8 horas.
+   - Semana 4: 2 mg a cada 12 horas.
+   - Após 4 semanas: Suspender.
+13. Insulina Regular Humana 100 UI/mL: Aplicação subcutânea conforme escala deslizante noturna (QHS) apenas se glicemia &gt; 150 mg/dL (2 unidades para 150-200, 4 para 200-250, 6 para 250-300, 8 para 300-350, 10 para 350-400).
+
+Encaminhamentos e Seguimento:
+- Encaminhamento para reabilitação aguda (física e ocupacional) para tratamento de negligência lateral esquerda e planejamento motor.
+- Retorno com Neurologia em 4 semanas.
+- Retorno com Doenças Infecciosas em 3 semanas para reavaliação do esquema antibiótico e decisão sobre biópsia (caso não haja melhora contínua nas próximas semanas).
+- Exames de segurança mensais (hemograma e bioquímica) a serem enviados por fax ao consultório de Doenças Infecciosas.
+
+Orientações:
+- Continuar todos os antibióticos e corticosteroides conforme prescrito.
+- Monitorar sinais de recaída neurológica ou efeitos adversos medicamentosos.
+- A equipe de Doenças Infecciosas determinará a duração final do tratamento antibiótico.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '26539098';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

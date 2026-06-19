@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 25557330 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 25557330</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 25557330 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 198
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                 Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___
+ 
+Chief Complaint:
+Fever, abdominal pain
+ 
+Major Surgical or Invasive Procedure:
+None
+ 
+History of Present Illness:
+___ with history of HIV with CD4 &lt;100, HIV VL 14K (___), h/o 
+neurosyphilis who presents with fever and LLQ abdominal pain. 
+Patient states that he came in &quot;because my roommate was 
+concerned about my walking and confusion.&quot; Per referral and 
+report, patient had initially presented to his PCP on the day of 
+admission for his abdominal pain and fevers where he was noted 
+to be tachycardic to 140s. He denied N/V/D at the time; he was 
+also complaining of shortness of breath and lightheadedness upon 
+standing. He does report fevers started on the day prior to 
+admission but did not take temperatures at home. Reports 
+associated anorexia and poor po intake. Of note, pt reports not 
+taking medications due to &quot;housing difficulties&quot; for several 
+months. Denies sick contacts, recent travel.
+
+Roommate ___ clarifies the rest of the history, stating that 
+patient had been very tired in the last few weeks, worsening on 
+___ when he slept approx. 20 hours. He had been sleeping in his 
+bed with his pants half off, which roommate assumed was due to 
+fatigue and being too tired to take his pants off entirely. 
+Roommate also reports that patient has had difficulty urinating 
+as well. On the day of admission, roommate was concerned about 
+pt&#x27;s confusion, as patient thought that it was ___ when it 
+was ___ and was &quot;wobbly&quot; on his feet. He urged patient to 
+come to ED. 
+
+In the ED, initial vitals:  T 102 HR 133 BP 143/84 RR 18 100% RA
+He had Tm 103.4
+Labs were notable for Na+ 127, Cr 1.2, LFTs wnl, CBC notable for 
+WBC ___ H/H 12.5/37.2 Plt 51, lactate 1.1 UA negative with &lt;1 
+WBC, no bacteria. 
+He had noncontrast CT head which showed no acute intracranial 
+process. 
+CT abd/pelvis w contrast showed mild intrahepatic biliary 
+dilatation and mild dilatation of CBD , no evidence for 
+intra-abdominal abscess.
+CXR showed no acute cardiopulmonary abnormality. 
+EKG showed: sinus tachycardia with rate 130s, NA, NI 
+He received 3L NS, zosyn 4.5g, vanc 1g, ceftriaxone 2g, 
+fluconazole 200 mg IV, acyclovir 1g IV, Tylenol 1g po x1
+
+On transfer, vitals were:  T 98.8 HR 111 138/77 RR 20 99% RA
+On arrival to the MICU,  pt reports feeling &quot;lowsy&quot;, c/o thirst, 
+hunger, LLQ abdominal pain. He reports that the 
+
+Review of systems:  
+(+) Per HPI  
+(-) Denies recent weight loss or gain. Denies headache, sinus 
+tenderness, rhinorrhea or congestion. Denies cough, shortness of 
+breath, or wheezing. Denies chest pain, chest pressure, 
+palpitations, or weakness. Denies nausea, vomiting, diarrhea, or 
+changes in bowel habits. Denies dysuria, frequency, or urgency. 
+Denies arthralgias or myalgias. Denies rashes or skin changes. 
+ 
+Past Medical History:
+HIV with AIDS: Fx ___, took Trizivir initially followed by 
+TDF/Combivir- in ___ took Truvada/Reyataz/r switched to 
+Darunavir/r, Truvada when he needed to be on a PPI for H. pylori 
+and GERD
+h/o DVT
+H/o MRSA cellulitis
+Neurosyphilis: x2- ___ and ___ / 2 treatment course- 
+hospitalized at ___ and was followed until ___ 
+MDD
+eosinophilic esophagitis
+HPV with HGSIL anus, LGSIL anorectal
+herpes zoster
+arthralgias
+Allergic rhinitis
+Thrombocytopenia
+
+ 
+Social History:
+___
+Family History:
+Mother - Living - CA (unclear type) 
+Brother with prostate cancer, Small Cell Lung CA 
+Father with throat cancer
+Multiple family members with fibromyalgia
+ 
+Physical Exam:
+Admission exam:
+Vitals: T 99.5  BP: 137/86 P: 122 R: 18 O2: 99% RA  
+GENERAL: Alert, oriented x3, uncomfortable appearing
+HEENT: Sclera anicteric, dry mm, oropharynx clear without thrush 
+or leukoplakia. PERRL, 3-&gt;2 mm
+NECK: supple, JVP not elevated, no significant cervical LAD
+LUNGS: Coarse rales in bases bilaterally, no wheezing or 
+rhonchi.
+CV: Tachycardic, regular rhythm, normal S1 S2, no murmurs or 
+rubs  
+ABD: soft, mildly TTP, worst in LLQ, no rebound tenderness or 
+guarding, BS+, negative ___ sign
+EXT: Warm, well perfused, 1+ DPs, no rash
+NEURO: CNII-XII intact, ___ upper and lower extremity strength, 
+intact to sensation in UE and ___, 2+ patellar reflexes, F2N wnl, 
+gait deferred
+
+Discharge exam:
+Unable to perform as patient eloped
+ 
+Pertinent Results:
+ADMISSION LABS:
+=========================
+___ 04:20PM BLOOD WBC-3.9* RBC-4.55* Hgb-12.5* Hct-37.2* 
+MCV-82 MCH-27.5 MCHC-33.6 RDW-13.3 RDWSD-39.8 Plt Ct-51*#
+___ 04:20PM BLOOD Neuts-78.9* Lymphs-13.8* Monos-6.2 
+Eos-0.0* Baso-0.3 Im ___ AbsNeut-3.04 AbsLymp-0.53* 
+AbsMono-0.24 AbsEos-0.00* AbsBaso-0.01
+___ 04:20PM BLOOD Glucose-114* UreaN-20 Creat-1.2 Na-127* 
+K-4.0 Cl-92* HCO3-25 AnGap-14
+___ 04:20PM BLOOD ALT-16 AST-24 AlkPhos-66 TotBili-0.8
+___ 04:20PM BLOOD Lipase-14
+___ 04:32AM BLOOD Calcium-7.2* Phos-3.1 Mg-1.5*
+___ 04:27PM BLOOD Lactate-1.1
+___ 06:50PM URINE Blood-NEG Nitrite-NEG Protein-100 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-2* pH-6.5 Leuks-NEG
+___ 06:50PM URINE RBC-4* WBC-&lt;1 Bacteri-NONE Yeast-NONE 
+Epi-0 TransE-&lt;1
+
+MICROBIOLOGY:
+===========================
+
+   URINE CULTURE (Final ___:    NO GROWTH. 
+___ 04:40AM OTHER BODY FLUID FluAPCR-NEGATIVE 
+FluBPCR-NEGATIVE
+
+   CRYPTOCOCCAL ANTIGEN (Final ___: 
+      CRYPTOCOCCAL ANTIGEN NOT DETECTED. 
+           (Reference Range-Negative). 
+   RAPID PLASMA REAGIN TEST (Final ___: 
+      REACTIVE. 
+      Reference Range: Non-Reactive. 
+
+   QUANTITATIVE RPR (Final ___: 
+      REACTIVE AT A TITER OF 1:128. 
+      Reference Range: Non-Reactive. 
+
+   CMV Viral Load (Final ___: 
+      CMV DNA not detected. 
+   MONOSPOT (Final ___: 
+      NEGATIVE by Latex Agglutination. 
+           (Reference Range-Negative). 
+
+BLOOD cx pending*****
+Toxoplasma pending******
+C. Diff: negative
+Lyme serologies: pending
+
+IMAGING:
+============================
+-ECG (___): Sinus tachycardia. There are tiny R waves in the 
+anterior leads consistent with possible myocardial infarction. 
+Compared to the previous tracing  of ___ the rate is faster 
+and evidence of possible myocardial infarction is new. 
+-CXR (___): IMPRESSION: No acute cardiopulmonary 
+abnormality. 
+-CT abd/pelvis (___):
+IMPRESSION:   
+1. Mild central intrahepatic biliary dilatation and mild 
+dilatation of the common bile duct which tapers to level of the 
+ampulla.  Correlation with liver function tests is recommended.  
+If there is any clinical concern for biliary obstruction, an 
+MRCP could be obtained for further evaluation. 
+2. Mild splenomegaly. 
+3. No evidence for intra-abdominal abscess. 
+RECOMMENDATION(S):  If there is any clinical concern for biliary 
+obstruction, an MRCP could be obtained for further evaluation. 
+-TTE (___): FOCUSED STUDY/LIMITED VIEWS: The left atrium is 
+elongated. Left ventricular wall thickness, cavity size, and 
+global systolic function are normal (LVEF&gt;55%). Right 
+ventricular chamber size and free wall motion are normal. The 
+aortic root is mildly dilated at the sinus level. The ascending 
+aorta is mildly dilated. The aortic valve leaflets (3) are 
+mildly thickened. The mitral valve leaflets are structurally 
+normal. There is no mitral valve prolapse. No mitral 
+regurgitation is seen. The pulmonary artery systolic pressure 
+could not be determined. There is no pericardial effusion.  
+-CT Head w/o contrast (___): IMPRESSION: No evidence for 
+acute intracranial abnormalities. 
+-CT Head w/contrast (___): IMPRESSION: 
+1. No evidence of mass lesion on this contrast enhanced study.  
+No evidence of fracture or infarction. IMPRESSION: 1. No acute 
+intracranial process. 
+-CXR (___): IMPRESSION: Compared to prior chest radiographs 
+since ___ most recently ___. Lungs are clear. 
+Cardiomediastinal and hilar silhouettes and pleural surfaces are 
+normal. 
+  
+
+MICRO:
+==============================
+___ 5:52 am BLOOD CULTURE      Source: Venipuncture. 
+
+   Blood Culture, Routine (Pending): 
+__________________________________________________________
+___ 12:57 am BLOOD CULTURE      Source: Venipuncture. 
+
+   Blood Culture, Routine (Pending): 
+__________________________________________________________
+___ 5:58 pm STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+
+                            **FINAL REPORT ___
+
+   OVA + PARASITES (Final ___: 
+      CANCELLED. 
+         Three separate stool specimens collected EVERY OTHER 
+DAY are
+         recommended for optimum sensitivity. Duplicate 
+specimens collected
+         on the same day will not be processed, since this does 
+not
+         increase diagnostic yield. Make sure to label date and 
+time of
+         collection on each stool specimen submitted to ensure 
+appropriate
+         processing. 
+__________________________________________________________
+___ 5:58 pm STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+
+                            **FINAL REPORT ___
+
+   OVA + PARASITES (Final ___: 
+      CANCELLED. 
+         Three separate stool specimens collected EVERY OTHER 
+DAY are
+         recommended for optimum sensitivity. Duplicate 
+specimens collected
+         on the same day will not be processed, since this does 
+not
+         increase diagnostic yield. Make sure to label date and 
+time of
+         collection on each stool specimen submitted to ensure 
+appropriate
+         processing. 
+__________________________________________________________
+___ 4:00 pm STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+      ___ ADDED ON PER FAX ___ 16:19 
+(___). 
+
+   CYCLOSPORA STAIN (Final ___:    NO CYCLOSPORA SEEN. 
+
+   MICROSPORIDIA STAIN (Preliminary): 
+
+   FECAL CULTURE (Preliminary): 
+
+   CAMPYLOBACTER CULTURE (Final ___:    NO CAMPYLOBACTER 
+FOUND. 
+
+   OVA + PARASITES (Final ___: 
+      NO OVA AND PARASITES SEEN. 
+      This test does not reliably detect Cryptosporidium, 
+Cyclospora or
+      Microsporidium. While most cases of Giardia are detected 
+by routine
+      O+P, the Giardia antigen test may enhance detection when 
+organisms
+      are rare. 
+
+   Cryptosporidium/Giardia (DFA) (Final ___: 
+      NO CRYPTOSPORIDIUM OR GIARDIA SEEN. 
+
+   FECAL CULTURE - R/O E.COLI 0157:H7 (Final ___: 
+      NO E.COLI 0157:H7 FOUND. 
+
+   FECAL CULTURE - R/O VIBRIO (Final ___:    NO VIBRIO 
+FOUND. 
+
+   FECAL CULTURE - R/O YERSINIA (Final ___:    NO YERSINIA 
+FOUND. 
+__________________________________________________________
+___ 4:00 pm STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+
+                            **FINAL REPORT ___
+
+   C. difficile DNA amplification assay (Final ___: 
+      Negative for toxigenic C. difficile by the Illumigene DNA
+      amplification assay. 
+           (Reference Range-Negative). 
+__________________________________________________________
+___ 4:00 pm URINE      Source: ___. 
+
+                            **FINAL REPORT ___
+
+   Legionella Urinary Antigen  (Final ___: 
+      NEGATIVE FOR LEGIONELLA SEROGROUP 1 ANTIGEN. 
+           (Reference Range-Negative). 
+      Performed by Immunochromogenic assay. 
+      A negative result does not rule out infection due to other 
+L.
+      pneumophila serogroups or other Legionella species. 
+Furthermore, in
+      infected patients the excretion of antigen in urine may 
+vary. 
+__________________________________________________________
+___ 12:15 pm SEROLOGY/BLOOD      Source: Venipuncture. 
+
+   LYME SEROLOGY (Pending): 
+__________________________________________________________
+___ 5:55 am STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+
+   ACID FAST CULTURE (Pending): 
+__________________________________________________________
+___ 6:00 pm BLOOD CULTURE ( MYCO/F LYTIC BOTTLE)
+      Source: Venipuncture. 
+
+   BLOOD/FUNGAL CULTURE (Pending): 
+
+   BLOOD/AFB CULTURE (Pending): 
+__________________________________________________________
+Time Taken Not Noted     Log-In Date/Time: ___ 8:15 am
+      SEROLOGY/BLOOD      TAKEN FROM TUBE # ___. 
+
+                            **FINAL REPORT ___
+
+   MONOSPOT (Final ___: 
+      NEGATIVE by Latex Agglutination. 
+           (Reference Range-Negative). 
+__________________________________________________________
+___ 4:32 am Blood (Toxo)      CHEM # ___ ___. 
+
+                            **FINAL REPORT ___
+
+   TOXOPLASMA IgG ANTIBODY (Final ___: 
+      NEGATIVE FOR TOXOPLASMA IgG ANTIBODY BY EIA. 
+      0.0 IU/ML. 
+      Reference Range:  Negative &lt; 4 IU/ml, Positive &gt;= 8 IU/ml. 
+
+
+   TOXOPLASMA IgM ANTIBODY (Final ___: 
+      NEGATIVE FOR TOXOPLASMA IgM ANTIBODY BY EIA. 
+      INTERPRETATION:  NO ANTIBODY DETECTED. 
+__________________________________________________________
+___ 4:32 am IMMUNOLOGY      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   HIV-1 Viral Load/Ultrasensitive (Final ___: 
+      130,000 copies/ml. 
+      Performed using the Cobas Ampliprep / Cobas Taqman HIV-1 
+Test v2.0. 
+      Detection Range: ___ copies/mL. 
+      This test is approved for monitoring HIV-1 viral load in 
+known
+      HIV-positive patients. It is not approved for diagnosis of 
+acute HIV
+      infection. 
+      In symptomatic acute HIV infection (acute retroviral 
+syndrome), the
+      viral load is usually very high (&gt;&gt;1000 copies/mL). If 
+acute HIV
+      infection is clinically suspected and there is a 
+detectable but low
+      viral load, please contact the laboratory for 
+interpretation. 
+      It is recommended that any NEW positive HIV-1 viral load 
+result, in
+      the absence of positive serology, be confirmed by 
+submitting a new
+      sample FOR HIV-1 PCR, in addition to serological testing. 
+__________________________________________________________
+___ 4:32 am IMMUNOLOGY      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   HCV VIRAL LOAD (Final ___: 
+      HCV-RNA NOT DETECTED. 
+      Performed using Cobas Ampliprep / Cobas Taqman HCV v2.0 
+Test. 
+      Linear range of quantification: 1.50E+01 IU/mL - 1.00E+08 
+IU/mL. 
+      Limit of detection: 1.50E+01 IU/mL. 
+__________________________________________________________
+___ 4:32 am Immunology (CMV)      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   CMV Viral Load (Final ___: 
+      CMV DNA not detected. 
+      Performed by Cobas Ampliprep / Cobas Taqman CMV Test. 
+      Linear range of quantification: 137 IU/mL - 9,100,000 
+IU/mL. 
+      Limit of detection 91 IU/mL. 
+      This test has been verified for use in the ___ patient 
+population. 
+__________________________________________________________
+___ 4:32 am SEROLOGY/BLOOD      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   RAPID PLASMA REAGIN TEST (Final ___: 
+      REACTIVE. 
+      Reference Range: Non-Reactive. 
+
+   QUANTITATIVE RPR (Final ___: 
+      REACTIVE AT A TITER OF 1:128. 
+      Reference Range: Non-Reactive. 
+__________________________________________________________
+___ 4:32 am SEROLOGY/BLOOD      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   CRYPTOCOCCAL ANTIGEN (Final ___: 
+      CRYPTOCOCCAL ANTIGEN NOT DETECTED. 
+           (Reference Range-Negative). 
+      Test performed by Lateral Flow Assay. 
+      A negative serum does not rule out localized or 
+disseminated
+      cryptococcal infection. 
+      Appropriate specimens should be sent for culture. 
+__________________________________________________________
+___ 6:50 pm URINE
+
+                            **FINAL REPORT ___
+
+   URINE CULTURE (Final ___:    NO GROWTH. 
+__________________________________________________________
+___ 4:39 pm BLOOD CULTURE
+
+   Blood Culture, Routine (Pending): 
+__________________________________________________________
+___ 4:20 pm BLOOD CULTURE
+
+   Blood Culture, Routine (Pending): 
+ 
+
+DISCHARGE LABS:
+=====================
+___ 05:30AM BLOOD WBC-2.1* RBC-3.58* Hgb-9.8* Hct-28.4* 
+MCV-79* MCH-27.4 MCHC-34.5 RDW-13.6 RDWSD-39.1 Plt Ct-14*
+___ 05:30AM BLOOD ___ PTT-31.1 ___
+___ 05:30AM BLOOD Glucose-115* UreaN-12 Creat-0.7 Na-128* 
+K-3.7 Cl-98 HCO3-20* AnGap-14
+___ 05:30AM BLOOD ALT-33 AST-85* AlkPhos-190* TotBili-0.8
+___ 05:30AM BLOOD Albumin-2.8* Calcium-7.1* Phos-1.1* 
+Mg-1.___ M PMHx HIV (genotype IB, CD4 14) c/b neurosyphilis/ocular 
+syphilis, disseminated VZV, and medication non-compliance who 
+presented to PCP ___ ___ abdominal pain and fatigue 
+admitted to the MICU ___ altered mental status and fevers 
+concerning for MAC vs neurosyphilis. Patient eloped from the 
+hospital on ___ after verbalizing understanding of the risks 
+associated with leaving including worsening infection and death.
+
+# Elopement: on the morning of ___, patient eloped from the 
+hospital. Patient verbalized understanding of risks/benefits 
+associated with leaving, including risk of worsening infection 
+and death. He received counseling and prescriptions for his 
+medications including his HAART medications and antibiotics. He 
+left before getting IM PCN or discharge paperwork. A message was 
+left for his roommate/HCP. He and his roommate were encouraged 
+to come back to the ED with any concerns. An appointment was 
+scheduled for patient with his PCP.
+
+MICU COURSE:
+===================================
+#Sepsis: Patient presented with WBC &lt; 4, Tm 103 in the ED, 
+tachycardia in 130s concerning for sepsis. No elevated lactate 
+to suggest severe sepsis. The etiology is suspected to be MAC, 
+mycotic blood cultures pending on elopement. The differential 
+for his infectious etiology is generally broad, given recent CD4 
+count &lt;100 with HIV VL &gt;14K in ___. CT A/P is without 
+evidence of intra-abdominal infection, unremarkable for abscess 
+or colitis; while there was suggestion of CBD and intrahepatic 
+biliary dilatation, LFTs wnl do not support biliary etiology of 
+sepsis. CXR is without evidence of pneumonia although given 
+vague complaints of SOB and low CD4, MAC is suspected. CT head 
+negative for obvious abscess or ring-enhancing lesion. LP was 
+initially deferred given thrombocytopenia with plt in ___ and 
+exam reassuring for no evidence of meningismus. However, the 
+decision was made with ID input that patient should undergo LP 
+to r/o CSF infection; however, patient adamantly declined and so 
+LP not performed. Given this, he underwent CT head with contrast 
+which did not show any concerning findings for infection, no 
+ring-enhancing lesions or abscess noted. Flu negative, monospot 
+negative, CMV negative, blood cx pending. In the ED, he 
+initially received vanc, Zosyn, ceftriaxone, acyclovir, and 
+fluconazole, which was narrowed to ceftriaxone in conjunction 
+with ID. Ultimately, suspicion was highest for MAC, and so 
+patient was placed on azithromcyin and Ethambutol for ? 
+disseminated MAC. Acyclovir IV was discontinued given low 
+suspicion for HSV encephalitis.
+
+#Abdominal pain: unclear etiology although infection was 
+initially suspected given fevers. Given localization to LLQ on 
+exam, would be concerned about reactive lymphadenopathy although 
+no significant LAD seen on CT abd/pelvis. CT abd/pelvis does 
+show intrahepatic biliary dilatation and mild dilatation of the 
+common bile duct although LFTs do not suggest biliary pathology 
+as discussed above. Patient does have a history of H. pylori 
+which has been responsive to PPI and triple therapy per report. 
+CMV esophagitis vs colitis is possible although no significant 
+diarrhea. CMV viral load was negative. He was continued on 
+ceftriaxone as above. Stool cultures were pending at discharge. 
+
+#Thrombocytopenia: pt presented with plt 51 from prior plt &gt;150. 
+Unclear etiology although suspected secondary to infection. 
+Medication effect (e.g. Bactrim) less likely given patient not 
+taking any medications as an outpatient. Consumption is possible 
+in setting of acute infection. Pt does have mild splenomegaly on 
+CT abd/pelvis making sequestration possible explanation. DIC 
+less likely given normal coags. Prior records from ___ reveal 
+prior plt 175. Most likely in the setting of disseminated MAC 
+infection, sepsis. Per ID, would consider heme-onc consult if 
+thrombocytopenia continues to worsen. Platelet count was 14 on 
+elopement
+ 
+#HIV with AIDS: Previously on Trizivir, followed by TDF/Combivir 
+(___) took Truvada/Reyataz/r switched to Darunavir/r, Truvada. 
+Patient has not been taking his home medications for unclear 
+reasons; he states that he has &quot;unstable housing&quot; as the reason 
+for non-compliance, although currently domiciled. HIV VL this 
+admission was ___ with CD4 count 14. He was followed by ID and 
+HAART was resumed with truvada and dolutegravir. He was 
+initiated on fluconazole/atovaquone/acyclovir ppx.
+
+#Neurosyphilis: Patient has a history of neurosyphillis and is 
+s/p treatment with IV PCN x3, most recently in ___ and weekly 
+IM PCN ___. Last seen by ___ ID ___ when suspicion was 
+high for recurrent neurosyphilis based on visual symptoms and 
+RPR titers. He was recommended for PICC placement and repeat PCN 
+course. However, pt declined PICC for IV PCN and so received IM 
+with probenecid. RPR this admission was elevated at 1:128 and ID 
+recommended continuing ceftriaxone (initiated empirically as 
+above for sepsis) and patient was planned to go home on 
+penicillin via PICC. However, patient eloped before PICC was 
+placed and he refused IM PCN prior to leaving. 
+
+#Hyponatremia: Patient presented with Na+ 127 on admission. This 
+was felt to be likely hypovolemic in the setting of sepsis and 
+poor po intake. Na+ improved with IVF. However, Ulytes and osm 
+were consistent with SIADH, and bedside U/S showed adequate 
+volume resuscitation with given IVC. Given improvement in HD 
+status, the patient was placed on 750cc fluid restriction and 
+salt tabs. Na improved to 128 upon transfer to the floor. Na on 
+elopement of 128.
+
+#Major depressive disorder: patient previously on sertraline, 
+paroxetine but has not been taking recently. These were not 
+re-initiated this hospital course but should consider resuming 
+as outpatient.
+
+#Medication non-compliance: patient has a history of medical 
+non-compliance, which has limited his treatment for HIV/AIDS. As 
+described above, he states his housing difficulty as the reason 
+for his non-compliance, although it appears he has fairly stable 
+housing per pt&#x27;s roommate. Patient was provided with 
+prescription for his antibiotics and HAART medications on 
+morning of elopement. He did not receive IM PCN. 
+
+TRANSITIONAL ISSUES:
+[] Patient eloped in AM of ___ he will need ongoing 
+infectious work-up, evaluation of thrombocytopenia, and 
+monitoring of his HAART compliance 
+# Communication: ___ (roommate) ___  
+# Code: Full, confirmed 
+ 
+Medications on Admission:
+The Preadmission Medication list may be inaccurate and requires 
+futher investigation.
+1. PARoxetine 40 mg PO DAILY 
+2. Sertraline 50 mg PO DAILY 
+3. ClonazePAM 0.5 mg PO BID:PRN anxiety 
+4. ProAir HFA (albuterol sulfate) 90 mcg/actuation inhalation 
+Q4H:PRN sob 
+5. Qvar (beclomethasone dipropionate) 40 mcg/actuation 
+inhalation DAILY 
+6. Dapsone 100 mg PO DAILY 
+7. Temazepam 15 mg PO QHS:PRN insomnia 
+8. Multivitamins 1 TAB PO DAILY 
+9. RiTONAvir 100 mg PO DAILY 
+10. Emtricitabine-Tenofovir (Truvada) 1 TAB PO DAILY 
+11. Atovaquone Suspension 750 mg PO BID 
+12. Cetirizine 10 mg PO DAILY 
+13. Darunavir 800 mg PO DAILY 
+
+ 
+Discharge Medications:
+1. Atovaquone Suspension 1500 mg PO DAILY 
+RX *atovaquone 750 mg/5 mL 1500 mg by mouth daily Refills:*0
+2. Acyclovir 400 mg PO Q12H 
+RX *acyclovir 400 mg 1 tablet(s) by mouth twice a day Disp #*60 
+Tablet Refills:*3
+3. Dolutegravir 50 mg PO DAILY 
+RX *dolutegravir [Tivicay] 50 mg 1 tablet(s) by mouth daily Disp 
+#*30 Tablet Refills:*6
+4. Ethambutol HCl 1000 mg PO DAILY 
+RX *ethambutol 100 mg 10 tablet(s) by mouth daily Disp #*140 
+Tablet Refills:*0
+5. Fluconazole 200 mg PO Q24H 
+RX *fluconazole 200 mg 1 tablet(s) by mouth daily Disp #*30 
+Tablet Refills:*6
+6. Cetirizine 10 mg PO DAILY 
+7. ClonazePAM 0.5 mg PO BID:PRN anxiety 
+8. Emtricitabine-Tenofovir (Truvada) 1 TAB PO DAILY 
+RX *emtricitabine-tenofovir [Truvada] 200 mg-300 mg 1 tablet(s) 
+by mouth daily Disp #*30 Tablet Refills:*6
+9. Multivitamins 1 TAB PO DAILY 
+10. PARoxetine 40 mg PO DAILY 
+11. ProAir HFA (albuterol sulfate) 90 mcg/actuation inhalation 
+Q4H:PRN sob 
+12. Qvar (beclomethasone dipropionate) 40 mcg/actuation 
+inhalation DAILY 
+13. Sertraline 50 mg PO DAILY 
+14. Temazepam 15 mg PO QHS:PRN insomnia 
+15. Azithromycin 600 mg PO Q24H 
+RX *azithromycin 600 mg 1 tablet(s) by mouth daily Disp #*30 
+Tablet Refills:*6
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+PRIMARY DIAGNOSES:
+-HIV
+-Sepsis
+-Disseminated MAC
+-Neurosyphilis
+-Thrombocytopenia
+-Hyponatremia
+
+SECONDARY DIAGNOSES:
+-Medication non-compliance
+-Major depressive disorder
+ 
+Discharge Condition:
+Eloped
+ 
+Discharge Instructions:
+Unable to provide
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(19)</span></h3>
+  <ul>
+    <li>HIV/AIDS</li>
+    <li>AIDS (Síndrome da Imunodeficiência Adquirida)</li>
+    <li>Neurosífilis</li>
+    <li>Sepse</li>
+    <li>Doença por Mycobacterium avium complex (MAC) disseminada</li>
+    <li>Trombocitopenia</li>
+    <li>Hiponatremia</li>
+    <li>Transtorno Depressivo Maior</li>
+    <li>Não adesão medicamentosa</li>
+    <li>Esôfago eosinofílico</li>
+    <li>Doença do Refluxo Gastroesofágico (DRGE)</li>
+    <li>Infecção por Helicobacter pylori (histórico)</li>
+    <li>Trombose Venosa Profunda (TVP) (histórico)</li>
+    <li>Infecção por Staphylococcus aureus resistente à meticilina (MRSA) (histórico)</li>
+    <li>Rinite alérgica</li>
+    <li>Neoplasia intraepitelial de alto grau (HGSIL) anal</li>
+    <li>Neoplasia intraepitelial de baixo grau (LGSIL) anorretal</li>
+    <li>Infecção por Papilomavírus Humano (HPV)</li>
+    <li>Infecção por Herpes Zóster (histórico)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(22)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Dor abdominal no quadrante inferior esquerdo</li>
+    <li>Taquicardia</li>
+    <li>Confusão mental</li>
+    <li>Fadiga</li>
+    <li>Sonolência excessiva</li>
+    <li>Dificuldade para urinar</li>
+    <li>Desorientação temporal</li>
+    <li>Instabilidade na marcha</li>
+    <li>Anorexia</li>
+    <li>Ingestão oral pobre</li>
+    <li>Dispneia</li>
+    <li>Tontura ortostática</li>
+    <li>Sede</li>
+    <li>Fome</li>
+    <li>Rales grossos em bases bilaterais</li>
+    <li>Splenomegalia</li>
+    <li>Dilatação biliar intra-hepática</li>
+    <li>Dilatação do ducto biliar comum</li>
+    <li>Alteração mental</li>
+    <li>Hipotensão (não presente, mas taquicardia e febre indicam sepse)</li>
+    <li>Sinais vitais alterados (T 102, HR 133, BP 143/84)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(29)</span></h3>
+  <ul>
+    <li>Paroxetina 40 mg PO diária</li>
+    <li>Sertralina 50 mg PO diária</li>
+    <li>Clonazepam 0,5 mg PO 2x ao dia (PRN ansiedade)</li>
+    <li>Salbutamol (ProAir HFA) 90 mcg/ação inalação a cada 4h (PRN falta de ar)</li>
+    <li>Beclometasona dipropionato (Qvar) 40 mcg/ação inalação diária</li>
+    <li>Dapsona 100 mg PO diária</li>
+    <li>Temazepam 15 mg PO à noite (PRN insônia)</li>
+    <li>Multivitamínicos 1 comprimido PO diária</li>
+    <li>Ritonavir 100 mg PO diária</li>
+    <li>Emtricitabina-Tenofovir (Truvada) 1 comprimido PO diária</li>
+    <li>Atovaquona suspensão 750 mg PO 2x ao dia</li>
+    <li>Cetirizina 10 mg PO diária</li>
+    <li>Darunavir 800 mg PO diária</li>
+    <li>Atovaquona suspensão 1500 mg PO diária</li>
+    <li>Aciclovir 400 mg PO 2x ao dia</li>
+    <li>Dolutegravir 50 mg PO diária</li>
+    <li>Etambutol HCl 1000 mg PO diária</li>
+    <li>Fluconazol 200 mg PO 24h</li>
+    <li>Azitromicina 600 mg PO 24h</li>
+    <li>Soro fisiológico (NS) 3L</li>
+    <li>Piperacilina-Tazobactam (Zosyn) 4,5g</li>
+    <li>Vancomicina 1g</li>
+    <li>Ceftriaxona 2g</li>
+    <li>Aciclovir 1g IV</li>
+    <li>Paracetamol (Tylenol) 1g PO</li>
+    <li>Probenecida</li>
+    <li>Penicilina (PCN) IM</li>
+    <li>Sal de sódio (salt tabs)</li>
+    <li>Atovaquona/Fluconazol/Aciclovir (profilaxia)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(80)</span></h3>
+  <ul>
+    <li>CD4 &lt;100 células/mm³</li>
+    <li>Carga Viral HIV 14.000 cópias/mL</li>
+    <li>Sódio 127 mEq/L</li>
+    <li>Creatinina 1,2 mg/dL</li>
+    <li>Função hepática (LFTs) normal</li>
+    <li>Leucócitos (WBC) 3.900/mm³</li>
+    <li>Hemoglobina 12,5 g/dL</li>
+    <li>Hematócrito 37,2%</li>
+    <li>Plaquetas 51.000/mm³</li>
+    <li>Lactato 1,1 mmol/L</li>
+    <li>Urina: Leucócitos &lt;1, Bactérias ausentes</li>
+    <li>Cultura de Urina: Sem crescimento</li>
+    <li>Antígeno Criptocócico: Não detectado</li>
+    <li>Rapid Plasma Reagin (RPR): Reativo</li>
+    <li>RPR Quantitativo: Reativo com título 1:128</li>
+    <li>Carga Viral CMV: DNA não detectado</li>
+    <li>Monospot: Negativo</li>
+    <li>Cultura de Sangue: Pendente</li>
+    <li>Toxoplasma: Pendente</li>
+    <li>Clostridioides difficile: Negativo</li>
+    <li>Sorologia para Lyme: Pendente</li>
+    <li>Cultura de Fezes para Campylobacter: Não encontrada</li>
+    <li>Cultura de Fezes para E. coli O157:H7: Não encontrada</li>
+    <li>Cultura de Fezes para Vibrio: Não encontrada</li>
+    <li>Cultura de Fezes para Yersinia: Não encontrada</li>
+    <li>Ovos e Parasitas (O+P): Não encontrados</li>
+    <li>Cryptosporidium/Giardia (DFA): Não encontrados</li>
+    <li>Ciclospora: Não vista</li>
+    <li>Antígeno Urinário Legionella: Negativo</li>
+    <li>Carga Viral HIV-1 (Ultrasensível): 130.000 cópias/mL</li>
+    <li>Carga Viral HCV: RNA não detectado</li>
+    <li>Anticorpo IgG Toxoplasma: Negativo</li>
+    <li>Anticorpo IgM Toxoplasma: Negativo</li>
+    <li>Leucócitos (WBC) na alta: 2.100/mm³</li>
+    <li>Hemoglobina na alta: 9,8 g/dL</li>
+    <li>Plaquetas na alta: 14.000/mm³</li>
+    <li>Sódio na alta: 128 mEq/L</li>
+    <li>Potássio na alta: 3,7 mEq/L</li>
+    <li>Bicarbonato (HCO3) na alta: 20 mEq/L</li>
+    <li>ALT na alta: 33 U/L</li>
+    <li>AST na alta: 85 U/L</li>
+    <li>Fosfatase Alcalina na alta: 190 U/L</li>
+    <li>Albumina na alta: 2,8 g/dL</li>
+    <li>Cálcio na alta: 7,1 mg/dL</li>
+    <li>Fósforo na alta: 1,1 mg/dL</li>
+    <li>Carga Viral HIV-1 (na alta): 130.000 cópias/mL</li>
+    <li>CD4 (na alta): 14 células/mm³</li>
+    <li>Neutrófilos: 78,9%</li>
+    <li>Linfócitos: 13,8%</li>
+    <li>Eosinófilos: 0,0%</li>
+    <li>Glicose: 114 mg/dL</li>
+    <li>Ureia: 20 mg/dL</li>
+    <li>Potássio: 4,0 mEq/L</li>
+    <li>Cloreto: 92 mEq/L</li>
+    <li>Bicarbonato: 25 mEq/L</li>
+    <li>Gap Aniónico: 14</li>
+    <li>ALT: 16 U/L</li>
+    <li>AST: 24 U/L</li>
+    <li>Fosfatase Alcalina: 66 U/L</li>
+    <li>Bilirrubina Total: 0,8 mg/dL</li>
+    <li>Lipase: 14 U/L</li>
+    <li>Cálcio: 7,2 mg/dL</li>
+    <li>Fósforo: 3,1 mg/dL</li>
+    <li>Magnésio: 1,5 mg/dL</li>
+    <li>Proteína na urina: 100 mg/dL</li>
+    <li>Urobilinogênio: 2</li>
+    <li>pH urinário: 6,5</li>
+    <li>Leucocitose na urina: Negativo</li>
+    <li>Nitrito: Negativo</li>
+    <li>Cetonas: Negativo</li>
+    <li>Bilirrubina na urina: Negativo</li>
+    <li>RBC na urina: 4</li>
+    <li>WBC na urina: &lt;1</li>
+    <li>Bactérias na urina: Nenhuma</li>
+    <li>Leveduras na urina: Nenhuma</li>
+    <li>Eritrócitos epiteliais: 0</li>
+    <li>Células epiteliais tubulares: &lt;1</li>
+    <li>PTT: 31,1 s</li>
+    <li>Carga Viral HIV-1 (genótipo IB)</li>
+    <li>Carga Viral HIV-1 (CD4 14)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(41)</span></h3>
+  <ul>
+    <li>Tomografia Computadorizada (TC) de crânio sem contraste</li>
+    <li>Tomografia Computadorizada (TC) de abdômen e pelve com contraste</li>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Eletrocardiograma (ECG)</li>
+    <li>Ecocardiograma (TTE)</li>
+    <li>Tomografia Computadorizada (TC) de crânio com contraste</li>
+    <li>Punção lombar (LP) (deferida/recusada)</li>
+    <li>Ultrassonografia (US) à beira do leito</li>
+    <li>Cultura de sangue (Blood Culture)</li>
+    <li>Cultura de urina</li>
+    <li>Sorologia para HIV</li>
+    <li>Sorologia para Sífilis (RPR)</li>
+    <li>Sorologia para Toxoplasma</li>
+    <li>Sorologia para CMV</li>
+    <li>Sorologia para HCV</li>
+    <li>Sorologia para Criptococo</li>
+    <li>Sorologia para Mononucleose (Monospot)</li>
+    <li>Sorologia para Lyme</li>
+    <li>Cultura de fezes</li>
+    <li>Exame de Ovos e Parasitas (O+P)</li>
+    <li>Ciclospora stain</li>
+    <li>Microsporidia stain</li>
+    <li>Ciclospora/Giardia DFA</li>
+    <li>Teste de DNA para C. difficile</li>
+    <li>Antígeno urinário para Legionella</li>
+    <li>Cultura de sangue para fungos</li>
+    <li>Cultura de sangue para AFB</li>
+    <li>Cultura de fezes para E. coli O157:H7</li>
+    <li>Cultura de fezes para Vibrio</li>
+    <li>Cultura de fezes para Yersinia</li>
+    <li>Cultura de fezes para Campylobacter</li>
+    <li>Cultura de fezes para C. difficile</li>
+    <li>Cultura de fezes para Ovos e Parasitas</li>
+    <li>Cultura de fezes para Ciclospora</li>
+    <li>Cultura de fezes para Microsporidia</li>
+    <li>Cultura de fezes para Cryptosporidium</li>
+    <li>Cultura de fezes para Giardia</li>
+    <li>Cultura de fezes para Legionella</li>
+    <li>Cultura de fezes para Mycobacterium</li>
+    <li>Cultura de fezes para Fungos</li>
+    <li>Cultura de fezes para AFB</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(7)</span></h3>
+  <ul>
+    <li>Mycobacterium avium complex (MAC)</li>
+    <li>Treponema pallidum</li>
+    <li>Human Immunodeficiency Virus (HIV)</li>
+    <li>Staphylococcus aureus (MRSA)</li>
+    <li>Helicobacter pylori</li>
+    <li>Human Papillomavirus (HPV)</li>
+    <li>Varicella-zoster virus (VZV)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, portador de HIV com histórico de imunossupressão grave, refere febre e dor abdominal no quadrante inferior esquerdo (QIE). Relata que a febre iniciou-se no dia anterior à admissão, mas não aferiu temperaturas em casa. Refere anorexia e baixa ingestão oral. O paciente relata não estar tomando seus medicamentos há vários meses devido a &#x27;dificuldades de moradia&#x27;. O acompanhante (colega de quarto) relata que o paciente apresentava fadiga extrema nas últimas semanas, piorando significativamente no dia da admissão, dormindo aproximadamente 20 horas. O acompanhante descreve que o paciente dormia com as calças pela metade, atribuído à exaustão. Relata também dificuldade para urinar. No dia da admissão, o acompanhante notou confusão mental (desorientação temporal) e instabilidade na marcha (&#x27;trôpego&#x27;), o que motivou a ida ao Pronto Socorro. O paciente nega náuseas, vômitos ou diarreia. Nega contato com doentes ou viagens recentes. Na admissão, o paciente relatou sentir-se &#x27;mal&#x27;, com queixa de sede, fome e dor abdominal no QIE. Revisão de Sistemas: Nega perda ou ganho de peso recente. Nega cefaleia, sensibilidade dos seios da face, rinorreia ou congestão nasal. Nega tosse, falta de ar ou chiado no peito. Nega dor no peito, pressão torácica, palpitações ou fraqueza. Nega náuseas, vômitos, diarreia ou alterações no hábito intestinal. Nega disúria, frequência ou urgência miccional. Nega artralgias ou mialgias. Nega erupções cutâneas ou alterações na pele.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+Sinais Vitais: Temperatura 99.5°F, PA 137/86 mmHg, FC 122 bpm, FR 18 irpm, SpO2 99% em ar ambiente.
+Geral: Alerta, orientado x3, aparência desconfortável.
+HEENT: Escleras anictéricas, mucosas orais secas, orofaringe limpa sem candidíase ou leucoplasia. Pupilas isocóricas e fotorreagentes, 3-&gt;2 mm.
+Pescoço: Suplê, jugular não distendida, sem linfadenopatia cervical significativa.
+Pulmões: Estertores grosseiros nas bases bilateralmente, sem sibilos ou roncos.
+Cardiovascular: Taquicárdico, ritmo regular, S1 e S2 normais, sem sopros ou atritos.
+Abdome: Macio, levemente doloroso à palpação, pior no QIE, sem defesa ou rigidez, ruídos hidroaéreos presentes, sinal de Murphy negativo.
+Extremidades: Quentes, bem perfundidas, pulsos dorsais pediosos 1+, sem erupções.
+Neurológico: Nervos cranianos II-XII íntegros, força 5/5 nos membros superiores e inferiores, sensibilidade intacta nos membros superiores e inferiores, reflexos patelares 2+, marcha não avaliada (deferida).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão (04:20 PM):
+- Hemograma: Leucócitos 3.9 x10³/µL, Hemoglobina 12.5 g/dL, Hematócrito 37.2%, Plaquetas 51 x10³/µL, Neutrófilos 78.9%, Linfócitos 13.8%.
+- Bioquímica: Glicose 114 mg/dL, Ureia 20 mg/dL, Creatinina 1.2 mg/dL, Sódio 127 mEq/L, Potássio 4.0 mEq/L, Cloreto 92 mEq/L, Bicarbonato 25 mEq/L, Anion Gap 14.
+- Função Hepática: ALT 16 U/L, AST 24 U/L, Fosfatase Alcalina 66 U/L, Bilirrubina Total 0.8 mg/dL.
+- Lipase: 14 U/L.
+- Lactato: 1.1 mmol/L.
+- Eletrólitos (04:32 AM): Cálcio 7.2 mg/dL, Fósforo 3.1 mg/dL, Magnésio 1.5 mg/dL.
+- Urinálise (06:50 PM): Sangue negativo, Nitrito negativo, Proteína 100 mg/dL, Glicose negativa, Cetonas negativa, Bilirrubina negativa, Urobilinogênio 2 EU/dL, pH 6.5, Leucocitose negativa. Sedimento: Hemácias 4/ campo, Leucócitos &lt;1/ campo, Bactérias ausentes, Leveduras ausentes.
+
+Descarga (05:30 AM):
+- Hemograma: Leucócitos 2.1 x10³/µL, Hemoglobina 9.8 g/dL, Hematócrito 28.4%, Plaquetas 14 x10³/µL, MCV 79 fL.
+- Coagulação: TTPa 31.1 seg.
+- Bioquímica: Glicose 115 mg/dL, Ureia 12 mg/dL, Creatinina 0.7 mg/dL, Sódio 128 mEq/L, Potássio 3.7 mEq/L, Cloreto 98 mEq/L, Bicarbonato 20 mEq/L, Anion Gap 14.
+- Função Hepática: ALT 33 U/L, AST 85 U/L, Fosfatase Alcalina 190 U/L, Bilirrubina Total 0.8 mg/dL, Albumina 2.8 g/dL.
+- Eletrólitos: Cálcio 7.1 mg/dL, Fósforo 1.1 mg/dL.
+
+Sorologias e Marcadores Infecciosos:
+- HIV-1 Carga Viral: 130.000 cópias/mL.
+- HCV Carga Viral: Não detectada.
+- CMV Carga Viral: DNA não detectado.
+- Toxoplasma IgG: Negativo (0.0 UI/mL).
+- Toxoplasma IgM: Negativo.
+- Antígeno Criptococo: Não detectado.
+- RPR (Rápido): Reativo.
+- RPR Quantitativo: Reativo com título de 1:128.
+- Influenza A/B PCR: Negativo.
+- Monospot: Negativo.
+- Cultura de Urina: Sem crescimento.
+- Cultura de Sangue: Pendente (múltiplas amostras).
+- Toxoplasma em sangue: Pendente.
+- Clostridioides difficile DNA: Negativo.
+- Antígeno de Legionella na urina: Negativo.
+- Parasitológico de fezes (Ovos e Parasitas): Não visualizado.
+- Cultura de fezes (Campylobacter, E. coli O157:H7, Vibrio, Yersinia): Negativo.
+- Stain para Cyclospora: Não visualizado.
+- Stain para Microsporidia: Preliminar (sem resultado final relatado no texto).
+- Cultura de fezes para AFB: Pendente.
+- Cultura Fúngica de Sangue: Pendente.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">ECG (Admissão): Taquicardia sinusal. Ondas R pequenas nas derivações anteriores consistentes com possível infarto do miocárdio. Comparado ao traçado anterior, a frequência está mais rápida e há evidência de possível infarto do miocárdio novo.
+CXR (Raio-X de Tórax - Admissão): Sem anormalidade cardiopulmonar aguda.
+CT Abdome/Pélvis com contraste: Dilatação biliar intra-hepática central leve e dilatação leve do ducto biliar comum que se afunila ao nível da ampola. Esplenomegalia leve. Sem evidência de abscesso intra-abdominal.
+TTE (Ecocardiograma Transtorácico): Átrio esquerdo alongado. Espessura da parede ventricular esquerda, tamanho da cavidade e função sistólica global normais (FEVE &gt;55%). Câmara ventricular direita e movimento da parede livre normais. Raiz aórtica levemente dilatada ao nível do seio. Aorta ascendente levemente dilatada. Folhetos da válvula aórtica (3) levemente espessados. Folhetos da válvula mitral estruturalmente normais. Sem prolapso da válvula mitral. Sem regurgitação mitral. Pressão sistólica da artéria pulmonar não determinada. Sem derrame pericárdico.
+CT Crânio sem contraste: Sem evidência de anormalidades intracranianas agudas.
+CT Crânio com contraste: Sem evidência de lesão de massa. Sem evidência de fratura ou infarto. Sem processo intracraniano agudo.
+CXR (Raio-X de Tórax - Evolução): Comparado a radiografias anteriores, pulmões limpos. Silhuetas cardiomediastinais e hilares e superfícies pleurais normais.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com HIV/AIDS avançado (CD4 14 células/mm³, carga viral 130.000 cópias/mL) e histórico de neurosífilis, apresentou-se com febre alta, taquicardia, confusão mental e dor abdominal no QIE. O quadro clínico é compatível com sepse de origem infecciosa em paciente imunossuprimido. O diagnóstico diferencial inicial incluía Mycobacterium avium complex (MAC) disseminado, neurosífilis recorrente, infecção por CMV, toxoplasmose e outras infecções oportunistas. A tomografia de abdome descartou abscesso intra-abdominal, embora tenha mostrado dilatação biliar leve e esplenomegalia. A tomografia de crânio foi negativa para abscessos ou lesões anelares. A punção lombar foi inicialmente adiada devido à trombocitopenia (plaquetas 51.000) e recusada posteriormente pelo paciente, apesar da recomendação da equipe de Infectologia. A sorologia para sífilis mostrou RPR reativo com título elevado (1:128), sugerindo atividade da doença, embora o paciente tenha recebido tratamento prévio. A carga viral de HIV elevada e o CD4 muito baixo aumentam a suspeita de MAC disseminado, que foi a principal suspeita clínica, levando à instituição de azitromicina e etambutol. A trombocitopenia grave (caindo para 14.000 na alta) é provavelmente secundária à infecção disseminada (MAC/sepse) e possível sequestro esplênico, descartando-se coagulação intravascular disseminada (CID) pelos coagulogramas normais. A hiponatremia (Na 127 mEq/L) foi atribuída inicialmente a hipovolemia, mas os dados de urina foram consistentes com SIADH, sendo manejada com restrição hídrica e sais. O paciente apresentou piora clínica significativa, com queda acentuada das plaquetas e hemoglobina durante a internação. O paciente deixou o hospital contra a recomendação médica (elopement) antes de receber a penicilina intramuscular para sífilis e antes da conclusão de todos os exames de cultura. O diagnóstico principal é sepse secundária a infecção disseminada provável por MAC, com coexistência de neurosífilis ativa e HIV não controlado.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações prescritas na alta (para serem iniciadas imediatamente pelo paciente, apesar do elopement):
+1. Azitromicina 600 mg PO uma vez ao dia (para cobertura de MAC).
+2. Etambutol 1000 mg PO uma vez ao dia (para cobertura de MAC).
+3. Dolutegravir 50 mg PO uma vez ao dia (para HAART).
+4. Emtricitabina-Tenofovir (Truvada) 1 comprimido PO uma vez ao dia (para HAART).
+5. Fluconazol 200 mg PO uma vez ao dia (profilaxia/terapia).
+6. Atovaquona 1500 mg PO uma vez ao dia (profilaxia/terapia).
+7. Aciclovir 400 mg PO a cada 12 horas (profilaxia/terapia).
+8. Cetirizina 10 mg PO uma vez ao dia.
+9. Clonazepam 0.5 mg PO a cada 12 horas (PRN ansiedade).
+10. Paroxetina 40 mg PO uma vez ao dia.
+11. Sertralina 50 mg PO uma vez ao dia.
+12. Temazepam 15 mg PO ao deitar (PRN insônia).
+13. ProAir HFA (Albuterol) 90 mcg inalação a cada 4 horas (PRN falta de ar).
+14. Qvar (Beclometasona) 40 mcg inalação uma vez ao dia.
+15. Multivitamínicos 1 comprimido PO uma vez ao dia.
+
+Orientações e Encaminhamentos:
+- O paciente deixou o hospital (elopement) antes de receber a penicilina intramuscular para neurosífilis e antes da colocação do PICC para tratamento intravenoso. Foi deixada mensagem para o acompanhante e para o médico assistente.
+- O paciente foi orientado sobre os riscos de deixar o hospital, incluindo piora da infecção e morte.
+- Prescrições foram fornecidas para antibióticos e HAART no momento da saída.
+- Agendamento de consulta com o médico de família (PCP) foi realizado.
+- Recomenda-se retorno imediato ao Pronto Socorro para qualquer piora dos sintomas, febre, confusão ou sangramentos.
+- Necessário acompanhamento rigoroso com Infectologia para reavaliação da neurosífilis (necessidade de penicilina IM ou IV), monitoramento da carga viral de HIV, CD4 e tratamento do MAC.
+- Monitoramento hematológico urgente para trombocitopenia grave (plaquetas 14.000 na alta) e anemia.
+- Monitoramento da hiponatremia e função renal/hepática.
+- Avaliação de saúde mental para depressão maior e adesão medicamentosa.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '25557330';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

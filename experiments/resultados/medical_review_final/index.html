@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IANA — Validação Clínica do Gold Test Set</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<h1>Projeto IANA — Validação Clínica</h1>
+<p style="margin:12px 0 24px; color:#4b5563; font-size:0.95rem;">
+    Gold test set com 30 notas estratificadas (HIV, Sífilis, Tuberculose) extraído
+    de prontuários MIMIC-IV. Sua avaliação calibrará o gold standard usado para
+    benchmark dos modelos compactos. Avaliação por <strong>categoria</strong>
+    (12 selects por nota), não por entidade individual — minimiza carga.
+</p>
+
+<div class="reviewer-bar">
+    <label for="reviewer-name">Identifique-se:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"
+           oninput="setReviewer()"/>
+    <span style="color:#6b7280; font-size:0.85rem;">
+        Revisor atual: <strong id="reviewer-display">(não identificado)</strong>
+    </span>
+</div>
+
+<div class="annotation-instructions" style="background:#eff6ff; border-radius:6px;
+     padding:12px 16px; margin-bottom:16px; font-size:0.88rem; color:#1e40af;">
+    <strong>Como avaliar cada categoria:</strong><br>
+    <strong>Correto</strong> — extração captura adequadamente o que está no texto.<br>
+    <strong>Parcial</strong> — captura parte, mas omite ou inclui demais (use comentário pra detalhar).<br>
+    <strong>Incorreto</strong> — categoria errada, alucinação, ou erro grave de tradução.<br><br>
+    <strong>Auto-save:</strong> tudo é salvo automaticamente no seu navegador. Pode fechar
+    e voltar depois sem perder. Ao terminar todas as 30, clique em <strong>Exportar TUDO</strong>
+    abaixo para baixar o JSON consolidado e enviar de volta à equipe.
+</div>
+
+<table class="index">
+    <thead>
+        <tr>
+            <th>Paciente ID</th>
+            <th>Doença</th>
+            <th>Entidades</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-pid="25557330"><td><a href="25557330_HIV_review.html">25557330</a></td><td>HIV</td><td style='text-align:center'>198</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="22924630"><td><a href="22924630_HIV_review.html">22924630</a></td><td>HIV</td><td style='text-align:center'>440</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="24918106"><td><a href="24918106_HIV_review.html">24918106</a></td><td>HIV</td><td style='text-align:center'>77</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="22413631"><td><a href="22413631_HIV_review.html">22413631</a></td><td>HIV</td><td style='text-align:center'>32</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="23080963"><td><a href="23080963_Sifilis_review.html">23080963</a></td><td>Sifilis</td><td style='text-align:center'>126</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="22978216"><td><a href="22978216_Sifilis_review.html">22978216</a></td><td>Sifilis</td><td style='text-align:center'>126</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="27306123"><td><a href="27306123_Sifilis_review.html">27306123</a></td><td>Sifilis</td><td style='text-align:center'>37</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="20250010"><td><a href="20250010_Tuberculose_review.html">20250010</a></td><td>Tuberculose</td><td style='text-align:center'>0</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="27321074"><td><a href="27321074_Tuberculose_review.html">27321074</a></td><td>Tuberculose</td><td style='text-align:center'>0</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="20248623"><td><a href="20248623_Tuberculose_review.html">20248623</a></td><td>Tuberculose</td><td style='text-align:center'>79</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="26565838"><td><a href="26565838_HIV_review.html">26565838</a></td><td>HIV</td><td style='text-align:center'>125</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="21532494"><td><a href="21532494_HIV_review.html">21532494</a></td><td>HIV</td><td style='text-align:center'>67</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="29897210"><td><a href="29897210_HIV_review.html">29897210</a></td><td>HIV</td><td style='text-align:center'>155</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="23732240"><td><a href="23732240_HIV_review.html">23732240</a></td><td>HIV</td><td style='text-align:center'>116</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="27381409"><td><a href="27381409_HIV_review.html">27381409</a></td><td>HIV</td><td style='text-align:center'>130</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="24476606"><td><a href="24476606_HIV_review.html">24476606</a></td><td>HIV</td><td style='text-align:center'>221</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="23349971"><td><a href="23349971_Tuberculose_review.html">23349971</a></td><td>Tuberculose</td><td style='text-align:center'>54</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="25375128"><td><a href="25375128_Tuberculose_review.html">25375128</a></td><td>Tuberculose</td><td style='text-align:center'>53</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="27566857"><td><a href="27566857_Tuberculose_review.html">27566857</a></td><td>Tuberculose</td><td style='text-align:center'>67</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="25601328"><td><a href="25601328_Tuberculose_review.html">25601328</a></td><td>Tuberculose</td><td style='text-align:center'>173</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="24910564"><td><a href="24910564_Tuberculose_review.html">24910564</a></td><td>Tuberculose</td><td style='text-align:center'>116</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="26539098"><td><a href="26539098_Tuberculose_review.html">26539098</a></td><td>Tuberculose</td><td style='text-align:center'>170</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="21182239"><td><a href="21182239_Tuberculose_review.html">21182239</a></td><td>Tuberculose</td><td style='text-align:center'>193</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="29297881"><td><a href="29297881_Sifilis_review.html">29297881</a></td><td>Sifilis</td><td style='text-align:center'>77</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="26536278"><td><a href="26536278_Sifilis_review.html">26536278</a></td><td>Sifilis</td><td style='text-align:center'>49</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="29347314"><td><a href="29347314_Sifilis_review.html">29347314</a></td><td>Sifilis</td><td style='text-align:center'>68</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="23481209"><td><a href="23481209_Sifilis_review.html">23481209</a></td><td>Sifilis</td><td style='text-align:center'>67</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="22964568"><td><a href="22964568_Sifilis_review.html">22964568</a></td><td>Sifilis</td><td style='text-align:center'>69</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="22345559"><td><a href="22345559_Sifilis_review.html">22345559</a></td><td>Sifilis</td><td style='text-align:center'>103</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr><tr data-pid="27758019"><td><a href="27758019_Sifilis_review.html">27758019</a></td><td>Sifilis</td><td style='text-align:center'>85</td><td class='status-cell'><span class='badge-status status-pendente'>pendente</span></td></tr>
+    </tbody>
+</table>
+
+<div class="export-bar">
+    <span class="progress" id="progress-summary">carregando...</span>
+    <button class="secondary" onclick="clearAll()">Limpar tudo</button>
+    <button onclick="exportAll()">Exportar TUDO (JSON)</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Gerado em 2026-04-29 |
+    <a href="instrucoes.html">Instruções detalhadas</a>
+</div>
+<script>const REVIEWER_KEY = 'iana_reviewer';
+
+function refreshTable() {
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || '';
+    document.getElementById('reviewer-display').textContent = reviewer || '(nao identificado)';
+
+    let totalCompleted = 0;
+    let totalStarted = 0;
+    document.querySelectorAll('tr[data-pid]').forEach(row => {
+        const pid = row.dataset.pid;
+        const cell = row.querySelector('.status-cell');
+        const raw = localStorage.getItem('iana_review_' + pid);
+        if (!raw) {
+            cell.innerHTML = '<span class="badge-status status-pendente">pendente</span>';
+            return;
+        }
+        try {
+            const state = JSON.parse(raw);
+            const cats = Object.keys(state).filter(k => !k.startsWith('_'));
+            const filled = cats.filter(k => state[k]?.status).length;
+            // 12 categorias por nota: 6 NER + 6 SOAP
+            const total = 12;
+            if (filled >= total) {
+                cell.innerHTML = `<span class="badge-status status-completo">completo (${filled}/${total})</span>`;
+                totalCompleted++;
+            } else {
+                cell.innerHTML = `<span class="badge-status status-iniciado">iniciado (${filled}/${total})</span>`;
+                totalStarted++;
+            }
+        } catch (e) {
+            cell.innerHTML = '<span class="badge-status status-pendente">erro</span>';
+        }
+    });
+    document.getElementById('progress-summary').textContent =
+        `${totalCompleted} completas, ${totalStarted} iniciadas, ${30 - totalCompleted - totalStarted} pendentes`;
+}
+function exportAll() {
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const allData = { reviewer: reviewer, timestamp: new Date().toISOString(), notes: [] };
+    document.querySelectorAll('tr[data-pid]').forEach(row => {
+        const pid = row.dataset.pid;
+        const raw = localStorage.getItem('iana_review_' + pid);
+        if (raw) {
+            try {
+                allData.notes.push({ paciente_id: pid, evaluations: JSON.parse(raw) });
+            } catch (e) {}
+        }
+    });
+    const blob = new Blob([JSON.stringify(allData, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `iana_review_${reviewer.replace(/\W+/g,'_')}_${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearAll() {
+    if (confirm('Apagar TODAS as avaliacoes deste browser? (sem desfazer)')) {
+        const keys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k.startsWith('iana_review_')) keys.push(k);
+        }
+        keys.forEach(k => localStorage.removeItem(k));
+        refreshTable();
+    }
+}
+function setReviewer() {
+    const r = document.getElementById('reviewer-name').value.trim();
+    if (r) {
+        localStorage.setItem(REVIEWER_KEY, r);
+        refreshTable();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    const r = localStorage.getItem(REVIEWER_KEY);
+    if (r) document.getElementById('reviewer-name').value = r;
+    refreshTable();
+});
+</script>
+</body>
+</html>

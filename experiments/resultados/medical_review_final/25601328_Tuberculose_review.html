@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 25601328 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 25601328</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 25601328 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 173
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Amoxicillin / Fish Product Derivatives / Egg / Nickel
+ 
+Attending: ___.
+ 
+Chief Complaint:
+dyspnea, pleural effusion
+ 
+Major Surgical or Invasive Procedure:
+___ thoracentesis
+___ bronchoscopy
+___ left-sided medial thoracoscopy with pleural biopsies and 
+PleurX catheter insertion
+___ right-sided thoracentesis
+
+ 
+History of Present Illness:
+___ female patient with
+history of ulcerative colitis on Remicade since ___, HTN,
+HLD, hypothyroidism who was referred to the emergency department
+by her PCP due to findings of a moderate-sized left-sided 
+pleural
+effusion. Patient reports that about 3 weeks ago she began
+feeling very fatigued. She then had gradual worsening chest
+pressure and shortness of breath. She had pain with inspiration
+in her chest, shoulder, back, and abdomen. She was seen by her
+primary care doctor and had an ___ and d-dimer testing. Her
+dimer was positive which prompted a CTA that was negative for PE
+but showed a moderate left and small right pleural effusion. It
+was thought to be infectious with superimposed pneumonia. She 
+was
+started on levofloxacin for 10 days which she completed around 4
+days ago. Her symptoms have not been improving and she continues
+to be short of breath. It is worsened with movement but is also
+at rest. Repeat imaging was concerning for worsening effusion.
+She was scheduled to see interventional pulmonology for the 
+first
+time on ___ but her primary care doctor want her to be
+seen in the emergency department for thoracentesis.
+
+She denies any sick contacts recent travel or hemoptysis.
+QuantiFERON gold was negative prior to beginning Remicade. She
+has been having joint pain since starting Remicade. She did have
+a rash on her legs after initiation of Remicade for which she 
+saw
+dermatology and was told she had a psoriasis-like skin rash and
+was prescribed betamethasone cream which helped. She recently 
+was
+on steroids for about 2 weeks and tapered off after discussion
+with her GI doctor. She is not having any UC symptoms now and
+feels slightly constipated. She feels she has had a lot of side
+effects from the Remicade and is not sure she wants to continue
+it. 
+
+In the ED, initial VS were: 97.7F, HR 109, BP 156/85, RR 18, 
+100%
+on RA
+
+Exam notable for: Decreased breath sounds bases bilaterally,
+scattered
+rhonchi on L with no increased work of breathing, no accessory
+muscle use.
+
+ECG: SR at 98, normal axis and intervals, no ST changes 
+
+Labs showed:
+-Normal coags 
+-Normal CBC
+-Normal BMP, glucose 102 
+-Pleural studies
+   WBC 1208
+   RBC ___
+   Poly 10
+   Lymph 77
+   Atypical 6
+   Plasma 2
+   Macro 5
+   Other 0
+   Protein 4.9
+   Glucose 100
+   LDH 117
+   Chol 111
+   proBNP 33
+
+Imaging showed:
+- Multiple chest x-rays; initially with trace right and moderate
+left pleural effusions. Later showing interval increase in
+pulmonary vascular congestion, concerning for mild pulmonary
+edema and worsening of left basilar opacity consistent with
+worsening atelectasis, with overlying pneumonia unable to be
+excluded. Repeat again showed ill-defined left basilar opacity 
+is
+minimally changed but more confluent as compared to prior which
+may reflect atelectasis, however, aspiration or infection cannot
+be excluded. Mild pulmonary edema is unchanged. 
+
+Consults: IP who performed thoracentesis. 
+
+Patient received: Tylenol, Oxycodone, Ketorolac IV, amlodipine,
+atorvastatin, metformin 1g, ranitidine, levothyroxine, Zofran,
+aspirin. 
+
+ED course: Patient was initially in observation in the ED. 
+Repeat
+chest ___ in the morning with concern for pulmonary edema.
+Patient was evaluated in the morning again on ___ and was noted
+to be weak, difficulty with moving the ball on IS, and with new
+O2 requirement of 2L. Ambulatory saturations were 93% on RA.
+Thus, decision was made to admit due to inability to manage
+symptoms at home. 
+
+Transfer VS were: 98.4F, HR 96, BP 137/72, RR 18, 97% ON 2L
+
+On arrival to the floor, patient reports that she feels slightly
+better now since having the pleural effusion drained but is 
+still
+having some pain around where the catheter was inserted. She has
+been trying to do the incentive spirometry as much as she can. 
+ 
+Past Medical History:
+Type 2 diabetes on insulin 
+Ulcerative colitis 
+Hyperlipidemia 
+Hypertension 
+Hypothyroidism 
+Coronary artery disease (CATH ___: 40% plaquing in RCA, 70% 
+long
+stenosis in OM2)
+Osteoarthritis 
+Iron deficiency 
+Osteopenia 
+Fibromyalgia 
+s/p bilateral knee replacement
+ 
+Social History:
+___
+Family History:
+Mother deceased with history of hypertension and heart disease.
+Father deceased at age ___ from ___, also had diabetes. Brother
+with diabetes. Daughter with MS and breast cancer. No family
+history of lupus or any rheumatologic conditions that she is
+aware of. 
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM:
+VS: 98.0F, 125/76, HR98, RR22, 93%RA -&gt; 98% on 1L
+GENERAL: NAD, breathing comfortably 
+HEENT: AT/NC, anicteric sclera, MMM, oral thrush present 
+NECK: supple, no LAD
+CV: RRR, S1/S2, no murmurs, gallops, or rubs
+PULM: Breathing comfortably without use of accessory muscles,
+decreased breath sounds at the left lower base and right lung
+base 
+GI: abdomen soft, nondistended, nontender in all quadrants, no
+rebound/guarding, no hepatosplenomegaly
+EXTREMITIES: no cyanosis, clubbing, or edema
+PULSES: 2+ radial pulses bilaterally
+NEURO: Alert, moving all 4 extremities with purpose, face
+symmetric
+DERM: circular hyperpigmented macules scattered on lower
+extremities around the ankles
+
+DISCHARGE PHYSICAL EXAM:
+GENERAL: NAD
+HEENT: anicteric sclera
+CV: RRR, S1/S2, no murmurs, gallops, or rubs. 
+PULM:  Diminished breath sounds at the bases b/l, w crackles
+present in mid lung fields, L&gt;R
+THORAX:  There is a left chest tube capped and in place,
+surrounded by clean dry dressing. 
+GI: Hyperactive bowel sounds.  Abdomen is soft, nondistended,
+moderately tender in all quadrants, no rebound/guarding.
+EXTREMITIES: no cyanosis, clubbing.  1+ lower extremity edema
+to the mid shin bilaterally.
+NEURO: Alert, moving all 4 extremities with purpose, face
+symmetric
+ 
+Pertinent Results:
+ADMISSION LABS:
+___ 08:45PM PLEURAL  TOT PROT-4.9 GLUCOSE-102 LD(LDH)-171 
+CHOLEST-112 proBNP-33
+___ 08:45PM PLEURAL  TNC-2643* RBC-5339* POLYS-1* 
+LYMPHS-99* ___ 03:41PM OTHER BODY FLUID  PH-7.44
+___ 03:18PM PLEURAL  TOT PROT-4.9 GLUCOSE-100 LD(LDH)-117 
+CHOLEST-111 proBNP-33
+___ 03:18PM PLEURAL  TNC-1208* ___ POLYS-10* 
+LYMPHS-77* MONOS-0 ATYPS-6* PLASMA-2* MACROPHAG-5* OTHER-0
+___ 11:50AM   GLUCOSE-102* UREA N-8 CREAT-0.7 SODIUM-137 
+POTASSIUM-4.4 CHLORIDE-98 TOTAL CO2-24 ANION GAP-15
+___ 11:50AM   estGFR-Using this
+___ 11:50AM   LD(LDH)-157
+___ 11:50AM   TOT PROT-6.9
+___ 11:50AM   ___ TITER-1:40* dsDNA-POSITIVE*
+___ 11:50AM   WBC-6.0 RBC-4.45 HGB-11.4 HCT-36.7 MCV-83 
+MCH-25.6* MCHC-31.1* RDW-15.3 RDWSD-45.6
+___ 11:50AM   NEUTS-62.7 ___ MONOS-8.4 EOS-1.7 
+BASOS-0.7 IM ___ AbsNeut-3.79 AbsLymp-1.58 AbsMono-0.51 
+AbsEos-0.10 AbsBaso-0.04
+___ 11:50AM   PLT COUNT-358
+___ 11:50AM   ___ PTT-28.0 ___
+
+PERTINENT MICRO:
+___ 4:54 pm TISSUE      LEFT PAREITAL PLEURA. 
+      MTB TEST APPROVED BY ___ AT 1720 ON 
+___. 
+
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+
+   TISSUE (Final ___:    NO GROWTH. 
+
+   ANAEROBIC CULTURE (Final ___:    NO GROWTH. 
+
+   ACID FAST SMEAR (Final ___: 
+      Reported to and read back by ___ (___) AND 
+___
+      (___) @ 15:20, ___. 
+      ACIDFAST BACILLI.    RARE seen on direct smear. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      NO FUNGAL ELEMENTS SEEN. 
+
+   MTB Direct Amplification (Final ___: 
+      CANCELLED.    PATIENT CREDITED. 
+         Testing not performed routinely. Requests for testing 
+can be made
+         by paging the Microbiology Resident on call (___).. 
+
+         PLEASE REORDER AS &quot;PCR&quot;. 
+
+Pleural fluid, right:
+NEGATIVE FOR MALIGNANT CELLS.
+Reactive mesothelial cells and numerous lymphocytes.
+Note: Acid fast bacilli are seen on AFB stain. GMS and PAS are 
+negative for microorganisms.
+
+STUDIES:
+===============
+CHEST (PORTABLE AP)Study Date of ___ 3:08 ___
+Comparison to ___, 12:37.  The left pleural drain is 
+in stable
+position.  Improved ventilation of both the left and the right 
+lung, with a
+decrease in extent of the pre-existing retrocardiac atelectasis. 
+ On the
+right, the extent of the effusion is stable.  Stable edema and 
+mild
+cardiomegaly.
+
+See reports for IP procedure reports
+
+DISCHARGE LABS:
+====================
+
+___ 06:15AM BLOOD WBC-5.3 RBC-4.05 Hgb-10.1* Hct-33.0* 
+MCV-82 MCH-24.9* MCHC-30.6* RDW-15.7* RDWSD-46.4* Plt ___
+___ 06:15AM BLOOD Plt ___
+___ 06:15AM BLOOD Glucose-58* UreaN-7 Creat-0.7 Na-145 
+K-4.2 Cl-104 HCO3-26 AnGap-15
+___ 06:15AM BLOOD ALT-13 AST-23 AlkPhos-133* TotBili-0.5
+___ 06:15AM BLOOD Calcium-8.3* Phos-3.7 Mg-1.8
+ 
+Brief Hospital Course:
+Ms. ___ is a ___ female patient with history 
+of ulcerative colitis on Remicade presenting to the emergency 
+department with moderate-sized left-sided pleural effusion s/p 
+thoracentesis in the ED admitted for post-thoracentesis 
+management, initially requiring oxygen due to re-expansion 
+pleural effusion which resolved. She was found to have active 
+tuberculosis infection in her pleura. Chest tube was placed and 
+drained MWF. She was started on RIPE therapy.
+
+ACTIVE ISSUES
+====================
+#Likely reactivation of MTB in the setting of anti-TNF alpha
+therapy.
+#Pulmonary TB involving the pleural space
+#Recurrent bilateral pleural effusion, L &gt; R requiring pleurX 
+catheter
+s/p thoracentesis (___) in the ED (850cc fluid removed), with 
+initial studies showing an exudative effusion, as well as 
+lymphocytic predominance and elevated adenosine deaminase as 
+well as rapid accumulation, prompting further w/u for evaluation 
+of possible malignancy vs TB.
+She had multiple additional procedures, s/p ___ medical 
+thoracoscopy and L pleurX placement (with IP; ___ as well as 
+R thoracentesis on ___. 
+In addition, she underwent bronch with BAL (___). 
+Ultimately she was found to have TB of the pleura and pleural 
+fluid. 
+Likely reactivated in setting of recent initiation of infliximab 
+- though pt had a recent negative quantiferon gold, per ID, this 
+test is not reliable for the diagnosis of active TB, especially 
+in the setting of immunocompromise. 
+Serositis from UC considered, but subsequently found to be 
+growing AFB in tissue and pleural fluid. dsDNA positive, 
+anti-histone Ab negative - likely effect of infliximab, less 
+likely true drug-induced lupus. Pt discharged with chest tube 
+and will follow up with IP in their clinic. She will be drained 
+MWF by ___. Case manager from ___ will follow for observed 
+medication at home. She will need to be on respiratory isolation 
+in her home through ___. She was started on RIPE therapy which 
+she tolerated well. She will follow up with ___ at ___. 
+Pleuritic chest pain in setting of effusion and chest tube well 
+controlled with ibuprofen (NSAID therapy ok&#x27;d per pts primary GI 
+given her hx of UC).
+
+#Hypoxic respiratory failure
+Likely a component of pleural effusions with atelectasis 
+contributing as well. Symptoms resolved after temporary 
+supplemental O2 support. She was encouraged to ambulate and use 
+incentive spirometry and pain was controlled with ibuprofen.
+
+#Rash, L flank
+Hypersensitivity reaction, possibly to adhesive tape, but 
+unclear. Improved with hydroxyzine and resolved at d/c.
+
+___ Swelling: 
+No s/s of systemic overload. Suspect isolated to ___, probably 
+d/t venous insufficiency. Would favor continued monitoring 
+clinically and f/u with PCP for now. Can consider venous 
+compression stockings, outpatient echo if sx persists.
+
+CHRONIC ISSUES:
+===============
+#Insomnia. Continued amitriptyline qHS.
+
+#Hypertension: Continued home amlodipine. Held home irbesartan 
+(not on formulary) as patient&#x27;s BP was wnl. 
+
+#HLD: Continued home statin.
+
+#Diabetes: Held oral diabetes medication while in house and 
+placed on insulin basal bolus + ISS
+
+#Hypothyroidism: Continued home levothyroxine
+
+#UC. On Remicade as an outpatient. As above, plans to d/c this 
+therapy and consider alternatives such as vedolizumab at the 
+time of GI ___. She was continued on ___ 
+
+#CAD: Continued home ASA, statin
+
+#GERD: Continued home ranitidine 
+
+#Oral thrush, patient reports sx not improving with 
+clotrimazole, Ordered for nystatin while in-house. 
+
+TRANSITIONAL ISSUES
+====================
+#CODE: Full (presumed)
+#CONTACT: Husband ___ ___
+
+[ ] Patient has had increased leg swelling during 
+hospitalization with no other evidence of new 
+cardiomyopathy/CHF. Possibly related to poor mobility during 
+stay, but please evaluate and consider TTE as outpatient or 
+compression stockings.
+[ ] Pt reported mild irritation under L breast on the day of d/c 
+without overt e/o infection or rash. Please ensure resolution at 
+f/u
+[ ] Please ensure pt has optho apt within ___ weeks of discharge 
+(for baseline and then screening q1-2 mo for ethambutol 
+toxicity). This can be done in ___.
+[ ] Labs ordered in ___ OMR for ___. Please ensure patient 
+has these drawn so they will be followed up by ___
+[ ] Ibuprofen has been helpful with pain control. Please 
+evaluate pain control at follow up and reinforce taking with 
+food and water to limit ulcer development, watch for s/s 
+bleeding 
+[ ] Please reinforce incentive spirometer use to improve 
+atelectasis
+[ ] F/u scheduled with IP for possible removal of pleurX 
+catheter
+[ ] Pt to discuss vedolizumab or other biologic with Dr. ___ at 
+f/u
+
+#TB infection control protocol:
+-state CM to f/u for observed therapy post d/c
+-will need 14d of resp isolation from ___ (until ___ 
+should limit visitors to those previously exposed to the patient 
+(direct family), pt should wear provided surgical mask while 
+visitors present
+-Discussed with outpatient GI (___), possible change to 
+vedolizumab in outpatient setting after treatment for TB
+-will need prolonged course of treatment, following with ___ 
+clinic at ___
+
+&gt;30 minutes were spent on discharge planning and coordination of 
+care on the day of discharge
+
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Amitriptyline 25 mg PO QHS at bedtime prn sleep, joint pain 
+2. amLODIPine 10 mg PO DAILY 
+3. Atorvastatin 20 mg PO QPM 
+4. Glargine 18 Units Breakfast
+Insulin SC Sliding Scale using HUM Insulin
+5. irbesartan 300 mg oral DAILY 
+6. Levothyroxine Sodium 150 mcg PO 5X/WEEK (___) 
+7. Mesalamine ___ 1200 mg PO BID 
+8. MetFORMIN (Glucophage) 1000 mg PO BID 
+9. Aspirin 81 mg PO DAILY 
+10. Vitamin D ___ UNIT PO BID 
+11. Ferrous GLUCONATE 236 mg PO DAILY 
+12. Magnesium Oxide 280 mg PO DAILY 
+13. Ranitidine 150 mg PO BID 
+14. Citracal Regular (calcium citrate-vitamin D3) 250 mg 
+calcium- 200 unit oral DAILY 
+15. InFLIXimab 400 mg IV Q4WEEKS 
+16. Clotrimazole 1 TROC PO QID 
+
+ 
+Discharge Medications:
+1.  Acetaminophen 1000 mg PO Q8H  
+2.  Bisacodyl 10 mg PO DAILY:PRN Constipation - Second Line  
+3.  Docusate Sodium 200 mg PO BID  
+4.  Ethambutol HCl 1600 mg PO DAILY 
+RX *ethambutol 400 mg 4 tablet(s) by mouth daily Disp #*120 
+Tablet Refills:*0 
+5.  Ibuprofen 400 mg PO Q8H:PRN Pain - Mild  
+6.  Isoniazid ___ mg PO DAILY 
+RX *isoniazid ___ mg 1 tablet(s) by mouth daily Disp #*30 Tablet 
+Refills:*0 
+7.  Polyethylene Glycol 17 g PO DAILY 
+RX *polyethylene glycol 3350 17 gram/dose 1 powder(s) by mouth 
+daily Refills:*0 
+8.  Pyrazinamide ___ mg PO DAILY 
+RX *pyrazinamide 500 mg 4 tablet(s) by mouth daily Disp #*120 
+Tablet Refills:*0 
+9.  Pyridoxine 50 mg PO DAILY 
+RX *pyridoxine (vitamin B6) 50 mg 1 tablet(s) by mouth daily 
+Disp #*30 Tablet Refills:*0 
+10.  Rifampin 600 mg PO Q24H 
+RX *rifampin 300 mg 2 capsule(s) by mouth daily Disp #*30 
+Capsule Refills:*0 
+11.  Insulin SC 
+      Sliding Scale
+
+Fingerstick QACHS
+Insulin SC Sliding Scale using HUM Insulin 
+12.  Amitriptyline 25 mg PO QHS at bedtime prn sleep, joint pain 
+ 
+13.  amLODIPine 10 mg PO DAILY  
+14.  Aspirin 81 mg PO DAILY  
+15.  Atorvastatin 20 mg PO QPM  
+16.  Citracal Regular (calcium citrate-vitamin D3) 250 mg 
+calcium- 200 unit oral DAILY  
+17.  Clotrimazole 1 TROC PO QID  
+18.  Ferrous GLUCONATE 236 mg PO DAILY  
+19.  irbesartan 300 mg oral DAILY  
+20.  Levothyroxine Sodium 150 mcg PO 5X/WEEK (___)  
+21.  Magnesium Oxide 280 mg PO DAILY  
+22.  Mesalamine ___ 1200 mg PO BID  
+23.  MetFORMIN (Glucophage) 1000 mg PO BID  
+24.  Ranitidine 150 mg PO BID  
+25.  Vitamin D ___ UNIT PO BID  
+
+ 
+Discharge Disposition:
+Home With Service
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+TB pleural effusion
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+ Dear Ms. ___,
+  
+ It was a pleasure caring for you at ___ 
+___.  
+
+ WHY WAS I IN THE HOSPITAL?  
+ - You were in the hospital because you were short of breath and 
+you had fluid in your lung.
+
+ WHAT HAPPENED TO ME IN THE HOSPITAL?  
+You came to the hospital for further evaluation of ongoing 
+shortness of breath and concern for persistent fluid collections 
+(pleural effusions) despite a course of antibiotics as an 
+outpatient.
+
+Your initial testing during this hospital stay revealed a 
+worsening pleural effusion of your left lung and new right sided 
+pleural effusion.
+
+You underwent a drainage of the fluid surrounding your left lung 
+in the emergency department(thoracentesis) on ___.  
+
+You were also started on antibiotics for a possible recurrent 
+pneumonia for which you recently completed a 5 day course of 
+antibiotics.
+
+The initial fluid studies raised suspicion for cancer or 
+possible tuberculosis among other possible diagnoses so you 
+underwent a procedure to directly visualize the lung lining 
+(Thoracoscopy) on ___.  
+
+The biopsy further supported the diagnosis of tuberculosis. You 
+also undewent direct visualization of the breathing tubes 
+(bronchoscopy) on the same day but the samples obtained from 
+that testing have been thus far unrevealing. 
+
+Testing for cancer has been negative. 
+
+Finally, because your chest X-rays demonstrated re-accumulation 
+of the fluid around your left lung, you had a temporary catheter 
+placed in the left lung to allow for ongoing drainage if the 
+fluid re-accumulates again. 
+
+A growing fluid collection around your right lung was also 
+drained on that day as well which grew tuberculosis.
+
+You were started on treatment for tuberculosis.
+
+As you know, following discussion with your primary 
+gastroententerologist we will plan to discontinue remicade and 
+consider additional treatment options moving forward. You can 
+talk to Dr. ___ this at your follow up appointment.
+
+ WHAT SHOULD I DO AFTER I LEAVE THE HOSPITAL?  
+ - Continue to take all your medicines and keep your 
+appointments.  
+ - The case manager from the ___ will call you to set up your 
+observed medication appointments.
+ - You should wear a surgical mask when you are around other 
+people.
+ - You should take your TB medications at 2PM tomorrow. If you 
+want to move them up in the day, please arrange this with your 
+case manager. It is ok to advance them forward by 2 hours each 
+day (2PM to noon, then noon to 10AM, then 10AM to 8 AM)
+ - You should stay in your home until you have had 14 days of 
+treatment (___). You should not visit with your grandchildren 
+or any one who is immunocompromised until after that date. 
+Visitors should wear N95 ___ until your case manager says it 
+is ok to stop doing so.
+
+ We wish you the best!  
+
+ Sincerely,  
+
+ Your ___ Team  
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(18)</span></h3>
+  <ul>
+    <li>Tuberculose pleural</li>
+    <li>Tuberculose pulmonar</li>
+    <li>Colite ulcerativa</li>
+    <li>Diabetes Mellitus tipo 2</li>
+    <li>Hipertensão arterial sistêmica</li>
+    <li>Dislipidemia</li>
+    <li>Hipotireoidismo</li>
+    <li>Doença arterial coronariana</li>
+    <li>Osteoartrite</li>
+    <li>Anemia ferropriva</li>
+    <li>Osteopenia</li>
+    <li>Fibromialgia</li>
+    <li>Insônia</li>
+    <li>Falência respiratória hipóxica</li>
+    <li>Edema pulmonar</li>
+    <li>Candidíase oral</li>
+    <li>Reação de hipersensibilidade cutânea</li>
+    <li>Insuficiência venosa</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(16)</span></h3>
+  <ul>
+    <li>Dispneia</li>
+    <li>Dor pleurítica</li>
+    <li>Fadiga</li>
+    <li>Pressão torácica</li>
+    <li>Dor com inspiração</li>
+    <li>Sons respiratórios diminuídos nas bases</li>
+    <li>Roncos esparsos</li>
+    <li>Edema de membros inferiores</li>
+    <li>Maculas hiperpigmentadas circulares nas extremidades inferiores</li>
+    <li>Fraqueza</li>
+    <li>Irritação sob a mama esquerda</li>
+    <li>Constipação</li>
+    <li>Sangramento (risco de sangramento gastrointestinal)</li>
+    <li>Dificuldade com espirometria de incentivo</li>
+    <li>Atelectasia</li>
+    <li>Cardiomegalia</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(33)</span></h3>
+  <ul>
+    <li>Paracetamol</li>
+    <li>Bisacodil</li>
+    <li>Docusato de sódio</li>
+    <li>Etambutol</li>
+    <li>Ibuprofeno</li>
+    <li>Isoniazida</li>
+    <li>Polietilenoglicol</li>
+    <li>Pirazinamida</li>
+    <li>Piridoxina</li>
+    <li>Rifampina</li>
+    <li>Insulina</li>
+    <li>Amitriptilina</li>
+    <li>Amlodipina</li>
+    <li>Aspirina</li>
+    <li>Atorvastatina</li>
+    <li>Citracal</li>
+    <li>Clotrimazol</li>
+    <li>Ferro gluconato</li>
+    <li>Irbesartana</li>
+    <li>Levotiroxina sódica</li>
+    <li>Óxido de magnésio</li>
+    <li>Mesalamina</li>
+    <li>Metformina</li>
+    <li>Ranitidina</li>
+    <li>Vitamina D</li>
+    <li>Infliximabe</li>
+    <li>Levofloxacino</li>
+    <li>Oxicodona</li>
+    <li>Ketorolaco</li>
+    <li>Ondansetrona</li>
+    <li>Betametasona</li>
+    <li>Nistatina</li>
+    <li>Hidroxizina</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(94)</span></h3>
+  <ul>
+    <li>QuantiFERON Gold-Negativo</li>
+    <li>D-dimer-Positivo</li>
+    <li>Angiotomografia computadorizada (CTA)-Negativo para Embolia Pulmonar</li>
+    <li>Coagulograma-Normal</li>
+    <li>Hemograma completo (CBC)-Normal</li>
+    <li>BMP-Normal</li>
+    <li>Glicose-102 mg/dL</li>
+    <li>Pleural studies: WBC-1208</li>
+    <li>Pleural studies: Polimorfonucleares-10%</li>
+    <li>Pleural studies: Linfócitos-77%</li>
+    <li>Pleural studies: Atípicos-6%</li>
+    <li>Pleural studies: Plasma-2%</li>
+    <li>Pleural studies: Macrófagos-5%</li>
+    <li>Pleural studies: Proteína-4.9 g/dL</li>
+    <li>Pleural studies: Glicose-100 mg/dL</li>
+    <li>Pleural studies: LDH-117 U/L</li>
+    <li>Pleural studies: Colesterol-111 mg/dL</li>
+    <li>Pleural studies: proBNP-33 pg/mL</li>
+    <li>Pleural studies (repetido): TNC-2643</li>
+    <li>Pleural studies (repetido): RBC-5339</li>
+    <li>Pleural studies (repetido): Polimorfonucleares-1%</li>
+    <li>Pleural studies (repetido): Linfócitos-99%</li>
+    <li>Pleural studies (repetido): Proteína-4.9 g/dL</li>
+    <li>Pleural studies (repetido): Glicose-102 mg/dL</li>
+    <li>Pleural studies (repetido): LDH-171 U/L</li>
+    <li>Pleural studies (repetido): Colesterol-112 mg/dL</li>
+    <li>Pleural studies (repetido): proBNP-33 pg/mL</li>
+    <li>Pleural studies (repetido): TNC-1208</li>
+    <li>Pleural studies (repetido): Polimorfonucleares-10%</li>
+    <li>Pleural studies (repetido): Linfócitos-77%</li>
+    <li>Pleural studies (repetido): Monócitos-0%</li>
+    <li>Pleural studies (repetido): Atípicos-6%</li>
+    <li>Pleural studies (repetido): Plasma-2%</li>
+    <li>Pleural studies (repetido): Macrófagos-5%</li>
+    <li>Gasometria de líquido pleural: pH-7.44</li>
+    <li>Ureia-8 mg/dL</li>
+    <li>Creatinina-0.7 mg/dL</li>
+    <li>Sódio-137 mEq/L</li>
+    <li>Potássio-4.4 mEq/L</li>
+    <li>Cloreto-98 mEq/L</li>
+    <li>CO2 total-24 mEq/L</li>
+    <li>Gap aniônico-15</li>
+    <li>LDH-157 U/L</li>
+    <li>Proteína total-6.9 g/dL</li>
+    <li>Título de ANA-1:40</li>
+    <li>dsDNA-Positivo</li>
+    <li>WBC-6.0</li>
+    <li>RBC-4.45</li>
+    <li>Hemoglobina-11.4 g/dL</li>
+    <li>Hematócrito-36.7%</li>
+    <li>MCV-83 fL</li>
+    <li>MCH-25.6 pg</li>
+    <li>MCHC-31.1 g/dL</li>
+    <li>RDW-15.3%</li>
+    <li>RDWSD-45.6 fL</li>
+    <li>Neutrófilos-62.7%</li>
+    <li>Monócitos-8.4%</li>
+    <li>Eosinófilos-1.7%</li>
+    <li>Basófilos-0.7%</li>
+    <li>Neutrófilos absolutos-3.79</li>
+    <li>Linfócitos absolutos-1.58</li>
+    <li>Monócitos absolutos-0.51</li>
+    <li>Eosinófilos absolutos-0.10</li>
+    <li>Basófilos absolutos-0.04</li>
+    <li>Plaquetas-358</li>
+    <li>PTT-28.0</li>
+    <li>Cultura de tecido (Pleura parietal esquerda)-Sem crescimento</li>
+    <li>Cultura anaeróbia-Sem crescimento</li>
+    <li>Cultura fúngica-Sem fungo isolado</li>
+    <li>Preparação com hidróxido de potássio (KOH)-Sem elementos fúngicos</li>
+    <li>Amplificação direta de MTB-Cancelada</li>
+    <li>Citologia de líquido pleural direito-Negativo para células malignas</li>
+    <li>Citologia de líquido pleural direito: Células mesoteliais reativas e linfócitos numerosos</li>
+    <li>Coloração de Gram (tecido): 1+ Leucócitos polimorfonucleares</li>
+    <li>Coloração de Gram (tecido): Sem microrganismos vistos</li>
+    <li>Bacilos álcool-ácido resistentes (BAAR) na esfregaço direto: Raros vistos</li>
+    <li>Cultura de BAAR (Preliminar): Em andamento</li>
+    <li>GMS e PAS-Negativo para microrganismos</li>
+    <li>Hemoglobina (alta)-10.1 g/dL</li>
+    <li>Hematócrito (alta)-33.0%</li>
+    <li>MCV (alta)-82 fL</li>
+    <li>MCH (alta)-24.9 pg</li>
+    <li>MCHC (alta)-30.6 g/dL</li>
+    <li>RDW (alta)-15.7%</li>
+    <li>RDWSD (alta)-46.4 fL</li>
+    <li>Glicose (alta)-58 mg/dL</li>
+    <li>ALT-13 U/L</li>
+    <li>AST-23 U/L</li>
+    <li>Fosfatase alcalina-133 U/L</li>
+    <li>Bilirrubina total-0.5 mg/dL</li>
+    <li>Cálcio-8.3 mg/dL</li>
+    <li>Fósforo-3.7 mg/dL</li>
+    <li>Magnésio-1.8 mg/dL</li>
+    <li>Anti-histona-Negativo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(11)</span></h3>
+  <ul>
+    <li>Toracocentese</li>
+    <li>Broncoscopia</li>
+    <li>Toracoscopia medial esquerda com biópsias pleurais</li>
+    <li>Cateter PleurX</li>
+    <li>Radiografia de tórax</li>
+    <li>Angiotomografia computadorizada (CTA)</li>
+    <li>Eletrocardiograma (ECG)</li>
+    <li>Biópsia pleural</li>
+    <li>Lavado broncoalveolar (BAL)</li>
+    <li>Ecocardiograma transtorácico (TTE) - sugerido para acompanhamento</li>
+    <li>Espirometria de incentivo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Mycobacterium tuberculosis</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino relata queixa principal de dispneia e presença de derrame pleural. Na História da Doença Atual (HDA), refere que há cerca de 3 semanas iniciou com fadiga intensa, seguida de piora gradual de pressão torácica e falta de ar. Relata dor pleurítica (com inspiração) em tórax, ombro, costas e abdômen. Menciona que foi avaliada pelo médico de família, realizou exames de imagem e teste de dímero-D positivo, o que levou a uma angiotomografia (CTA) negativa para embolia pulmonar, mas que mostrou derrame pleural moderado à esquerda e pequeno à direita. Foi tratada com levofloxacino por 10 dias (completo há 4 dias), sem melhora dos sintomas. Refere que a falta de ar piora com movimento e persiste em repouso. Nega contato com doentes, viagens recentes ou hemoptise. Relata dor articular desde o início do uso de Remicade (infliximabe). Menciona ter tido erupção cutânea nas pernas após início do Remicade, diagnosticada como rash tipo psoríase, tratada com creme de betametasona. Refere uso recente de esteroides por 2 semanas, com desmame após discussão com gastroenterologista. Nega sintomas de colite ulcerativa no momento, mas refere constipação leve. Refere muitos efeitos colaterais do Remicade e incerteza sobre a continuidade do tratamento. Na admissão, refere sentir-se ligeiramente melhor após a drenagem do derrame pleural, mas ainda com dor no local de inserção do cateter. Nega febre, calafrios ou tosse produtiva. Nega história familiar de lúpus ou condições reumatológicas. Relata histórico de diabetes tipo 2, colite ulcerativa, hiperlipidemia, hipertensão, hipotireoidismo, doença arterial coronariana, osteoartrite, deficiência de ferro, osteopenia e fibromialgia. Nega alergias a medicamentos além das listadas (amoxicilina, derivados de peixe, ovo, níquel).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na Admissão: Temperatura 98.0°F, PA 125/76 mmHg, FC 98 bpm, FR 22 irpm, SpO2 93% em ar ambiente (subindo para 98% com 1L de O2). Sinais Vitais na Transferência: Temperatura 98.4°F, PA 137/72 mmHg, FC 96 bpm, FR 18 irpm, SpO2 97% com 2L de O2. Sinais Vitais na Alta: Estáveis. Exame Físico na Admissão: Geral: Paciente sem angústia aparente, respirando confortavelmente. HEENT: Escleras anictéricas, mucosas úmidas, presença de sapinho oral (candidíase). Pescoço: Suplê, sem linfadenopatia. Cardiovascular: Rítmico, bulhas normofonéticas, sem sopros, galopos ou atritos. Pulmões: Respiração confortável sem uso de músculos acessórios, sons respiratórios diminuídos na base esquerda e base direita. Abdômen: Macio, não distendido, indolor em todos os quadrantes, sem rebote ou defesa, sem hepatosplenomegalia. Extremidades: Sem cianose, acropaquia ou edema. Pulses: 2+ radiais bilateralmente. Neurológico: Alerta, movendo todos os 4 membros com propósito, face simétrica. Dermatológico: Maculas hiperpigmentadas circulares espalhadas nas extremidades inferiores ao redor dos tornozelos. Exame Físico na Alta: Geral: Sem angústia aparente. HEENT: Escleras anictéricas. Cardiovascular: Rítmico, bulhas normofonéticas, sem sopros, galopos ou atritos. Pulmões: Sons respiratórios diminuídos nas bases bilateralmente, com estertores presentes nos campos pulmonares médios, L&gt;R. Tórax: Dreno torácico à esquerda com tampa e curativo limpo e seco. Abdômen: Ruídos hidroaéreos hiperativos. Macio, não distendido, moderadamente doloroso em todos os quadrantes, sem rebote ou defesa. Extremidades: Sem cianose ou acropaquia. Edema 1+ nas extremidades inferiores até a metade da canela bilateralmente. Neurológico: Alerta, movendo todos os 4 membros com propósito, face simétrica.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica (Admissão - 11:50): Leucócitos (WBC) 6.0, Hemoglobina (HGB) 11.4 g/dL, Hematócrito (HCT) 36.7%, Plaquetas (PLT) 358.000, Neutrófilos 62.7%, Linfócitos 26.7%, Monócitos 8.4%, Eosinófilos 1.7%, Basófilos 0.7%. Glicose 102 mg/dL, Ureia 8 mg/dL, Creatinina 0.7 mg/dL, Sódio 137 mEq/L, Potássio 4.4 mEq/L, Cloreto 98 mEq/L, CO2 Total 24 mEq/L, Gap Aniônico 15. LDH 157 U/L, Proteína Total 6.9 g/dL. Sorologia: dsDNA Positivo, Titer ANA 1:40. Coagulação: PTT 28.0 seg. Gasometria Arterial (Líquido Pleural): pH 7.44. Líquido Pleural (Admissão - 03:18): Leucócitos 1208, Hemácias 5339, Polimorfonucleares 10%, Linfócitos 77%, Monócitos 0%, Células Atípicas 6%, Células Plasmáticas 2%, Macrófagos 5%, Proteína Total 4.9 g/dL, Glicose 100 mg/dL, LDH 117 U/L, Colesterol 111 mg/dL, proBNP 33 pg/mL. Líquido Pleural (Admissão - 08:45): Proteína Total 4.9 g/dL, Glicose 102 mg/dL, LDH 171 U/L, Colesterol 112 mg/dL, proBNP 33 pg/mL. Hemograma e Bioquímica (Alta - 06:15): Leucócitos 5.3, Hemoglobina 10.1 g/dL, Hematócrito 33.0%, Plaquetas 358.000, Glicose 58 mg/dL, Ureia 7 mg/dL, Creatinina 0.7 mg/dL, Sódio 145 mEq/L, Potássio 4.2 mEq/L, Cloreto 104 mEq/L, HCO3 26 mEq/L, Gap Aniônico 15. Função Hepática: ALT 13 U/L, AST 23 U/L, Fosfatase Alcalina 133 U/L, Bilirrubina Total 0.5 mg/dL. Eletrólitos: Cálcio 8.3 mg/dL, Fósforo 3.7 mg/dL, Magnésio 1.8 mg/dL. Microbiologia: Gram de tecido pleural: 1+ leucócitos polimorfonucleares, sem microrganismos vistos. Cultura de tecido: Sem crescimento. Cultura anaeróbia: Sem crescimento. Esfregaço de Bacilo Ácido-Fast (BAF): Bacilos Ácido-Fast raros vistos no esfregaço direto. Cultura de BAF: Preliminar (em andamento). Cultura Fúngica: Sem fungo isolado. Preparação com Hidróxido de Potássio (KOH): Sem elementos fúngicos vistos. Citologia de líquido pleural direito: Negativo para células malignas. Células mesoteliais reativas e numerosos linfócitos. Nota: Bacilos Ácido-Fast vistos na coloração BAF. GMS e PAS negativos para microrganismos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Radiografia de Tórax (Múltiplas): Inicialmente mostrava derrame pleural traço à direita e moderado à esquerda. Posteriormente, mostrou aumento intervalar da congestão vascular pulmonar, preocupante para edema pulmonar leve e piora da opacidade basilar esquerda consistente com atelectasia em piora, com pneumonia sobreposta não excluída. Repetição mostrou opacidade basilar esquerda mal definida minimamente alterada, mas mais confluinte em comparação com exames anteriores, o que pode refletir atelectasia, porém aspiração ou infecção não podem ser excluídas. Edema pulmonar leve sem alteração. Radiografia de Tórax (Portátil AP - Data da Alta): Dreno pleural à esquerda em posição estável. Melhora da ventilação de ambos os pulmões, com diminuição da extensão da atelectasia retrocardíaca pré-existente. À direita, a extensão do derrame está estável. Edema estável e cardiomegalia leve.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina com histórico de colite ulcerativa em uso de infliximabe (anti-TNF alfa), apresentando insuficiência respiratória hipóxica secundária a derrame pleural bilateral (predominância esquerda) e atelectasia. O quadro clínico evoluiu com piora da dispneia e acúmulo rápido de líquido pleural, refratário a antibióticos para pneumonia. O diagnóstico foi confirmado como Tuberculose Pleural (TB) ativa, evidenciado pela presença de bacilos ácido-fastos (BAF) raros no esfregaço direto de tecido pleural e líquido pleural, além de citologia com predomínio linfocitário e níveis elevados de adenosina deaminase (implícito no contexto de TB). A reativação da TB é altamente provável devido à imunossupressão induzida pelo infliximabe, apesar do teste QuantiFERON Gold negativo prévio (falso negativo esperado em imunossupressão). O dsDNA positivo sugere possível efeito do infliximabe ou lúpus induzido por drogas, mas a ausência de anticorpos anti-histona e a confirmação microbiológica de TB tornam a TB a causa primária da serosite. O edema pulmonar leve e a cardiomegalia foram observados, mas a insuficiência respiratória foi predominantemente devido ao derrame e atelectasia, que melhoraram com a drenagem (toracocentese, toracoscopia e inserção de cateter PleurX). A paciente foi iniciada em terapia RIPE (Rifampicina, Isoniazida, Pirazinamida, Etambutol) com boa tolerância. A dor pleurítica foi controlada com AINEs (ibuprofeno), considerado seguro após avaliação com gastroenterologista devido ao histórico de colite. A candidíase oral foi tratada. A paciente será mantida em isolamento respiratório em casa por 14 dias. O infliximabe será descontinuado e alternativas (ex: vedolizumabe) serão consideradas após tratamento da TB.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: 1. Etambutol 1600 mg PO diariamente (4 comprimidos de 400mg). 2. Isoniazida 300 mg PO diariamente (1 comprimido de 300mg). 3. Pirazinamida 2000 mg PO diariamente (4 comprimidos de 500mg). 4. Rifampicina 600 mg PO diariamente (2 cápsulas de 300mg). 5. Piridoxina (Vitamina B6) 50 mg PO diariamente. 6. Acetaminofeno 1000 mg PO a cada 8 horas conforme necessário. 7. Ibuprofeno 400 mg PO a cada 8 horas conforme necessário para dor leve. 8. Bisacodil 10 mg PO diariamente conforme necessário para constipação (2ª linha). 9. Docusato de Sódio 200 mg PO 2 vezes ao dia. 10. Polietilenoglicol 17 g PO diariamente. 11. Insulina (Glargine e escala deslizante) conforme protocolo. 12. Amitriptilina 25 mg PO à noite conforme necessário para sono/dor. 13. Amlodipina 10 mg PO diariamente. 14. Aspirina 81 mg PO diariamente. 15. Atorvastatina 20 mg PO à noite. 16. Citracal (Cálcio Citrato + Vitamina D3) 250 mg cálcio/200 UI Vitamina D PO diariamente. 17. Clotrimazol 1 pastilha PO 4 vezes ao dia. 18. Ferrous Gluconate 236 mg PO diariamente. 19. Irbesartan 300 mg PO diariamente. 20. Levothyroxine 150 mcg PO 5 vezes por semana. 21. Magnésio Óxido 280 mg PO diariamente. 22. Mesalamina 1200 mg PO 2 vezes ao dia. 23. Metformina 1000 mg PO 2 vezes ao dia. 24. Ranitidina 150 mg PO 2 vezes ao dia. 25. Vitamina D 2000 UI PO 2 vezes ao dia. Orientações ao Paciente: Manter isolamento respiratório em casa por 14 dias (até ___), limitando visitantes a familiares diretos; visitantes devem usar máscara N95. Paciente deve usar máscara cirúrgica quando houver visitantes. Tomar medicação para TB às 14h no dia seguinte à alta, podendo avançar 2 horas por dia até horário matutino. Evitar contato com imunossuprimidos ou netos até após 14 dias de tratamento. Continuar uso de dreno PleurX, com drenagem programada de segunda, quarta e sexta-feira. Uso de incentivo espirométrico para melhorar atelectasia. Monitorar dor e sangramento gastrointestinal (uso de ibuprofeno com alimentos). Encaminhamentos e Seguimento: Consulta com Infectologia para acompanhamento do tratamento da TB. Consulta com Pneumologia (IP) para possível remoção do cateter PleurX. Consulta com Gastroenterologia para discussão de mudança de terapia biológica (vedolizumabe) após tratamento da TB. Consulta com Oftalmologia em 2 semanas para avaliação de toxicidade do etambutol. Exames de seguimento: Hemograma e função hepática/renal conforme agendado no laboratório de referência. Gestor de caso entrará em contato para agendar terapia observada (DOT) em casa. Retorno programado conforme instruções de seguimento.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '25601328';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

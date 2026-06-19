@@ -1,0 +1,12 @@
+{
+  "duration_seconds": 2.38,
+  "total_records": 738,
+  "aggregate": {
+    "layer1_moved": 0,
+    "layer2_removed": 0,
+    "layer3_substitutions": 0,
+    "layer4_removed": 0,
+    "layer5_removed": 0
+  },
+  "examples": {}
+}

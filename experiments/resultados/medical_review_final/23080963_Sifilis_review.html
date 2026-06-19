@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 23080963 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 23080963</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 23080963 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 126
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                     Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: NEUROLOGY
+ 
+Allergies: 
+Sulfa (Sulfonamide Antibiotics) / Bactrim
+ 
+Attending: ___
+ 
+Chief Complaint:
+Transient bilateral upper extremity numbness and tingling and 1 
+month of cough with 1 episode of hemoptysis
+ 
+Major Surgical or Invasive Procedure:
+Lumbar puncture - ___
+
+ 
+History of Present Illness:
+Mr. ___ is a ___ with a h/o HIV x 2 decades never on 
+HAART, recurrent MRSA infections, marked R sided sciatica x ___ 
+years, a traumatic bike crash with neck and back injury a year 
+ago (never worked up), and ADHD with severe hospital anxiety who 
+presents to ___ ED after waking from sleep with transient 
+bilateral arm tingling and 1 mo of cough with 1 episode of 
+hemoptysis. 
+
+He went to bed in his normal state of health and woke at 5:30am 
+with tingling in his hands and arms. He described it as pins and 
+needles. He went back to sleep, thinking that he may have slept 
+wrong. He woke again at 7:00am with a persistent sensation of 
+tingling/numbness in his arms. He says he has had this sensation 
+in the past but never bilaterally (however, pt was admitted in 
+___ with identical sx) so he thought it was less likely 
+to be compression from sleeping.
+
+Between ___, the sensation resolved. He couldn&#x27;t say 
+whether his arm went back to feeling completely normal at that 
+time. However, he reported no weakness or any other functional 
+deficits. Increasingly anxious that something serious might be 
+occurring, he walked to ___ for evaluation around noon. 
+
+He was previously hospitalized at ___ from ___ for 
+drainage of a MRSA infection to his right calf. 1 week prior to 
+admission, pt had noticed numbness in the bilateral upper 
+extremities and weakness of the R facial muscles. The numbness 
+in his LUE resolved in minutes, but the &quot;pins and needles&quot; 
+sensation in the RUE persisted for several hours. He reports 
+that the evening prior to these symptoms, he had a very bad 
+bifrontal headache. In addition to the numbness, he reported 
+some mild confusion and blurry vision ___ R facial weakness. He 
+was unable to close his eye or mouth completely and his speech 
+was dysathric. He said the numbness in the bilateral UE resolved 
+prior to discharge and he has recovered 90% of the motor 
+function in his right face.
+
+During that admission, he had an MRI of his brain which showed 
+non-specific T2 Flair abnormalities and a CT chest which showed 
+multiple lung nodules with ground glass opacities. He left AMA 
+on HD#2 secondary to extreme anxiety and difficulty coping in 
+the hospital environment. After he left, his CD4 count came back 
+at 304, VL= 99,300, ___ virus positive. He did not stay long 
+enough for a MRI C spine.  
+
+Shortly after discharge, pt developed a &quot;head cold&quot; which has 
+perisisted until the current admission. He does not know whether 
+he had a fever, but endorses a cough productive of green phlegm 
+with occasional hemoptysis. He has had 3 headaches in the past 
+month, which is more than usual for him. He also has had some 
+blurry vision though this may be attributable to his contact 
+lenses. Pt has had dysarthria since ___, but denies difficulty 
+with word finding or comprehending speech (apart from 
+inattention assc with ADHD). He has night sweats x ___ years 
+which he believes are assc with HIV infection. Pt has had 
+ongoing R sided weakness in UE and ___ x ___ years. Pt has 
+occasional loose stools x several years.
+
+On remaining neuro ROS, pt denies loss of vision, diplopia, 
+scotomas, dysphagia, lightheadedness, dizziness, vertigo, 
+tinnitus or hearing difficulty. No bowel or bladder incontinence 
+or retention. Denies difficulty with gait.
+ 
+On general ROS, Denies chills, recent weight loss or gain, chest 
+pain, chest tightness, palpitations, nausea, vomiting, 
+constipation or abdominal pain. No dysuria. Denies arthralgias 
+or myalgias. Denies rash.
+ 
+Past Medical History:
+- HIV, diagnosed ___ years ago. Has never taken any 
+anti-retroviral medications, does not see a physician regularly 
+but reports checking his CD4 counts periodically at ___ 
+clinic (he recalls last count being &quot;about 500&quot;). Does not take 
+anti-retrovirals bc he believes &quot;they kill people.&quot;
+- Recurrent MRSA skin infections, last tx during ___ 
+admission at ___
+- ADHD
+- Depression - previously on antidepressants. Not currently 
+being ___. Sees therapist ~2x/year.
+ 
+Social History:
+___
+Family History:
+Maternal and paternal grandmothers with strokes in the ___
+Estranged from parents and siblings
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM
+- Vitals: 97.4 101 131/93 18 100%RA
+- General: Awake, anxious
+- HEENT: NC/AT, white plaques on tongue but not on posterior
+pharynx, denies throat pain or difficulty swallowing 
+- Neck: Supple. No nuchal rigidity
+- Pulmonary: CTABL
+- Cardiac: RRR, murmur appreciated
+- Abdomen: soft, nontender, nondistended
+- Extremities: no edema
+- Skin: no rashes or lesions noted
+ 
+NEURO EXAM: 
+- Mental Status: Awake, alert, oriented x 3. Able to relate
+history but very nervous with soft pressured speech constantly
+looking around the room. Inattentive, refuses to attempt MOYB or
+cross midline commands. Language is fluent with intact 
+repetition
+and comprehension. There were no paraphasic errors. Able to name
+both high and low frequency objects. Able to read without
+difficulty. Speech was not dysarthric. Able to follow three step
+commands. Good knowledge of current events. There was no 
+evidence
+of apraxia or neglect.
+- Cranial Nerves:
+PERRL 2.5 to 2mm and brisk. VFF to confrontation and finger
+counting. Difficult to appreciate retinas on funduscopic exam in
+darkened exam room. No exophthalmos or orbital pain. Slight 
+right
+eye exotropia. No double vision. EOMI without nystagmus. Normal
+saccades. Facial sensation decreased to light touch on the right
+(~85) and pin prick (v1 90%, v2 80%, v3 90%). No facial droop,
+facial musculature symmetric. With encouragement, able to close
+both eyes tightly. Hearing intact to finger-rub bilaterally.
+Palate elevates symmetrically. ___ strength in trapezii and SCM
+bilaterally. Tongue protrudes in midline and in each cheek with
+full strength.
+- Motor: Normal bulk and mildly increased tone throughout;
+RLE&gt;LLE. No pronator drift bilaterally. No posting. No
+adventitious movements such as tremor or asterixis noted. 
+  Delt Bic Tri WrE FE IO IP Quad Ham TA Gastroc 
+L  5    ___  ___-   ___     5   
+R  5    5-  ___- 5- 5-   5   4+  5     5   
+*power exam limited by impersistence and effort, no marked
+asymmetries 
+- Sensory: Decreased sensation to light touch in the right (face
+85%, arm 95%, leg 95%) and pin prick on the right (v1 90%, v2
+80%, v3 90%, arm 85%, forearm 80%, thigh 80%, leg 100%) and the
+left leg (80%). No extinction to DSS.
+- DTRs:
+  Bi Tri ___ Pat Ach
+L  1  1    2    1   1
+R  1  1    2    0   1
+Plantar response was mute bilaterally.
+- Coordination: No intention tremor or dysdiadochokinesia noted.
+No dysmetria on FNF or HKS bilaterally.
+- Gait: Good initiation. Narrow-based, normal stride and arm
+swing. Able to walk in tandem without difficulty. Romberg 
+absent.
+
+DISCHARGE PHYSICAL EXAM
+- Vitals: Tm 98.3 Tc 97.8 117/71 76 18 98%RA
+- General: Awake, anxious. Irritated by having multiple people 
+in the room. Completes majority of exam with eyes closed. 
+- HEENT: NC/AT
+- Extremities: no edema, cyanosis or clubbing
+- Skin: no rashes or lesions noted
+ 
+NEURO EXAM: 
+- Mental Status: Somnolent and irritable. Inattentive, with poor 
+effort. Language is fluent.- Cranial Nerves:
+PERRLA 2.5 to 2mm and brisk. No evidence of ___ 
+pupils. 
+- Motor: Normal bulk. RLE&gt;LLE. No adventitious movements such as 
+tremor noted. 
+  TA ___ Toeexten 
+L  ___     5       5 
+R  ___     5       5
+*Power exam limited by impersistence and effort, no marked 
+asymmetries - Sensory: 
+Proprioception: 
+Hallux L intact, R only with large amplitude movements.
+Ankle L intact R intact
+Knee L intact R intact
+Elbow L intact R intact
+Vibration:
+MTP L 10 secs R 10 secs
+Medial malleolus L 10 secs R 7 secs
+CMC L 9 secs R 7 secs
+Elbow L 9 secs R 7 secs
+Temperature:
+Reduced L and R dorsal foot
+Intact in legs, forearms, and dorsal hands
+
+- DTRs:
+  Bi Tri ___ Pat Ach
+L  0  1+    0    1   0
+R  0  0     0    1   0
+
+ 
+Pertinent Results:
+ADMISSION LABS
+
+___ 04:20PM   GLUCOSE-92 UREA N-11 CREAT-0.7 SODIUM-138 
+POTASSIUM-3.7 CHLORIDE-102 TOTAL CO2-32 ANION GAP-8
+___ 04:20PM   ALT(SGPT)-22 AST(SGOT)-22 ALK PHOS-120 TOT 
+BILI-0.2
+___ 04:20PM   cTropnT-&lt;0.01
+___ 04:20PM   ALBUMIN-4.3 CALCIUM-9.3 PHOSPHATE-3.5 
+MAGNESIUM-2.1
+___ 04:20PM   ASA-NEG ETHANOL-NEG ACETMNPHN-NEG 
+bnzodzpn-NEG barbitrt-NEG tricyclic-NEG
+___ 04:20PM   WBC-5.4 RBC-4.64 HGB-13.2* HCT-40.1 MCV-86 
+MCH-28.4 MCHC-32.9 RDW-13.1 RDWSD-40.5
+___ 04:20PM   NEUTS-43.9 ___ MONOS-9.5 EOS-3.0 
+BASOS-0.4 IM ___ AbsNeut-2.36 AbsLymp-2.31 AbsMono-0.51 
+AbsEos-0.16 AbsBaso-0.02
+___ 04:20PM   PLT COUNT-281
+
+DISCHARGE LABS
+RETURNED
+-IMMUNOLOGY HIV-1 Viral Load/Ultrasensitive-86,300 copies/ml.
+-SEROLOGY/BLOOD RAPID PLASMA REAGIN TEST-FINAL; QUANTITATIVE 
+RPR-1:128
+-SEROLOGY/BLOOD CRYPTOCOCCAL ANTIGEN-NEGATIVE
+-CSF;SPINAL FLUID CRYPTOCOCCAL ANTIGEN-CRYPTOCOCCAL ANTIGEN NOT 
+DETECTED.
+-Blood (EBV) ___ VIRUS VCA-IgG AB-FINAL; ___ 
+VIRUS EBNA IgG AB-FINAL; ___ VIRUS VCA-IgM AB-IgG 
+positive, IgM negative 
+
+PENDING
+-LYME DISEASE ANTIBODY, IMMUNOBLOT Pending 
+-HIV GENOTYPING Pending 
+-ASPERGILLUS GALACTOMANNAN ANTIGEN Pending
+-B-GLUCAN Pending
+-HERPES SIMPLEX VIRUS 1 AND 2 (IGG)  Pending
+-QUANTIFERON-TB GOLD  Pending
+-HERPES SIMPLEX VIRUS 1 AND 2 (IGG)  Pending
+-SERUM VDRL Pending
+-___ VIRUS (___) DNA QUANTITATIVE PCR Pending
+-CYTOMEGALOVIRUS DNA, QUALITATIVE, PCR  Pending
+-BORRELIA BURGDORFERI ANTIBODY INDEX FOR CNS INFECTION  Pending
+-___ VIRUS, QUAL TO QUANT, PCR Pending
+-CSF;SPINAL FLUID GRAM STAIN-FINAL; FLUID CULTURE; FUNGAL 
+CULTURE-; ACID FAST CULTURE-Pending 
+-Blood (Toxo) TOXOPLASMA IgG ANTIBODY-PENDING; TOXOPLASMA IgM 
+ANTIBODY-PENDING 
+-Blood (CMV AB) CMV IgG ANTIBODY-PENDING; CMV IgM 
+ANTIBODY-PENDING 
+-SEROLOGY/BLOOD VARICELLA-ZOSTER IgG SEROLOGY-PENDING 
+-TREPONEMAL ANTIBODY TEST-PENDING
+-SEROLOGY/BLOOD LYME SEROLOGY-Pending
+
+IMAGING: 
+ECG ___
+Sinus rhythm. Borderline low voltage in the limb leads. 
+Prominent precordial S waves of uncertain significance. Compared 
+to the previous tracing of ___ the rate is now somewhat 
+slower. T waves have improved.
+
+CT abdomen and pelvis w/ contrast ___
+Essentially normal CT of the abdomen pelvis.  No inflammatory or 
+neoplastic disease seen.
+
+CT chest w/ contrast ___
+Significant interval decrease in the previously described sub 
+solid nodules scattered throughout the lungs, in keeping with 
+resolving infection, likely bacterial or viral.  No new nodules, 
+masses or consolidation to suggest worsening acute infection or 
+active malignancy. No lymphadenopathy. 
+ 
+MRI, head w/ contrast ___
+1. No acute intracranial pathology or significant change. 
+2. Few punctate, nonspecific foci of abnormal white matter 
+signal are 
+unchanged in the interval, favoring chronic microangiopathic 
+ischemia. 
+3. Prominent, chronic appearing sinus disease has increased 
+since ___ 
+ 
+MRI, spine w/ contrast ___ 
+1. Normal appearing cervical spinal cord. 
+2. Mild-to-moderate degenerative changes.
+
+C-spine flex and ext radiograph ___
+Moderate disc space narrowing at C5-6 and mild retrolistthesis 
+at C5-6 of 4 mm on both flexion and extension views. 
+
+ 
+Brief Hospital Course:
+Mr. ___ is a ___ M with a h/o HIV x 2 decades never on 
+HAART, recurrent MRSA infections, marked R sided sciatica x ___ 
+years, a traumatic bike crash with neck and back injury a year 
+ago (never worked up), and ADHD with severe hospital anxiety who 
+presents to ___ ED after waking from sleep with bilateral arm 
+tingling and numbness and 1 mo of cough with 1 episode of 
+hemoptysis. 
+
+#Arm Tingling/ Numbness: The presence of bilateral arm symptoms 
+first noticed waking up from sleep and resolving after several 
+hours seemed referable to the spinal cord or bilateral roots. 
+MRI cervical spine showed an accentuated cervical lordosis with 
+an acute angle, worsened by posterior canal narrowing at the 
+level of the angle and an anterior disc bulge one level higher. 
+This causes remodeling of the cord and predisposes it to neck 
+extension injuries which would result in a central cord 
+syndrome. His symptoms seem to correlate with this anatomical 
+predisposition. We did do flexion and extension films; there was 
+no significant listhesis which would merit stabilization of the 
+spine surgically. However, we recommended he wear a soft collar 
+to prevent extension injuries while sleeping. Bilateral 
+compression palsies also remain on the differential and of 
+course cannot be excluded. MR brain was noncontributory and 
+given the duration, bilaterality, and quality of the symptoms we 
+did not feel these could be consistent with stroke, seizure, or 
+migraine. 
+ 
+#Syphilis: Pt was found to have an active syphilis infection 
+with RPR titers of 1:128. Prior history of at least 3 (possibly 
+4) syphilis infections per DOH (___). Most recent 
+treatment with benzathine PCN was in ___ and last RPR
+titer was in ___ (1:8). The CSF analysis for VDRL was still 
+pending at time of discharge, however pt was clinically 
+suspected of having neurosyphilis given his areflexia and 
+reduced position and vibration sense throughout (seemingly 
+normal only at the elbows; did not test at the shoulder), 
+elevated titer and slight elevation of CSF protein. Pt received 
+PCN G IV 4 million units q4hours for 2 days prior to leaving 
+AGAINST MEDICAL ADVICE.  He had an active genital chancre, and 
+given his communicability, we notified the ___ 
+Department of ___ Health prior to discharge.  The director, 
+___, relayed that the patient ultimately can leave 
+the hospital against medical advice even with this communicable 
+disease, but they will send a special infectious diseae liason 
+to his residence on ___ to help reinitiate treatment.  
+ 
+#Pulmonary Nodules: Pt was found to have pulmonary nodules on CT 
+chest during ___hest on ___ 
+showd significant interval decrease in the previously described 
+nodules, in keeping with resolving infection, likely  bacterial 
+or viral. This was not thought to require tx at this time.
+
+#HIV: Pt was found to have a T cell count of 456 and viral load 
+of 86,300. Infectious Disease will schedule follow up with the 
+pt to explore initiation of HAART, pending viral sensitivities 
+and HLA B5701 status (which is assc with abacavir 
+hypersensitivity rxns). A number of pending studies remain, 
+including:
+-LYME DISEASE ANTIBODY, IMMUNOBLOT Pending 
+-HIV GENOTYPING Pending 
+-ASPERGILLUS GALACTOMANNAN ANTIGEN Pending
+-B-GLUCAN Pending
+-HERPES SIMPLEX VIRUS 1 AND 2 (IGG)  Pending
+-QUANTIFERON-TB GOLD  Pending
+-HERPES SIMPLEX VIRUS 1 AND 2 (IGG)  Pending
+-SERUM VDRL Pending
+-___ VIRUS (JCV) DNA QUANTITATIVE PCR Pending
+-CYTOMEGALOVIRUS DNA, QUALITATIVE, PCR  Pending
+-BORRELIA BURGDORFERI ANTIBODY INDEX FOR CNS INFECTION  Pending
+-___ VIRUS, QUAL TO QUANT, PCR Pending
+-CSF;SPINAL FLUID GRAM STAIN-FINAL; FLUID CULTURE; FUNGAL 
+CULTURE-; ACID FAST CULTURE-Pending 
+-Blood (Toxo) TOXOPLASMA IgG ANTIBODY-PENDING; TOXOPLASMA IgM 
+ANTIBODY-PENDING 
+-Blood (CMV AB) CMV IgG ANTIBODY-PENDING; CMV IgM 
+ANTIBODY-PENDING 
+-SEROLOGY/BLOOD VARICELLA-ZOSTER IgG SEROLOGY-PENDING 
+-TREPONEMAL ANTIBODY TEST-PENDING
+-SEROLOGY/BLOOD LYME SEROLOGY-Pending
+
+# ? SUBSTANCE ABUSE/ ? IMPENDING ARREST / LEAVING AGAINST 
+MEDICAL ADVICE: 
+In setting up ___ services for his ___ placement, it was 
+discovered that he has a record of polysubstance abuse.  
+Furthermore, he was in trouble for the law with regards to 
+unclear drug related issues.  Given this history, we discussed 
+with him that he could not be discharged with a PICC.  We 
+encouraged him to remain in the hospital until the weekday when 
+further plans to finish his infusions could be arranged.  
+Unfortunately, he declined this and LEFT AGAINST MEDICAL ADVICE. 
+Prior to his departure, the ___ department of ___ 
+health was contacted.  Per their director, ___, the 
+patient has the right to leave the hospital even despite his 
+communicable state with a genital chancre.  They will set up an 
+infectious disease liason to visit him on ___ to help arrange 
+continuation of his treatment.
+
+--------------------
+OTHER TRANSITIONAL ISSUES
+--------------------
+- Pt to follow up with Infectious Disease in &lt;1 mo to explore 
+HAART therapy and ensure clearance of syphilis infection. 
+Results of other infectious work up will be available at that 
+time including  toxoplasmosis, neurosyphilis, CMV, EBV, HSV, TB, 
+aspergillus, histoplamosis, and cryptococcus.
+- Pt to wear soft collar to bed to prevent extension injuries of 
+the cord while sleeping.
+
+ 
+Medications on Admission:
+Adderal PRN
+ 
+Discharge Medications:
+none
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Primary: Probable neurosyphilis (CSF VDRL pending)
+
+Secondary: Mild to moderate degenerative cervical spine disease 
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+You were admitted to the ___ Neurology service on ___ for 
+arm numbness/tingling on both sides. An MRI scan of your upper 
+spinal cord showed degenerative changes which explains the arm 
+numbness and tingling that caused you to come to the hospital. 
+We recommend you wear a soft collar to bed at night to prevent 
+further episodes of nerve compression resulting in numbness and 
+tingling. We also recommend you follow up with a neurologist.
+
+Your blood work showed that you have an active syphilis 
+infection. This infection needs to be treated with intravenous 
+penicillin for 14 days. We placed a ___ line so that you can 
+receive this treatment, but unfortunately we cannot saftely 
+discharge you home with this given concern for substance abuse.  
+ We discussed the importance of completing the entire course of 
+IV antibiotics but you have elected to leave the hospital 
+against medical advice.  You are at risk of further damage to 
+your nervous system if you leave the hospital.  
+
+Furthermore, as you have an active genital lesion, you can 
+transfer Syphillis to others with any direct contact.  As this 
+is a communicable disease, the ___ Department ___ 
+___ was alerted of your active disease process. They 
+will be contacting you on ___ to urge you to continue 
+treatment. 
+
+We also performed an MRI of your brain and upper spine to look 
+for abnormalities in the brain and spinal cord which would 
+contribute to the numbness in your upper extremities. The brain 
+MRI showed some changes suggesting vascular disease and does not 
+explain your symptoms.  
+
+During your last admission, you had a CT scan of the chest which 
+showed multiple nodules in your lungs. While you were in the 
+hospital, we repeated the CT Scan of the chest to re-evaluate 
+these nodules, which showed that they are getting smaller. These 
+were likely due to a lung infection which is now resolving; you 
+do not require treatment at this time.  
+
+Finally, we performed a CT of your abdomen and pelvis to look 
+for signs of infection or malignancy, which can occur in 
+patients with HIV. This scan did not show any concerning 
+abnormalities. 
+
+Your current T cell count is 456 and viral load is 86,300. As 
+you know, having low numbers of T cells, which are important for 
+proper immune system function, puts you at increased risk of 
+infection. Therefore, we have scheduled a follow up appointment 
+with Dr. ___ from the Infectious Disease team on 
+___ to explore initiating antiretroviral therapy. You 
+have multiple lab tests pending at time of discharge, the 
+results of which will be communicated to you during this follow 
+up appointment. 
+
+You also have a follow up appointment scheduled with Dr. ___ 
+___ the ___ team on ___.
+
+The only change to your medication list was the addition of IV 
+penicillin, but as you are leaving AGAINST MEDICAL ADVICE, this 
+cannot be appropriately set up for you. 
+ 
+Your ___ Neurology Team
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(12)</span></h3>
+  <ul>
+    <li>HIV (Vírus da Imunodeficiência Humana)</li>
+    <li>Sífilis</li>
+    <li>Neurosífilis (provável)</li>
+    <li>Infecção recorrente por Staphylococcus aureus resistente à meticilina (MRSA)</li>
+    <li>Transtorno de Déficit de Atenção e Hiperatividade (TDAH)</li>
+    <li>Depressão</li>
+    <li>Doença degenerativa cervical (espondilose cervical)</li>
+    <li>Síndrome do cordão central</li>
+    <li>Infecção pulmonar (resolvendo)</li>
+    <li>Doença vascular cerebral (microangiopatia isquêmica crônica)</li>
+    <li>Doença sinusal crônica</li>
+    <li>Candidíase oral</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(23)</span></h3>
+  <ul>
+    <li>Formigamento bilateral nos membros superiores</li>
+    <li>Dormência bilateral nos membros superiores</li>
+    <li>Tosse produtiva com escarro verde</li>
+    <li>Hemoptise</li>
+    <li>Cefaleia bifrontal</li>
+    <li>Confusão mental leve</li>
+    <li>Visão turva</li>
+    <li>Fraqueza facial direita</li>
+    <li>Disartria</li>
+    <li>Suores noturnos</li>
+    <li>Fraqueza no membro superior direito</li>
+    <li>Lesão genital (cancro)</li>
+    <li>Placas brancas na língua</li>
+    <li>Exotropia do olho direito</li>
+    <li>Diminuição da sensibilidade ao toque leve e picada de alfinete no lado direito (face, braço, perna)</li>
+    <li>Diminuição da propriocepção no hálux direito</li>
+    <li>Diminuição da vibração no tornozelo e joelho direitos</li>
+    <li>Redução da sensibilidade à temperatura no dorso do pé</li>
+    <li>Areflexia</li>
+    <li>Transtorno de ansiedade</li>
+    <li>Irritabilidade</li>
+    <li>Sonolência</li>
+    <li>Sopro cardíaco</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(5)</span></h3>
+  <ul>
+    <li>Sulfonamida (Alérgico)</li>
+    <li>Bactrim (Alérgico)</li>
+    <li>Adderall</li>
+    <li>Benzilpenicilina Benzatina (Benzathine PCN)</li>
+    <li>Penicilina G IV (4 milhões de unidades a cada 4 horas)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(73)</span></h3>
+  <ul>
+    <li>CD4-304 (admissão anterior)</li>
+    <li>Carga viral HIV-99.300 cópias/ml (admissão anterior)</li>
+    <li>CD4-456 (atual)</li>
+    <li>Carga viral HIV-86.300 cópias/ml (atual)</li>
+    <li>RPR-1:128 (Quantitativo)</li>
+    <li>Antígeno Criptocócico no sangue-Negativo</li>
+    <li>Antígeno Criptocócico no líquor-Não detectado</li>
+    <li>Vírus Epstein-Barr (EBV) VCA-IgG-Positivo</li>
+    <li>Vírus Epstein-Barr (EBV) VCA-IgM-Negativo</li>
+    <li>Vírus Epstein-Barr (EBV) EBNA IgG-Positivo</li>
+    <li>GLUCOSE-92</li>
+    <li>UREIA-11</li>
+    <li>CREATININA-0.7</li>
+    <li>SÓDIO-138</li>
+    <li>POTÁSSIO-3.7</li>
+    <li>CLORO-102</li>
+    <li>CO2 TOTAL-32</li>
+    <li>ANION GAP-8</li>
+    <li>ALT-22</li>
+    <li>AST-22</li>
+    <li>FOSFATASE ALCALINA-120</li>
+    <li>BILIRRUBINA TOTAL-0.2</li>
+    <li>TROPONINA T-&lt;0.01</li>
+    <li>ALBUMINA-4.3</li>
+    <li>CÁLCIO-9.3</li>
+    <li>FOSFATO-3.5</li>
+    <li>MAGNÉSIO-2.1</li>
+    <li>ASA-Negativo</li>
+    <li>ETANOL-Negativo</li>
+    <li>ACETAMINOFENO-Negativo</li>
+    <li>BENZODIAZEPÍNICOS-Negativo</li>
+    <li>BARBITÚRICOS-Negativo</li>
+    <li>TRICÍCLICOS-Negativo</li>
+    <li>WBC-5.4</li>
+    <li>RBC-4.64</li>
+    <li>HEMOGLOBINA-13.2</li>
+    <li>HEMATÓCRITO-40.1</li>
+    <li>MCV-86</li>
+    <li>MCH-28.4</li>
+    <li>MCHC-32.9</li>
+    <li>RDW-13.1</li>
+    <li>RDWSD-40.5</li>
+    <li>NEUTRÓFILOS-43.9%</li>
+    <li>MONÓCITOS-9.5%</li>
+    <li>EOSINÓFILOS-3.0%</li>
+    <li>BASÓFILOS-0.4%</li>
+    <li>ABS NEUTRÓFILOS-2.36</li>
+    <li>ABS LINFÓCITOS-2.31</li>
+    <li>ABS MONÓCITOS-0.51</li>
+    <li>ABS EOSINÓFILOS-0.16</li>
+    <li>ABS BASÓFILOS-0.02</li>
+    <li>PLAQUETAS-281</li>
+    <li>Lyme Disease Antibody Immunoblot-Pendente</li>
+    <li>HIV Genotyping-Pendente</li>
+    <li>Aspergillus Galactomannan Antigen-Pendente</li>
+    <li>B-Glucan-Pendente</li>
+    <li>Herpes Simplex Virus 1 and 2 (IgG)-Pendente</li>
+    <li>Quantiferon-TB Gold-Pendente</li>
+    <li>Serum VDRL-Pendente</li>
+    <li>JC Virus (JCV) DNA Quantitative PCR-Pendente</li>
+    <li>Cytomegalovirus DNA Qualitative PCR-Pendente</li>
+    <li>Borrelia burgdorferi Antibody Index for CNS Infection-Pendente</li>
+    <li>Varicella-Zoster IgG Serology-Pendente</li>
+    <li>Treponemal Antibody Test-Pendente</li>
+    <li>Lyme Serology-Pendente</li>
+    <li>Toxoplasma IgG Antibody-Pendente</li>
+    <li>Toxoplasma IgM Antibody-Pendente</li>
+    <li>CMV IgG Antibody-Pendente</li>
+    <li>CMV IgM Antibody-Pendente</li>
+    <li>CSF Gram Stain-Pendente</li>
+    <li>Fluid Culture-Pendente</li>
+    <li>Fungal Culture-Pendente</li>
+    <li>Acid Fast Culture-Pendente</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(9)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+    <li>Ressonância magnética (RM) do cérebro</li>
+    <li>Tomografia computadorizada (TC) do tórax</li>
+    <li>Ressonância magnética (RM) da coluna cervical</li>
+    <li>Radiografia da coluna cervical em flexão e extensão</li>
+    <li>Tomografia computadorizada (TC) do abdômen e pelve</li>
+    <li>Eletrocardiograma (ECG)</li>
+    <li>Exame físico neurológico</li>
+    <li>Fundoscopia</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(4)</span></h3>
+  <ul>
+    <li>Staphylococcus aureus resistente à meticilina (MRSA)</li>
+    <li>Vírus da Imunodeficiência Humana (HIV)</li>
+    <li>Treponema pallidum</li>
+    <li>Vírus Epstein-Barr (EBV)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente refere queixa principal de formigamento e dormência transitórios em ambos os membros superiores ao despertar do sono, associados a tosse produtiva há 1 mês com 1 episódio de hemoptise. Relata história de HIV há 2 décadas, nunca tratado com terapia antirretroviral (HAART), devido à crença de que os medicamentos são prejudiciais. Refere histórico de infecções recorrentes por MRSA, ciatalgia direita marcada há vários anos, acidente de bicicleta com lesão cervical e lombar há 1 ano (sem investigação prévia) e TDAH com ansiedade hospitalar severa. Descreve que, na noite anterior ao início dos sintomas atuais, teve dor de cabeça bifrontal intensa. Relata episódio prévio de admissão hospitalar com sintomas idênticos de dormência bilateral nos membros superiores e fraqueza facial direita, acompanhados de confusão leve e visão turva, tendo recebido alta contra orientação médica (AMA) na ocasião. Refere que a dormência nos membros superiores resolveu-se, mas a sensação de formigamento persistiu por horas. Relata sudorese noturna há vários anos, atribuída ao HIV. Refere fraqueza contínua no membro superior direito e no membro inferior direito há vários anos. Relata fezes soltas ocasionais há vários anos. Nega perda de peso recente, febre, calafrios, dor torácica, palpitações, náuseas, vômitos, dor abdominal, disúria, artralgias, mialgias ou erupções cutâneas. Nega perda de visão, diplopia, escotomas, disfagia, tontura, vertigem, zumbido ou dificuldade auditiva. Nega incontinência ou retenção urinária/fecal. Nega dificuldade para caminhar. Paciente refere que sua última contagem de CD4 foi &#x27;cerca de 500&#x27; em consulta anterior, mas não segue acompanhamento médico regular.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+- Sinais Vitais: Temperatura 97.4°F, FC 101 bpm, PA 131/93 mmHg, FR 18 irpm, SpO2 100% em ar ambiente.
+- Geral: Paciente acordado, ansioso.
+- HEENT: Cabeça e pescoço normais e atraumáticos (NC/AT). Placas brancas na língua, mas não na faringe posterior. Nega dor de garganta ou dificuldade para engolir.
+- Pescoço: Suplêvel. Sem rigidez de nuca.
+- Pulmões: Murmúrio vesicular claro, sem ruídos adventícios (CTABL).
+- Cardíaco: Ritmo regular, sopro apreciado.
+- Abdome: Macio, não doloroso, não distendido.
+- Extremidades: Sem edema.
+- Pele: Sem erupções ou lesões notadas.
+- Exame Neurológico:
+  - Estado Mental: Acordado, alerta, orientado x3. Relata história, mas muito nervoso, fala suave e pressionada, olhando constantemente ao redor. Inatento, recusa tentativa de comandos de MOYB ou cruzamento da linha média. Linguagem fluente, repetição e compreensão intactas. Sem erros parafásicos. Nomeia objetos de alta e baixa frequência. Leitura intacta. Sem disartria. Segue comandos de três etapas. Conhecimento atual de eventos. Sem apraxia ou negligência.
+  - Nervos Cranianos: Pupilas isocóricas e fotorreagentes (PERRL) 2.5 a 2mm, bríscidas. Campo visual (VFF) intacto à confrontação e contagem de dedos. Fundoscopia difícil de apreciar. Sem exoftalmia ou dor orbital. Leve exotropia no olho direito. Sem diplopia. Movimentos oculares intactos (EOMI) sem nistagmo. Saccades normais. Sensação facial diminuída ao toque leve à direita (~85%) e picada de alfinete (V1 90%, V2 80%, V3 90%). Sem queda facial, musculatura facial simétrica. Com encorajamento, fecha ambos os olhos firmemente. Audição intacta ao atrito de dedos bilateralmente. Palato eleva-se simetricamente. Força 5/5 nos trapézios e esternocleidomastoideos bilateralmente. Língua protrai-se na linha média e em cada bochecha com força total.
+  - Motor: Volume muscular normal e tônus levemente aumentado em todo o corpo; MIE &gt; MIE. Sem desvio de pronação bilateral. Sem tremores ou movimentos adventícios. Força: Deltoide 5/5 bilateral; Bíceps 5/5 bilateral; Tríceps 5- bilateral; Extensão de punho 5- bilateral; Flexão de punho 5- bilateral; Extensão de dedos 5 bilateral; Flexão de dedos 5 bilateral; Quadríceps 5 bilateral; Isquiotibiais 4+ à direita, 5 à esquerda; Tibial anterior 5 bilateral; Gastrocnêmio 5 bilateral. Exame de força limitado por impersistência e esforço, sem assimetrias marcadas.
+  - Sensitivo: Sensação diminuída ao toque leve à direita (face 85%, braço 95%, perna 95%) e picada de alfinete à direita (V1 90%, V2 80%, V3 90%, braço 85%, antebraço 80%, coxa 80%, perna 100%) e na perna esquerda (80%). Sem extinção ao toque duplo simultâneo.
+  - Reflexos Osteotendinosos (ROT): Bíceps 1+ bilateral; Tríceps 1+ bilateral; Patelar 2+ à esquerda, 0 à direita; Aquileu 1+ bilateral. Resposta plantar mute bilateralmente.
+  - Coordenação: Sem tremor de intenção ou disdiadococinesia. Sem dismetria no teste dedo-nariz ou calcanhar-joelho.
+  - Marcha: Boa iniciação. Base estreita, passada e balanço dos braços normais. Capaz de caminhar em tandem sem dificuldade. Romberg ausente.
+
+Alta:
+- Sinais Vitais: Temperatura timpânica 98.3°F, temperatura central 97.8°F, PA 117/71 mmHg, FC 76 bpm, FR 18 irpm, SpO2 98% em ar ambiente.
+- Geral: Acordado, ansioso. Irritado com múltiplas pessoas no quarto. Completa a maioria do exame com os olhos fechados.
+- HEENT: NC/AT.
+- Extremidades: Sem edema, cianose ou clubbing.
+- Pele: Sem erupções ou lesões notadas.
+- Exame Neurológico:
+  - Estado Mental: Sonolento e irritável. Inatento, com esforço pobre. Linguagem fluente.
+  - Nervos Cranianos: PERRLA 2.5 a 2mm e bríscidas. Sem evidência de pupilas anormais.
+  - Motor: Volume muscular normal. MIE &gt; MIE. Sem movimentos adventícios. Força: Tibial anterior 5/5 bilateral; Extensão de dedos 5/5 bilateral. Exame limitado por impersistência e esforço.
+  - Sensitivo:
+    - Propriocepção: Hallux (L) intacto, (R) apenas com movimentos de grande amplitude. Tornozelo, joelho e cotovelo intactos bilateralmente.
+    - Vibração: MTP (L) 10 seg, (R) 10 seg; Maleolo medial (L) 10 seg, (R) 7 seg; CMC (L) 9 seg, (R) 7 seg; Cotovelo (L) 9 seg, (R) 7 seg.
+    - Temperatura: Reduzida no dorso do pé esquerdo e direito. Intacta nas pernas, antebraços e dorso das mãos.
+  - Reflexos Osteotendinosos: Bíceps 0 bilateral; Tríceps 1+ à esquerda, 0 à direita; Patelar 0 bilateral; Aquileu 1+ à esquerda, 0 à direita.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão:
+- Glicose: 92 mg/dL
+- Ureia Nitrogenada: 11 mg/dL
+- Creatinina: 0.7 mg/dL
+- Sódio: 138 mEq/L
+- Potássio: 3.7 mEq/L
+- Cloreto: 102 mEq/L
+- CO2 Total: 32 mEq/L
+- Gap Aniônico: 8
+- ALT (SGPT): 22 U/L
+- AST (SGOT): 22 U/L
+- Fosfatase Alcalina: 120 U/L
+- Bilirrubina Total: 0.2 mg/dL
+- Troponina T: &lt;0.01 ng/mL
+- Albumina: 4.3 g/dL
+- Cálcio: 9.3 mg/dL
+- Fosfato: 3.5 mg/dL
+- Magnésio: 2.1 mg/dL
+- Aspirina: Negativo
+- Etanol: Negativo
+- Acetaminofeno: Negativo
+- Benzodiazepínicos: Negativo
+- Barbitúricos: Negativo
+- Tricíclicos: Negativo
+- Leucócitos (WBC): 5.4 x10^3/µL
+- Hemácias (RBC): 4.64 x10^6/µL
+- Hemoglobina (HGB): 13.2 g/dL
+- Hematócrito (HCT): 40.1%
+- VCM (MCV): 86 fL
+- HCM (MCH): 28.4 pg
+- CHCM (MCHC): 32.9 g/dL
+- RDW: 13.1%
+- RDW-SD: 40.5 fL
+- Neutrófilos: 43.9%
+- Linfócitos: 42.8% (calculado a partir de AbsNeut e AbsLymp)
+- Monócitos: 9.5%
+- Eosinófilos: 3.0%
+- Basófilos: 0.4%
+- Absolutos Neutrófilos: 2.36 x10^3/µL
+- Absolutos Linfócitos: 2.31 x10^3/µL
+- Absolutos Monócitos: 0.51 x10^3/µL
+- Absolutos Eosinófilos: 0.16 x10^3/µL
+- Absolutos Basófilos: 0.02 x10^3/µL
+- Plaquetas: 281 x10^3/µL
+
+Alta (Resultados Retornados):
+- Carga Viral HIV-1 (Ultrasensível): 86.300 cópias/mL
+- RPR Quantitativo: 1:128
+- Antígeno Criptocócico (Sangue): Negativo
+- Antígeno Criptocócico (Líquor): Não detectado
+- EBV VCA-IgG: Positivo
+- EBV EBNA IgG: Positivo
+- EBV VCA-IgM: Negativo
+
+Pendentes (na alta):
+- Anticorpos para Doença de Lyme (Imunoblot)
+- Genotipagem do HIV
+- Antígeno Galactomanana de Aspergillus
+- Beta-D-Glucano
+- HSV 1 e 2 IgG
+- Quantiferon-TB Gold
+- VDRL Sérico
+- DNA Quantitativo PCR para JC Virus
+- DNA Qualitativo PCR para Citomegalovírus (CMV)
+- Índice de Anticorpo Borrelia burgdorferi para Infecção do SNC
+- PCR Qualitativo/Quantitativo para outro vírus (texto incompleto no original)
+- Gram, Cultura de Líquor, Cultura Fúngica, Cultura para Ácido-Fast
+- Toxoplasma IgG e IgM (Sangue)
+- CMV IgG e IgM (Sangue)
+- Sorologia para Varicela-Zoster IgG
+- Teste de Anticorpo Treponêmico
+- Sorologia para Lyme</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">ECG:
+- Ritmo sinusal. Baixa voltagem limítrofe nos membros. Ondas S precordiais proeminentes de significado incerto. Comparado ao traçado anterior, a frequência está mais lenta. Ondas T melhoradas.
+
+TC Abdome e Pélvis com contraste:
+- TC essencialmente normal. Nenhuma doença inflamatória ou neoplásica visualizada.
+
+TC Tórax com contraste:
+- Redução significativa intervalar dos nódulos subsólidos previamente descritos espalhados pelos pulmões, compatível com infecção em resolução, provavelmente bacteriana ou viral. Sem novos nódulos, massas ou consolidação sugerindo infecção aguda piorada ou malignidade ativa. Sem linfadenopatia.
+
+Ressonância Magnética (RM) de Crânio com contraste:
+- 1. Nenhuma patologia intracraniana aguda ou mudança significativa.
+- 2. Poucos focos pontuais de sinal anormal de substância branca não específicos, inalterados no intervalo, favorecendo isquemia microangiopática crônica.
+- 3. Doença sinusal proeminente de aparência crônica aumentada desde a data anterior.
+
+RM de Coluna com contraste:
+- 1. Medula espinhal cervical com aparência normal.
+- 2. Mudanças degenerativas leves a moderadas.
+
+Radiografia de Coluna Cervical em flexão e extensão:
+- Estreitamento moderado do espaço discal em C5-6 e retrolistese leve em C5-6 de 4 mm em ambas as vistas de flexão e extensão.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de HIV não tratado há 2 décadas, apresentando quadro neurológico complexo e infecções oportunistas. O quadro de dormência e formigamento bilateral nos membros superiores, com início súbito ao despertar e resolução parcial, correlaciona-se com achados de imagem de doença degenerativa cervical (estenose de canal, bulbo discal) que predispõe a lesões da medula cervical, especialmente em extensão. O exame neurológico revelou hiporreflexia generalizada, perda de propriocepção e vibração, e déficits sensitivos, sugerindo envolvimento de raízes nervosas ou medula espinhal, possivelmente agravado por neurosífilis.
+
+Diagnóstico Principal: Neurosífilis provável. O paciente apresenta RPR elevado (1:128), história de múltiplas infecções por sífilis, quadro clínico compatível (arreflexia, perda de sensibilidade vibratória/proprioceptiva, alterações cognitivas leves) e proteinorraquia levemente elevada. O VDRL no líquor estava pendente na alta, mas a suspeita clínica é alta. O paciente recebeu apenas 2 dias de Penicilina G IV antes de sair contra orientação médica (AMA).
+
+Diagnósticos Secundários:
+1. Infecção por HIV não controlada: Carga viral elevada (86.300 cópias/mL) e contagem de CD4 de 456 células/mm³ (na alta), indicando imunossupressão e necessidade urgente de início de HAART.
+2. Doença degenerativa cervical leve a moderada: Responsável pelos sintomas de compressão medular/radicular nos membros superiores.
+3. Nódulos pulmonares em resolução: Provável infecção bacteriana ou viral prévia, sem necessidade de tratamento atual.
+4. Infecção ativa por MRSA (histórico).
+
+Evolução: O paciente foi internado para investigação neurológica e tratamento de sífilis. Devido à suspeita de neurosífilis e risco de transmissão (cancro genital ativo), foi iniciado tratamento com Penicilina G IV. No entanto, o paciente recusou continuar o tratamento e a internação, saindo contra orientação médica (AMA) devido a questões de ansiedade, histórico de abuso de substâncias e recusa em permanecer com acesso venoso central (PICC) em casa. Equipes de saúde pública foram notificadas para acompanhamento externo.
+
+Conclusões das Equipes: Infectologia recomenda seguimento próximo para iniciar HAART após genotipagem e teste HLA-B*5701. Neurologia recomenda uso de colar cervical macio para prevenir lesões medulares e seguimento para reavaliação neurológica.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+- Nenhuma medicação prescrita para uso domiciliar devido à saída contra orientação médica (AMA). O tratamento com Penicilina G IV (4 milhões de unidades a cada 4 horas) foi interrompido pelo paciente após 2 dias.
+
+Orientações ao Paciente:
+- Uso de colar cervical macio durante o sono para prevenir lesões de extensão da medula espinhal.
+- Informação sobre a natureza comunicável da sífilis (cancro genital ativo) e risco de transmissão por contato direto.
+- Alerta sobre os riscos de danos neurológicos permanentes devido à interrupção do tratamento da sífilis.
+- Orientação sobre a importância do tratamento do HIV e início da terapia antirretroviral (HAART).
+
+Encaminhamentos e Seguimento:
+- Infectologia: Retorno em menos de 1 mês para avaliação de início de HAART, verificação de sensibilidade viral, status HLA-B*5701 e acompanhamento da sífilis. Resultados de exames pendentes (Toxoplasmose, Neurosífilis, CMV, EBV, HSV, TB, Aspergillus, Histoplasmose, Criptococo) serão discutidos nesta consulta.
+- Neurologia: Retorno programado para reavaliação neurológica e monitoramento da doença cervical.
+- Saúde Pública: O Departamento de Saúde foi notificado. Um liaison de doenças infecciosas entrará em contato com o paciente em sua residência para auxiliar na reiniciação do tratamento.
+
+Exames de Seguimento:
+- Monitoramento da carga viral e contagem de CD4.
+- Reavaliação dos títulos de RPR para resposta ao tratamento da sífilis.
+- Acompanhamento dos resultados pendentes de sorologias e PCR (Lyme, JC Virus, CMV, etc.).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '23080963';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

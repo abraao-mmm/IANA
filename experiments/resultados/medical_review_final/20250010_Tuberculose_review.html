@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 20250010 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 20250010</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 20250010 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 0
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit ___:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+___ Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Fever, weight loss and hypotension
+ 
+Major Surgical or Invasive Procedure:
+___: Esophagogastroduodensocopy with mucosal biopsy
+___: Lumbar puncture
+___: Left-sided Video-assisted thoracic surgical biopsy
+___: Lumbar puncture
+___: Bronchoscopy
+ 
+History of Present Illness:
+___ MEDICINE ATTENDING ADMISSION NOTE .
+.
+Date: ___
+Time: ___
+_
+________________________________________________________________
+PCP: Dr. ___
+. 
+_
+________________________________________________________________
+HPI: 
+___ female past medical history of lupus on ___ 
+phenolate presenting with 3 weeks of abdominal pain, vomiting, 
+weight loss. The patient was found to be hypotensive to the ___ 
+in triage as well as febrile. The patient recently had imaging 
+of her abdomen yesterday. The patient denies chest pain or 
+shortness of breath.
+She weighed 120 lbs in ___. In ___ she weighed 100 lbs. 
+She is now 92 lbs. She does not have an appetitie. She denies 
+dysphagia. She had a subjective fever last night but they did 
+not check it. It improved with Tylenol x 2.  ___ joint pains. ___ 
+sob. + DOE x 10 days. ___ sob at rest or laying flat. ___ night 
+sweats. + subjective fever &quot;a few days ago&quot; + productive cough 
+white phlegm x 1.5 weeks. Three episodes of emesis daily. She is 
+unable to tolerate liquids or solids. ___ sensation of her food 
+getting stuck. + emesis x 2 months. Her sx have been 
+progressively worsening. + epigastric tenderness without a clear 
+trigger. Eating does not make her sx worse. She has had diarrhea 
+over the past week. ___ recent abx except for what was given in 
+the ED. ___ sick contacts. 
+Since coming from ___ in ___ she has not travelled. ___ 
+strange foods. ___ dysuria, or rash. + sores on her lip but none 
+in her mouth
+PE: diffuse abdominal tenderness without rigidity in the ED
+.
+In ER: (Triage Vitals:
+0| 100.3 |81 |83/49 |16 |100% RA  ) 
+.
+Today 19:18 
+
+Tmax = 101.8 |114 |106/75 |26 |100% RA 
+Meds Given: 
+___ 11:03 IV Morphine Sulfate 2 mg ___  
+___ 11:03 IV CefePIME 2 g ___  
+___ 11:03 IVF 1000 mL NS 1000 mL ___  
+___ 13:27 IV Vancomycin 1000 mg ___  
+___ 13:27 IVF 1000 mL NS 1000 mL ___  
+___ 17:11 IVF 1000 mL NS 1000 mL ___  
+___ 18:24 IV Ondansetron 4 mg ___  
+___ 19:43 PO Acetaminophen 1000 mg ___ 
+
+Radiology Studies:
+Abdominal CT
+consults called.  None
+.
+PAIN SCALE: ___
+.
+REVIEW OF SYSTEMS:
+CONSTITUTIONAL:  As per HPI
+HEENT:  [X] All normal
+RESPIRATORY:  [X] All normal
+CARDIAC:  [X] All normal
+GI:  As per HPI
+GU:  [X] All normal
+SKIN:  [X] All normal
+MUSCULOSKELETAL:  [X] All normal
+NEURO:  [X] All normal
+ENDOCRINE:  [+] weakness
+HEME/LYMPH:  [X]  All normal- ___ easy bruising or bleeding
+PSYCH:  [X] All normal
+All other systems negative except as noted above
+
+ 
+Past Medical History:
+SLE with type 4 nephritis
+Anemia
+ 
+Social History:
+___
+Family History:
+Mother and father without ___
+MGM still alive. She does not know what illnesses her P 
+grandparents had or why they died 
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM
+=======================
+Vitals:  98.7
+PO 105 / 63 114 24 98 RA 
+CONS: cachectic, sick appearing, young female 
+HEENT: ncat anicteric MMM
+sores present on upper and lower lips    
+CV: nml s1s2 regular, tachy, ___ murmurs 
+RESP: b/l ae ___ w/c/r  
+GI: +bs, soft, NT, ND, ___ guarding or rebound    
+___ c/c/e 2+pulses  
+SKIN: ___ rash  
+NEURO: face symmetric speech fluent  
+PSYCH: calm, cooperative  but very flat affect. She looks very 
+scared
+LAD: ___ axillary or cervical LAD
+
+DISCHARGE PHYSICAL EXAM
+=======================
+VS: 98.1 91/55 91 16 100 RA 
+General: alert, ___ acute distress, thin woman, NAD
+HEENT: MMM
+Lungs: CTAB
+CV: tachycardic, regular, soft systolic flow murmur
+Abdomen: soft, non-tender, non-distended, NABS
+GU: ___ foley  
+Ext: warm, well perfused
+Neuro: AOx3, moving all extremities equally
+
+ 
+Pertinent Results:
+ADMISSION LABS
+================
+___ 11:07AM   LACTATE-1.3
+___ 11:00AM   GLUCOSE-96 UREA N-42* CREAT-2.5*# SODIUM-129* 
+POTASSIUM-4.3 CHLORIDE-94* TOTAL CO2-19* ANION GAP-20
+___ 11:00AM   estGFR-Using this
+___ 11:00AM   ALT(SGPT)-14 AST(SGOT)-56* ALK PHOS-48 TOT 
+BILI-0.3
+___ 11:00AM   LIPASE-89*
+___ 11:00AM   WBC-7.5 RBC-2.57* HGB-7.0* HCT-23.3* MCV-91 
+MCH-27.2 MCHC-30.0* RDW-14.8 RDWSD-48.7*
+___ 11:00AM   NEUTS-88* BANDS-0 LYMPHS-5* MONOS-6 EOS-0 
+BASOS-0 ATYPS-1* ___ MYELOS-0 AbsNeut-6.60* AbsLymp-0.45* 
+AbsMono-0.45 AbsEos-0.00* AbsBaso-0.00*
+___ 11:00AM   HYPOCHROM-NORMAL ANISOCYT-NORMAL POIKILOCY-3+ 
+MACROCYT-NORMAL MICROCYT-NORMAL POLYCHROM-OCCASIONAL OVALOCYT-3+ 
+SCHISTOCY-1+ BURR-OCCASIONAL TEARDROP-OCCASIONAL
+___ 11:00AM   PLT SMR-NORMAL PLT COUNT-303
+
+INTERVAL LABS: Blood/chemistries
+============================
+___ 08:16AM BLOOD WBC-8.7 RBC-3.21* Hgb-9.2* Hct-28.5* 
+MCV-89 MCH-28.7 MCHC-32.3 RDW-15.4 RDWSD-50.0* Plt ___
+___ 06:40AM BLOOD WBC-6.1 RBC-2.66* Hgb-7.8* Hct-23.9* 
+MCV-90 MCH-29.3 MCHC-32.6 RDW-15.5 RDWSD-50.9* Plt ___
+___ 04:00AM BLOOD WBC-9.2 RBC-2.25* Hgb-6.5* Hct-21.0* 
+MCV-93 MCH-28.9 MCHC-31.0* RDW-15.5 RDWSD-52.1* Plt ___
+___ 03:14PM BLOOD WBC-8.6 RBC-2.97* Hgb-9.0* Hct-28.1* 
+MCV-95 MCH-30.3 MCHC-32.0 RDW-15.2 RDWSD-51.9* Plt ___
+___ 07:37AM BLOOD WBC-5.6# RBC-2.32* Hgb-7.0* Hct-22.5* 
+MCV-97 MCH-30.2 MCHC-31.1* RDW-16.4* RDWSD-57.8* Plt ___
+___ 05:43AM BLOOD ___ PTT-32.0 ___
+___ 01:35PM BLOOD Plt Smr-NORMAL Plt ___
+___ 02:30AM BLOOD Plt ___
+___ 05:19AM BLOOD Plt ___
+___ 06:56AM BLOOD Plt Smr-LOW Plt ___
+___ 05:58AM BLOOD Plt ___
+___ 07:37AM BLOOD Plt ___
+___ 07:30AM BLOOD ALT-106* AST-184* LD(LDH)-346* CK(CPK)-31 
+AlkPhos-60 TotBili-&lt;0.2
+___ 06:17AM BLOOD ALT-16 AST-34 AlkPhos-102 TotBili-&lt;0.2
+___ 06:00AM BLOOD ALT-7 AST-21 LD(LDH)-221 AlkPhos-62 
+TotBili-&lt;0.2
+___ 11:20AM BLOOD CK-MB-&lt;1 cTropnT-&lt;0.01
+___ 11:00AM BLOOD Lipase-89*
+___ 08:00AM BLOOD Lipase-64*
+___ 11:00AM BLOOD calTIBC-135* Hapto-443* Ferritn-5758* 
+TRF-104*
+___ 06:40AM BLOOD Ferritn-3899*
+___ 11:20AM BLOOD Ferritn-4863*
+___ 04:00AM BLOOD Ferritn-4699*
+___ 06:17AM BLOOD Ferritn-4817*
+___ 04:30AM BLOOD Triglyc-277*
+___ 08:00AM BLOOD Triglyc-506*
+___ 07:30AM BLOOD HBsAg-Negative HBsAb-Positive 
+HBcAb-Negative HAV Ab-Positive*
+___ 05:54PM BLOOD IgM HAV-Negative
+___ 05:41AM BLOOD ANCA-NEGATIVE B
+___ 08:00AM BLOOD Anti-Tg-LESS THAN  Thyrogl-30
+___ 12:17AM BLOOD dsDNA-POSITIVE *
+___ 11:00AM BLOOD CRP-15.8*
+___ 04:55AM BLOOD IgA-81
+___ 11:20AM BLOOD ___ SPECIFI IgG-1169 IgA-136 IgM-127 
+___ MONOCLO
+___ 12:17AM BLOOD C3-35*
+___ 06:40AM BLOOD HIV Ab-Negative
+___ 06:17AM BLOOD antiDGP-1
+___ 05:27AM BLOOD tTG-IgA-3
+___ 07:30AM BLOOD HCV Ab-Negative
+___ 11:07AM BLOOD Lactate-1.3
+___ 01:46PM BLOOD Lactate-3.5*
+___ 04:43PM BLOOD Lactate-0.8
+___ 08:18PM BLOOD Glucose-108* Lactate-4.4*
+___ 03:33AM BLOOD Lactate-2.0
+
+INTERVAL LABS:Urine
+====================
+___ 06:27AM URINE Color-Straw Appear-Clear Sp ___
+___ 06:27AM URINE Blood-SM  Nitrite-NEG Protein-100 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-6.0 Leuks-TR
+___ 06:27AM URINE RBC-2 WBC-4 Bacteri-FEW Yeast-NONE Epi-&lt;1
+___ 06:27AM URINE Hours-RANDOM UreaN-194 Creat-33 Na-&lt;20
+___ 06:27AM URINE ___ 11:49AM URINE 
+Color-Straw Appear-Clear Sp ___
+___ 05:13AM URINE Hours-RANDOM Creat-35 Na-46 TotProt-94 
+Prot/Cr-2.7*
+___ 11:49AM URINE Blood-SM  Nitrite-NEG Protein-30 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-6.0 Leuks-NEG
+___ 11:49AM URINE RBC-8* WBC-8* Bacteri-FEW Yeast-NONE 
+Epi-&lt;1
+___ 11:10AM URINE Color-Straw Appear-Clear Sp ___
+___ 11:10AM URINE Blood-TR Nitrite-NEG Protein-30 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-8.0 Leuks-NEG
+___ 11:10AM URINE RBC-4* WBC-8* Bacteri-FEW Yeast-NONE 
+Epi-0
+___ 04:17AM URINE Color-Yellow Appear-Clear Sp ___
+___ 04:17AM URINE Blood-SM  Nitrite-NEG Protein-100 
+Glucose-NEG Ketone-10 Bilirub-NEG Urobiln-NEG pH-7.0 Leuks-NEG
+___ 04:17AM URINE RBC-43* WBC-13* Bacteri-NONE Yeast-NONE 
+Epi-1
+___ 07:20PM URINE Color-Yellow Appear-Clear Sp ___
+___ 07:20PM URINE Blood-SM  Nitrite-NEG Protein-100 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-7.5 Leuks-TR
+___ 07:20PM URINE RBC-11* WBC-16* Bacteri-NONE Yeast-NONE 
+Epi-&lt;1
+___ 07:20PM URINE Hours-RANDOM Creat-34 Na-116
+___ 07:20PM URINE ___ 06:25PM URINE 
+Color-Yellow Appear-Clear Sp ___
+___ 06:25PM URINE Blood-TR Nitrite-NEG Protein-30 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-6.5 Leuks-NEG
+___ 06:25PM URINE RBC-2 WBC-6* Bacteri-NONE Yeast-NONE 
+Epi-0
+
+INTERVAL LABS:CSF
+==========================
+___ 12:00PM CEREBROSPINAL FLUID (CSF) WBC-2 RBC-890* 
+Polys-46 ___ ___ 12:00PM CEREBROSPINAL FLUID (CSF) WBC-3 RBC-241* 
+Polys-25 ___ Macroph-13
+___ 12:00PM CEREBROSPINAL FLUID (CSF) TotProt-97* 
+Glucose-37
+___ 12:00PM CEREBROSPINAL FLUID (CSF) ___ OLIGOCL
+
+INTERVAL LABS:Microbiology
+==========================
+___ URINE URINE CULTURE-PRELIMINARY {ENTEROCOCCUS SP.} 
+
+   URINE CULTURE (Preliminary): 
+      ENTEROCOCCUS SP..    10,000-100,000 CFU/mL. 
+___ BLOOD CULTURE Blood Culture, Routine-PENDING 
+___ STOOL C. difficile DNA amplification 
+assay-FINAL:negative
+___ SPUTUM GRAM STAIN-FINAL; RESPIRATORY CULTURE-FINAL; 
+LEGIONELLA CULTURE-FINAL; Immunoflourescent test for 
+Pneumocystis jirovecii (carinii)-FINAL; FUNGAL 
+CULTURE-PRELIMINARY; ACID FAST SMEAR-FINAL; ACID FAST 
+CULTURE-PRELIMINARY 
+___ URINE URINE CULTURE-FINAL {ENTEROCOCCUS FAECIUM} 
+URINE CULTURE (Final ___: 
+      ENTEROCOCCUS FAECIUM.    10,000-100,000 CFU/mL. 
+      SENSITIVITIES: MIC expressed in MCG/ML
+_____________ENTEROCOCCUS FAECIUM
+                             |   
+AMPICILLIN------------  =&gt;32 R
+LINEZOLID-------------     2 S
+NITROFURANTOIN--------   128 R
+TETRACYCLINE----------   &lt;=1 S
+VANCOMYCIN------------  =&gt;32 R
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ SPUTUM GRAM STAIN-FINAL; RESPIRATORY CULTURE-FINAL 
+{YEAST}; ACID FAST SMEAR-FINAL; ACID FAST CULTURE-PRELIMINARY 
+___ STOOL C. difficile DNA amplification assay-FINAL 
+{CANCELLED} 
+___ SPUTUM GRAM STAIN-FINAL; RESPIRATORY CULTURE-FINAL; 
+ACID FAST SMEAR-FINAL; ACID FAST CULTURE-PRELIMINARY 
+___ CSF;SPINAL FLUID Enterovirus Culture-FINAL : Not 
+detected
+___ CSF;SPINAL FLUID GRAM STAIN-FINAL; FLUID 
+CULTURE-FINAL; FUNGAL CULTURE-PRELIMINARY; ACID FAST 
+CULTURE-PRELIMINARY 
+___ CSF;SPINAL FLUID CRYPTOCOCCAL ANTIGEN-FINAL: Not 
+detected
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ URINE URINE CULTURE-FINAL 
+___ URINE URINE CULTURE-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+
+___ STOOL C. difficile DNA amplification assay-FINAL; 
+FECAL CULTURE-FINAL; CAMPYLOBACTER CULTURE-FINAL Negative;none 
+found;none found
+
+___ URINE URINE CULTURE-FINAL {ENTEROCOCCUS FAECIUM} 
+   URINE CULTURE (Final ___: 
+      ENTEROCOCCUS FAECIUM.    10,000-100,000 CFU/mL. 
+  SENSITIVITIES: MIC expressed in MCG/ML
+_________________________________________________________
+                             ENTEROCOCCUS FAECIUM
+                             |   
+AMPICILLIN------------  =&gt;32 R
+LINEZOLID-------------     2 S
+NITROFURANTOIN--------   128 R
+TETRACYCLINE----------   &lt;=1 S
+VANCOMYCIN------------  =&gt;32 R
+___ Immunology (CMV) CMV Viral Load-FINAL:CMV DNA not 
+detected. 
+
+___ TISSUE GRAM STAIN-FINAL; TISSUE-FINAL; ANAEROBIC 
+CULTURE-FINAL; ACID FAST SMEAR-FINAL; ACID FAST 
+CULTURE-PRELIMINARY {AFB GROWN IN CULTURE; ADDITIONAL 
+INFORMATION TO FOLLOW}; FUNGAL CULTURE-PRELIMINARY; POTASSIUM 
+HYDROXIDE PREPARATION-FINAL; MTB Direct Amplification-FINAL 
+INPATIENT
+___ 11:43 am TISSUE      LUL NODULE. 
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      ___ MICROORGANISMS SEEN. 
+   TISSUE (Final ___:    ___ GROWTH. 
+   ANAEROBIC CULTURE (Final ___:    ___ GROWTH. 
+   ACID FAST SMEAR (Final ___: 
+      ___ ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+   ACID FAST CULTURE (Preliminary): 
+      Reported to and read back by ___ ___ @ 
+14:55. 
+      Reported to and read back by ___ ___ @ 
+15:35. 
+      AFB GROWN IN CULTURE; ADDITIONAL INFORMATION TO FOLLOW. 
+         REPORT DATE ___. 
+         SENT TO STATE LAB FOR FURTHER IDENTIFICATION ___. 
+
+   FUNGAL CULTURE (Preliminary):    ___ FUNGUS ISOLATED. 
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      ___ FUNGAL ELEMENTS SEEN. 
+
+___ PLEURAL FLUID GRAM STAIN-FINAL; FLUID 
+CULTURE-FINAL; ANAEROBIC CULTURE-FINAL; ACID FAST SMEAR-FINAL; 
+ACID FAST CULTURE-PRELIMINARY; FUNGAL CULTURE-PRELIMINARY; 
+POTASSIUM HYDROXIDE PREPARATION-FINAL; MTB Direct 
+Amplification-FINAL 
+___ 11:30 am PLEURAL FLUID      LEFT PLEURAL EFFUSION. 
+   GRAM STAIN (Final ___: 
+      3+  ___ per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      ___ MICROORGANISMS SEEN. 
+      This is a concentrated smear made by cytospin method, 
+please refer to
+      hematology for a quantitative white blood cell count.. 
+   FLUID CULTURE (Final ___:    ___ GROWTH. 
+   ANAEROBIC CULTURE (Final ___:    ___ GROWTH. 
+   ACID FAST SMEAR (Final ___: 
+      ___ ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+   ACID FAST CULTURE (Preliminary):    ___ MYCOBACTERIA ISOLATED. 
+
+   FUNGAL CULTURE (Preliminary):    ___ FUNGUS ISOLATED. 
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      ___ FUNGAL ELEMENTS SEEN. 
+
+___ BRONCHOALVEOLAR LAVAGE GRAM STAIN-FINAL; 
+RESPIRATORY CULTURE-FINAL; ACID FAST SMEAR-FINAL; ACID FAST 
+CULTURE-PRELIMINARY {AFB GROWN IN CULTURE; ADDITIONAL 
+INFORMATION TO FOLLOW}; FUNGAL CULTURE-FINAL {YEAST, ASPERGILLUS 
+FUMIGATUS}; POTASSIUM HYDROXIDE PREPARATION-FINAL; MTB Direct 
+Amplification-FINAL 
+___ 10:53 am BRONCHOALVEOLAR LAVAGE     Site: LUNG
+      BILATERAL LUNG, BAL. 
+   GRAM STAIN (Final ___: 
+      ___ POLYMORPHONUCLEAR LEUKOCYTES SEEN. 
+      ___ MICROORGANISMS SEEN. 
+   RESPIRATORY CULTURE (Final ___:    ___ GROWTH, &lt;1000 
+CFU/ml. 
+   ACID FAST SMEAR (Final ___: 
+      ___ ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+   ACID FAST CULTURE (Preliminary): 
+         MYCOBACTERIUM TUBERCULOSIS COMPLEX.    REPORT DATE 
+___. 
+         Identified by ___ Laboratory , REPORT DATE: 
+___. 
+         . 
+         CDC RESULTS FOR MOLECULAR DETECTION OF DRUG RESISTANCE
+         (PYROSEQUENCING, INH AND RMP ONLY); CONVENTIONAL DRUG
+         SUSCEPTIBILITY TEST IN PROGRESS ,REPORT DATE: 
+___. 
+         . 
+         --LOCUS (REGION) EXAMINED* --        ------- 
+RESULTS-------. 
+         . 
+         RPOB                                 ___ MUTATION        
+   . 
+         INTERPRETATION: PROBABLY RIFAMPIN SUSCEPTIBLE. (97% OF 
+RMP-R
+         ISOLATES IN OUR IN-HOUSE EVALUATION OF 550 CLINICAL 
+ISOLATES HAVE
+         A MUTATION AT THIS LOCUS. 
+         . 
+         INHA (PROMOTER)                     ___ MTBC 
+AMPLIFICATION
+         DETECTED**. 
+         INTERPRETATION: CANNOT RULE OUT ISONIAZID RESISTANCE. 
+         . 
+         KATG (SER315 CODON)                 ___ MTBC 
+AMPLIFICATION
+         DETECTED**. 
+         INTERPRETATION: CANNOT RULE OUT ISONIAZID RESISTANCE. 
+         . 
+         . 
+         *A NEGATIVE RESULTS (E.G. ___ MUTATION) DOES NOT RULE 
+OUT
+         CONTRIBUTORY MUTATIONS PRESENT ELSEWHERE IN THE GENOME. 
+
+         . 
+         **THE SPECIMEN LIKELY DID NOT CONTAIN SUFFICIENT AMOUNT 
+OF M.
+         TUBERCULOSIS COMPLEX (MTBC) DNA FOR SUCCESSFUL 
+AMPLIFICATION.
+         THESE RESULTS SHOULD NOT BE USED TO RULE OUT THE 
+PRESENCE OF MTBC
+         IN THE SAMPLE. 
+         . 
+         . 
+         MDDR ASSAYS WERE DEVELOPED AND THE PERFORMANCE 
+CHARACTERISTICS
+         DETERMINED BY THE ___ REFERENCE LABORATORY. THEY HAVE 
+NOT BEEN
+         CLEARED OR APPROVED BY THE FOOD ___ DRUG 
+ADMINISTRATION. 
+         . 
+         NOTE: MDDR TESTING ___ SEQUENCING, COMPLETE PANEL) 
+WILL NOT BE
+         PERFORMED BECAUSE MUTATIONS ASSOCIATED WITH RMP 
+RESISTANCE WERE
+         NOT DETECTED. CONTACT LABORATORY IF THIS TESTING IS 
+REQUIRED FOR
+         CLINICAL REASONS. 
+ 
+   FUNGAL CULTURE (Final ___: 
+      YEAST. 
+      ASPERGILLUS FUMIGATUS. 
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      Test cancelled by laboratory. 
+      PATIENT CREDITED. 
+      This is a low yield procedure based on our in-house 
+studies. 
+      if pulmonary Histoplasmosis, Coccidioidomycosis, 
+Blastomycosis,
+      Aspergillosis or Mucormycosis is strongly suspected, 
+contact the
+      Microbiology Laboratory (___). 
+   MTB Direct Amplification (Final ___: 
+      M. TUBERCULOSIS DNA DETECTED BY NAAT: Consistent with TB 
+infection by
+      NA amplification test. 
+      RIFAMPIN SUSCEPTIBLE BY NAAT: Rifampin- resistance is 
+unlikely but
+      cannot be definitively excluded with this method. 
+      NAAT results will be followed by confirmatory testing with
+      conventional culture and DST methods. This TB NAAT method 
+has not
+      been approved by FDA for clinical diagnostic purposes. 
+However, ___
+      ___ (___) has established assay 
+performance. 
+      Test done at ___ Mycobacteriology 
+Laboratory.. 
+      Reported to and read back by ___ 
+___. 
+      Reported to and read back by ___. 
+
+___ TISSUE GRAM STAIN-FINAL; TISSUE-FINAL; ANAEROBIC 
+CULTURE-FINAL; ACID FAST SMEAR-FINAL; ACID FAST 
+CULTURE-PRELIMINARY; FUNGAL CULTURE-PRELIMINARY; POTASSIUM 
+HYDROXIDE PREPARATION-FINAL 
+___ 11:32 am TISSUE      LEFT PLEURAL NODULE. 
+   GRAM STAIN (Final ___: 
+      ___ POLYMORPHONUCLEAR LEUKOCYTES SEEN. 
+      ___ MICROORGANISMS SEEN. 
+   TISSUE (Final ___:    ___ GROWTH. 
+   ANAEROBIC CULTURE (Final ___:    ___ GROWTH. 
+   ACID FAST SMEAR (Final ___: 
+      ___ ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+   ACID FAST CULTURE (Preliminary):    ___ MYCOBACTERIA ISOLATED. 
+
+   FUNGAL CULTURE (Preliminary):    ___ FUNGUS ISOLATED. 
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      ___ FUNGAL ELEMENTS SEEN. 
+
+___ BLOOD CULTURE ( MYCO/F LYTIC BOTTLE) BLOOD/FUNGAL 
+CULTURE-PRELIMINARY; BLOOD/AFB CULTURE-PRELIMINARY : ___ fungus 
+isolated. ___ mycobacteria isolated.
+___ URINE URINE CULTURE-FINAL 
+___ SEROLOGY/BLOOD RPR w/check for Prozone-FINAL: 
+NONREACTIVE
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+___ Blood (EBV) ___ VIRUS VCA-IgG AB-FINAL; 
+___ VIRUS EBNA IgG AB-FINAL; ___ VIRUS VCA-IgM 
+AB-FINAL
+   ___ VIRUS VCA-IgG AB (Final ___:    POSITIVE 
+BY EIA. 
+   ___ VIRUS EBNA IgG AB (Final ___:    POSITIVE 
+BY EIA. 
+   ___ VIRUS VCA-IgM AB (Final ___: 
+     NEGATIVE &lt;1:10 BY IFA . 
+
+___ Blood (CMV AB) CMV IgG ANTIBODY-FINAL; CMV IgM 
+ANTIBODY-FINAL :POSITIVE FOR CMV IgG ANTIBODY BY EIA. 390 AU/ML.
+___ SEROLOGY/BLOOD CRYPTOCOCCAL ANTIGEN-FINAL:not 
+detected 
+___ STOOL OVA + PARASITES-FINAL :none seen
+___ URINE Legionella Urinary Antigen -FINAL :negative
+___ URINE URINE CULTURE-FINAL 
+___ STOOL C. difficile DNA amplification assay-FINAL; 
+FECAL CULTURE-FINAL; CAMPYLOBACTER CULTURE-FINAL; OVA + 
+PARASITES-FINAL; FECAL CULTURE - R/O VIBRIO-FINAL; FECAL CULTURE 
+- R/O YERSINIA-FINAL; FECAL CULTURE - R/O E.COLI 0157:H7-FINAL; 
+MICROSPORIDIA STAIN-FINAL; CYCLOSPORA STAIN-FINAL; 
+Cryptosporidium/Giardia (DFA)-FINAL: Negative
+___ SEROLOGY/BLOOD HELICOBACTER PYLORI ANTIBODY 
+TEST-FINAL-EQUIVOCAL
+___ BLOOD CULTURE Blood Culture, Routine-FINAL
+___ BLOOD CULTURE Blood Culture, Routine-FINAL 
+
+IMAGING: Selected CXR
+======================
+CHEST (PA &amp; LAT)Study Date of ___ 11:15 AM
+IMPRESSION: 
+Anterior left paratracheal opacity is worrisome for an anterior 
+mediastinal
+mass.  It is possible the this could represent an enlarged 
+thymus or
+lymphadenopathy.  Chest CT would further assess.
+
+CHEST (PORTABLE AP)Study Date of ___ 2:31 ___
+IMPRESSION: Compared to chest radiograph ___.
+Moderate bilateral pleural effusions are new.  Multifocal 
+infiltrative
+pulmonary abnormality, worse in the left lung and at the lung 
+bases is new.
+This could be a widespread pneumonia alone, including viral and 
+lupus
+pneumonitis, or pneumonia and edema.  Heart size is roughly 
+comparable, but
+small pericardial effusion could be present. 
+Large upper mediastinal mass is grossly unchanged.
+New right internal jugular line ends in the upper right atrium.  
+___
+pneumothorax. 
+
+CHEST (PORTABLE AP)Study Date of ___ 3:40 AM
+IMPRESSION: 
+There is a right IJ central line with the distal lead tip in the 
+proximal
+right atrium.  Left upper lobe lung sutures are seen.  There is 
+a small
+right-sided pleural effusion.  There is a persistent left 
+retrocardiac
+opacity.  ___ pneumothoraces are seen.  Overall findings are 
+unchanged.
+
+CHEST (PORTABLE AP)Study Date of ___ 10:10 A
+IMPRESSION: 
+Compared to chest radiographs ___ through ___.
+Small pleural effusions are improving.  However there may be new 
+left
+perihilar consolidation ; aspiration suspected.  ___ 
+pneumothorax.
+Postoperative widening upper mediastinum is stable.  Heart size 
+is normal.
+Tip of the endotracheal tube, with the chin elevated is less 
+than 3 cm from
+the carina.  Care should be taken not to advanced it any 
+further.  Esophageal
+drainage tube ends in nondistended stomach.
+
+CHEST (PORTABLE AP)Study Date of ___ 4:06 ___
+FINDINGS: 
+Feeding tube tip seen to the edge of the film in the left upper 
+abdomen. 
+Worsened left perihilar, basilar infiltrate compared with prior 
+exam. 
+Worsened bibasilar consolidations.  Worsened left pleural 
+effusion.  Tiny
+right pleural effusion, new.  Shallow inspiration.  Left 
+perihilar fullness, likely from consolidation, development 
+probably too rapid to represent adenopathy.  Postoperative 
+changes left upper lung.  Remainder normal.
+IMPRESSION: 
+Feeding tube tip seen to the edge of the film in the left 
+abdomen.
+Significant worsening of chest findings, as above
+
+CHEST (PA &amp; LAT)Study Date of ___ 1:19 ___
+IMPRESSION: 
+Compared to chest radiographs ___ through ___, and 
+read in
+conjunction with most recent chest CTA ___.
+Small left pleural effusion is smaller compared ___.  
+Mediastinal
+widening due to tuberculous had denied is, particularly in the 
+region of the aortopulmonic window, minimally improved.
+It is hard to say whether a region of consolidation at the base 
+of the left
+lung is pneumonia or simply the residual of basal atelectasis 
+that was present on the chest CTA ___.
+Heart size is normal.
+Right PIC line has been withdrawn to the low SVC.  Feeding tube 
+ends in the
+distal stomach.
+
+IMAGING: Other studies
+======================
+
+MR HEAD W/O CONTRASTStudy Date of ___ 2:20 ___
+IMPRESSION: 
+1.  Slightly prominent ventricles and sulci for the patient&#x27;s 
+age, this
+finding is nonspecific, however may reflect mild cortical volume 
+loss. 
+2.  There is ___ evidence of acute or subacute intracranial 
+process.
+
+CT CHEST W/O CONTRASTStudy Date of ___ 12:26 ___
+IMPRESSION:
+1. 3.0 cm soft tissue structure along adjacent the anterior 
+mediastinum to the left of midline.  Findings may represent 
+lymphadenopathy or other mediastinal mass, although pulmonary 
+involvement is difficult to exclude.  Difficult to delineate 
+given lack of IV contrast.  MRI would be helpful for further 
+assessment or contrast-enhanced CT if renal function allows.
+2. Numerous enlarged mediastinal and axillary lymph nodes, which 
+raises the
+question of a lymphoproliferative disorder, in conjunction with 
+the above
+finding.
+3. Scattered subcentimeter nodular opacities within the lungs 
+bilaterally,
+nonspecific, but could relate to inflammatory or infectious 
+small airways
+process.
+RECOMMENDATION(S):  MRI or contrast-enhanced CT (if/when renal 
+function
+allows).
+
+MRI CHEST ___ W&amp;W/O CONTRASTStudy Date of ___ 5:01 ___
+IMPRESSION: 
+There is marked, necrotic-appearing lymphadenopathy identified 
+within the
+anterior mediastinum, prevascular area, left paratracheal, left 
+suprahilar and right paratracheal stations. Postcontrast 
+administration there appears to be central hypervascularity of 
+the lymph nodes suggesting a more atypical source such as an a 
+typical infection, and based on the age of the patient less 
+likely a neoplastic process.
+RECOMMENDATION(S):  Further characterization by means of biopsy 
+is
+recommended.
+
+CT HEAD W/O CONTRASTStudy Date of ___ 2:20 ___
+IMPRESSION: 
+1. ___ evidence of intracranial hemorrhage.
+2. Age advanced involutional changes.
+ 
+LUMBAR PUNCTURE (W/ FLUORO)Study Date of ___ 4:39 ___
+IMPRESSION:
+1. Lumbar puncture at L3-4 and ___ yielded ___ fluid.
+
+MR ___ &amp; W/O CONTRASTStudy Date of ___ 4:40 ___
+IMPRESSION:
+1. 5.2 cm posterior epidural heterogeneous T2 collection, likely 
+secondary to a hematoma spanning from L4 through S1, may be 
+sequelae of prior intervention. Follow-up scan in ___ days is 
+recommended for further evaluation.
+2. Thickened, faintly enhancing nerve roots, are also concerning 
+for
+arachnoiditis.
+3. Diffuse T1 hypo intense signal throughout the bone marrow, 
+could be
+secondary to anemia, or a systemic process, however a neoplastic 
+diffuse
+involvement cannot be excluded.
+
+MR HEAD W &amp; W/O CONTRASTStudy Date of ___ 4:40 ___
+IMPRESSION: 
+Interval development of widespread bilateral relatively 
+symmetric T2/FLAIR
+abnormalities in the subcortical white matter most likely 
+represents PRES.
+
+MR HEAD W &amp; W/O CONTRASTStudy Date of ___ 11:21 ___
+IMPRESSION:
+1. Moderately motion degraded study, particularly affecting the 
+postcontrast T1 weighted images.
+2. Widespread bilateral relatively symmetric areas of T2/FLAIR 
+signal
+hyperintensity involving the frontal, parietal, occipital, and 
+temporal
+subcortical white matter and the bilateral cerebellar 
+hemispheres without
+associated slow diffusion or enhancement have progressed 
+compared to prior
+examination and likely represent worsening PRES.
+3. ___ evidence of hemorrhage or acute infarction.
+
+US NECK, SOFT TISSUE PORTStudy Date of ___ 9:18 AM
+IMPRESSION: 
+___ hematoma identified in the neck as questioned.  
+Morphologically abnormal, enlarged and numerous lymph nodes 
+bilaterally consistent with previous imaging findings of 
+mediastinal lymphadenopathy.
+
+LUMBAR PUNCTURE (W/ FLUORO)Study Date of ___ 10:49 AM
+FINDINGS: 
+28 mls of slightly yellow tinged clear CSF were collected in 4 
+tubes, 10 cc of which were divided into CytoLyt for cytology.  
+Opening pressure was 19 cm CSF.
+IMPRESSION: 
+1. Lumbar puncture at L2-L3 without complication.
+2. Opening pressure of 19 cm CSF.
+3. 28 cc slightly yellow tinged clear CSF was sent for labs as 
+requested.
+
+CT CHEST W/CONTRASTStudy Date of ___ 8:08 ___
+IMPRESSION: 
+1.  Postsurgical changes from recent prior left upper lobe VATS 
+wedge
+resection.
+2.  Grossly unchanged supraclavicular, mediastinal, hilar, and 
+axillary
+lymphadenopathy.
+3.  Innumerable new small centrilobular nodules are present, 
+concerning for an infectious process.
+4.  New pleural effusions are large on the left and small on the 
+right.
+5.  There is near complete collapse of the left lower lobe with 
+mucous
+plugging in left lower lobe segmental and subsegmental bronchi.
+
+CTA HEAD W&amp;W/O C &amp; RECONSStudy Date of ___ 3:38 ___
+IMPRESSION:
+1. Improving subcortical white matter hypodensity as compared to 
+the MR
+examination from ___.
+2. ___ territorial infarct or hemorrhage.
+3. Patent intracranial vasculature without stenosis, occlusion 
+or aneurysm. 
+Incidental left posterior communicating artery infundibulum.
+4. Moderate left-sided pleural effusion.
+
+BILAT LOWER EXT VEINSStudy Date of ___ 4:47 ___
+IMPRESSION: ___ evidence of deep venous thrombosis in the right 
+or left lower extremity veins.
+
+CTA CHEST Study Date of ___ 9:28 ___
+IMPRESSION: 
+1. ___ evidence of pulmonary emboli.
+2.  Improved aeration of the left lower lobe with improvement of 
+bilateral
+pleural effusions.
+3.  Small fluid collection adjacent to the site of the prior 
+wedge resection in the left upper lobe. 
+
+MR HEAD W &amp; W/O CONTRAST Study Date of ___ 6:41 ___ 
+IMPRESSION:  Resolution of findings suggest[ing] PRES since ___. The study now appears normal. 
+
+CT SINUS/MANDIBLE/MAXILLOFACIAL W &amp; W/O CONTRAST Study Date of 
+___ 5:24 ___ 
+IMPRESSION:  
+1.  ___ evidence of sinusitis or periodontal abscess. 
+2.  Mild right ethmoidal air cell mucosal thickening.  Small 
+mucosal retention  cysts in the bilateral maxillary sinuses. 
+3.  The bilateral ostiomeatal units are patent. 
+  
+CHEST (PORTABLE AP) Study Date of ___ 10:20 ___  
+Persisting mediastinal widening and a layering left pleural 
+effusion.  ___ 
+focal consolidation is identified. 
+
+ECHOCARDIOGRAPHY
+======================
+Portable TTE (Complete) Done ___ at 3:18:16 ___      
+The left atrium is normal in size. Left ventricular wall 
+thicknesses and cavity size are normal. Overall left ventricular 
+systolic function is mildly depressed (LVEF= 40-45 %). Right 
+ventricular chamber size and free wall motion are normal. There 
+is ___ aortic valve stenosis. Trace aortic regurgitation is seen. 
+Mild (1+) mitral regurgitation is seen. Moderate [2+] tricuspid 
+regurgitation is seen. There is borderline pulmonary artery 
+systolic hypertension. There is a small pericardial effusion.  
+
+Portable TTE (Focused views) Done ___ at 3:19:04 ___      
+Left ventricular wall thickness, cavity size, and global 
+systolic function are normal (LVEF&gt;55%). Right ventricular 
+chamber size and free wall motion are normal. The mitral valve 
+leaflets are structurally normal. Trivial mitral regurgitation 
+is seen. There is a small pericardial effusion. There are ___ 
+echocardiographic signs of tamponade. 
+Compared with the prior study (images reviewed) of ___ 
+there is less tricuspid regurgitation. Global left ventricular 
+systolic function is improved. The pericardial effusion is 
+similar in size.  
+
+DISCHARGE LABS
+======================
+___ 06:09AM BLOOD WBC-6.6 RBC-2.54* Hgb-7.7* Hct-24.1* 
+MCV-95 MCH-30.3 MCHC-32.0 RDW-16.5* RDWSD-56.3* Plt ___
+___ 06:09AM BLOOD Glucose-81 UreaN-11 Creat-0.6 Na-140 
+K-3.6 Cl-106 HCO3-21* AnGap-17
+___ 05:19AM BLOOD ALT-8 AST-21 LD(LDH)-226 AlkPhos-62 
+TotBili-&lt;0.2
+___ 06:09AM BLOOD Calcium-9.0 Phos-5.4* Mg-2.0
+ 
+Brief Hospital Course:
+Ms. ___ is a ___ with a history of SLE (diagnosed ___ on 
+Cellcept c/b biopsy-proven lupus nephritis admitted on ___ 
+with intermittent fevers, dry cough and recent 30 lb weight 
+loss, found to have widespread mediastinal LAD of unclear 
+etiology, concerning for TB, being transferred to MICU for VATS 
+am of ___ to r/o TB. 
+
+Of note her hospital course prior to MICU blue admission on ___ 
+can be summarized as follows:
+
+Patient was admitted from ___ clinic on ___ with a 
+two-month history of intermittent abdominal pain, vomiting, 
+decreased appetite, and 30% body weight loss, and CT chest on 
+admission demonstrated numerous enlarged mediastinal and 
+axillary lymph nodes concerning for infection versus malignancy
+
+Patient was scheduled to undergo bronchoscopy and lymph node 
+biopsy on ___ for r/o TB. En route to the ___ PACU via 
+EMS, the patient was witnessed to have a 30 sec generalized 
+tonic-clonic seizure which broke spontaneously. ___ associated 
+tongue trauma or incontinence. She was treated with a steroid 
+burst for possible lupus cerebritis but did not receive any 
+antiepileptics. CT head was negative for an acute intracranial 
+process. She was transferred back to ___. 
+
+On arrival to floor, patient developed persistent sinus 
+tachycardia with associated fevers (max HR 160s at Tmax ___. 
+Upper extremity shaking was noted c/f rigors versus recurrent 
+seizure, so she was given Ativan and Keppra. She was given IV 
+metoprolol 5mg x2 with improvement in HR to 110s. SBP in 110s. 
+Given her neurologic status, fevers, and persistent sinus 
+tachycardia, she was transferred to the ___ for closer 
+monitoring. She was started on vanc and cefepime empirically.
+
+From ___, on arrival to ___ and after speaking with ID, 
+patient was also empirically covered for TB with RIPE (given CT 
+findings concerning for tuberculous mediastinal lymphadenitis) 
+due to inability to get LP. She had ECHO that showed trace 
+pericardial effusion. She had attempted ___ guided LP which 
+yielded ___ fluid, concerning for spinal canal stenosis due to 
+potential inflammation or infectious process. AS a result she 
+was ordered for MRI brain and MRI L spine to assess.  She is 
+being transferred to MICU blue for VATS procedure. 
+
+Her other MICU issues have been notable for poor po intake; 
+nutrition has been consulted with contingency tube feed orders. 
+
+During her MICU BLUE stay (___) Patient had VATS 
+procedure which on pathology showed many AFB. Patient was 
+continued on RIPE therapy and other antibiotics were stopped. 
+She had ___ seizure activity and cvEEG was stopped. Her appetite 
+improved and NG placement was deferred. 
+
+MICU BLUE COURSE ___
+#B symptoms in setting of AFB: Patient p/w intermittent fevers 
+(Tmax 102), necrotic anterior mediastinal LAD on admission ___, 
+and later became hypotensive, tachycardic and febrile with CXR 
+showing concerning new PNA, as well as mediastinal widening c/f 
+progression of LAD.  Now S/p VATS ___ that demonstrated TBon 
+tissue biopsy. Her RIPE therapy was continued and acyclovir 
+stopped. 
+
+# Seizures:  Patient presented with seizure activity ___ prior 
+to planned VATS procedure, and was started on 500 mg keppra with 
+good effect. Patient had resumption of seizure activity ___ and 
+___. Neurology was consulted. She was started on EEG, reloaded 
+with keppra and started on keppra 1500 mg bid and lacosamide 100 
+mg bid. Seizure activity was lip smacking, eyebrow plucking 
+behavior, and nystagmus which resolved on ___. Last episode of 
+seizure activity on EEG was ___. Seizures believed to be 
+secondary to PRES. LP was completed ___ for evaluation for 
+infection, r/o meningitis/encephalitis. She did require 
+intubation prior to LP but was able to be extubated on ___. LP 
+studies were negative for evidence of bacterial, viral or TB 
+meningitis. 
+
+# Abnormal neuro imaging: MRI concerning for PRES. MRI L spine 
+with epidural hematoma. ___ meningeal enhancement, arguing 
+against TB meningitis. However headches and bp elevations ___ 
+worrisome for PRES. She was controlled with labetalol. 
+
+# Lupus: Continue decadron 16 mg (in conjunction ripe above). 
+Rheumoatology followed patient in house. 
+
+#AMS: Patient p/w confusion and decreased alertness since 
+transfer from the floor ___, now largely resolved, after 
+seizure event and new onset fevers worrisome for new pneumonia. 
+Recent h/o GTC seizure without e/o ongoing seizure activity by 
+EEG initially. Repeat EEG on ___ with evidence of seizure 
+activity, and patient managed as above. AMS likely ___ post 
+ictal state as mental status improved with resolution of 
+seizures. MRI brain showed PRES above with repeat MRI post 
+seizure activity on ___ with worsening PRES. Her AMS improved 
+and she was kept on ppx keppra, vimpat, and labetalol. Repeat 
+CTA head to evaluate for vasculitis revealed improving 
+subcortical white matter hypodensity. Repeat MRI head on ___ 
+showed resolution of original MRI findings from ___. 
+
+#Weight loss, malnutrition: Patient endorses recent 30 lb weight 
+loss with nausea, vomiting, diarrhea. Albumin 1.4, EGD 
+unremarkable. Meets criteria for severe protein calorie 
+malnutrition. Likely ___ Cellcept toxicity although TB/infection 
+and malignancy are also on the differential. EGD bx showed 
+duodenitis with lymphocytes. Patient&#x27;s appetite improved, lytes 
+were trended with concern for refeeding syndrome. 
+
+# Anemia: ___ be ___ slow ooze from LAD in chest, anemia of 
+chronic disease/poor marrow response. She required intermittent 
+transfusions.
+
+# Coagulopathy: PTT elevated in setting of poor po intake, 
+therapeutic on sub q heparin. She was resumed on sub q heparin 
+at 2500 BID without resumption of coagulopathy.   
+
+Medicine Floor course ___ - ___
+
+#Disseminated tuberculosis: Pathology of pulmonary nodule with 
+extensive necrotizing granulomatous inflammation and +AFB stain 
+consistent with TB, +NAAT for MTB DNA on BAL fluid, and MTB 
+growth in culture from LUL nodule reported on ___.  Placed on 
+RIPE therapy from ___. ___ evidence of drug resistance was 
+identified by pyrosequencing of the MTB culture. 
+
+# Pulmonary opacities. Initially on floor, imaging findings on 
+CXR had prompted second treatment course with Vanco/Zosyn for a 
+question of HCAP [Zosyn/Vanc ___. Subsequent 
+chest CT findings (___) of centrilobular nodules concerning for 
+progressive infectious process including TB or viral process or 
+aspergillus prompted initiation of Ambisome (___). 
+Differential for centrilobular nodules also included aspiration. 
+Ambisome was discontinued given unrevealing serologies and 
+patient&#x27;s clinical improvement. Given high-dose steroids, 
+Bactrim SS QD for PJP prophylaxis given extended steroids.  
+Small nodular opacities were again seen in RLL on CTA chest on 
+___. A repeat bronch on ___ did not identify any gross 
+evidence of infection; BAL was collected and studies were 
+notable for negative galactomannan assay and only commensal 
+yeast on culture.  The patient remained afebrile from ___ until 
+DC on ___
+
+# Tachycardia: Patient was initially tachycardic, generally in 
+120s but up to 140s. Later in the floor course (___), 
+increased tachycardia routinely in 140s-150s with rates up to 
+170s on telemetry before returning to 120-140s on ___. Etiology 
+was considered to likely be physiologic in the setting of 
+systemic illness, infection, anxiety and discomfort. Low PO 
+intake less likely contributory given resumption of tube feeds 
+and lack of response to bolus. Work-up evaluated for PE (less 
+likely given negative LENIs and CTA chest ___ and TSH 7.6 ___ 
+thyrotoxicosis), pericardial effusion (none seen on chest 
+imaging, normal pulsus, only mild effusion seen on echo). 
+Cardiology was consulted and did not recommend rate control. A 
+repeat echocardiogram on ___ showed resolution of mild LVEF 
+depression seen on prior echo on ___, showed stable mild 
+pericardial effusion, and 1+ TR compared to 2+ TR seen on prior 
+echo on ___.
+
+# Recurrent fevers: Patient was intermittently febrile to 
+101/102 range for which Vanc/Zosyn and ambisome were given as 
+below. After 72hrs afebrile, patient had recrudescence of fevers 
+on ___ and was started on linezolid (given urine cultures of 
+VRE as below), cefepime, and flagyl, and new cultures were 
+obtained which ultimately proved negative.  The 
+linezolid/cefepime/flagyl were discontinued on ___ following 72 
+hours afebrile, and the patient remained afebrile thereafter 
+through discharge
+
+# Seizures/Posterior Reversible Encephalopathy Syndrome: 
+Seizures noted as above with leviteracetam and lacosamide 
+initiated; these seizures were considered to be likely related 
+to MRI evidence of PRES on ___ of &quot;Widespread bilateral 
+relatively symmetric areas of T2/FLAIR signal hyperintensity.&quot; 
+CSF studies were undertaken following radiologically-guided 
+lumbar punctuer, and were notably negative for mycobacterium 
+tuberculosis complex by PCR, HSV, Adenosine deaminase, CMV, EBV, 
+VZV, and ___ virus. A CTA head did not show evidence of 
+vasculitis. Notably, patient is at increased risk for PRES given 
+immunosuppressant use, SLE, renal disease, and female sex. Given 
+concern for PRES, BP control was controlled with labetalol for 
+goal systolic &lt;140; this dose of labetalol was then downtitrated 
+given clinical improvement and systolic blood pressures in 100s. 
+In addition dexamethasone 16mg daily was begun for concern for 
+PRES and meningeal TB as well as SLE, before being downtitrated 
+to 50mg daily of prednisone and then slowly tapered thereafter. 
+While ___ clinically observed seizures occured on the medicine 
+floor, subclinical seizure activity was detected by EEG several 
+times. EEG monitoring showed seizures persisting through 
+___, for which Ativan was given and lacasomaide was 
+uptitrated. After ___, ___ activity was observed by EEG, and EEG 
+monitoring was discontinued on ___.  Pt reported dizziness and 
+mother noted patient confusion on ___. On ___ an EEG 
+initiated for change in mental status found recurrent seizure 
+activity. On further discussion the patient and her mother 
+reported visual and/or auditory hallucinations occurring during 
+the time period of ___ as well. For these seizures, the 
+patient was bridged with lorazepam while being loaded with 
+valproate acid; the patient required increased doses of 
+valproate acid secondary to interactions with rifampin. 
+Leviteracetam was also increased to 2g BID. Seizure activity 
+intermittently persisted through ___ and the patient was 
+stabilized on a regimen of leviteracetam/lacosamide/valproate 
+acid/lorazepam. Topiramate was added. EEG monitoring was 
+continued and lorazepam was tapered. After 24hrs without seizure 
+activity after last lorazepam dose, EEG monitoring was stopped. 
+A repeat head MRI with and without contrast on ___ showed 
+complete resolution of the previously seen abnormalities 
+suggestive of PRES. Neurology provided instructions for a slow 
+uptitration of topiramate and tapering of valproate with an 
+ultimate plan for management on 
+leviteracetam/locasamide/topiramate pending further epilepsy 
+follow-up.
+
+# Severe Protein-Calorie Malnutrition: Multifactorial with 
+decreased intake secondary to recurrent intermittent abdominal 
+pain and increased requirement given significant infectious 
+burden and critically ill state. Initially during floor course, 
+possible component of altered mental status although this was 
+less significant later in admission. Nutrition consulted and 
+advised tube feeds given poor intake on 3 days of calorie 
+counts; ideal body weight 136 lbs. Pt with very poor PO intake 
+other than tube feeds. Pt was encouraged to maintain food intake 
+before and after Dobhoff feeding tube placement on ___. 
+Supplements were provided to meals. Electrolytes were carefully 
+monitored as tube feeds were initiated. Per GI, concern for 
+celiac disease based on duodenal biopsy, but TB can also cause 
+villous blunting findings. A follow-up TTG IgA was negative and 
+IgA levels were normal; a deamidated gliadin peptide test was 
+negative. Patient intermittently had tube feeds held for nausea, 
+abdominal discomfort and emesis. On ___, continuous tube feeds 
+were transitioned to 16hr-cycle of tube feeds. The patient 
+tolerated these feeds. Weights were monitored and the pt 
+demonstrated a steady increase in weight beginning ___. Calorie 
+counts on ___ showed moderate but inconsistent intake. 
+Repeat calorie counts on ___ showed similarly poor intake, 
+though per patient this is ___ food available at hospital, and 
+will have much better PO intake at home. Patient agreed to 
+monitor her weights daily at home (she has a scale at her 
+uncle&#x27;s) and notify her PCP if she continues to lose weight. 
+
+# Abdominal pain: The patient had intermittent LUQ abdominal 
+pain with otherwise benign exam and occasional nausea/vomiting. 
+TFs were intermittently held for this reason. The possibility of 
+TB enteritis was raised given villous blunting on duodenal bx. 
+For a possible component of gastroparesis standing 
+metoclopramide was initiated with significant improvement in 
+symptoms.
+
+# Pleural effusion: Chest tube post-VATS on L removed ___. CT 
+on ___ with findings of pleural effusion L&gt;R. Patient was able 
+to tolerate this effusion without significant change in 
+respiratory status. Pulmonology completed ultrasound on ___ 
+with findings of small simple-appearing fluid that was not 
+amenable to evaluation. 
+
+# SLE: Hx of lupus nephritis. Cr 2.5 at admission, which 
+downtrended to be below 1.0.
+Cellcept was discontinued given possible assocation with PRES; 
+initially, SLE was covered with dexamethasone 16mg QD followed 
+by 50mg QD prednisone x7d, then 40mg QD prednisone x7d followed 
+by 30mg prednisone. Outpatient rheumatologist suggested floor of 
+30mg prednisone daily given plan to stop mycophenolate mofetil. 
+The patient was continued on this regimen at discharge; given 
+extensive exposure to steroids, Bactrim was initiated in 
+prophylactic dosing.
+
+# Neck pain: Patient intermittently complained of left-sided 
+neck pain. ___ findings on ear or nose/throat exam to suggest 
+infection. Given risk for sinusitis given Dobhoff, a CT 
+sinuses/mandible/maxilla to look for abscess was performed on 
+___ and showed ___ evidence to suggest an abscess or other 
+infectious process. This pain subsequently resolved without 
+intervention.
+
+# Urine Cultures w/ENTEROCOCCUS FAECIUM: Patient was 
+asymptomatic throughout despite multiple cultures positive for 
+Vanc-resistant enterococcus. Although considered more likely to 
+be a colonizer, patient was treated with linezolid ___. 
+
+# Transaminitis, elevated Alk Phos, elevated Ferritin: Patient 
+presented with mild AST elevation, with initially uptrending 
+ALT, with subsequent improvement. Elevation of AlkPhos has 
+uptrended during floor course. Ferritin &gt;5000 in testing with 
+multiple cytopenias raises possibility of HLH/MAS; patient 
+evaluated for HLH/MAS by hematology and judged to be less likely 
+than TB for cause. Now downtrending liver markers make HLH/MAS 
+somewhat less likely
+
+# Normocytic Anemia: At least partially a chronic problem. 
+Patient presented with anemia of Hgb 7.0, and has required 5 
+transfusions ___, and ___ with a 
+transfusion for Hgb &lt;7. Etiology may include anemia of chronic 
+inflammation/chronic disease with possible contribution from 
+hematopoietic depression ___ medication administration.
+
+TRANSITIONAL ISSUES
+=============
+- Initiated Pyrazinamide, Isoniazid, Rifampin, Ethambutol; 
+please continue per ID recs
+- Initiated Sulfamethoxazole/Trimethoprim for PJP prophylaxis 
+given 30mg prednisone daily requirement for SLE management; 
+please continue pending rheumatology follow-up and 
+decision-making about SLE management
+- Initiated pyridoxine, cyanocobalamin, and folic acid while 
+patient is taking antituberculosis chemotherapy
+- Please follow-up with gastroenterology regarding duodenitis 
+seen on gastric biopsy
+- Patient should follow-up with rheumatology to establish plan 
+to manage SLE given desire not to resume mycophenolate mofetil
+- Patient should follow-up with a primary care provider 
+regarding anemia
+- Per DPH, patients with TB may be discharged provided:
+    * DPH involved with home assessment before discharge
+    * At home only with only those who have already been exposed
+    * Has appointment with TB provider
+    * Has enough TB meds (in hand) until appointment
+    * Mask (give patient supply of any type) when out in public 
+- should only go out for TB follow up appt
+    * Support system at home for food and other necessities
+- epidural hematoma with LP on ___, seen on imaging. Neuro exam 
+stable, largely resolved. Likely secondary to 
+coagulopathy/becoming therapeutic on sub cut hep. 
+-Discharged on levetiracetam, lacosamide, topiramate (being 
+tapered up), valproic acid (being tapered down); to follow with 
+Epilepsy Clinic for further adjustments.
+-Magnesium supplementation started as inpatient; would follow as 
+outpatient and wean as tolerated.
+-Discharged on metoclopramide prn for nausea/abdominal pain; 
+follow and discontinue as tolerated.
+-Please monitor weight at all visits and encourage PO intake. 
+Patient is at high risk for ongoing malnutrition
+***For PCP initial visit: Please ensure to remind the pt to pick 
+up her Vitamin B6, Topamax, Vimpat scripts from ___ 
+pharmacy on ___ after her appointment, as was 
+only able to obtain 7d Rx for those meds before DC and these 
+will be needed for a longer duration***
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Mycophenolate Mofetil 1500 mg PO BID 
+2. Acetaminophen 1000 mg PO BID:PRN pain 
+3. Calcium Carbonate 500 mg PO DAILY 
+4. Ferrous Sulfate 325 mg PO DAILY 
+5. FoLIC Acid 1 mg PO DAILY 
+6. Vitamin D 400 UNIT PO DAILY 
+7. Ranitidine 150 mg PO BID 
+
+ 
+Discharge Medications:
+1.  Cyanocobalamin 100 mcg PO DAILY 
+RX *cyanocobalamin (vitamin B-12) [Vitamin B-12] 100 mcg 1 
+tablet(s) by mouth daily Disp #*30 Tablet Refills:*0 
+2.  Ethambutol HCl 600 mg PO DAILY 
+RX *ethambutol 400 mg 1.5 tablet(s) by mouth daily Disp #*45 
+Tablet Refills:*0 
+3.  Isoniazid ___ mg PO DAILY 
+RX *isoniazid ___ mg 1 tablet(s) by mouth daily Disp #*30 Tablet 
+Refills:*0 
+4.  LACOSamide 200 mg PO BID 
+RX *lacosamide [Vimpat] 200 mg 1 tablet(s) by mouth twice a day 
+Disp #*60 Tablet Refills:*0 
+5.  LevETIRAcetam ___ mg PO Q12H 
+RX *levetiracetam 1,000 mg 2 tablet(s) by mouth twice a day Disp 
+#*120 Tablet Refills:*0 
+6.  Magnesium Oxide 400 mg PO BID 
+RX *magnesium oxide 400 mg 1 tablet(s) by mouth twice a day Disp 
+#*60 Tablet Refills:*0 
+7.  Metoclopramide 10 mg PO TID:PRN nsuea/vomiting/abd pain 
+RX *metoclopramide HCl 10 mg 1 tablet by mouth three times a day 
+Disp #*90 Tablet Refills:*0 
+8.  Multivitamins 1 TAB PO DAILY 
+RX *multivitamin  1 tablet(s) by mouth daily Disp #*30 Tablet 
+Refills:*0 
+9.  PredniSONE 30 mg PO DAILY 
+This is the maintenance dose to follow the last tapered dose
+RX *prednisone 10 mg 3 tablet(s) by mouth daily Disp #*90 Tablet 
+Refills:*0 
+10.  Pyrazinamide 1000 mg PO DAILY 
+RX *pyrazinamide 500 mg 2 tablet(s) by mouth daily Disp #*60 
+Tablet Refills:*0 
+11.  Pyridoxine 25 mg PO DAILY 
+RX *pyridoxine (vitamin B6) 25 mg 1 tablet(s) by mouth daily 
+Disp #*30 Tablet Refills:*0 
+12.  Rifampin 450 mg PO Q24H 
+RX *rifampin 150 mg 3 capsule(s) by mouth daily Disp #*90 
+Capsule Refills:*0 
+13.  Sulfameth/Trimethoprim SS 1 TAB PO DAILY 
+RX *sulfamethoxazole-trimethoprim 400 mg-80 mg 1 tablet(s) by 
+mouth daily Disp #*30 Tablet Refills:*0 
+14.  Topiramate (Topamax) 50 mg PO BID 
+___: 2 pills twice a day. ___: 3 in am, 2 in pm. ___ 
+onwards: 3 pills twice a day. 
+RX *topiramate [Topamax] 25 mg 2 tablet(s) by mouth twice a day 
+Disp #*165 Tablet Refills:*0 
+15.  Valproic Acid ___ mg PO Q6H 
+Until ___ take 2 tablets every 6 h. From ___ - ___ take 1 
+tablet every 6 h. Then stop. 
+RX *valproic acid (as sodium salt) 250 mg/5 mL 10 ml by mouth 
+every six (6) hours Refills:*0 
+16.  Acetaminophen 325-650 mg PO Q6H:PRN Pain - Mild  
+17.  Ranitidine 150 mg PO DAILY  
+18.  FoLIC Acid 1 mg PO DAILY  
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Primary
+Pulmonary vs disseminated tuberculosis
+
+Secondary
+Posterior reversible encephalopathy syndrome
+Severe protein calorie malnutrition
+Anemia
+Sinus tachycardia
+Abdominal pain
+Systemic lupus erythematosus
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Ms. ___,
+
+___ were admitted to the hospital because ___ had fevers, cough, 
+weight loss, and seizures. ___ were initially admitted to the 
+ICU. ___ had a chest lymph node biopsy with thoracic surgery 
+which demonstrated that ___ have tuberculosis. ___ were started 
+on antibiotics for this. ___ will need to continue these as an 
+outpatient for several months. ___ will be seen by the 
+infectious disease doctors.
+
+___ had a number of tests to find out why ___ were having 
+seizures, including a lumbar puncture to collect fluid from your 
+spine, and multiple MRI scans of your head. These studies 
+determined that the seizures were not because of TB or lupus but 
+due to a disorder called posterior reversible encephalopathy 
+syndrome (PRES), which may have been caused by your 
+mycophenolate mofetil that ___ were taking for lupus. This 
+medication was stopped and ___ were treated with seizure 
+medications. These are still being adjusted and ___ will need to 
+follow up with neurology after ___ leave the hospital.
+
+The abdominal pain and nausea that ___ were having may have been 
+due to your tuberculosis as well. ___ had lost a lot of weight 
+and were malnourished. ___ needed a feeding tube for a long time 
+to ensure that your body had enough nutrition to help ___ get 
+better. As ___ were able to eat better, this was stopped and the 
+tube was removed.
+
+Your lupus medication has been changed to prednisone only. ___ 
+will follow up with your rheumatologist as an outpatient for 
+further management.
+
+___ are being discharged to your uncle&#x27;s house for the time 
+being. ___ will be seen by the local department of ___ 
+health. We are scheduling ___ follow up appointments here at 
+___ with all of your specialist doctors.
+
+___ was a pleasure taking care of ___ during your stay in the 
+hospital. We wish ___ and your family the very best.
+
+Please make sure to go to the ___ pharmacy on 
+___ to pick up your Vitamin B6, Topamax, Vimpat 
+refill medications on ___ before or after your PCP 
+appointment that day. We were only able to obtain 7 days of 
+pills for those medications before ___ were discharged and these 
+will be needed for a longer duration
+
+ - Your ___ Team 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino, com histórico prévio de Lúpus Eritematoso Sistêmico (LES) com nefrite tipo 4 e anemia, apresenta queixa principal de febre, perda de peso e hipotensão. Relata história de dor abdominal, vômitos e perda de peso progressiva há 3 semanas. Refere perda de peso significativa, mencionando que pesava 120 libras em data anterior, 100 libras em outra data e atualmente 92 libras. Relata falta de apetite e incapacidade de tolerar líquidos ou sólidos. Nega disfagia, dor torácica ou falta de ar em repouso ou ao deitar. Relata febre subjetiva na noite anterior, que melhorou com uso de acetaminofeno. Relata dores articulares. Refere dispneia de esforço há 10 dias. Nega suores noturnos. Relata febre subjetiva há alguns dias e tosse produtiva com catarro branco há 1,5 semana. Relata três episódios de vômitos diários. Nega sensação de alimento preso. Relata dor epigástrica sem gatilho claro, que não piora com a alimentação. Relata diarreia na última semana. Nega uso recente de antibióticos, exceto os administrados no pronto-socorro. Nega contato com doentes. Nega viagens recentes desde a saída de local anterior. Nega ingestão de alimentos estranhos. Nega disúria ou rash. Relata feridas nos lábios, mas nega lesões na boca. Nega sangramentos ou hematomas fáceis. Nega alterações em outros sistemas, exceto fraqueza relatada.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Exame Físico de Admissão: Sinais Vitais: Temperatura 98.7°F, PA 105/63 mmHg, FC 114 bpm, FR 24 irpm, SpO2 98% em ar ambiente. Geral: Paciente caquética, com aparência doente, jovem do sexo feminino. HEENT: Normocéfalo, anictérico, mucosas úmidas e coradas; presença de feridas nos lábios superior e inferior. Cardiovascular: R1 e R2 normofonéticos, regulares, taquicárdicos, sem sopros. Respiratório: Murmúrio vesicular bilateral, sem ruídos adventícios. Abdomen: Ruídos hidroaéreos presentes, macio, não doloroso à palpação, sem defesa ou rebote, sem hepatosplenomegalia. Extremidades: Pulso 2+ em membros inferiores, sem edema. Pele: Sem rash. Neurológico: Face simétrica, fala fluente. Psiquiátrico: Calma, cooperativa, mas com afeto muito plano; paciente parece muito assustada. Linfonodos: Sem linfadenopatia axilar ou cervical. Exame Físico na Alta: Sinais Vitais: Temperatura 98.1°F, PA 91/55 mmHg, FC 91 bpm, FR 16 irpm, SpO2 100% em ar ambiente. Geral: Alerta, sem angústia aguda, mulher magra, sem desconforto aparente. HEENT: Mucosas úmidas e coradas. Respiratório: Pulmões limpos à ausculta. Cardiovascular: Taquicárdico, regular, sopro sistólico de fluxo suave. Abdomen: Macio, não doloroso, não distendido, sem ruídos hidroaéreos aumentados. Genitourinário: Sem sonda vesical. Extremidades: Quentes, bem perfundidas. Neurológico: Orientado x3, movendo todos os membros igualmente.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica Iniciais (Admissão): Lactato 1.3 mmol/L; Glicose 96 mg/dL; Ureia 42 mg/dL; Creatinina 2.5 mg/dL; Sódio 129 mEq/L; Potássio 4.3 mEq/L; Cloreto 94 mEq/L; CO2 Total 19 mEq/L; Gap Aniônico 20; ALT 14 U/L; AST 56 U/L; Fosfatase Alcalina 48 U/L; Bilirrubina Total 0.3 mg/dL; Lipase 89 U/L; Leucócitos 7.5 mil/mm³; Hemácias 2.57 mil/mm³; Hemoglobina 7.0 g/dL; Hematócrito 23.3%; MCV 91 fL; MCH 27.2 pg; MCHC 30.0 g/dL; RDW 14.8%; Plaquetas 303 mil/mm³; Neutrófilos 88%; Linfócitos 5%; Monócitos 6%; Eosinófilos 0%; Basófilos 0%; Atípicos 1%; Absolutos: Neutrófilos 6.60, Linfócitos 0.45, Monócitos 0.45. Hemograma Evolutivo: Hemoglobina variando entre 6.5 e 9.2 g/dL; Hematócrito entre 21.0% e 28.5%; Leucócitos entre 5.6 e 9.2 mil/mm³; Plaquetas variáveis com alguns relatos de baixa. Ferritina: 5758 ng/mL, 3899 ng/mL, 4863 ng/mL, 4699 ng/mL, 4817 ng/mL. Transaminases Evolutivas: ALT 106 U/L, AST 184 U/L, LDH 346 U/L. Marcadores Inflamatórios: CRP 15.8 mg/dL. Sorologias e Imunologia: dsDNA Positivo; C3 35 mg/dL; HIV Ab Negativo; HBsAg Negativo, HBsAb Positivo, HBcAb Negativo; HAV Ab Positivo, IgM HAV Negativo; ANCA Negativo; Anti-Tg &lt;1; HCV Ab Negativo; CMV DNA não detectado; CMV IgG Positivo (390 AU/mL); EBV VCA-IgG Positivo, EBNA-IgG Positivo, VCA-IgM Negativo; RPR Não Reativo; Antígeno Criptocócico não detectado; Helicobacter pylori Equivoco. Gasometria/Lactato Evolutivo: Lactato 3.5, 4.4, 2.0, 0.8 mmol/L. Urina: Proteinúria presente (Proteína 30-100 mg/dL), Hematúria (RBC 2-43 células), Leucocitúria (WBC 4-16 células), pH variável (6.0-8.0). Cultura de Urina: Enterococcus faecium (10.000-100.000 UFC/mL), sensível a Linezolida e Tetraciclina, resistente a Ampicilina, Nitrofurantoína e Vancomicina. Líquor (LCR): WBC 2-3 células, RBC 241-890 células, Polimorfonucleares 25-46%, Proteína Total 97 mg/dL, Glicose 37 mg/dL. Cultura de LCR: Enterovírus não detectado, Antígeno Criptocócico não detectado, Cultura Fúngica e Micobacteriana preliminares sem crescimento inicial. Cultura de Sangue: Pendente/Negativa para bactérias comuns. Cultura de Tecido (Nódulo Pulmonar): AFB (Bacilos Ácido-Fast) crescido em cultura; Micobactéria isolada. Cultura de Líquido Pleural: Micobactéria isolada. Cultura de Lavado Broncoalveolar (BAL): Mycobacterium tuberculosis complex isolado; Teste de amplificação molecular (NAAT) positivo para DNA de M. tuberculosis; Suscetível à Rifampina por NAAT; Resistência à Isoniazida não descartada. Cultura Fúngica de BAL: Levedura, Aspergillus fumigatus isolado. Cultura de Fezes: C. difficile negativo, Ovos e Parasitas negativos, Culturas bacterianas negativas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Radiografia de Tórax (PA/LAT): Opacidade paratraqueal esquerda anterior sugestiva de massa mediastinal anterior ou linfadenopatia; possível timo aumentado. Radiografia de Tórax (Portátil AP): Derrames pleurais bilaterais moderados novos; infiltrado pulmonar multifocal pior no pulmão esquerdo e bases; possível derrame pericárdico pequeno; massa mediastinal superior grande estável. Radiografia de Tórax (Portátil AP - Pós-operatório): Linhas centrais em posição adequada; suturas no lobo superior esquerdo; pequeno derrame pleural direito; opacidade retrocardíaca esquerda persistente; sem pneumotórax. Radiografia de Tórax (Portátil AP - Evolução): Pequenos derrames pleurais em melhora; possível nova consolidação perihilar esquerda (suspeita de aspiração); alargamento mediastinal pós-operatório estável; tamanho cardíaco normal. Radiografia de Tórax (Portátil AP - Piora): Piora do infiltrado perihilar e basal esquerdo; piora das consolidações bibasais; piora do derrame pleural esquerdo; novo pequeno derrame pleural direito; alargamento perihilar esquerdo provavelmente por consolidação. Radiografia de Tórax (PA/LAT - Comparação): Pequeno derrame pleural esquerdo menor; alargamento mediastinal devido à tuberculose minimamente melhorado; consolidação na base esquerda indeterminada (pneumonia vs. atelectasia); tamanho cardíaco normal. Tomografia Computadorizada (TC) de Tórax sem contraste: Estrutura de tecido mole de 3,0 cm no mediastino anterior; numerosos linfonodos mediastinais e axilares aumentados; nódulos nodulares subcentimétricos espalhados nos pulmões. Ressonância Magnética (RM) de Tórax com e sem contraste: Linfadenopatia necrótica marcada no mediastino anterior, pré-vascular, paratraqueal e hiliar; hipervascularidade central sugerindo infecção atípica. TC de Crânio sem contraste: Sem evidência de hemorragia intracraniana; mudanças involucionais avançadas. Punção Lombar com Fluoroscopia: Realizada em L3-4 e L2-L3; pressão de abertura 19 cm CSF; 28 mL de líquido cefalorraquidiano levemente amarelado coletado. RM de Coluna Lombar com e sem contraste: Coleção heterogênea epidural posterior de 5,2 cm (provável hematoma) de L4 a S1; raízes nervosas espessadas e levemente realçadas (aracnoidite); sinal hipointenso difuso na medula óssea. RM de Crânio com e sem contraste: Desenvolvimento de anomalias T2/FLAIR simétricas bilaterais na substância branca subcortical, sugestivo de Síndrome de Encefalopatia Posterior Reversível (PRES); evolução com piora das lesões; resolução posterior das lesões em exame subsequente. Ultrassom de Pescoço: Linfonodos aumentados e morfologicamente anormais bilaterais, consistentes com linfadenopatia mediastinal. TC de Tórax com contraste: Mudanças pós-cirúrgicas da ressecção em cunha do lobo superior esquerdo; linfadenopatia estável; inúmeros nódulos centrilobulares novos (sugestivos de processo infeccioso); derrames pleurais novos (grande à esquerda, pequeno à direita); colapso quase completo do lobo inferior esquerdo com rolhas de muco. AngioTC de Crânio: Melhora da hipodensidade da substância branca subcortical; sem infarto ou hemorragia territorial; vasculatura intracraniana patente; derrame pleural esquerdo moderado. AngioTC de Tórax: Sem evidência de embolia pulmonar; melhora da aeração do lobo inferior esquerdo; pequena coleção de fluido adjacente ao local da ressecção. Ecocardiograma (TTE): Função sistólica do ventrículo esquerdo levemente deprimida (FEVE 40-45%); regurgitação aórtica traço; regurgitação mitral leve (1+); regurgitação tricúspide moderada (2+); hipertensão pulmonar sistólica limítrofe; pequeno derrame pericárdico. Ecocardiograma (TTE Focado - Evolução): Função sistólica do VE normal (FEVE &gt;55%); regurgitação tricúspide reduzida; derrame pericárdico estável.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente do sexo feminino com histórico de Lúpus Eritematoso Sistêmico (LES) e nefrite tipo 4, apresentou quadro clínico de febre, perda de peso significativa (30 libras), dor abdominal, vômitos e dispneia. O quadro evoluiu com hipotensão, taquicardia e febre, exigindo internação em UTI. O diagnóstico principal é Tuberculose Pulmonar/Disseminada, confirmado por biópsia de nódulo pulmonar (VATS) mostrando granulomas necrosantes e bacilos ácido-fast (BAF), cultura positiva para Mycobacterium tuberculosis complex no lavado broncoalveolar (BAL) e líquido pleural, e teste molecular (NAAT) positivo para DNA de M. tuberculosis. A suspeita inicial de linfadenopatia mediastinal maligna foi descartada, sendo atribuída à tuberculose mediastinal necrótica. O paciente também desenvolveu Síndrome de Encefalopatia Posterior Reversível (PRES), evidenciada por crises convulsivas (tonico-clônicas e focais) e achados de RM de crânio (hiperintensidade T2/FLAIR simétrica na substância branca subcortical), provavelmente desencadeada por imunossupressão (uso de micofenolato), LES, doença renal e hipertensão. O líquor foi negativo para meningite tuberculosa ou viral. A anemia grave (Hb 7.0 g/dL) foi multifatorial, incluindo anemia de doença crônica, possível supressão da medula óssea e perda sanguínea. A desnutrição proteico-calórica severa foi secundária à doença infecciosa, dor abdominal e vômitos. A infecção urinária por Enterococcus faecium (VRE) foi tratada com linezolida, embora o paciente tenha permanecido assintomático. A taquicardia persistente foi atribuída ao estado sistêmico e infeccioso. O quadro de PRES evoluiu com melhora após controle da pressão arterial e ajuste da medicação antiepiléptica, com resolução das lesões na RM de acompanhamento. A tuberculose foi tratada com esquema RIPE (Rifampina, Isoniazida, Pirazinamida, Etambutol). O LES foi manejado com corticosteroides (prednisona), suspendendo o micofenolato devido ao risco de PRES.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: 1. Rifampina 450 mg PO a cada 24h; 2. Isoniazida 300 mg PO a cada 24h (dose ajustada conforme peso/protocolo); 3. Pirazinamida 1000 mg PO a cada 24h; 4. Etambutol 600 mg PO a cada 24h; 5. Sulfametoxazol/Trimetoprima (Bactrim SS) 1 comprimido PO a cada 24h (profilaxia para PJP); 6. Prednisona 30 mg PO a cada 24h (manutenção para LES); 7. Leviteracetam 1000 mg PO a cada 12h; 8. Lacosamida 200 mg PO a cada 12h; 9. Topiramato 50 mg PO a cada 12h (titulação conforme prescrição); 10. Ácido Valpróico (suspensão) 10 mL PO a cada 6h (tapering conforme prescrição); 11. Piridoxina (Vitamina B6) 25 mg PO a cada 24h; 12. Cianocobalamina (Vitamina B12) 100 mcg PO a cada 24h; 13. Ácido Fólico 1 mg PO a cada 24h; 14. Magnésio Óxido 400 mg PO a cada 12h; 15. Metoclopramida 10 mg PO a cada 8h PRN náuseas/vômitos/dor abdominal; 16. Acetaminofeno 325-650 mg PO a cada 6h PRN dor leve; 17. Ranitidina 150 mg PO a cada 24h. Orientações ao Paciente: Continuar terapia antituberculosa por vários meses conforme recomendação da Infectologia. Uso de máscara em público até liberação do departamento de saúde. Evitar contato com pessoas não expostas. Monitorar peso diariamente em casa. Manter boa ingestão oral. Retornar para acompanhamento com Infectologia, Reumatologia (para manejo do LES e desmame de esteroides), Neurologia (para ajuste de antiepilépticos) e Gastroenterologia (para duodenite). Retorno ao médico de família para acompanhamento da anemia. Acolhimento pelo Departamento de Saúde Pública (DPH) para avaliação domiciliar e suporte. Encaminhamentos: Infectologia, Reumatologia, Neurologia, Gastroenterologia, Clínica Médica. Exames de seguimento: Monitoramento de função hepática e renal, hemograma, níveis de fármacos antiepilépticos se necessário. Retorno programado conforme agendamento dos especialistas. Importante: Retirar prescrições de Vitamina B6, Topamax e Vimpat na farmácia antes ou após a consulta com o médico de família, pois foram liberadas apenas para 7 dias na alta.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '20250010';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

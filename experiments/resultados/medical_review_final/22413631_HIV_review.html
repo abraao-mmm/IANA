@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 22413631 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 22413631</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 22413631 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 32
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Confusion
+ 
+Major Surgical or Invasive Procedure:
+___: Left craniotomy for resection/exploration
+
+ 
+History of Present Illness:
+Mrs. ___ is a ___ ___ female who presented to ___ 
+___ today with new onset confusion.  Per medical records, 
+the patient was at work today when her ___ found her to 
+be confused, not making sense and had a shuffling gait.  Upon 
+arrival at the outside hospital, Mrs. ___ underwent a CT and MRI 
+of the head.  Those exams revealed a left frontal mass with 
+___ shift.  She was given 10mg of decadron at that time. 
+The patient was then transferred to ___ for further 
+evaluation and management.  
+
+The patient arrived via EMS to the ED.  No family or friends 
+were present.  Attempts were made to obtain health history 
+information, but the patient was having ___ 
+difficulties.  Data was inconsistent and unreliable.  She stated 
+she had a son and a boyfriend, but she indicated that she didn&#x27;t 
+want them to be called via phone.
+ 
+Past Medical History:
+Hypertension
+HIV (untreated, diagnosed in ___, OI&#x27;s include: PCP PNA
+
+ 
+Social ___:
+___
+Family History:
+No known history of medical problems including heart disease or 
+diabetes
+ 
+Physical Exam:
+On Admission:
+VS T: 97.5 HR: 84 BP: 134/73  RR: 14  O2 Sat 100% on room air
+Gen: Comfortable, NAD.
+HEENT: Pupils: PERRL, 5-&gt;4 brisk reaction, EOMs intact
+Neuro:
+Mental status: Awake and alert, cooperative with exam, normal
+affect.  Difficulty following directions.
+Orientation: Oriented to person, place, and date with choices.
+Language: Speech fluent with good comprehension and repetition.
+Naming intact. No dysarthria or paraphasic errors.
+Cranial Nerves:
+I: Not tested
+II: Pupils equally round and reactive to light, to
+mm bilaterally. 
+III, IV, VI: Extraocular movements intact bilaterally without
+nystagmus.
+V, VII: Facial strength and sensation intact and symmetric.
+VIII: Hearing intact to voice.
+IX, X: Palatal elevation symmetrical.
+XI: Sternocleidomastoid and trapezius normal bilaterally.
+XII: Tongue midline without fasciculations.
+Motor: Normal bulk and tone bilaterally. No abnormal movements,
+tremors. Strength full power ___ throughout. No pronator drift
+Sensation: Intact to light touch throughout.
+Coordination: Not tested.
+
+On Discharge:
+Vitals: 97.5 53 108/55 18 100RA 
+Exam:
+GENERAL - Alert, interactive, ___ in NAD  
+HEENT - MMM. Eyes injected. 
+HEART - ___ SM at RUSB. RRR. nl S1 and S2
+LUNGS -  CTAB
+ABDOMEN - soft, nontender. 
+EXTREMITIES - WWP, no c/c/e  
+NEURO - awake, A&amp;Ox3, unable to say days of week backwards. 
+Ocular fields intact bilaterally without extinction. 
+
+ 
+Pertinent Results:
+On Admission:
+___ 06:30PM BLOOD ___ 
+___ Plt ___
+___ 06:30PM BLOOD ___ 
+___
+___ 06:30PM BLOOD ___ ___
+___ 06:30PM BLOOD ___ 
+___
+___ 05:10AM BLOOD ___
+
+Microbiology:
+___ Blood culture
+___ Mycolytic blood culture
+
+Imaging/Studies:
+___ CTA Head
+1. Left frontal lobe mass with surrounding vasogenic edema, not 
+found to be hypervascular on the CTA examination. 
+2. No evidence of intracranial hemorrhage, large territorial 
+infarction, 
+dissection, or aneurysm formation.
+
+___ CT Head
+1. Status post left frontal craniotomy with expected 
+postsurgical changes. No evidence of significant intracranial 
+hemorrhage or large territorial infarction.   
+2. Large, left frontal mass with surrounding vasogenic edema, 
+essentially 
+unchanged from prior examination.   
+ 
+___ CXR (PA &amp; LAT)
+IMPRESSION: No acute cardiopulmonary abnormality. 
+
+Pathology:
+FROZEN SECTION DIAGNOSIS:
+Intraoperative consultation was obtained, and a smear and frozen
+section was performed.  Frozen section diagnosis given by Dr. 
+___
+is:  &quot;Smear and FSDX (superficial and deep) brain tissue with 
+necrosis
+and reactive changes and two bradyzoite cysts consistent with
+toxoplasmosis.&quot;
+
+PATHOLOGIC DIAGNOSIS:
+1. Brain, left frontal superficial:
+- Toxoplasmosis, see note.
+
+2. Brain, left frontal, deep:
+- Toxoplasmosis.
+
+___ 09:07AM BLOOD ___ 
+___ Plt ___
+___ 07:12AM BLOOD ___ 
+___ Plt ___
+___ 07:15AM BLOOD ___ 
+___ Plt ___
+___ 09:07AM BLOOD Plt ___
+___ 07:15AM BLOOD  ___ Abs ___ CD3%-73 
+Abs ___ CD4%-4 Abs ___ CD8%-68 Abs ___ 
+___
+___ 07:12AM BLOOD ___ 
+___
+___ 07:15AM BLOOD ___ 
+___
+___ 07:20PM BLOOD ___ 
+___
+___ 01:42AM BLOOD ___ 
+___
+___ 07:12AM BLOOD ___
+___ 07:20PM BLOOD ___
+
+___ 06:45AM BLOOD ___
+___ 07:15AM BLOOD ___
+ 
+Brief Hospital Course:
+___ with untreated HIV presented for acute confusion, s/p brain 
+bx, found to have CNS toxoplasmosis.  
+
+ACTIVE ISSUES
+# Cerebral Toxoplasmosis
+CT and MRI head at ___ revealed a ___ frontal mass 
+with midline shift. There were no focal neurologic deficits on 
+admission. On ___ she underwent ___ craniotomy with 
+biopsy of this lesion and intraoperative pathology was 
+consistent with toxoplasmosis. ID was consulted and she was 
+started on pyrimethamine, leucovorin, and sulfadiazine on ___ 
+with plans to continue for at least 6 weeks. She was also 
+started on dexamethasone 4mg TID, with taper written ending on 
+___, and Dilantin 100mg TID as seizure prophylaxis. Dilantin 
+levels were drawn and found to be within normal range.  
+
+# HIV/AIDS
+She has had HIV since at least ___ but has not had ___ 
+and is not on any ___ therapy. She was admitted in 
+___ for PCP ___. Per outside records, her last 
+CD4/VL were drawn in ___, with HIV VL ___ and CD4 275. VL 
+and CD4 were ___ on this admission and found to be 218,000 
+and 46, respectively. She agreed to have an outpatient ___ 
+appointment with ID on ___ with Dr. ___ to start ART. Given 
+that her CD4 count was &lt;50, ID recommended MAC prophylaxis with 
+azithromycin 1200 mg qweek, which was started on ___ 
+(___).
+
+# Transitional Issues
+- f/u w ID provider
+- cont ___ tx x 6 weeks
+- cont azithro for ___ tx indefinitely
+- cont dilantin at current doses, no need to recheck levels 
+unless starting medications that interfere with levels 
+- staples to be removed ___ by rehab
+ 
+Medications on Admission:
+None
+ 
+Discharge Medications:
+1. Azithromycin 1200 mg PO 1X/WEEK (MO) 
+2. Leucovorin Calcium 20 mg PO DAILY 
+3. Phenytoin (Suspension) 100 mg PO Q8H 
+4. Pyrimethamine 100 mg PO DAILY 
+5. SulfADIAzine 1500 mg PO Q6H 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary: Cerebral toxoplasmosis
+Secondary: HIV/AIDS
+
+ 
+Discharge Condition:
+Mental Status: Confused - sometimes.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Ms. ___,
+
+You were transferred to the ___ 
+because you were feeling confused. You were found to have a 
+large mass in the front of your brain, which was most likely 
+causing your confusion. You had surgery and a biopsy of this 
+mass, which showed an infection called toxoplasmosis. Three 
+antibiotics were started. Please continue these antibiotics for 
+6 weeks and ___ with your primary care doctor. 
+
+You were also started on a medication called azithromycin to 
+prevent infections from occurring while your CD4 count is low. 
+Please take this medication until further instruction from your 
+infectious disease doctor. 
+
+Please ___ with Dr. ___ in the ___ Disease 
+clinic on ___. 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(3)</span></h3>
+  <ul>
+    <li>Toxoplasmose Cerebral</li>
+    <li>HIV/AIDS</li>
+    <li>Pneumonia por Pneumocystis jirovecii (PCP)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(6)</span></h3>
+  <ul>
+    <li>Confusão</li>
+    <li>Marcha arrastada</li>
+    <li>Dificuldade em seguir instruções</li>
+    <li>Dificuldade em dizer os dias da semana ao contrário</li>
+    <li>Olhos injetados</li>
+    <li>Sopro sistólico mesossistólico (SM) no bordo esternal superior direito</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(6)</span></h3>
+  <ul>
+    <li>Azitromicina</li>
+    <li>Leucovorina</li>
+    <li>Fenitoína</li>
+    <li>Pirimetamina</li>
+    <li>Sulfadiazina</li>
+    <li>Dexametasona</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(9)</span></h3>
+  <ul>
+    <li>Cultura de sangue - Negativa</li>
+    <li>Cultura de sangue micolítica - Negativa</li>
+    <li>CD4% - 4%</li>
+    <li>CD8% - 68%</li>
+    <li>Carga viral do HIV - 218.000</li>
+    <li>Contagem de CD4 - 46</li>
+    <li>Níveis de Fenitoína - Dentro da faixa normal</li>
+    <li>Biópsia de cérebro (frozen section) - Toxoplasmose (cistos de bradizoítos)</li>
+    <li>Patologia definitiva - Toxoplasmose</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(7)</span></h3>
+  <ul>
+    <li>Tomografia Computadorizada (TC) de crânio</li>
+    <li>Ressonância Magnética (RM) de crânio</li>
+    <li>Angiografia por TC (CTA) de cabeça</li>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Craniotomia com biópsia cerebral</li>
+    <li>Biópsia de lesão cerebral</li>
+    <li>Consulta intraoperatória (frozen section)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Toxoplasma gondii</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino, com histórico de HIV não tratado (diagnosticado em data anterior, com infecções oportunistas prévias incluindo pneumonia por Pneumocystis jirovecii - PCP), apresenta confusão mental de início agudo. Relata que, ao chegar ao trabalho, foi encontrada por seu parceiro confusa, falando sem sentido e com marcha arrastada. Paciente refere dificuldade em seguir instruções. Nega dor de cabeça, febre, náuseas, vômitos ou convulsões. Nega histórico familiar de doenças cardíacas ou diabetes. Paciente menciona ter um filho e um namorado, mas relata não desejar contato telefônico com eles. Paciente refere não estar em uso de medicação antirretroviral ou outras medicações de uso contínuo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+Sinais Vitais: Temperatura 97,5°F, FC 84 bpm, PA 134/73 mmHg, FR 14 irpm, SpO2 100% em ar ambiente.
+Geral: Confortável, sem sinais de angústia.
+HEENT: Pupilas isocóricas, fotorreagentes (5-&gt;4 mm), reação bríscida. Movimentos oculares extraoculares íntegros.
+Neurológico: Paciente acordada e alerta, cooperativa, afeto normal. Dificuldade em seguir direções. Orientada a pessoa, lugar e data com escolhas. Linguagem fluente, boa compreensão e repetição. Nomeação íntegra. Sem disartria ou erros parafásicos. Nervos Cranianos: II (pupilas reagentes), III, IV, VI (movimentos extraoculares íntegros, sem nistagmo), V, VII (força e sensibilidade facial íntegras e simétricas), VIII (audição íntegra), IX, X (elevação palatina simétrica), XI (esternocleidomastoideo e trapézio normais), XII (língua na linha média, sem fasciculações). Motor: Volume e tônus normais bilateralmente. Sem movimentos anormais ou tremores. Força plena em todos os membros. Sem desvio de pronador. Sensação: Íntegra ao toque leve em todo o corpo. Coordenação: Não testada.
+
+Alta:
+Sinais Vitais: Temperatura 97,5°F, FC 53 bpm, PA 108/55 mmHg, FR 18 irpm, SpO2 100% em ar ambiente.
+Geral: Alerta, interativa, sem sinais de angústia.
+HEENT: Mucosas úmidas. Olhos injetados.
+Cardiovascular: Sopro sistólico (SM) na borda esternal superior direita. Ritmo regular, S1 e S2 normais.
+Pulmões: Murmúrio vesicular claro em todos os campos (CTAB).
+Abdome: Macio, indolor.
+Extremidades: Sem edema, cianose ou eritema (WWP).
+Neurológico: Acordada, orientada a pessoa, lugar e tempo (A&amp;Ox3), incapaz de recitar os dias da semana ao contrário. Campos oculares íntegros bilateralmente, sem extinção.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica (Admissão e Internação):
+- Hemoglobina: [Valor não especificado no texto]
+- Plaquetas: [Valor não especificado no texto]
+- Leucócitos: [Valor não especificado no texto]
+- Creatinina: [Valor não especificado no texto]
+- Glicemia: [Valor não especificado no texto]
+- Sódio: [Valor não especificado no texto]
+- Potássio: [Valor não especificado no texto]
+- Cloro: [Valor não especificado no texto]
+- Bicarbonato: [Valor não especificado no texto]
+- BUN: [Valor não especificado no texto]
+- AST/ALT: [Valor não especificado no texto]
+- Bilirrubina: [Valor não especificado no texto]
+- LDH: [Valor não especificado no texto]
+- Ferritina: [Valor não especificado no texto]
+- Proteína C Reativa (PCR): [Valor não especificado no texto]
+- VHS: [Valor não especificado no texto]
+- Gasometria Arterial: [Dados não fornecidos]
+
+Sorologias e Marcadores Específicos:
+- Cultura de Sangue: Negativa para micobactérias e bacteriana.
+- Carga Viral do HIV (Admissão): 218.000 cópias/mL.
+- Contagem de CD4 (Admissão): 46 células/mm³.
+- Contagem de CD4 (Histórico prévio): 275 células/mm³.
+- Carga Viral do HIV (Histórico prévio): [Valor não especificado no texto, apenas mencionado como &#x27;VL ___&#x27;].
+- Contagem de CD3: 73%.
+- Contagem de CD8: 68%.
+- Contagem de CD4%: 4%.
+- Nível de Fenitoína: Dentro da faixa terapêutica normal.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Angiotomografia Computadorizada (CTA) de Crânio:
+1. Massa no lobo frontal esquerdo com edema vasogênico circundante. Não foi encontrada hipervascularidade no exame.
+2. Sem evidência de hemorragia intracraniana, infarto territorial grande, dissecção ou formação de aneurisma.
+
+Tomografia Computadorizada (TC) de Crânio:
+1. Estado pós-craniotomia frontal esquerda com alterações pós-operatórias esperadas. Sem evidência de hemorragia intracraniana significativa ou infarto territorial grande.
+2. Grande massa no lobo frontal esquerdo com edema vasogênico circundante, essencialmente inalterada em comparação ao exame anterior.
+
+Radiografia de Tórax (PA e Lateral):
+Impressão: Sem anormalidade cardiopulmonar aguda.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina com histórico de HIV não tratado e imunossupressão grave (CD4 de 46 células/mm³) apresentou confusão mental aguda e marcha arrastada. A investigação por imagem (TC e RM) revelou massa no lobo frontal esquerdo com desvio de linha média e edema vasogênico. A paciente foi submetida a craniotomia e biópsia. A análise anatomopatológica (frozen section e diagnóstico final) confirmou Toxoplasmose Cerebral, evidenciando cistos de bradizoítos compatíveis com Toxoplasma gondii.
+
+Diagnóstico Principal: Toxoplasmose Cerebral (infecção oportunista em paciente com AIDS).
+Diagnóstico Secundário: HIV/AIDS não tratado com imunossupressão severa (CD4 &lt; 50).
+
+Raciocínio Clínico: O quadro clínico de confusão e achados de imagem de massa cerebral em paciente com AIDS e CD4 baixo é altamente sugestivo de toxoplasmose cerebral. A confirmação foi obtida via biópsia estereotáxica/craniotomia, descartando outras etiologias como linfoma primário do SNC ou tuberculoma. A paciente foi iniciada em terapia tripla específica (pirimetamina, sulfadiazina e leucovorina) e profilaxia anticonvulsivante (fenitoína). A equipe de Doenças Infecciosas foi consultada e orientou o tratamento por pelo menos 6 semanas, além da profilaxia para Micobactéria Avium Complex (MAC) com azitromicina devido ao CD4 &lt; 50. A paciente evoluiu com melhora do estado mental, embora permaneça com algumas dificuldades cognitivas (incapacidade de recitar dias da semana). Não houve complicações cirúrgicas ou neurológicas novas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Azitromicina 1200 mg, via oral, 1 vez por semana (segunda-feira) - Profilaxia para MAC.
+2. Leucovorina Cálcica 20 mg, via oral, diariamente - Resgate de folato.
+3. Fenitoína (Suspensão) 100 mg, via oral, a cada 8 horas - Profilaxia anticonvulsivante.
+4. Pirimetamina 100 mg, via oral, diariamente - Tratamento da toxoplasmose.
+5. Sulfadiazina 1500 mg, via oral, a cada 6 horas - Tratamento da toxoplasmose.
+
+Orientações ao Paciente:
+- Continuar o tratamento antibiótico para toxoplasmose por 6 semanas.
+- Continuar a azitromicina para profilaxia de MAC indefinidamente, até nova orientação da equipe de Doenças Infecciosas.
+- Manter a fenitoína na dose atual; não é necessário reavaliar níveis sanguíneos, a menos que inicie medicamentos que interfiram nos níveis.
+- Retirada de grampos programada para a unidade de reabilitação.
+
+Encaminhamentos e Seguimento:
+- Agendamento de consulta ambulatorial com especialista em Doenças Infecciosas (Dr. ___) para início da terapia antirretroviral (ART) e acompanhamento da toxoplasmose.
+- Retorno conforme agendamento na clínica de Doenças Infecciosas.
+- Transferência para unidade de cuidados estendidos (Extended Care) para reabilitação e continuidade do tratamento.
+
+Exames de Seguimento:
+- Monitoramento de CD4 e Carga Viral após início da terapia antirretroviral.
+- Avaliação clínica para resposta ao tratamento da toxoplasmose.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '22413631';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "paciente_id": "hadm_27306123",
+  "doenca_alvo_identificada": "HIV",
+  "ner": {
+    "doencas": [
+      "Infecção por HIV / AIDS",
+      "Pneumonia por Pneumocystis jirovecii (PCP)",
+      "Hipertensão Arterial",
+      "Hiperlipidemia",
+      "Doença do Refluxo Gastroesofágico (DRGE)"
+    ],
+    "sintomas": [
+      "Falta de ar (Dispneia)",
+      "Aperto no peito",
+      "Tosse seca",
+      "Mialgia (Dor no corpo)",
+      "Rigidez nucal",
+      "Hipoxemia"
+    ],
+    "medicamentos": [
+      "Truvada",
+      "Ritonavir",
+      "Darunavir",
+      "Bactrim (Sulfametoxazol/Trimetoprima)",
+      "Prednisona",
+      "Levofloxacino",
+      "Valsartana",
+      "Hidroclorotiazida"
+    ]
+  },
+  "soap": {
+    "subjetivo": "Paciente do sexo masculino, com histórico de parceiro sexual recente, relata piora progressiva da falta de ar e aperto no peito intermitente há 2 meses. Queixa-se também de tosse seca, dor no corpo e rigidez nucal. Nega febre ou calafrios.",
+    "objetivo": "Sinais vitais revelam taquicardia e taquipneia, com saturação de O2 a 81% em ar ambiente sob esforço. Raio-X de tórax mostra piora das opacidades bibasilares. Exames laboratoriais confirmam CD4 em 113 e Carga Viral de 113.000. Lavado broncoalveolar (BAL) positivo para Pneumocystis jirovecii.",
+    "avaliacao": "Quadro de Síndrome da Imunodeficiência Adquirida (AIDS) recém-diagnosticada, com infecção oportunista ativa por Pneumocystis jirovecii (PCP). Apresenta hipoxemia secundária à pneumonia.",
+    "plano": "Iniciada Terapia Antirretroviral Altamente Ativa (HAART) com Truvada, Ritonavir e Darunavir. Tratamento para PCP iniciado com Bactrim e Prednisona em desmame. Paciente com alta hospitalar prescrito com oxigênio domiciliar e seguimento ambulatorial rigoroso."
+  }
+}

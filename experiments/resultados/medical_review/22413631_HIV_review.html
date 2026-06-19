@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 22413631 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 22413631</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 22413631 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong> 042 &nbsp;|&nbsp;
+    <strong>Categoria:</strong> HIV simples<br>
+    <strong>Entidades extraídas:</strong> 33 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Confusion
+ 
+Major Surgical or Invasive Procedure:
+___: Left craniotomy for resection/exploration
+
+ 
+History of Present Illness:
+Mrs. ___ is a ___ ___ female who presented to ___ 
+___ today with new onset confusion.  Per medical records, 
+the patient was at work today when her ___ found her to 
+be confused, not making sense and had a shuffling gait.  Upon 
+arrival at the outside hospital, Mrs. ___ underwent a CT and MRI 
+of the head.  Those exams revealed a left frontal mass with 
+___ shift.  She was given 10mg of decadron at that time. 
+The patient was then transferred to ___ for further 
+evaluation and management.  
+
+The patient arrived via EMS to the ED.  No family or friends 
+were present.  Attempts were made to obtain health history 
+information, but the patient was having ___ 
+difficulties.  Data was inconsistent and unreliable.  She stated 
+she had a son and a boyfriend, but she indicated that she didn&#x27;t 
+want them to be called via phone.
+ 
+Past Medical History:
+Hypertension
+HIV (untreated, diagnosed in ___, OI&#x27;s include: PCP PNA
+
+ 
+Social ___:
+___
+Family History:
+No known history of medical problems including heart disease or 
+diabetes
+ 
+Physical Exam:
+On Admission:
+VS T: 97.5 HR: 84 BP: 134/73  RR: 14  O2 Sat 100% on room air
+Gen: Comfortable, NAD.
+HEENT: Pupils: PERRL, 5-&gt;4 brisk reaction, EOMs intact
+Neuro:
+Mental status: Awake and alert, cooperative with exam, normal
+affect.  Difficulty following directions.
+Orientation: Oriented to person, place, and date with choices.
+Language: Speech fluent with good comprehension and repetition.
+Naming intact. No dysarthria or paraphasic errors.
+Cranial Nerves:
+I: Not tested
+II: Pupils equally round and reactive to light, to
+mm bilaterally. 
+III, IV, VI: Extraocular movements intact bilaterally without
+nystagmus.
+V, VII: Facial strength and sensation intact and symmetric.
+VIII: Hearing intact to voice.
+IX, X: Palatal elevation symmetrical.
+XI: Sternocleidomastoid and trapezius normal bilaterally.
+XII: Tongue midline without fasciculations.
+Motor: Normal bulk and tone bilaterally. No abnormal movements,
+tremors. Strength full power ___ throughout. No pronator drift
+Sensation: Intact to light touch throughout.
+Coordination: Not tested.
+
+On Discharge:
+Vitals: 97.5 53 108/55 18 100RA 
+Exam:
+GENERAL - Alert, interactive, ___ in NAD  
+HEENT - MMM. Eyes injected. 
+HEART - ___ SM at RUSB. RRR. nl S1 and S2
+LUNGS -  CTAB
+ABDOMEN - soft, nontender. 
+EXTREMITIES - WWP, no c/c/e  
+NEURO - awake, A&amp;Ox3, unable to say days of week backwards. 
+Ocular fields intact bilaterally without extinction. 
+
+ 
+Pertinent Results:
+On Admission:
+___ 06:30PM BLOOD ___ 
+___ Plt ___
+___ 06:30PM BLOOD ___ 
+___
+___ 06:30PM BLOOD ___ ___
+___ 06:30PM BLOOD ___ 
+___
+___ 05:10AM BLOOD ___
+
+Microbiology:
+___ Blood culture
+___ Mycolytic blood culture
+
+Imaging/Studies:
+___ CTA Head
+1. Left frontal lobe mass with surrounding vasogenic edema, not 
+found to be hypervascular on the CTA examination. 
+2. No evidence of intracranial hemorrhage, large territorial 
+infarction, 
+dissection, or aneurysm formation.
+
+___ CT Head
+1. Status post left frontal craniotomy with expected 
+postsurgical changes. No evidence of significant intracranial 
+hemorrhage or large territorial infarction.   
+2. Large, left frontal mass with surrounding vasogenic edema, 
+essentially 
+unchanged from prior examination.   
+ 
+___ CXR (PA &amp; LAT)
+IMPRESSION: No acute cardiopulmonary abnormality. 
+
+Pathology:
+FROZEN SECTION DIAGNOSIS:
+Intraoperative consultation was obtained, and a smear and frozen
+section was performed.  Frozen section diagnosis given by Dr. 
+___
+is:  &quot;Smear and FSDX (superficial and deep) brain tissue with 
+necrosis
+and reactive changes and two bradyzoite cysts consistent with
+toxoplasmosis.&quot;
+
+PATHOLOGIC DIAGNOSIS:
+1. Brain, left frontal superficial:
+- Toxoplasmosis, see note.
+
+2. Brain, left frontal, deep:
+- Toxoplasmosis.
+
+___ 09:07AM BLOOD ___ 
+___ Plt ___
+___ 07:12AM BLOOD ___ 
+___ Plt ___
+___ 07:15AM BLOOD ___ 
+___ Plt ___
+___ 09:07AM BLOOD Plt ___
+___ 07:15AM BLOOD  ___ Abs ___ CD3%-73 
+Abs ___ CD4%-4 Abs ___ CD8%-68 Abs ___ 
+___
+___ 07:12AM BLOOD ___ 
+___
+___ 07:15AM BLOOD ___ 
+___
+___ 07:20PM BLOOD ___ 
+___
+___ 01:42AM BLOOD ___ 
+___
+___ 07:12AM BLOOD ___
+___ 07:20PM BLOOD ___
+
+___ 06:45AM BLOOD ___
+___ 07:15AM BLOOD ___
+ 
+Brief Hospital Course:
+___ with untreated HIV presented for acute confusion, s/p brain 
+bx, found to have CNS toxoplasmosis.  
+
+ACTIVE ISSUES
+# Cerebral Toxoplasmosis
+CT and MRI head at ___ revealed a ___ frontal mass 
+with midline shift. There were no focal neurologic deficits on 
+admission. On ___ she underwent ___ craniotomy with 
+biopsy of this lesion and intraoperative pathology was 
+consistent with toxoplasmosis. ID was consulted and she was 
+started on pyrimethamine, leucovorin, and sulfadiazine on ___ 
+with plans to continue for at least 6 weeks. She was also 
+started on dexamethasone 4mg TID, with taper written ending on 
+___, and Dilantin 100mg TID as seizure prophylaxis. Dilantin 
+levels were drawn and found to be within normal range.  
+
+# HIV/AIDS
+She has had HIV since at least ___ but has not had ___ 
+and is not on any ___ therapy. She was admitted in 
+___ for PCP ___. Per outside records, her last 
+CD4/VL were drawn in ___, with HIV VL ___ and CD4 275. VL 
+and CD4 were ___ on this admission and found to be 218,000 
+and 46, respectively. She agreed to have an outpatient ___ 
+appointment with ID on ___ with Dr. ___ to start ART. Given 
+that her CD4 count was &lt;50, ID recommended MAC prophylaxis with 
+azithromycin 1200 mg qweek, which was started on ___ 
+(___).
+
+# Transitional Issues
+- f/u w ID provider
+- cont ___ tx x 6 weeks
+- cont azithro for ___ tx indefinitely
+- cont dilantin at current doses, no need to recheck levels 
+unless starting medications that interfere with levels 
+- staples to be removed ___ by rehab
+ 
+Medications on Admission:
+None
+ 
+Discharge Medications:
+1. Azithromycin 1200 mg PO 1X/WEEK (MO) 
+2. Leucovorin Calcium 20 mg PO DAILY 
+3. Phenytoin (Suspension) 100 mg PO Q8H 
+4. Pyrimethamine 100 mg PO DAILY 
+5. SulfADIAzine 1500 mg PO Q6H 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary: Cerebral toxoplasmosis
+Secondary: HIV/AIDS
+
+ 
+Discharge Condition:
+Mental Status: Confused - sometimes.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Ms. ___,
+
+You were transferred to the ___ 
+because you were feeling confused. You were found to have a 
+large mass in the front of your brain, which was most likely 
+causing your confusion. You had surgery and a biopsy of this 
+mass, which showed an infection called toxoplasmosis. Three 
+antibiotics were started. Please continue these antibiotics for 
+6 weeks and ___ with your primary care doctor. 
+
+You were also started on a medication called azithromycin to 
+prevent infections from occurring while your CD4 count is low. 
+Please take this medication until further instruction from your 
+infectious disease doctor. 
+
+Please ___ with Dr. ___ in the ___ Disease 
+clinic on ___. 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(3)</span></h3>
+  <ul>
+    <li>HIV/AIDS</li>
+    <li>Pneumocystis jirovecii pneumonia (PCP)</li>
+    <li>Toxoplasmose cerebral</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(8)</span></h3>
+  <ul>
+    <li>Confusão</li>
+    <li>Marcha arrastada</li>
+    <li>Dificuldade em seguir instruções</li>
+    <li>Incapacidade de recitar os dias da semana ao contrário</li>
+    <li>Olhos injetados</li>
+    <li>Massa frontal esquerda</li>
+    <li>Edema vasogênico</li>
+    <li>Desvio de linha média</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(6)</span></h3>
+  <ul>
+    <li>Azitromicina 1200 mg PO 1x/semana</li>
+    <li>Leucovorina Cálcica 20 mg PO diário</li>
+    <li>Fenitoína (Suspensão) 100 mg PO a cada 8 horas</li>
+    <li>Pirimetamina 100 mg PO diário</li>
+    <li>Sulfadiazina 1500 mg PO a cada 6 horas</li>
+    <li>Dexametasona 4 mg TID</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(8)</span></h3>
+  <ul>
+    <li>Carga viral do HIV (VL) - 218.000</li>
+    <li>Contagem de CD4 - 46</li>
+    <li>CD3% - 73%</li>
+    <li>CD4% - 4%</li>
+    <li>CD8% - 68%</li>
+    <li>Níveis de Fenitoína - dentro da faixa normal</li>
+    <li>Cultura de sangue - Pendente</li>
+    <li>Cultura de sangue micolítica - Pendente</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(7)</span></h3>
+  <ul>
+    <li>Craniotomia esquerda para ressecção/exploração</li>
+    <li>Tomografia computadorizada (TC) de crânio</li>
+    <li>Ressonância magnética (RM) de crânio</li>
+    <li>Angiografia por TC (CTA) de cabeça</li>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Biópsia cerebral</li>
+    <li>Congelamento intraoperatório (Frozen section) de tecido cerebral</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Toxoplasma gondii</li>
+  </ul>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino, com histórico de HIV não tratado (diagnosticado em data anterior, com infecções oportunistas prévias incluindo pneumonia por Pneumocystis jirovecii - PCP), apresentou-se com confusão mental de início agudo. Segundo registros médicos, a paciente foi encontrada confusa, com discurso incoerente e marcha arrastada no local de trabalho. Ao chegar no hospital externo, realizou tomografia computadorizada (TC) e ressonância magnética (RM) de crânio, que revelaram massa frontal esquerda com desvio de linha média. Recebeu 10 mg de dexametasona. Transferida para avaliação e manejo adicionais. Ao chegar à emergência via SAMU, não havia familiares ou amigos presentes. Tentativas de obter histórico de saúde foram dificultadas pela confusão da paciente; os dados obtidos foram inconsistentes e pouco confiáveis. A paciente relatou ter um filho e um namorado, mas indicou não desejar que fossem contatados por telefone. Nega outras queixas específicas além da confusão.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+Sinais Vitais: Temperatura 97,5°F, Frequência Cardíaca 84 bpm, Pressão Arterial 134/73 mmHg, Frequência Respiratória 14 irpm, Saturação de Oxigênio (SpO2) 100% em ar ambiente.
+Geral: Confortável, sem anormalidades aparentes (NAD).
+HEENT: Pupilas isocóricas, fotorreagentes (5-&gt;4 mm), reação briska; movimentos oculares extraoculares (MOE) íntegros.
+Neurológico:
+- Estado mental: Acordada, alerta, cooperativa com o exame, afeto normal. Dificuldade em seguir instruções.
+- Orientação: Orientada para pessoa, lugar e data com escolhas.
+- Linguagem: Fala fluente, boa compreensão e repetição. Nomeação intacta. Sem disartria ou erros parafásicos.
+- Nervos Cranianos:
+  I: Não testado.
+  II: Pupilas igualmente redondas e reativas à luz.
+  III, IV, VI: Movimentos oculares extraoculares íntegros bilateralmente, sem nistagmo.
+  V, VII: Força e sensibilidade facial intactas e simétricas.
+  VIII: Audição intacta à voz.
+  IX, X: Elevação palatina simétrica.
+  XI: Esternocleidomastoideo e trapézio normais bilateralmente.
+  XII: Língua na linha média, sem fasciculações.
+- Motor: Volume e tônus normais bilateralmente. Sem movimentos anormais ou tremores. Força plena em todos os grupos musculares. Sem desvio de pronador.
+- Sensibilidade: Intacta ao toque leve em todo o corpo.
+- Coordenação: Não testada.
+
+Alta:
+Sinais Vitais: Temperatura 97,5°F, Frequência Cardíaca 53 bpm, Pressão Arterial 108/55 mmHg, Frequência Respiratória 18 irpm, SpO2 100% em ar ambiente.
+Geral: Alerta, interativa, sem anormalidades aparentes (NAD).
+HEENT: Mucosas orais hidratadas (MMM). Olhos injetados.
+Coração: Sopro sistólico (SM) em borda esternal superior direita (RUSB). Ritmo cardíaco regular (RRR). S1 e S2 normais.
+Pulmões: Ausculta limpa bilateralmente (CTAB - Clear to Auscultation Bilaterally).
+Abdome: Macio, indolor.
+Extremidades: Quentes, bem perfundidas (WWP), sem cianose, edema ou eritema (c/c/e).
+Neurológico: Acordada, orientada x3 (pessoa, lugar, tempo). Incapaz de recitar os dias da semana ao contrário. Campos oculares íntegros bilateralmente, sem extinção.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Microbiologia:
+- Hemocultura: Negativa.
+- Hemocultura para Micobactérias: Negativa.
+
+Sorologias e Marcadores Específicos (HIV):
+- Carga Viral (VL) HIV: 218.000 cópias/mL.
+- Contagem de CD4: 46 células/mm³.
+- CD4%: 4%.
+- CD3%: 73%.
+- CD8%: 68%.
+
+Outros Exames (Valores numéricos específicos não fornecidos no texto original, apenas menção de realização):
+- Hemograma completo (Hemoglobina, Plaquetas, Leucócitos) realizado em múltiplos momentos (06:30, 05:10, 09:07, 07:12, 07:15, 07:20, 01:42).
+- Função renal e hepática (BUN, Creatinina, Eletrólitos) realizados em múltiplos momentos.
+- Níveis de Fenitoína (Dilantin): Dentro da faixa terapêutica normal.
+- Gasometria Arterial: Não realizada ou não relatada no texto.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Angiotomografia Computadorizada (CTA) de Crânio:
+1. Massa no lobo frontal esquerdo com edema vasogênico circundante; não foi encontrada hipervascularidade no exame CTA.
+2. Sem evidência de hemorragia intracraniana, infarto territorial grande, dissecção ou formação de aneurisma.
+
+Tomografia Computadorizada (TC) de Crânio:
+1. Estado pós-craniotomia frontal esquerda com alterações pós-operatórias esperadas. Sem evidência de hemorragia intracraniana significativa ou infarto territorial grande.
+2. Grande massa frontal esquerda com edema vasogênico circundante, essencialmente inalterada em relação ao exame anterior.
+
+Radiografia de Tórax (PA e Lateral):
+Impressão: Sem anormalidade cardiopulmonar aguda.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina com HIV não tratado (diagnóstico antigo, sem terapia antirretroviral) apresentou confusão aguda. Imagens de neuroimagem (TC e RM) demonstraram massa frontal esquerda com desvio de linha média. A paciente submeteu-se a craniotomia e biópsia da lesão. A anatomia patológica (frozen section e diagnóstico final) confirmou Toxoplasmose Cerebral (presença de cistos de bradizoítos consistentes com toxoplasmose). O perfil imunológico atual mostra imunossupressão grave (CD4 = 46 células/mm³, Carga Viral = 218.000). O diagnóstico principal é Toxoplasmose Cerebral, uma infecção oportunista grave em paciente com AIDS. Diagnósticos diferenciais considerados incluíam linfoma do SNC e outras infecções fúngicas ou bacterianas, mas foram excluídos pela biópsia. Durante a internação, a paciente foi iniciada em terapia tripla para toxoplasmose (pirimetamina, leucovorina, sulfadiazina) e profilaxia de convulsões (fenitoína), além de corticoide (dexametasona) para controle do edema. A equipe de Doenças Infecciosas foi consultada e recomendou profilaxia para Micobactéria Avium Complex (MAC) com azitromicina devido ao CD4 &lt; 50. A paciente evoluiu com melhora do estado mental (agora alerta e interativa), embora ainda apresente confusão ocasional e dificuldade cognitiva (incapaz de recitar dias da semana). Não houve complicações cirúrgicas significativas (sem hemorragia ou infarto pós-operatório).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Azitromicina 1200 mg, via oral, 1 vez por semana (segunda-feira) - Profilaxia para MAC (indefinida até nova orientação).
+2. Leucovorina Cálcica 20 mg, via oral, diariamente - Para reduzir toxicidade da pirimetamina.
+3. Fenitoína (Suspensão) 100 mg, via oral, a cada 8 horas - Profilaxia de convulsões (manter dose atual; reavaliar níveis apenas se iniciar medicamentos que interfiram).
+4. Pirimetamina 100 mg, via oral, diariamente - Tratamento para Toxoplasmose Cerebral.
+5. Sulfadiazina 1500 mg, via oral, a cada 6 horas - Tratamento para Toxoplasmose Cerebral.
+
+Orientações ao Paciente:
+- Continuar o tratamento antibiótico para toxoplasmose por pelo menos 6 semanas.
+- Continuar a azitromicina para profilaxia de MAC até nova instrução do médico de doenças infecciosas.
+- Retornar ao consultório de Doenças Infecciosas para iniciar terapia antirretroviral (ART) e acompanhamento.
+- Retirada de pontos (grampos) agendada para data futura pela equipe de reabilitação.
+
+Encaminhamentos e Seguimento:
+- Consulta de acompanhamento com o provedor de Doenças Infecciosas (Dr. ___) na clínica de Doenças Infecciosas em data agendada.
+- Acompanhamento com médico de atenção primária.
+- Transferência para unidade de cuidados estendidos (Extended Care) para reabilitação e continuidade do tratamento.
+
+Retornos Programados:
+- Retorno à clínica de Doenças Infecciosas conforme agendamento para início de ART e monitoramento da resposta ao tratamento da toxoplasmose.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-08 15:18 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 23481209 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 23481209</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 23481209 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 67
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+r/o neurosyphillis
+ 
+Major Surgical or Invasive Procedure:
+___ placement ___ in RUE
+
+ 
+History of Present Illness:
+___ yo F with history of advanced dementia recently hospitalized 
+___ for bilateral submassive PE&#x27;s (now s/p IVC filter and 
+on apixiban) with hospital course c/b worsening altered mental 
+status who was found to have positive quantitative RPR and 
+positive treponemal antibody who presents for 
+management/treatment for r/o neurosyphillis. After discussion 
+with neurology, ID, and patient&#x27;s husband/HCP ___, decision 
+was made for patient to come to hospital for neurosyphilis 
+evaluation/treatment.
+Upon arrival to the floor, patient is mostly non-verbal and 
+comfortable appearing. She smiles and can answer yes and no to 
+questions. She denies SOB, CP, abdominal pain. Endorses right 
+wrist pain.
+REVIEW OF SYSTEMS:
+(+) Per HPI
+Limited due to patient&#x27;s underlying dementia
+ 
+Past Medical History:
+Bilateral subsegmental PE&#x27;s ___
+Pseudoaneurysm requiring thrombin injection with ___ ___
+IVC filter placed ___
+H/o UTIs with delirium
+Advanced dementia
+CKD
+Dysphagia
+
+ 
+Social History:
+___
+Family History:
+No known family history of cancer or blood clots.
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM:
+========================
+VS: 98.2 PO 131/78 80 22 98 RA
+HEENT: Sclerae anicteric, oropharynx clear, mucous membranes
+dry, tongue appears dry and cracked
+Lungs: Clear to auscultation anteriorly and laterally
+CV: Regular rate and rhythm, normal S1 + S2, no murmurs, rubs,
+gallops
+Abdomen: soft, diffusely tender, non-distended, hypoactive bowel
+sounds, no guarding
+Mental Status: Awake and alert. Oriented x0. Comprehends and
+follows basic commands. Decreased speech output, with echolalia.
+Motor: Spontaneously moves RUE, LUE and LLE against gravity. 
+However, RUE ___ motor. Could not assess sensation due to 
+mental status. Biceps 2+ on left. Pt would not let me assess 
+right bicep d/t pain. Fine tremor on right.
+Msk: right wrist ttp.
+
+DISCHARGE PHYSICAL EXAM:
+========================
+VS: 98 Axillary 102 / 60 L Lying 89 19 97 RA  
+ HEENT: Sclerae anicteric, oropharynx clear, mucous membranes  
+ dry, tongue appears dry and cracked  
+ Lungs: Clear to auscultation anteriorly and laterally  
+ CV: Regular rate and rhythm, normal S1 + S2, no murmurs, rubs,  
+
+ gallops  
+ Abdomen: soft, diffusely tender, non-distended, hypoactive 
+bowel  
+ sounds, no guarding  
+ Mental Status: Awake and alert. Oriented x0. Comprehends and  
+ follows basic commands. Decreased speech output.  +echolalia
+Motor: Spontaneously moves RUE, LUE and LLE against gravity. 
+However, RUE ___ motor. Could not assess sensation due to 
+mental status. Biceps 2+ on left. Moving right ext today.  
+ACCESS: PICC in RUE
+
+ 
+Pertinent Results:
+ADMISSION LABS: 
+===============
+___ 01:31AM BLOOD WBC-7.2 RBC-3.60* Hgb-11.2 Hct-35.6 
+MCV-99* MCH-31.1 MCHC-31.5* RDW-15.7* RDWSD-57.7* Plt ___
+___ 01:31AM BLOOD ___ PTT-37.7* ___
+___ 01:31AM BLOOD Glucose-109* UreaN-22* Creat-0.6 Na-143 
+K-3.8 Cl-106 HCO3-27 AnGap-14
+___ 01:31AM BLOOD Calcium-9.1 Phos-3.2 Mg-2.0
+
+IMAGING: 
+========
++ RUE U/S (___): no DVT
+
++ Plain films (right upper ext): 
+
+WRIST: There are degenerative changes at the right wrist, with 
+narrowed radiocarpal joint, chondrocalcinosis.  Advanced 
+degenerative changes at the STT, first CMC joints.  Suggestion 
+of scapholunate joint widening and ligament injury.  No definite 
+acute fracture.
+
+SHOULDER, ELBOW: No acute fracture, chronic changes
+
++ PICC Placement (___): 
+
+Successful placement of a right 42 cm basilic approach single 
+lumen PowerPICC with tip in the distal SVC.  The line is ready 
+to use.
+
+**no discharge labs on day of discharge**
+
+ 
+Brief Hospital Course:
+This is a ___ year old female with past medical history of 
+advanced dementia, recent hospitalization for acute pulmonary 
+embolism with complex hospital course, notable for positive RPR 
+sent as part of encephalopathy workup, subsequently after 
+discharge found to have positive treponemal antibody, admitted 
+___ for consideration of additional workup for 
+neurosyphillis, now on IV penicillin via PICC, discharged today 
+with OPAT follow-up 
+
+# Late Syphilis
+# Suspected Neurosyphillis
+Patient with history of dementia with recent negative MRI head 
+who was incidentally found to have postitive RPR and treponemal 
+ab during last admission.  She was referred for admission for 
+expedited workup and management.  Per Mass DPH she is not in 
+their system has having ever had syphilis. Her husband denies 
+that he nor she has ever been diagnosed with syphilis. Given 
+recent history of pulmonary emboli, she was felt to be high 
+risk for complications if anticoagulation stopped for lumbar 
+puncture.  Based on this, ID input, discussion with husband who 
+stated that patient would not want to be put through a lumbar 
+puncture, the decision was made to empirically treat with Pen G 
+3 mill units q4h (___) for 14 day course (end ___, to be 
+followed by two doses of Penicillin G benzathine 2.4 million 
+units IM, administered once weekly beginning at the end of her 
+IV treatment course to complete course for late syphilis--to be 
+given at ___ clinic follow-up.  
+
+# Right Arm Pain - Patient had previously undergone workup for 
+R arm weakness including MRI head without infarct. Given 
+continued pain and inability to provide additional information 
+given dementia, additional workup for etiology this admission 
+included RUE doppler without signs of DVT, and plain films of 
+shoulder, arm and wrist negative for acute fracture, but 
+notable for osteoarthritis of multiple joints.  Would consider 
+outpatient OT evaluation. 
+
+# Chronic bilateral pulmonary emboli 
+Previously admitted ___ for AMS and hypoxia and found to 
+have bl Pulmonary emboli. That admission she had elevation in 
+troponin and proBNP but TTE with no right heart strain, and 
+underwent IVC filter placement ___, and initiation 
+anticoagulation.  Admitted on Rivaroxiban, which was was 
+continued 
+
+TRANSITIONAL ISSUES: 
+====================
+# NEW MEDICATIONS: penicillin G ___ million units/dose IV every 
+4 hours. We will treat with 3 million given the package size is 
+3 million. Plan for 14 day course for neurosyphilis. ___ 
+through ___
+[] patient will need two doses of Penicillin G benzathine 2.4 
+million units IM, administered once weekly beginning at the end 
+of her IV treatment course to complete course for late 
+syphilis. ID will manage this as an outpatient. 
+[] Please consider further STI testing as an outpatient (HIV, 
+GC/C)
+[] Follow-up with the husband, who is also getting tested to 
+syphillis
+[] Please discontinue PICC after complete PCN course 
+[] Ms. ___ should be seen in ___ clinic. 
+[] Please continue ongoing speech and swallow evaluations at 
+rehab
+ # CODE: DNR/DNI (confirmed with MOLST), ok for non-invasive 
+ventilation  
+ # CONTACT: ___ ___  
+
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Memantine 10 mg PO BID 
+2. Acetaminophen 650 mg PO Q6H:PRN Pain - Mild 
+3. Docusate Sodium 100 mg PO BID constipation 
+4. Senna 17.2 mg PO QHS:PRN constipation 
+5. Gabapentin 100 mg PO BID 
+6. galantamine 24 mg oral QAM 
+7. Rivaroxaban 20 mg PO DAILY 
+8. Silver Sulfadiazine 1% Cream 1 Appl TP DAILY 
+
+ 
+Discharge Medications:
+1.  Multivitamins 1 TAB PO DAILY 
+RX *multivitamin  1 tablet(s) by mouth daily Disp #*30 Tablet 
+Refills:*0 
+2.  Penicillin G Potassium 3 Million Units IV Q4H 
+RX *penicillin G pot in dextrose 3 million unit/50 mL 3 million 
+units IV every four (4) hours Disp #*72 Intravenous Bag 
+Refills:*0 
+3.  Acetaminophen 650 mg PO Q6H:PRN Pain - Mild  
+4.  Docusate Sodium 100 mg PO BID constipation  
+5.  Gabapentin 100 mg PO BID  
+6.  galantamine 24 mg oral QAM  
+7.  Memantine 10 mg PO BID  
+8.  Rivaroxaban 20 mg PO DAILY  
+9.  Senna 17.2 mg PO QHS:PRN constipation  
+10.  Silver Sulfadiazine 1% Cream 1 Appl TP DAILY  
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+# Late Syphilis
+# Suspected Neurosyphillis
+# Right Arm Pain 
+# Chronic bilateral pulmonary emboli 
+# Advanced dementia
+ 
+Discharge Condition:
+Mental Status: Confused - always.
+Level of Consciousness: Alert but not oriented
+Activity Status: Out of Bed with assistance to chair or 
+wheelchair.
+
+ 
+Discharge Instructions:
+Dear Ms. ___,
+
+It was a pleasure caring for you at ___!
+
+Why was I in the hospital?
+- You had blood work which showed you had a serious bacterial 
+infection
+
+What was done while I was in the hospital?
+- You were given an antibiotic medicine to treat your infection 
+- You had a special &quot;IV&quot; line placed to help deliver medicine
+
+What should I do now that I am leaving the hospital? 
+- You will go to a rehab facility which will help you with your 
+medicines
+- Please follow-up with infectious disease doctors ___ below 
+for instruction)
+
+We wish you the best,
+- Your ___ Team
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(9)</span></h3>
+  <ul>
+    <li>Sífilis Tardia</li>
+    <li>Neurosífilis (Suspeita)</li>
+    <li>Embolia Pulmonar Crônica Bilateral</li>
+    <li>Demência Avançada</li>
+    <li>Doença renal crônica</li>
+    <li>Disfagia</li>
+    <li>Osteoartrite</li>
+    <li>Pseudoaneurisma</li>
+    <li>Delirium</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(13)</span></h3>
+  <ul>
+    <li>Alteração do estado mental</li>
+    <li>Dor no punho direito</li>
+    <li>Tremor fino no lado direito</li>
+    <li>sensibilidade à palpação ao toque no punho direito</li>
+    <li>Ecolalia</li>
+    <li>Redução do volume de fala</li>
+    <li>Mucosas secas</li>
+    <li>Língua seca e fissurada</li>
+    <li>Abdome difusamente doloroso</li>
+    <li>Sons intestinais hipoativos</li>
+    <li>Fraqueza no membro superior direito</li>
+    <li>Chondrocalcinose</li>
+    <li>Alargamento da articulação escafolunar</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Memantina 10 mg PO BID</li>
+    <li>Acetaminofeno 650 mg PO Q6H:PRN</li>
+    <li>Docusato de Sódio 100 mg PO BID</li>
+    <li>Senna 17.2 mg PO QHS:PRN</li>
+    <li>Gabapentina 100 mg PO BID</li>
+    <li>Galantamina 24 mg PO QAM</li>
+    <li>Rivaroxabana 20 mg PO DIÁRIO</li>
+    <li>Creme de Sulfadiazina de Prata 1% Aplicação Tópica DIÁRIA</li>
+    <li>Multivitamínicos 1 comprimido PO DIÁRIO</li>
+    <li>Penicilina G Potássica 3 Milhões de Unidades IV Q4H</li>
+    <li>Penicilina G Benzatina 2,4 Milhões de Unidades IM (dose semanal)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(26)</span></h3>
+  <ul>
+    <li>RPR-Positivo (Quantitativo)</li>
+    <li>Anticorpo Treponêmico-Positivo</li>
+    <li>WBC-7.2</li>
+    <li>RBC-3.60</li>
+    <li>Hemoglobina-11.2</li>
+    <li>Hematócrito-35.6</li>
+    <li>VCM-99</li>
+    <li>HCM-31.1</li>
+    <li>CHCM-31.5</li>
+    <li>RDW-15.7</li>
+    <li>RDWSD-57.7</li>
+    <li>PTT-37.7</li>
+    <li>Glicose-109</li>
+    <li>Ureia-22</li>
+    <li>Creatinina-0.6</li>
+    <li>Sódio-143</li>
+    <li>Potássio-3.8</li>
+    <li>Cloreto-106</li>
+    <li>Bicarbonato-27</li>
+    <li>Gap Aniónico-14</li>
+    <li>Cálcio-9.1</li>
+    <li>Fósforo-3.2</li>
+    <li>Magnésio-2.0</li>
+    <li>Troponina elevada</li>
+    <li>proBNP elevado</li>
+    <li>Doppler de membro superior direito sem sinais de TVP</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(8)</span></h3>
+  <ul>
+    <li>Ultrassonografia do membro superior direito (RUE U/S)</li>
+    <li>Radiografia simples do membro superior direito</li>
+    <li>Radiografia simples do ombro</li>
+    <li>Radiografia simples do cotovelo</li>
+    <li>Colocação de PICC</li>
+    <li>Ressonância Magnética de crânio (MRI head)</li>
+    <li>Ecocardiograma (TTE)</li>
+    <li>Colocação de filtro de veia cava inferior (IVC filter placement)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente feminina com histórico de demência avançada, queixa principal relacionada à investigação e tratamento de sífilis neurogênica (r/o neurosífilis). História da Doença Atual: Paciente foi hospitalizada anteriormente por embolia pulmonar (EP) submassiva bilateral, tendo sido submetida à colocação de filtro de veia cava inferior (IVC) e iniciada em apixabana. Durante o curso hospitalar anterior, apresentou piora do estado mental alterado. Foi identificada sorologia positiva para RPR quantitativo e anticorpo treponêmico positivo. Após discussão com Neurologia, Infectologia e o marido (representante legal), decidiu-se pela admissão para avaliação e tratamento da neurosífilis. Ao chegar na enfermaria, a paciente encontra-se majoritariamente não verbal, mas confortável. Sorri e consegue responder &#x27;sim&#x27; e &#x27;não&#x27; a perguntas. Nega falta de ar, dor torácica ou dor abdominal. Relata dor no punho direito. Revisão de Sistemas: Nega dispneia, dor torácica, dor abdominal. Relata dor no punho direito. Limitada devido à demência subjacente. Histórico Médico Pregresso: Embolia pulmonar subsegmental bilateral; pseudoaneurisma tratado com injeção de trombina; filtro de veia cava inferior; histórico de infecções do trato urinário com delírio; demência avançada; doença renal crônica (DRC); disfagia. Histórico Cirúrgico/Invasivo: Colocação de acesso venoso central (PICC) no membro superior direito.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais de Admissão: Temperatura 98.2°F (oral), PA 131/78 mmHg, FC 80 bpm, FR 22 irpm, SpO2 98% em ar ambiente. Sinais Vitais de Alta: Temperatura 98°F (axilar), PA 102/60 mmHg (deitada), FC 89 bpm, FR 19 irpm, SpO2 97% em ar ambiente. Exame Físico de Admissão: Cabeça, Pescoço, Olhos, Ouvidos, Nariz e Garganta (HEENT): Escleras anictéricas, orofaringe limpa, mucosas secas, língua aparenta estar seca e fissurada. Pulmões: Limpos à ausculta anteriormente e lateralmente. Cardiovascular: Ritmo regular, S1 e S2 normais, sem sopros, atritos ou galopos. Abdome: Macio, doloroso difusamente, não distendido, ruídos hidroaéreos hipoativos, sem defesa. Estado Mental: Acordada e alerta. Orientada x0. Compreende e segue comandos básicos. Discurso reduzido, com ecolalia. Motor: Move espontaneamente membro superior direito (RUE), membro superior esquerdo (LUE) e membro inferior esquerdo (LLE) contra a gravidade. No entanto, força reduzida no RUE. Não foi possível avaliar sensibilidade devido ao estado mental. Reflexo bicipital 2+ à esquerda. Paciente não permitiu avaliação do bíceps direito devido à dor. Tremor fino no lado direito. Músculo-esquelético: Punho direito com sensibilidade à palpação (TPP). Exame Físico de Alta: HEENT: Escleras anictéricas, orofaringe limpa, mucosas secas, língua seca e fissurada. Pulmões: Limpos à ausculta anteriormente e lateralmente. Cardiovascular: Ritmo regular, S1 e S2 normais, sem sopros, atritos ou galopos. Abdome: Macio, doloroso difusamente, não distendido, ruídos hidroaéreos hipoativos, sem defesa. Estado Mental: Acordada e alerta. Orientada x0. Compreende e segue comandos básicos. Discurso reduzido. Ecolalia positiva. Motor: Move espontaneamente RUE, LUE e LLE contra a gravidade. No entanto, força reduzida no RUE. Não foi possível avaliar sensibilidade devido ao estado mental. Reflexo bicipital 2+ à esquerda. Movendo extensores do lado direito hoje. Acesso: PICC no membro superior direito.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo (Admissão 01:31): Leucócitos (WBC) 7.2, Hemácias (RBC) 3.60 (baixo), Hemoglobina (Hgb) 11.2, Hematócrito (Hct) 35.6, VCM (MCV) 99 (alto), HCM (MCH) 31.1, CHCM (MCHC) 31.5 (baixo), RDW 15.7 (alto), RDW-SD 57.7 (alto), Plaquetas (Plt) não especificado no texto. Coagulação (Admissão 01:31): PTT 37.7 (alto). Bioquímica Sanguínea (Admissão 01:31): Glicose 109 (alto), Ureia (UreaN) 22 (alto), Creatinina (Creat) 0.6, Sódio (Na) 143, Potássio (K) 3.8, Cloro (Cl) 106, Bicarbonato (HCO3) 27, Gap Aniónico (AnGap) 14. Eletrólitos Adicionais (Admissão 01:31): Cálcio 9.1, Fósforo (Phos) 3.2, Magnésio (Mg) 2.0. Sorologias: RPR quantitativo positivo, Anticorpo treponêmico positivo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Ultrassonografia Doppler do Membro Superior Direito (RUE): Sem sinais de trombose venosa profunda (DVT). Radiografias Simples do Membro Superior Direito: Punho: Mudanças degenerativas no punho direito, com estreitamento da articulação radiocarpal e condrocalcinose. Mudanças degenerativas avançadas nas articulações STT e primeiro CMC. Sugestão de alargamento da articulação escafolunar e lesão ligamentar. Sem fratura aguda definida. Ombro e Cotovelo: Sem fratura aguda, mudanças crônicas. Colocação de PICC: Colocação bem-sucedida de PICC Power de 42 cm, via basílica direita, de lúmen único, com ponta na veia cava superior distal. Linha pronta para uso. Ressonância Magnética (RM) de Crânio (referida no curso hospitalar): Negativa para infarto.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina idosa com demência avançada e histórico recente de embolia pulmonar bilateral, admitida para investigação e tratamento de sífilis neurogênica. A paciente apresentou estado mental alterado durante internação anterior, com sorologia positiva para sífilis (RPR e treponêmico). A decisão de não realizar punção lombar foi tomada devido ao alto risco de complicações por anticoagulação (necessária para o filtro IVC e EP) e à preferência do representante legal (marido) de evitar procedimentos invasivos, baseando-se na vontade presumida da paciente. O tratamento foi iniciado empiricamente com Penicilina G para neurosífilis. A dor no braço direito foi investigada com ultrassom e radiografias, descartando DVT e fratura aguda, mas confirmando osteoartrite degenerativa avançada. O quadro de embolia pulmonar é crônico, com filtro IVC em posição e anticoagulação mantida. A evolução hospitalar foi estável, com tratamento antibiótico iniciado e alta programada para continuidade em regime de terapia antibiótica ambulatorial (OPAT). Diagnósticos principais: Sífilis Tardia, Sífilis Neurogênica Suspeita, Dor no Braço Direito (osteoartrite), Embolia Pulmonar Bilateral Crônica, Demência Avançada.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: 1. Multivitamínicos 1 comprimido por via oral diariamente. 2. Penicilina G Potássica 3 milhões de unidades IV a cada 4 horas (via PICC) por 14 dias para tratamento de neurosífilis. 3. Acetaminofeno 650 mg por via oral a cada 6 horas conforme necessário para dor leve. 4. Docusato de Sódio 100 mg por via oral 2 vezes ao dia para constipação. 5. Gabapentina 100 mg por via oral 2 vezes ao dia. 6. Galantamina 24 mg por via oral pela manhã. 7. Memantina 10 mg por via oral 2 vezes ao dia. 8. Rivaroxabana 20 mg por via oral diariamente. 9. Senna 17.2 mg por via oral antes de dormir conforme necessário para constipação. 10. Creme de Sulfadiazina de Prata 1% aplicação tópica diária. Plano de Tratamento Adicional: Após o curso de 14 dias de Penicilina G IV, a paciente receberá duas doses de Penicilina G Benzatina 2,4 milhões de unidades IM, administradas semanalmente, para completar o tratamento da sífilis tardia, a ser gerenciado pela Infectologia como paciente ambulatorial. Encaminhamentos e Seguimento: Acompanhamento com Infectologia para gestão do tratamento ambulatorial e retirada do PICC após conclusão da penicilina. Considerar testes adicionais para ISTs (HIV, Gonorreia/Clamídia) como paciente ambulatorial. O marido deve ser testado para sífilis. Continuar avaliações de fonoaudiologia e deglutição na unidade de reabilitação. Retorno programado para clínica de Infectologia. Orientações ao Paciente/Família: A paciente será transferida para uma unidade de cuidados estendidos/reabilitação. A família deve seguir as instruções da equipe de Infectologia para as doses IM subsequentes. Código: DNR/DNI (confirmado com MOLST), permitido ventilação não invasiva. Contato: ___ ___.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '23481209';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

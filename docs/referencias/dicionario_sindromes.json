@@ -1,0 +1,115 @@
+{
+    "projeto": "IANÃ - Inteligência Amazônica de Narrativas e Análise",
+    "versao": "1.0",
+    "sindromes": {
+        "sindrome_febril_aguda": {
+            "doencas_alvo": [
+                "Dengue",
+                "Zika",
+                "Chikungunya",
+                "Oropouche",
+                "Malária"
+            ],
+            "sintomas": {
+                "febre": {
+                    "pt_br": [
+                        "febre",
+                        "estado febril",
+                        "calafrios",
+                        "hipertermia"
+                    ],
+                    "en_us": [
+                        "fever",
+                        "febrile",
+                        "elevated temperature",
+                        "chills",
+                        "rigor"
+                    ]
+                },
+                "cefaleia": {
+                    "pt_br": [
+                        "dor de cabeça",
+                        "cefaleia"
+                    ],
+                    "en_us": [
+                        "headache",
+                        "frontal headache"
+                    ]
+                },
+                "mialgia": {
+                    "pt_br": [
+                        "mialgia",
+                        "dor muscular",
+                        "dor no corpo"
+                    ],
+                    "en_us": [
+                        "myalgia",
+                        "muscle pain",
+                        "body aches"
+                    ]
+                },
+                "artralgia": {
+                    "pt_br": [
+                        "artralgia",
+                        "dor nas articulações",
+                        "dor articular"
+                    ],
+                    "en_us": [
+                        "arthralgia",
+                        "joint pain"
+                    ]
+                },
+                "manchas": {
+                    "pt_br": [
+                        "manchas",
+                        "eritema",
+                        "exantema",
+                        "rash cutâneo"
+                    ],
+                    "en_us": [
+                        "rash",
+                        "erythema",
+                        "exanthem",
+                        "maculopapular"
+                    ]
+                },
+                "dor_retro_orbital": {
+                    "pt_br": [
+                        "dor retro-orbital",
+                        "dor atrás dos olhos"
+                    ],
+                    "en_us": [
+                        "retro-orbital pain",
+                        "eye pain"
+                    ]
+                },
+                "fadiga": {
+                    "pt_br": [
+                        "fadiga",
+                        "astenia",
+                        "mal-estar",
+                        "prostração"
+                    ],
+                    "en_us": [
+                        "fatigue",
+                        "malaise",
+                        "lethargy"
+                    ]
+                },
+                "nausea": {
+                    "pt_br": [
+                        "náusea",
+                        "enjoo",
+                        "vômito",
+                        "êmese"
+                    ],
+                    "en_us": [
+                        "nausea",
+                        "vomiting",
+                        "emesis"
+                    ]
+                }
+            }
+        }
+    }
+}

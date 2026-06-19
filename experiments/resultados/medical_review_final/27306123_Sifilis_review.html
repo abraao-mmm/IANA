@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 27306123 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 27306123</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 27306123 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong> 0940 &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 37
+</div>
+
+<div class="alert-pathological">
+    <strong>⚠️ Caso patológico:</strong> esta nota foi incluída intencionalmente
+    como caso de erro de codificação CID — o resumo de alta original NÃO menciona
+    sífilis, apesar do CID indicar neurossífilis. O pipeline deve retornar listas
+    vazias ou apenas as condições reais do paciente. Por favor, valide se houve
+    extração correta ou alucinação.
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: SURGERY
+ 
+Allergies: 
+Patient recorded as having No Known Allergies to Drugs
+ 
+Attending: ___.
+ 
+Chief Complaint:
+LLE Charcot Foot
+
+ 
+Major Surgical or Invasive Procedure:
+Below the knee amputation
+
+ 
+History of Present Illness:
+___ nondiabetic male with bilateral Charcot foot and left foot 
+ulcer who presents for a L BKA.  He has had idiopathic 
+peripheral neuropathy since ___ which began after he tripped 
+and fell. Since then he has had numerous negative workups 
+regarding the etiology of his neuropathy.  He is currently being 
+followed by Pain Management and Neurology for treatment and 
+workup of his neuropathy.  Furthermore, he has had numerous 
+failed attempts at reconstruction.  He is being followed by Dr. 
+___ surgeon at ___, and by Dr. ___ 
+___ Surgeon.  He is being admitted preoperatively 
+for his BKA to receive IV Ketamine by Anesthesiology. He denies 
+recent F/C/N/V/CP/SOB. He has been ambulating, but in a limited 
+fashion. He denies drainage or erythema surrounding his ulcer 
+and states that it has been dry for some time. 
+
+ 
+Past Medical History:
+PMH: Charcot, degenerative disease of the foot, ankle, central 
+cord syrinx, polyneuropathy.  He also received left foot fusion 
+and the two other operations of the left foot and ankle and a 
+right foot surgery. 
+
+PSH: Fat pad biopsy (Amyloidosis ruled out), left foot fusion in 
+___, exostectomy of the left foot in ___, another exostectomy 
+in ___ and a more recent exostectomy in later ___.
+
+ 
+Social History:
+___
+Family History:
+FamHx:  His mother who is ___ has moderate Alzheimer&#x27;s disease. 
+Father died at ___ of stroke.  Two sisters and a brother in good 
+health without any neurological problems. Father&#x27;s side of the 
+family history is really not very well known.
+
+ 
+Physical Exam:
+PE: AF AVSS
+NAD. A&amp;Ox3. 
+Anicteric. MMM.
+No carotid bruits. 
+RRR. No m/g/r.
+CTAB.
+Soft. NT. ND. +BS. No palpable masses. 
+Warm and well perfused. No peripheral edema. Deformed B feet c/w
+Charcot&#x27;s. 2x2cm dry eschar/ulcer on the plantar surface on the
+forefoot without surrounding erythema or drainage. 
+  car  rad  fem  pop  DP  ___
+R  2+  2+   2+   2+   2+  2+
+L  2+  2+   2+   2+   2+  2+
+Sensation and motor grossly intact.   
+
+ 
+Pertinent Results:
+PA AND LATERAL CHEST RADIOGRAPHS: The heart size is normal. 
+Mediastinal and hilar contours are unremarkable. The lungs are 
+clear. There is no pleural effusion and no pneumothorax. Osseous 
+structures are unremarkable.
+
+IMPRESSION: No acute cardiopulmonary process.
+
+ 
+Brief Hospital Course:
+The patient was admitted to Vascular surgery preoperatively for 
+IV ketamine via anesthesiology.  The patient was preop&#x27;d and 
+consented and on ___ underwent a Left BKA.  An epidural was 
+placed preoperatively by anesthesiology, and the patient 
+tolerated the procedure well with no complications.  In the 
+PACU, the dressing was reinforced ___ breakthrough bleeding.  On 
+the night of POD 0, the patient&#x27;s dressing was taken down and 2 
+horizontal mattress stitches were placed to close off areas of 
+bleeding.  The patient had no further post operative 
+complications.  Physical therapy and occupational therapy 
+evaluated the patient, and the patient will be discharged to 
+rehab. Acute Pain Service managed his pain control and on POD 
+__one___ the epidural was removed without complication and the 
+patient&#x27;s foley was subsequently removed.
+___ patient&#x27;s pca and ketamin gtt discontinued oxycontin 30 bid 
+and percoset ___ tabs q4-6 hrs prn started.
+___  Upon discharge, the patient is afebrile with all vitals 
+stable, tolerating po feeds, and with pain controlled on po pain 
+medication.
+ 
+Medications on Admission:
+Clonazepam 1mg TID, Methylphenidate 54 mg Daily, Topiramate 
+50-100 mg QHS, Tramadol 50 mg TID PRN, Acetaminophen 500 mg PRN, 
+Multivitamin 1 TAB DAILY (Thera Plus)
+
+ 
+Discharge Medications:
+1. Clonazepam 1 mg Tablet Sig: One (1) Tablet PO TID (3 times a 
+day).  
+2. Topiramate 100 mg Tablet Sig: ___ Tablets PO QHS (once a day 
+(at bedtime)).  
+3. Tramadol 50 mg Tablet Sig: One (1) Tablet PO Q4H (every 4 
+hours) as needed.  
+4. Hexavitamin     Tablet Sig: One (1) Cap PO DAILY (Daily).  
+5. Docusate Sodium 100 mg Capsule Sig: One (1) Capsule PO BID (2 
+times a day).
+Disp:*60 Capsule(s)* Refills:*2*
+6. Oxycodone-Acetaminophen ___ mg Tablet Sig: ___ Tablets PO 
+Q6H (every 6 hours) as needed for pain.  
+7. OxyContin 30 mg Tablet Sustained Release 12 hr Sig: One (1) 
+Tablet Sustained Release 12 hr PO twice a day.  
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Left charcot foot
+histroy of idiopathic perpheral neuropathy with chronic pain
+
+ 
+Discharge Condition:
+Stable
+
+ 
+Discharge Instructions:
+This information is designed as a guideline to assist you in a 
+speedy recovery from your surgery. Please follow these 
+guidelines unless your physician has specifically instructed you 
+otherwise. Please call our office nurse if you have any 
+questions. Dial 911 if you have any medical emergency.
+.
+ACTIVITY: 
+There are restrictions on activity. On the side of your below 
+the knee amputation you are non weight bearing for ___ weeks. 
+You should keep this amputation site elevated when ever 
+possible. No stump shrinkers
+
+No driving until cleared by your Surgeon.
+.
+PLEASE CALL US IMMEDIATELY FOR ANY OF THE FOLLOWING PROBLEMS:
+
+Redness in or drainage from your leg wound(s).
+New pain, numbness or discoloration of your foot or toes.
+Watch for signs and symptoms of infection. These are: a fever 
+greater than 101 degrees, chills, increased redness, or pus 
+draining from the incision site. If you experience any of these 
+or bleeding at the incision site, CALL THE DOCTOR. 
+
+Exercise:
+No strenuous activity for 6 weeks. 
+Do not drive a car unless cleared by your Surgeon. 
+No heavy lifting greater than 20 pounds for the next ___ days. 
+Try to keep leg elevated when able.
+
+BATHING/SHOWERING: 
+You may shower immediately upon coming home. No bathing. A 
+dressing may cover youre amputation site and this should be 
+left in place for three (3) days. Remove it after this time and 
+wash your incision(s) gently with soap and water. You will have 
+sutures, which are usually removed in 4 weeks. This will be done 
+by the Surgeon on your follow-up appointment.
+
+WOUND CARE:
+Sutures / Staples may be removed before discharge. If they are 
+not, an appointment will be made for you to return for staple 
+removal. 
+
+When the sutures are removed the doctor may or may not place 
+pieces of tape called steri-strips over the incision. These will 
+stay on about a week and you may shower with them on. If these 
+do not fall off after 10 days, you may peel them off with warm 
+water and soap in the shower.
+
+Avoid taking a tub bath, swimming, or soaking in a hot tub for 
+four weeks after surgery. 
+Skin clips on amputation stump remain in place until seen in 
+followup with ___
+
+___: 
+Unless told otherwise you should resume taking all of the 
+medications you were taking before surgery. You will be given a 
+new prescription for pain medication, which can be taken every 
+three (3) to four (4) hours only if necessary. 
+
+Remember that narcotic pain meds can be constipating and you 
+should increase the fluid and bulk foods in your diet. (Check 
+with your physician if you have fluid restrictions.) If you feel 
+that you are constipated, do not strain at the toilet. You may 
+use over the counter Metamucil or Milk of Magnesia. Appetite 
+suppression may occur; this will improve with time. Eat small 
+balanced meals throughout the day.
+
+CAUTIONS:
+
+NO SMOKING! We know you&#x27;ve heard this before, but it really is 
+an important step to your recovery. Smoking causes narrowing of 
+your blood vessels which in turn decreases circulation. If you 
+smoke you will need to stop as soon as possible. Ask your nurse 
+or doctor for information on smoking cessation.
+
+Avoid pressure to your amputation site.
+
+No strenuous activity for 6 weeks after surgery. 
+
+DIET:
+
+There are no special restrictions on your diet postoperatively. 
+Poor appetite is expected for several weeks and small, frequent 
+meals may be preferred. 
+
+FOLLOW-UP APPOINTMENT: 
+Be sure to keep your medical appointments. The key to your 
+improving health will be to keep a tight reign on any of the 
+chronic medical conditions that you have. Things like high blood 
+pressure, diabetes, and high cholesterol are major villains to 
+the blood vessels. Don&#x27;t let them go untreated! 
+
+Please call the office on the first working day after your 
+discharge from the hospital to schedule a follow-up visit. This 
+should be scheduled on the calendar for seven to fourteen days 
+after discharge. Normal office hours are ___ 
+through ___.
+
+PLEASE FEEL FREE TO CALL THE OFFICE WITH ANY OTHER CONCERNS OR 
+QUESTIONS THAT MIGHT ARISE
+
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(7)</span></h3>
+  <ul>
+    <li>Pé de Charcot</li>
+    <li>Neuropatia periférica idiopática</li>
+    <li>Doença degenerativa do pé e tornozelo</li>
+    <li>Siringomielia da medula espinhal central</li>
+    <li>Polineuropatia</li>
+    <li>Alzheimer</li>
+    <li>Acidente vascular cerebral (AVC)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(7)</span></h3>
+  <ul>
+    <li>Dor crônica</li>
+    <li>Deformidade bilateral dos pés</li>
+    <li>Úlcera no pé esquerdo</li>
+    <li>Escarro seco de 2x2 cm na superfície plantar do antepé</li>
+    <li>Ausência de eritema ao redor da úlcera</li>
+    <li>Ausência de drenagem ao redor da úlcera</li>
+    <li>Pulsações arteriais 2+ (carótida, radial, femoral, poplítea, dorsal do pé, tibial posterior)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Clonazepam</li>
+    <li>Metilfenidato</li>
+    <li>Topiramato</li>
+    <li>Tramadol</li>
+    <li>Paracetamol</li>
+    <li>Multivitamínico</li>
+    <li>Docusato de Sódio</li>
+    <li>Oxicodona-Acetaminofeno</li>
+    <li>Oxicodona de liberação prolongada (OxyContin)</li>
+    <li>Ketamina</li>
+    <li>Hexavitamínico</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(2)</span></h3>
+  <ul>
+    <li>Radiografia de tórax: coração de tamanho normal, contornos mediastinais e hilares sem alterações, pulmões claros, sem derrame pleural, sem pneumotórax, estruturas ósseas sem alterações</li>
+    <li>Impressão: Sem processo cardiopulmonar agudo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(10)</span></h3>
+  <ul>
+    <li>Amputação abaixo do joelho (BKA)</li>
+    <li>Biópsia de almofada de gordura</li>
+    <li>Fusão do pé esquerdo</li>
+    <li>Exostectomia do pé esquerdo</li>
+    <li>Colocação de cateter epidural</li>
+    <li>Radiografia de tórax (PA e perfil)</li>
+    <li>Remoção de cateter epidural</li>
+    <li>Remoção de sonda vesical (Foley)</li>
+    <li>Avaliação de fisioterapia</li>
+    <li>Avaliação de terapia ocupacional</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, não diabético, com queixa principal de pé de Charcot no membro inferior esquerdo (MIE). História da Doença Atual: Paciente apresenta neuropatia periférica idiopática desde data não especificada, iniciada após queda e trauma. Desde então, realizou inúmeros exames para investigação da etiologia da neuropatia, todos negativos. É acompanhado por equipe de Manejo da Dor e Neurologia. Apresenta histórico de múltiplas tentativas falhas de reconstrução cirúrgica. Foi admitido no período pré-operatório para amputação abaixo do joelho (ABJ) esquerda, com o objetivo de receber infusão intravenosa de cetamina pela Anestesiologia. Nega febre, calafrios, náuseas, vômitos, dor torácica ou dispneia. Relata que, embora tenha sido ambulatorial, a mobilidade era limitada. Nega drenagem ou eritema ao redor da úlcera plantar, afirmando que a lesão está seca há algum tempo. Revisão de Sistemas: Nega sintomas sistêmicos agudos (febre, calafrios, náuseas, vômitos, dor torácica, dispneia). Histórico Médico Pregresso: Pé de Charcot, doença degenerativa do pé e tornozelo, siringomielia da medula central, polineuropatia. Histórico Cirúrgico Pregresso: Biópsia de almofada gordurosa (amiloidose descartada), fusão do pé esquerdo, duas exostectomias do pé esquerdo e uma cirurgia no pé direito.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Estáveis (conforme relato de alta, sem valores numéricos específicos no texto para temperatura, PA, FC, FR ou SpO2 no momento do exame físico descrito). Exame Físico: Paciente em bom estado geral, alerta e orientado x3 (A&amp;Ox3). Anictérico. Mucosas orais hidratadas (MMM). Ausência de sopros carotídeos. Ausculta cardíaca: Ritmo regular, sem sopros, murmúrios ou galopes (RRR, sem m/g/r). Ausculta pulmonar: Campos torácicos claros a ausculta bilateral (CTAB). Abdome: Flácido, indolor à palpação, sem defesa, sem massas palpáveis, com ruídos hidroaéreos presentes (+BS). Extremidades: Bem perfundidas, quentes. Ausência de edema periférico. Deformidade bilateral dos pés compatível com Pé de Charcot. Lesão: Úlcera/escarro seco de 2x2 cm na superfície plantar do antepé esquerdo, sem eritema ou drenagem circundante. Pulsos Arteriais (Carótida, Radial, Femoral, Poplíteo, Dorsal do Pé): 2+ bilateralmente em todos os sítios avaliados. Sensação e força motora: Grossamente intactas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Nenhum resultado laboratorial individual (hemograma, bioquímica, sorologias, culturas, gasometria arterial ou urinálise) foi relatado no texto fornecido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Radiografia de Tórax (PA e Lateral): Tamanho cardíaco normal. Contornos mediastinais e hilares sem alterações. Pulmões limpos. Ausência de derrame pleural e pneumotórax. Estruturas ósseas sem alterações. Impressão: Sem processo cardiopulmonar agudo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de neuropatia periférica idiopática e Pé de Charcot bilateral, submetido a amputação abaixo do joelho (ABJ) esquerda devido a úlcera plantar refratária e falha de múltiplas tentativas de reconstrução. O paciente foi admitido para procedimento cirúrgico eletivo com suporte de infusão de cetamina para controle da dor neuropática. O curso hospitalar foi tranquilo: realizou-se a ABJ esquerda com anestesia peridural, tolerada bem pelo paciente. No pós-operatório imediato (PO 0), houve sangramento leve no curativo, corrigido com pontos de colchão horizontal, sem novas complicações. A equipe de Dor Aguda gerenciou o controle da dor, com remoção da peridural no PO 1 sem intercorrências. O paciente evoluiu afebril, com sinais vitais estáveis, tolerando dieta oral e com dor controlada por medicação oral. Diagnóstico Principal: Pé de Charcot no membro inferior esquerdo. Diagnósticos Diferenciais/Condições Associadas: História de polineuropatia periférica idiopática com dor crônica. Equipes Consultadas: Anestesiologia (infusão de cetamina e peridural), Dor Aguda, Fisioterapia e Terapia Ocupacional (avaliados e liberados para reabilitação). Conclusão: Paciente evoluiu bem para alta em estado estável, com indicação de transferência para cuidado estendido (reabilitação).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: 1. Clonazepam 1 mg, 1 comprimido por via oral 3 vezes ao dia (TID). 2. Topiramato 100 mg, 1 comprimido por via oral à noite (QHS). 3. Tramadol 50 mg, 1 comprimido por via oral a cada 4 horas conforme necessidade (Q4H PRN). 4. Hexavitamínico, 1 cápsula por via oral diariamente. 5. Docusato de Sódio 100 mg, 1 cápsula por via oral 2 vezes ao dia (BID). 6. Oxicodona-Acetaminofeno (dose específica não detalhada no texto, apenas &#x27;___ mg&#x27;), 1 comprimido por via oral a cada 6 horas conforme necessidade para dor (Q6H PRN). 7. OxyContin 30 mg (liberação sustentada 12h), 1 comprimido por via oral 2 vezes ao dia. Orientações ao Paciente: Restrição de carga no membro amputado (não-carga) por ___ semanas. Manter o coto elevado sempre que possível. Não utilizar compressores de coto. Não dirigir até liberação do cirurgião. Evitar atividades extenuantes por 6 semanas. Não levantar peso superior a 20 libras por ___ dias. Higiene: Pode tomar banho de chuveiro imediatamente ao chegar em casa; banhos de imersão proibidos por 4 semanas. Curativo deve permanecer por 3 dias, depois lavar a incisão suavemente com água e sabão. Fios de sutura/clips geralmente removidos em 4 semanas (ou conforme agendamento). Sinais de Alerta: Procurar atendimento imediato para febre &gt; 38,3°C (101°F), calafrios, aumento de eritema, drenagem purulenta, sangramento no local da incisão, nova dor, dormência ou descoloração no pé/toes. Dieta: Sem restrições especiais, preferir pequenas refeições frequentes devido à possível anorexia pós-operatória. Aumentar ingestão de líquidos e fibras para prevenir constipação (uso de Metamucil ou Leite de Magnésia se necessário). Cessação do tabagismo é mandatória. Encaminhamentos: Transferência para instituição de cuidado estendido (reabilitação). Retorno programado para consulta com o cirurgião em 7 a 14 dias após a alta para remoção de pontos/clips e avaliação. Contato com a enfermeira da clínica para dúvidas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '27306123';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

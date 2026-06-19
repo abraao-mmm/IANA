@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 23349971 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 23349971</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 23349971 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Tuberculose<br>
+    <strong>Entidades extraídas:</strong> 54 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___               Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Patient recorded as having No Known Allergies to Drugs
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Fever
+ 
+Major Surgical or Invasive Procedure:
+___ guided biopsy of T11 fracture site.
+
+ 
+History of Present Illness:
+___ year old, originally from ___, who initially presented with 
+mid back pain approximately 2 months ago. The pain was present 
+upon awakening one day without any prior trauma. The pain would 
+radiate to left and right side, was intermittent but progressive 
+until 2 weeks ago when the severity was so great he could not 
+ambulate. The patient also reports night sweats and intermittent 
+fever up to 101 over past four weeks. He also estimates a 10 lb 
+weight loss over the past month which he attributes to poor 
+appetite. He recalls a trauma when falling from his bike 4 
+months ago but did not at that time sustain injury. 
+
+ 
+Past Medical History:
+PMHx: none
+
+ 
+Social History:
+___
+Family History:
+Family Hx: no history of heart disease, no history of cancers
+
+ 
+Physical Exam:
+VS T 102.3 BP 112/72 HR 110 RR 18 O2Sat 97RA
+Gen: NAD, AAOx3
+HEENT: NC/AT, PERRLA, EOMI, mmm
+NECK: no LAD
+COR: S1S2, regular rhythm, tachycardic, no m/r/g  
+PULM: CTA b/l, no wheezing or rhonchi anteriorly
+ABD: + bowel sounds, soft, nd, nt 
+BACK: tenderness on palpation of the T10-12 area. Dressing 
+intact, mild bleeding 
+Skin: warm extremities, no rash
+EXT: 2+ DP, no edema/c/c, no CVA tenderness
+Neuro: moving all extremities, ___ strength, CN ___ intact, 
+reflexes 2+ b/l, babinsky downgoing  
+
+ 
+Pertinent Results:
+___ 11:50AM   ___ PTT-33.5 ___
+___ 07:18PM URINE  BLOOD-NEG NITRITE-NEG PROTEIN-NEG 
+GLUCOSE-NEG KETONE-NEG BILIRUBIN-NEG UROBILNGN-NEG PH-5.0 
+LEUK-NEG
+___ 07:18PM URINE  COLOR-Straw APPEAR-Clear SP ___
+___ 07:27PM   PLT COUNT-467*
+___ 07:27PM   NEUTS-78.7* LYMPHS-15.6* MONOS-4.7 EOS-0.7 
+BASOS-0.3
+___ 07:27PM   WBC-9.4 RBC-3.54* HGB-9.5* HCT-28.4* MCV-80* 
+MCH-26.8* MCHC-33.4 RDW-13.3
+___ 07:27PM   estGFR-Using this
+___ 07:27PM   GLUCOSE-110* UREA N-6 CREAT-0.6 SODIUM-134 
+POTASSIUM-3.9 CHLORIDE-101 TOTAL CO2-25 ANION GAP-12
+___ 07:37PM   LACTATE-1.___dmitted and placed on Vancomycin emperically.  All cultures 
+remained negative for 72 hours.  He persisted in having fevers, 
+as he had for the preceeding months.  As he was clinically 
+unchanged than he had been for months, and cx. were unrevealing, 
+and he was clinically stable, he was discharged back to home 
+with follow up in the ___ clinic arranged for three days from 
+discharge.
+ 
+Medications on Admission:
+Percocet
+ 
+Discharge Medications:
+1. Percocet ___ mg Tablet Sig: ___ Tablets PO every ___ hours 
+as needed for pain.
+Disp:*30 Tablet(s)* Refills:*0*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+T 11 compression fracture concerning for Pott&#x27;s Disease
+ 
+Discharge Condition:
+Stable.  Fevers to 102, consistent with known febrile process of 
+the past two months.  No new culture data, blood cultures 
+negative for 72 hours, nothing grown on T11 biopsy, no AFB on 
+smears.  Hepatitis serologies sent and pending. 
+
+ 
+Discharge Instructions:
+Take all medications as prescribed. 
+
+Return to the ___ Emergency department for;
+
+High fevers (higher than you have been experiencing for the past 
+two months) associated with increased malaise;
+
+back pain that is dramatically worse
+
+Any other acute concerns. 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(2)</span></h3>
+  <ul>
+    <li>Fratura de compressão de T11</li>
+    <li>Doença de Pott</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Dor lombar</li>
+    <li>Sudorese noturna</li>
+    <li>Perda de peso</li>
+    <li>Anorexia</li>
+    <li>Taquicardia</li>
+    <li>sensibilidade à palpação à palpação na região T10-12</li>
+    <li>Sangramento leve no curativo</li>
+    <li>Extremidades quentes</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(2)</span></h3>
+  <ul>
+    <li>Percocet</li>
+    <li>Vancomicina</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(37)</span></h3>
+  <ul>
+    <li>PTT-33.5</li>
+    <li>Urina - Sangue-Negativo</li>
+    <li>Urina - Nitrito-Negativo</li>
+    <li>Urina - Proteína-Negativo</li>
+    <li>Urina - Glicose-Negativo</li>
+    <li>Urina - Cetonas-Negativo</li>
+    <li>Urina - Bilirrubina-Negativo</li>
+    <li>Urina - Urobilinogênio-Negativo</li>
+    <li>Urina - pH-5.0</li>
+    <li>Urina - Leucócitos-Negativo</li>
+    <li>Plaquetas-467</li>
+    <li>Neutrófilos-78.7%</li>
+    <li>Linfócitos-15.6%</li>
+    <li>Monócitos-4.7%</li>
+    <li>Eosinófilos-0.7%</li>
+    <li>Basófilos-0.3%</li>
+    <li>Leucócitos (WBC)-9.4</li>
+    <li>Hemácias (RBC)-3.54</li>
+    <li>Hemoglobina (HGB)-9.5</li>
+    <li>Hematócrito (HCT)-28.4</li>
+    <li>VCM-80</li>
+    <li>HCM-26.8</li>
+    <li>HCMC-33.4</li>
+    <li>RDW-13.3</li>
+    <li>Glicose-110</li>
+    <li>Ureia-6</li>
+    <li>Creatinina-0.6</li>
+    <li>Sódio-134</li>
+    <li>Potássio-3.9</li>
+    <li>Cloreto-101</li>
+    <li>CO2 Total-25</li>
+    <li>Gap de Ânion-12</li>
+    <li>Lactato-1.1</li>
+    <li>Culturas de sangue-Negativo (72 horas)</li>
+    <li>Biopsia de T11-Negativo (sem crescimento)</li>
+    <li>Esfregaços para AFB-Negativo</li>
+    <li>Sorologias para Hepatite-Pendente</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(4)</span></h3>
+  <ul>
+    <li>Biópsia guiada do local da fratura de T11</li>
+    <li>Culturas de sangue</li>
+    <li>Esfregaços para bacilos álcool-ácido resistentes (AFB)</li>
+    <li>Sorologias para Hepatite</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino relata queixa principal de febre. História da doença atual: Paciente refere início de dor na região média das costas há aproximadamente 2 meses, surgida ao acordar sem trauma prévio imediato. A dor irradiava para os lados esquerdo e direito, sendo intermitente, mas progressiva. Há 2 semanas, a intensidade da dor aumentou a ponto de impedir a deambulação. Relata também sudorese noturna e febre intermitente (chegando a 38,3°C/101°F) nas últimas 4 semanas. Estima perda de peso de 4,5 kg (10 libras) no último mês, atribuída à perda de apetite. Refere histórico de queda de bicicleta há 4 meses, mas nega lesão naquele momento. Nega outras queixas sistêmicas específicas além das relatadas. Histórico médico pregresso: Nega doenças prévias. Nega alergias a medicamentos. Histórico familiar: Nega histórico de doenças cardíacas ou neoplasias na família.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 39,0°C (102,3°F), PA 112/72 mmHg, FC 110 bpm, FR 18 irpm, SpO2 97% em ar ambiente. Exame Físico: Geral: Paciente alerta e orientado x3, sem aspecto de doença aguda. Cabeça, Olhos, Ouvidos, Nariz e Garganta: Normocéfalo, atrófico, pupilas isocóricas e fotorreagentes, movimentos oculares intactos, mucosas úmidas. Pescoço: Sem linfadenopatia. Cardiovascular: Bulhas cardíacas S1 e S2 normofonéticas, ritmo regular, taquicárdico, sem sopros, atritos ou galopos. Pulmões: Murmúrio vesicular presente bilateralmente, sem sibilos ou roncos na ausculta anterior. Abdome: RHA presentes, flácido, não doloroso à palpação, sem massas. Dorso: Dor à palpação na região T10-T12. Curativo intacto com leve sangramento. Pele: Extremidades quentes, sem rash cutâneo. Extremidades: Pulso dorsal pedioso 2+, sem edema, sem cianose ou cianose, sem dor à percussão costovertebral. Neurológico: Movimentação de todos os membros, força preservada, nervos cranianos íntegros, reflexos 2+ bilateralmente, sinal de Babinsky negativo.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo: Leucócitos (WBC) 9.400/mm³, Hemácias (RBC) 3,54 milhões/mm³, Hemoglobina (HGB) 9,5 g/dL, Hematócrito (HCT) 28,4%, Plaquetas (PLT) 467.000/mm³. Diferencial Leucocitário: Neutrófilos 78,7%, Linfócitos 15,6%, Monócitos 4,7%, Eosinófilos 0,7%, Basófilos 0,3%. Índices Hematimétricos: VCM 80 fL, HCM 26,8 pg, CHCM 33,4 g/dL, RDW 13,3%. Bioquímica Sanguínea: Glicose 110 mg/dL, Ureia 6 mg/dL, Creatinina 0,6 mg/dL, Sódio 134 mEq/L, Potássio 3,9 mEq/L, Cloreto 101 mEq/L, CO2 Total 25 mEq/L, Gap Aniônico 12. Lactato: 1,___ mg/dL. Coagulação: PTT 33,5 segundos. Urinálise: Cor palha, aspecto claro, pH 5,0. Negativo para sangue, nitrito, proteína, glicose, cetonas, bilirrubina, urobilinogênio e leucócitos.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Biópsia guiada do local da fratura em T11: Sem crescimento de microrganismos no cultivo. Esfregaços para bacilos álcool-ácido resistentes (BAAR/AFB) negativos. Nota: O texto menciona fratura de compressão em T11, mas não descreve achados detalhados de radiografia ou tomografia além da confirmação da fratura e do procedimento de biópsia.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com quadro clínico de febre prolongada, sudorese noturna, perda de peso e dor lombar progressiva com fratura de compressão em T11. O quadro é altamente sugestivo de espondilodiscite infecciosa, especificamente Doença de Pott (tuberculose espinhal), dada a apresentação clínica clássica (febre, sudorese, perda de peso) e a localização da lesão. O paciente foi internado e iniciou tratamento empírico com Vancomicina. Culturas de sangue permaneceram negativas por 72 horas. A biópsia da lesão em T11 não apresentou crescimento bacteriano e os esfregaços para BAAR foram negativos até o momento. Sorologias para hepatite foram solicitadas e estão pendentes. O paciente permanece clinicamente estável, embora com febre persistente compatível com o processo febril de 2 meses de evolução. Diante da estabilidade clínica e da ausência de novos dados microbiológicos, optou-se pela alta hospitalar com seguimento ambulatorial próximo.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Medicamentos na alta: Percocet (Oxicodona/Acetaminofeno) 1 comprimido por via oral a cada ___ horas conforme necessário para dor. Dispensado: 30 comprimidos. Sem renovações. 2. Orientações ao paciente: Tomar todos os medicamentos conforme prescrito. Retornar ao Pronto Socorro em caso de febre alta (superior à experimentada nos últimos 2 meses) associada a mal-estar aumentado, dor nas costas dramaticamente piorada ou qualquer outra preocupação aguda. 3. Encaminhamentos: Retorno agendado para a clínica de ___ em 3 dias após a alta. 4. Exames de seguimento: Aguardar resultados das sorologias para hepatite. Monitorar evolução clínica e dor lombar.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

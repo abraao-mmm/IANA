@@ -1,0 +1,295 @@
+=== DIAGNÓSTICO PRINCIPAL CONFIRMADO ===
+Doença Alvo: HIV
+Código CID (ICD) Faturado: 042
+========================================
+
+ 
+Name:  ___.          Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Patient recorded as having No Known Allergies to Drugs
+ 
+Attending: ___.
+ 
+Chief Complaint:
+shortness of breath
+ 
+Major Surgical or Invasive Procedure:
+none
+ 
+History of Present Illness:
+Mr ___ is a ___ w HTN, HL, GERD, treated gonorrhea/HepB, 
+who now p/w progressively worsening SOB and intermittent chest 
+tightness x 2 mos. Also c/o dry cough, general body pain, neck 
+stiffness. Sxs started ~2 mos ago, when pt admits to having a 
+new male sexual partner. Has been trying to lose weight for BP 
+control. No F/C. No N/V. No CP. No travel. Pt presented w 
+similar complaints to the ___ ED one week prior, thought to 
+have Mycoplasma pneumonia started on azithromycin 5-day course 
+did not get better. On followup in PCP's office, tachycardic, 
+tachypneic, SaO2=81% on RA w exertion, rapid HIV test reportedly 
+positive. Sent back to the ___ ED.  
+.  
+In the ED, initial VS were: T=97.0, BP=128/78, P=82, R=18, O2 
+sat 95% on RA. CXR showed worsening bibasilar opacities, L>R. 
+Patient was given bactrim and levofloxacin. ID aware.  
+.  
+On the floor, pt comfortable. Desats easily into ___. ABG 
+7.49/33/61, started on prednisone 40 BID. D/w ID.  
+.  
+Review of sytems:  
+(+) Per HPI  
+(-) Denies fever, chills, night sweats. Denies headache, sinus 
+tenderness, rhinorrhea or congestion. Denied nausea, vomiting, 
+diarrhea, constipation or abdominal pain. No recent change in 
+bowel or bladder habits. No dysuria. Denied arthralgias or 
+myalgias.  
+ 
+Past Medical History:
+HTN  
+HL
+GERD   
+Gonorrhea ___, successfully treated)  
+Hepatitis B ___, treated per pt) 
+Left malleolar fx (___)  
+
+ 
+Social History:
+___
+Family History:
+Mother died of lung cancer at ___.  
+Father died of colon cancer at ___.  
+Has a sister who does not have health issues.  
+No h/o DM, CAD. 
+ 
+Physical Exam:
+ON ADMISSION:
+VS: 98.9, 138/72, 64, 22, 91% on 3L O2 by NC  
+GEN: well-appearing, anxious young man in NAD  
+HEENT: NC/AT, PERRL, EOMI, anicteric sclera, MMM, no ulcers  
+NECK: supple, no LAD  
+CV: RRR, s1s2, no m/r/g  
+CHEST: mild crackles, exp wheezes in bases, otherwise clear  
+ABD: soft, NT/ND, NABS  
+EXTR: WWP, no edema, good pulses throughout  
+NEURO: AOx3, CNII-XII intact, ___ ___ strength b/l, sensation 
+intact to sharps/light touch, 2+ DTR b/l in 
+biceps/triceps/patella/Achilles, normal gait  
+SKIN: no lesions or rashes  
+.
+ON DISCHARGE:
+clear lungs b/l
+ 
+Pertinent Results:
+***** ON ADMISSION: *****
+.
+HEMATOLOGY:
+___ 04:00PM BLOOD WBC-5.0 RBC-4.26* Hgb-13.9* Hct-37.9* 
+MCV-89 MCH-32.7* MCHC-36.8* RDW-13.3 Plt ___
+___ 04:00PM BLOOD Neuts-74.2* ___ Monos-5.0 Eos-0.4 
+Baso-0.3
+___ 04:00PM BLOOD ___ PTT-28.0 ___
+___ 01:00PM BLOOD Ret Aut-1.8
+.
+CHEMISTRY:
+___ 04:00PM BLOOD Glucose-91 UreaN-18 Creat-1.0 Na-137 
+K-3.8 Cl-99 HCO3-26 AnGap-16
+___ 04:00PM BLOOD ALT-46* AST-65* LD(LDH)-700* AlkPhos-88 
+TotBili-0.5
+___ 07:00AM BLOOD Calcium-9.1 Phos-4.4 Mg-2.2 Cholest-173
+___ 04:00PM BLOOD Albumin-4.0 Iron-30*
+.
+.
+***** HOSPITAL COURSE: *****
+.
+HIV WORKUP:
+.
+___ 01:00PM BLOOD  
+WBC-5.6 Lymph-26 
+Abs ___ 
+CD3%-86 Abs CD3-1251 
+CD4%-8 Abs CD4-113* 
+CD8%-77 Abs CD8-1115* 
+CD4/CD8-0.10*
+Viral Load 113K
+.
+___ 07:00AM BLOOD HIV Ab-POSITIVE
+HIV-1 AB, WESTERN BLOT        POSITIVE  A
+.
+___ 06:20AM BLOOD HBsAg-NEGATIVE HBsAb-POSITIVE 
+HBcAb-POSITIVE HAV Ab-POSITIVE
+___ 07:00AM BLOOD HBsAg-NEGATIVE HBsAb-POSITIVE 
+HBcAb-POSITIVE HAV Ab-POSITIVE
+___ 07:00AM BLOOD HCV Ab-NEGATIVE
+___ 06:20AM BLOOD HCV Ab-NEGATIVE
+B-glucan - POSITIVE
+.
+.
+___ 06:20AM BLOOD LD(LDH)-587*
+___ 06:25AM BLOOD LD(LDH)-559*
+.
+___ 04:00PM BLOOD calTIBC-306 Ferritn-1324* TRF-235
+___ 07:00AM BLOOD Triglyc-72 HDL-32 CHOL/HD-5.4 LDLcalc-127 
+LDLmeas-123
+.
+URINE:
+___ 04:51AM URINE bnzodzp-NEG barbitr-NEG opiates-NEG 
+cocaine-NEG amphetm-NEG mthdone-NEG
+___ 01:02PM URINE Hours-RANDOM UreaN-1011 Creat-66 Na-43 
+K-16 HCO3-LESS THAN 
+___ 01:02PM URINE Osmolal-529
+___ 04:00PM URINE Blood-NEG Nitrite-NEG Protein-NEG 
+Glucose-NEG Ketone-NEG Bilirub-NEG Urobiln-NEG pH-5.0 Leuks-NEG
+.
+MICROBIOLOGY:
+Respiratory Viral Culture - NEGATIVE for influenza A&B, 
+adenovirus, parainfluenza-virus ___, and RSV
+.
+Bronchialveolar lavage:
+Immunoflourescent test for Pneumocystis jirovecii (carinii) 
+(Final
+      ___: 
+      POSITIVE FOR PNEUMOCYSTIS JIROVECII (CARINII). 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+   VIRAL CULTURE: R/O CYTOMEGALOVIRUS (Final ___: 
+      HERPES SIMPLEX VIRUS TYPE 1. 
+         CONFIRMED BY MONOCLONAL FLUORESCENT ANTIBODY.. 
+.
+RPR - NEGATIVE
+Neisseria gonorrhoeae/Chlamydia trachomatis - NEGATIVE
+Blood cultures - NEGATIVE
+.
+RADIOLOGY:
+CXR (___):
+IMPRESSION: Interval worsening of bibasilar opacities, left 
+greater than 
+right, concerning for worsening pneumonia. 
+.  
+CXR (___):
+IMPRESSION: Mild increase in confluence of the right upper lobe 
+opacity.  
+Otherwise, no significant change. 
+  
+
+ 
+Brief Hospital Course:
+In short, Mr ___ is a ___ w HTN, HL, GERD, treated 
+gonorrhea/HepB, who presented w progressively worsening SOB and 
+intermittent chest tightness x 2 mos, was found to have AIDS and 
+Pneumocystis jirovecii pneumonia.
+. 
+# HIV/AIDS: Pt has multiple risk factors for HIV - man who had 
+sex with man, multiple sexual partners, unsafe sexual practices. 
+___ HIV-1 Ab screen positive, confirmed with Western Blot. CD4 
+count = 113. Viral Load 113K. HIV Genotype pending. Given 
+confirmed PCP on BAL, pt has full-blown AIDS. Started on HAART 
+on ___ - truvada 1 tab daily, ritonavir 100mg BID, 
+darunavir 600mg BID per Dr ___ in consideration w 
+resistance-patterns in the community, which the pt tolerated 
+very well. Considered discontinuing omeprazole (PPI), given 
+concern for decreased GI absorption of PIs w PPIs, however, 
+since pt has a long h/o symptomatic GERD, he might not be able 
+to tolerate pills. Continued supportive measures and treatment 
+for PCP. Close outpatient followup recommended. Checked for 
+other co-infections (chlamydia, gonorrhea, RPR negative), 
+___ immune, no active infection.
+.
+# SOB: confirmed PCP. Pt presenting w respiratory sxs (dry 
+cough, SOB, DOE, chest tightness, as well as malaise), exam 
+notable for mild basilar crackles/exp wheezes, labs notable for 
+normal WBC count, elevated LDH of 700. Negative CTA for PE on 
+___. CXR w worsening PNA. Etiology considered includes 
+infection - PCP vs CAP ("walking") PNA. Not likely to be 
+cardiac. Started on Bactrim DS 2 tabs TID on ___ for a 
+21-day course for presumed PCP and levofloxacin 750mg daily for 
+other causes of PNA. Once AIDS/PCP confirmed, levofloxacin was 
+discontinued (received 4 doses total). Due to respiratory 
+distress ABG was checked (7.49/33/61). Given hypoxemia and 
+increased A-a gradient (47mmHg > 35), pt was started on 
+prednisone 40mg BID on ___. To confirm PCP, sputum induction was 
+attempted at first, but after 3 unsuccessful attempts a BAL had 
+to be performed. The lavaged fluid was positive for Pneumocystis 
+jirovecii. The prednisone was continued at BID dosing for 8 days 
+given pts increased oxygen requirement (up to 50% O2 by ___ 
+mask). Respiration improved and on discharge pt is >90% on RA at 
+rest, but desats to high-80s w walking. Discharged on bactrim, 
+prednisone and home O2.
+.  
+# Anemia: Likely Anemia of Chronic Inflammation vs 
+myelosuppression from HIV. Hct ___ on admission, nl MCV, 
+reticulocyte index < 2. Low serum iron, low TIBC, increased 
+ferritin.
+.  
+# HTN: Pt normotensive on home regimen, continue HCTZ and 
+valsartan.  
+.  
+# HL: Lipid panel checked, outpatient followup recommended given 
+increased risk for metabolic syndrome/dyslipidemia w HIV on 
+HAART.  
+.  
+# Contact: ___ (sister) ___ *** Pt prefers that NO 
+ONE IS CONTACTED without permission ***  
+
+ 
+Medications on Admission:
+valsartan 160mg daily
+HCTZ 25mg daily
+omeprazole 20mg daily 
+MVI 1 tab daily  
+FishOil 1000mg daily
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+acquired immuno-deficiency syndrome
+pneumocystis jiroveci pneumonia
+.
+hypertension
+hyperlipidemia
+anxiety
+gastroesophageal reflux disease
+
+ 
+Discharge Condition:
+afebrile, hemodynamically stable, oxygenating at >90% on room 
+air at rest, desaturating to mid-80s with activity 
+
+ 
+Discharge Instructions:
+You were admitted to the hospital w shortness of breath. You 
+were found to have AIDS - active HIV infection w Pneumocystis 
+jirovecii pneumonia. You were evaluated by our infectious 
+disease and pulmonary specialists. You were treated w 
+antibiotics and supportive measures. We also started you on 
+anti-retroviral medications to treat your HIV infection. It is 
+extremely important that you take your medications regularly and 
+continue to follow up with your physicians.
+.
+Your medications were changed as follows:
+1. Started Truvada, Ritonavir, Darunavir for HIV
+2. Started Bactrim, prednisone for Pneumocystis jiroveci 
+pneumonia
+3. Also gave trazodone for sleep as needed
+4. Please continue taking your other medications as before.
+.
+If you have fever, chills, shortness of breath or pain, please 
+call your physician ___.
+ 
+Followup Instructions:
+___

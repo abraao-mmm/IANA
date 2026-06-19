@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 20248623 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 20248623</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 20248623 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong> A182 &nbsp;|&nbsp;
+    <strong>Categoria:</strong> TB simples<br>
+    <strong>Entidades extraídas:</strong> 69 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                     Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+adhesive tape / Iodinated Contrast Media - IV Dye
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Neck pain, lump c/f Scrofula
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+History somewhat limited by language barrier. It is via phone 
+translator.
+
+Mrs ___ is a ___ with a history of HL, possibly GERD, and TB 
+with recurrent scrofula s/p multiple rounds of treatment incl 
+excision, previously followed by Dr ___ presents with new 
+tender neck nodule and some B symptoms, concerning for recurrent 
+scrofula.
+
+She was in her usual state of health until about 1 month ago 
+when she began to notice swelling along the site of her prior 
+node excision. She then began to notice a dull pain, which 
+worsened and became a sharp needle like pain that she rates as 
+very painful; it then transformed into more of a burning pain. 
+The pain is at the site of a nodule on her neck. Along with the 
+nodule and the pain, she has also noticed chills and sweats, but 
+no weight loss, cough, or fever. She became concerned that her 
+scrofula was returning so she came to the ED.
+
+In the ED, she had stable vital signs and unremarkable 
+laboratories. CXR was performed and was unremarkable. She had a 
+CT of her neck that showed a nodule and a possible tract. She 
+received no treatments. Admission was requested.
+
+A 10 point ROS is otherwise negative except as above
+ 
+Past Medical History:
+Hyperlipidemia
+TB, see Dr ___ from ___ for details (of note, 
+___ had done the excision)
+GERD
+ 
+Social History:
+___
+Family History:
+Brother with TB. 
+ 
+Physical Exam:
+ADMISSION
+ Vitals AVSS
+ Gen NAD, quite pleasant
+ Abd soft, NT, ND, bs+
+ CV RRR, systolic murmur
+ Lungs CTA ___
+ Ext WWP, no edema
+ Skin no rash, anicteric
+ GU no foley
+ Eyes EOMI
+ HENT MMM, OP clear
+ Neuro nonfocal, moves all extremities
+ Psych normal affect
+ Neck right side has a slightly atrophic surgical scar from 
+prior excision; superior to this there is a very round, shiny, 
+erythematous 1cm nodule with some reddish exudate on surface; 
+slightly tender to touch
+
+DISCHARGE
+VS: 97.9 121/72 65 16 97%RA 
+Gen: sitting up in bed, comfortable
+Eyes - EOMI
+ENT - OP clear, MMM; R neck with well-healed surgical scar; 1cm 
+superior to scar is well-defined round depression at site of 
+draining sinus tract, which is non-tender, nonerythematous
+Heart - RRR no mrg
+Lungs - CTA bilaterally
+Abd - soft nontender, normoactive bowel sounds
+Ext - no edema
+Skin - no rashes
+Vasc - 2+ DP/radial pulses
+Neuro - AOx3, moving all extremities
+Psych - appropriate
+
+ 
+Pertinent Results:
+ADMISSION
+___ 08:50PM BLOOD WBC-7.2 RBC-4.37 Hgb-13.1 Hct-39.7 MCV-91 
+MCH-30.0 MCHC-33.0 RDW-12.6 RDWSD-42.3 Plt ___
+___ 08:50PM BLOOD Glucose-95 UreaN-14 Creat-0.6 Na-141 
+K-3.7 Cl-106 HCO3-23 AnGap-16
+
+DISCHARGE
+___ 06:40AM BLOOD WBC-6.1 RBC-4.33 Hgb-12.8 Hct-39.0 MCV-90 
+MCH-29.6 MCHC-32.8 RDW-12.4 RDWSD-41.1 Plt ___
+___ 06:40AM BLOOD Glucose-102* UreaN-16 Creat-0.5 Na-142 
+K-3.9 Cl-106 HCO3-28 AnGap-12
+
+MICRO
+___ 9:08 am SWAB      Source: R neck wound. 
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+   WOUND CULTURE (Preliminary): 
+
+___ 1:00 am SPUTUM      Source: Induced. 
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+   ACID FAST CULTURE (Preliminary): 
+
+Comment: TB PCR OF RT NECK WOUND
+___ ___
+MYCOBACTERIUM TUBERCULOSIS COMPLEX, PCR, NON-RESPIRATORYResults 
+Pending
+
+CT Neck
+1. Study is limited due to lack of administration of intravenous 
+contrast and
+secondary to dental streak artifact.
+2. 10 x 10 mm subcutaneous soft tissue nodule which is partially 
+calcified in
+the right lateral neck.  A tract extends from this nodule 
+anteriorly and
+superiorly to the deep fascial planes posterior to the right
+sternocleidomastoid and internal jugular vein.  Assessment for 
+the
+significance of these findings is limited in the absence of IV 
+contrast. No
+definite fluid collection identified.
+3. Unchanged multilevel right cervical calcified lymph nodes are 
+consistent
+with prior granulomatous infection.
+4. Stable upper lung post granulomatous infection findings, 
+detailed above. 
+Stable solid and ground-glass pulmonary nodules measuring up to 
+9 mm.
+5. Multiple hypodense thyroid nodules are grossly unchanged, 
+measuring up to 8
+mm in the right thyroid lobe.  Per underlying medical record, 
+patient is
+currently being evaluate by the ___ thyroid Center.
+ 
+Brief Hospital Course:
+___ year old female with past medical of TB lymphadenitis s/p 
+prior courses of TB therapy and eventual resection, admitted 
+___ w new cervical nodule and pain
+
+# Cervical Nodule / Concern for TB lymphadenitis - patient 
+presented with several weeks of worsening swelling at R neck; 
+exam showed cervical nodule superior to site of prior nodal 
+excision; CT showed &quot;10 x 10 mm subcutaneous soft tissue nodule 
+which is partially calcified in the right lateral neck.  A tract 
+extends from this nodule anteriorly and superiorly to the deep 
+fascial planes posterior to the right sternocleidomastoid and 
+internal jugular vein.&quot;.  Per ID recs, initial plan was to 
+obtain tissue via excisional biopsy (prior FNA / core biopsy at 
+time of prior infection were not diagnostic, so this was felt to 
+best approach to confirm TB and identify sensitivities).  ENT 
+recommended against this initially.  While awaiting consensus 
+between consulting services, nodule spontaneously started 
+draining purulent material.  This material was collected and 
+sent for culture, acid fast culture and TB PCR.  Per ID service, 
+it was felt that patient could be discharged home with 
+outpatient ID follow-up (they will call to arrange) for 
+follow-up of pending workup, and discussion whether or not 
+surgical excision would be necessary. 
+
+# Abnormal CT Findings: CT scan also showed &quot;3. Unchanged 
+multilevel right cervical calcified lymph nodes are consistent 
+with prior granulomatous infection.
+4. Stable upper lung post granulomatous infection findings, 
+detailed above. Stable solid and ground-glass pulmonary nodules 
+measuring up to 9 mm.
+5. Multiple hypodense thyroid nodules are grossly unchanged, 
+measuring up to 8
+mm in the right thyroid lobe.  Per underlying medical record, 
+patient is currently being evaluate by the ___ thyroid 
+Center.&quot;  Results were communicated to PCP.  At discharge 
+patient reminded of thyroid center follow-up appointment.
+
+# Hyperlipidemia - continued statin
+
+# GERD - continued PPI
+
+TRANSITIONAL ISSUES
+- Discharged home
+- ID to arrange outpatient visit to follow-up pending acid fast 
+culture and TB PCR
+
+&gt; 30 minutes spent on this discharge
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Omeprazole 20 mg PO BID 
+2. Calcium 600 + D(3) (calcium carbonate-vitamin D3) 600 
+mg(1,500mg) -400 unit oral DAILY 
+3. Multivitamins 1 TAB PO DAILY 
+4. Simvastatin 20 mg PO QPM 
+
+ 
+Discharge Medications:
+1. Multivitamins 1 TAB PO DAILY 
+2. Omeprazole 20 mg PO BID 
+3. Simvastatin 20 mg PO QPM 
+4. Calcium 600 + D(3) (calcium carbonate-vitamin D3) 600 
+mg(1,500mg) -400 unit oral DAILY 
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+# Cervical Nodule / Concern for TB lymphadenitis 
+# Hyperlipidemia
+# GERD
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+It was a pleasure caring for you at ___.  You were admitted 
+due to an area of swelling in your neck.   You had a CT scan and 
+were seen by infection doctors.  ___ were concerned this could 
+be a recurrence of your tuberculosis infection (&quot;TB 
+lymphadenitis&quot;).  A sample of fluid from the swelling was 
+sampled and sent to the lab for testing.  The infection doctors 
+recommended that ___ see them in their clinic to discuss whether 
+or not further treatment and surgery is needed.  
+
+You are now ready for discharge.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(9)</span></h3>
+  <ul>
+    <li>Tuberculose (TB)</li>
+    <li>Escrófula</li>
+    <li>Linfadenite tuberculosa cervical</li>
+    <li>Dislipidemia</li>
+    <li>Doença do Refluxo Gastroesofágico (DRGE)</li>
+    <li>Infecção granulomatosa prévia</li>
+    <li>Nódulos tireoidianos hipodensos</li>
+    <li>Nódulos pulmonares sólidos e de vidro fosco</li>
+    <li>Linfonodos cervicais calcificados</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Dor no pescoço</li>
+    <li>Nódulo cervical</li>
+    <li>Calafrios</li>
+    <li>Sudorese</li>
+    <li>Murmúrio sistólico</li>
+    <li>Trato de fístula/sinusoide drenante</li>
+    <li>Exsudato avermelhado</li>
+    <li>Eritema</li>
+    <li>Sensibilidade à palpação</li>
+    <li>Cicatriz atrófica</li>
+    <li>Depressão na pele</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(5)</span></h3>
+  <ul>
+    <li>Omeprazol</li>
+    <li>Cálcio</li>
+    <li>Vitamina D3</li>
+    <li>Multivitamínicos</li>
+    <li>Simvastatina</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(38)</span></h3>
+  <ul>
+    <li>WBC-7.2</li>
+    <li>RBC-4.37</li>
+    <li>Hemoglobina-13.1</li>
+    <li>Hematócrito-39.7</li>
+    <li>MCV-91</li>
+    <li>MCH-30.0</li>
+    <li>MCHC-33.0</li>
+    <li>RDW-12.6</li>
+    <li>RDWSD-42.3</li>
+    <li>Glucose-95</li>
+    <li>Ureia-14</li>
+    <li>Creatinina-0.6</li>
+    <li>Sódio-141</li>
+    <li>Potássio-3.7</li>
+    <li>Cloreto-106</li>
+    <li>Bicarbonato-23</li>
+    <li>Gap Aniónico-16</li>
+    <li>WBC-6.1</li>
+    <li>RBC-4.33</li>
+    <li>Hemoglobina-12.8</li>
+    <li>Hematócrito-39.0</li>
+    <li>MCV-90</li>
+    <li>MCH-29.6</li>
+    <li>MCHC-32.8</li>
+    <li>RDW-12.4</li>
+    <li>RDWSD-41.1</li>
+    <li>Glucose-102</li>
+    <li>Ureia-16</li>
+    <li>Creatinina-0.5</li>
+    <li>Sódio-142</li>
+    <li>Potássio-3.9</li>
+    <li>Bicarbonato-28</li>
+    <li>Gap Aniónico-12</li>
+    <li>Gram: 1+ Leucócitos Polimorfonucleares, Nenhum microrganismo visto</li>
+    <li>Cultura de ferida: Pendente</li>
+    <li>Esfregaço de Bacilo Ácido-Fast: Nenhum bacilo ácido-fast visto</li>
+    <li>Cultura de Bacilo Ácido-Fast: Pendente</li>
+    <li>PCR para Complexo Mycobacterium tuberculosis: Pendente</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(6)</span></h3>
+  <ul>
+    <li>Radiografia de tórax</li>
+    <li>Tomografia Computadorizada do pescoço</li>
+    <li>Cultura de ferida</li>
+    <li>Esfregaço de Bacilo Ácido-Fast</li>
+    <li>Cultura de Bacilo Ácido-Fast</li>
+    <li>PCR para Mycobacterium tuberculosis</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo feminino, com histórico de linfadenite tuberculosa (TB) tratada previamente com múltiplos ciclos de terapia e ressecção cirúrgica, além de hiperlipidemia e doença do refluxo gastroesofágico (DRGE). Apresenta-se com queixa principal de nódulo cervical doloroso e inchaço, com suspeita de escrófula recorrente. A história da doença atual (HDA) inicia há aproximadamente 1 mês, quando a paciente notou inchaço no local de uma excisão nodular prévia. O quadro evoluiu com dor inicialmente surda, que se tornou aguda, em forma de agulha e muito intensa, transformando-se posteriormente em dor do tipo queimação no local do nódulo no pescoço. Associado ao nódulo e à dor, a paciente relatou calafrios e sudorese. Nega perda de peso, tosse ou febre. A paciente refere que a limitação do histórico se deve a uma barreira linguística, sendo o atendimento realizado via tradutor telefônico. A revisão de sistemas (ROS) de 10 pontos é negativa, exceto pelos sintomas acima mencionados.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na Alta: Temperatura 97.9°F, Pressão Arterial 121/72 mmHg, Frequência Cardíaca 65 bpm, Frequência Respiratória 16 irpm, Saturação de Oxigênio (SpO2) 97% em ar ambiente.
+
+Exame Físico na Admissão:
+- Geral: Paciente sem aparência de doença aguda (NAD), bastante agradável.
+- Abdome: Macio, não doloroso à palpação, sem defesa, ruídos hidroaéreos presentes.
+- Cardiovascular: Rítmico, com sopro sistólico audível.
+- Pulmões: Murmúrio vesicular claro bilateralmente.
+- Extremidades: Sem edema, pulsos presentes.
+- Pele: Sem erupções cutâneas, icterícia ausente.
+- Genitourinário: Sem cateter vesical.
+- Olhos: Movimentos oculares intactos.
+- Cabeça, Pescoço, Orelhas, Nariz e Garganta (HENT): Mucosas orais hidratadas, orofaringe limpa. Pescoço: à direita, apresenta cicatriz cirúrgica levemente atrófica de excisão prévia; superior a esta, há um nódulo muito redondo, brilhante, eritematoso, de 1 cm, com algum exsudato avermelhado na superfície; levemente doloroso à palpação.
+- Neurológico: Sem déficits focais, movimenta todos os membros.
+- Psiquiátrico: Afeto normal.
+
+Exame Físico na Alta:
+- Geral: Sentada na cama, confortável.
+- Olhos: Movimentos oculares intactos.
+- HENT: Mucosas orais hidratadas, orofaringe limpa. Pescoço direito com cicatriz cirúrgica bem cicatrizada; 1 cm superior à cicatriz, há uma depressão redonda bem definida no local do trato sinusal drenante, que é não dolorosa e não eritematosa.
+- Coração: Rítmico, sem sopros, atrito ou estalidos.
+- Pulmões: Murmúrio vesicular claro bilateralmente.
+- Abdome: Macio, não doloroso, ruídos hidroaéreos normoativos.
+- Extremidades: Sem edema.
+- Pele: Sem erupções.
+- Vascular: Pulsos pediosos e radiais 2+.
+- Neurológico: Orientado x3, movimenta todos os membros.
+- Psiquiátrico: Apropriado.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão (08:50 PM):
+- Hemograma Completo:
+  - Leucócitos (WBC): 7.2
+  - Hemácias (RBC): 4.37
+  - Hemoglobina (Hgb): 13.1
+  - Hematócrito (Hct): 39.7
+  - Volume Corpuscular Médio (MCV): 91
+  - Hemoglobina Corpuscular Média (MCH): 30.0
+  - Concentração de Hemoglobina Corpuscular Média (MCHC): 33.0
+  - Amplitude de Distribuição Eritrocitária (RDW): 12.6
+  - RDW-SD: 42.3
+  - Plaquetas: (Valor não especificado no texto)
+- Bioquímica Sanguínea:
+  - Glicose: 95 mg/dL
+  - Ureia (UreaN): 14 mg/dL
+  - Creatinina (Creat): 0.6 mg/dL
+  - Sódio (Na): 141 mEq/L
+  - Potássio (K): 3.7 mEq/L
+  - Cloreto (Cl): 106 mEq/L
+  - Bicarbonato (HCO3): 23 mEq/L
+  - Gap Aniónico (AnGap): 16
+
+Alta (06:40 AM):
+- Hemograma Completo:
+  - Leucócitos (WBC): 6.1
+  - Hemácias (RBC): 4.33
+  - Hemoglobina (Hgb): 12.8
+  - Hematócrito (Hct): 39.0
+  - Volume Corpuscular Médio (MCV): 90
+  - Hemoglobina Corpuscular Média (MCH): 29.6
+  - Concentração de Hemoglobina Corpuscular Média (MCHC): 32.8
+  - Amplitude de Distribuição Eritrocitária (RDW): 12.4
+  - RDW-SD: 41.1
+  - Plaquetas: (Valor não especificado no texto)
+- Bioquímica Sanguínea:
+  - Glicose: 102 mg/dL (elevada)
+  - Ureia (UreaN): 16 mg/dL
+  - Creatinina (Creat): 0.5 mg/dL
+  - Sódio (Na): 142 mEq/L
+  - Potássio (K): 3.9 mEq/L
+  - Cloreto (Cl): 106 mEq/L
+  - Bicarbonato (HCO3): 28 mEq/L
+  - Gap Aniónico (AnGap): 12
+
+Microbiologia:
+- Swab (Fonte: Ferida no pescoço direito):
+  - Gram: 1+ (&lt;1 por campo 1000X): Leucócitos Polimorfonucleares. Nenhum microrganismo visto.
+  - Cultura de Ferida: Preliminar (resultado pendente).
+- Escarro (Fonte: Induzido):
+  - Esfregaço Corado por Ácido-Fast (Final): Nenhum bacilo ácido-fast visto no esfregaço direto. Nenhum bacilo ácido-fast visto no esfregaço concentrado.
+  - Cultura de Ácido-Fast: Preliminar (resultado pendente).
+- PCR para Tuberculose (Fonte: Ferida no pescoço direito):
+  - Complexo Mycobacterium tuberculosis: Resultados pendentes.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada (TC) de Pescoço:
+1. Estudo limitado devido à falta de administração de contraste intravenoso e secundário a artefato de estriação dental.
+2. Nódulo de tecido mole subcutâneo de 10 x 10 mm, parcialmente calcificado, no pescoço lateral direito. Um trato estende-se deste nódulo anteriormente e superiormente até os planos fasciais profundos posteriores ao esternocleidomastóideo direito e à veia jugular interna. A avaliação da significância desses achados é limitada na ausência de contraste IV. Nenhuma coleção líquida definida identificada.
+3. Linfonodos cervicais direitos calcificados multiníveis, sem alteração, consistentes com infecção granulomatosa prévia.
+4. Achados pulmonares estáveis pós-infecção granulomatosa na porção superior do pulmão. Nódulos pulmonares sólidos e em vidro fosco estáveis, medindo até 9 mm.
+5. Múltiplos nódulos tireoidianos hipodensos, grosseiramente sem alteração, medindo até 8 mm no lobo direito da tireoide. Segundo o prontuário médico subjacente, a paciente está sendo avaliada pelo Centro de Tireoide.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente do sexo feminino com histórico de linfadenite tuberculosa (TB) tratada e ressecada, admitida com novo nódulo cervical e dor, com suspeita clínica de recidiva da escrófula (linfadenite tuberculosa). O quadro clínico evoluiu com inchaço progressivo, dor neuropática e formação de trato sinusal com drenagem purulenta espontânea. O exame físico confirmou nódulo eritematoso e doloroso que posteriormente drenou. A TC de pescoço demonstrou nódulo subcutâneo parcialmente calcificado com trato sinusal estendendo-se aos planos fasciais profundos, além de linfonodos calcificados e nódulos pulmonares estáveis consistentes com infecção granulomatosa prévia. O hemograma e a bioquímica na admissão e alta foram essencialmente normais, sem sinais de sepse sistêmica. A cultura de Gram da ferida mostrou apenas leucócitos sem microrganismos visíveis. Os esfregaços de escarro para bacilo álcool-ácido resistente (BAAR) foram negativos. O PCR para TB no tecido da ferida e as culturas de BAAR (ferida e escarro) estão pendentes. A equipe de Doenças Infecciosas (ID) avaliou o caso e, considerando a possibilidade de recidiva de TB, mas também a necessidade de confirmação histológica e de sensibilidade (já que biópsias anteriores não foram diagnósticas), optou-se inicialmente por aguardar os resultados dos testes moleculares e de cultura. A drenagem espontânea do nódulo permitiu a coleta de material para análise. A equipe de Otorrinolaringologia (ENT) inicialmente recomendou contra a biópsia excisional imediata. Diante da estabilidade clínica da paciente e da ausência de sinais de infecção sistêmica grave, a conduta foi de alta hospitalar com seguimento ambulatorial em Doenças Infecciosas para discussão da necessidade de excisão cirúrgica futura, caso os resultados laboratoriais não sejam conclusivos ou se houver necessidade de tratamento específico. Os achados de imagem (nódulos tireoidianos e pulmonares) foram comunicados ao médico assistente e a paciente foi orientada sobre o seguimento no centro de tireoide.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Multivitamínicos: 1 comprimido por via oral (PO) diariamente.
+2. Omeprazol: 20 mg por via oral (PO) duas vezes ao dia (BID).
+3. Simvastatina: 20 mg por via oral (PO) à noite (QPM).
+4. Cálcio 600 + Vitamina D3 (carbonato de cálcio-vitamina D3): 600 mg (1.500 mg de cálcio) - 400 UI de Vitamina D3 por via oral (PO) diariamente.
+
+Orientações ao Paciente:
+- A paciente foi informada de que foi admitida devido a inchaço no pescoço, com suspeita de recidiva de tuberculose (linfadenite tuberculosa).
+- Foi realizado exame de imagem (TC) e avaliação por especialistas em doenças infecciosas.
+- Uma amostra de fluido do inchaço foi coletada e enviada para laboratório para testes (cultura, PCR e BAAR).
+- Os médicos de doenças infecciosas recomendaram retorno à clínica para discutir se será necessário tratamento adicional ou cirurgia.
+- A paciente foi orientada a manter o acompanhamento no Centro de Tireoide para os nódulos tireoidianos identificados na TC.
+
+Encaminhamentos e Seguimento:
+- Encaminhamento para consulta ambulatorial com a equipe de Doenças Infecciosas (ID) para acompanhamento dos resultados pendentes (cultura de ácido-fast e PCR para TB) e decisão sobre necessidade de excisão cirúrgica. A equipe de ID entrará em contato para agendar.
+- Retorno ao médico assistente (PCP) para acompanhamento geral.
+- Retorno ao Centro de Tireoide conforme agendamento prévio.
+
+Retorno Programado:
+- Retorno conforme agendamento pela equipe de Doenças Infecciosas (ID) para discussão dos resultados laboratoriais pendentes.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-08 15:18 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

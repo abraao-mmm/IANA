@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 24476606 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 24476606</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 24476606 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 221
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                    Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Seizures
+ 
+Major Surgical or Invasive Procedure:
+None
+ 
+History of Present Illness:
+Mr ___ is a ___ man with an extensive past medical
+history including HIV non-compliant with HAART therapy, Kaposi&#x27;s
+sarcoma, possible underlying hypercoagulable state and prior
+right hemispheric encephalomalacia presumed ___ stroke who
+presents following likely LUE focal motor seizure x2. 
+
+History is extremely limited.
+
+Essentially, Mr. ___ worked a night shift at ___ without
+difficulty.  He was home at roughly 630am and showering when his
+left arm began shaking without warning.  There was no warning
+prior to initiation of the shaking and no associated symptoms. 
+There was no associated abnormal movement in his face, leg or
+contralateral body.  He called EMS.  This episode resolved
+spontaneously in about 15 minutes (prior to EMS arrival).
+
+He presented to ___ ED.  There, he was witnessed to have
+another episode of LUE shaking.  This episode I am told lasted 
+10
+minutes and was aborted with Ativan.  He subsequently received a
+Keppra 1500mg IV x1.  NCHCT was done and demonstrated 
+significant
+encephalomalacia with more than expected CT hypodensity.  He was
+transferred for further management.  There was no alteration in
+consciousness with either event.
+
+Only when directly asked does Mr. ___ state that his left arm
+is weak.  He is entirely unable to provide a timeline, but does
+recall some issue using it at work.  Of note, he has been off of
+his HIV anti-retrovirals for approximately ___ due to
+insurance issues.
+
+Regarding his prior neurologic history, he previously underwent
+Brain MRI in the setting of new headaches.  MRI from ___ was
+notable for significant right hemispheric encephalomalacia of
+unclear etiology.  Ddx at that time was HIV related complication
+vs Stroke vs PML.  At that time, he underwent evaluation
+(including LP) with extensive negative studies including VZV,
+CMV, VDRL, Toxo, TB, JCV, HSV, and EBV.  Flow and Cytology were
+not send.  Neurology notes (___) at that time felt it was
+most likely related to prior infarction.  
+
+On neuro ROS, the pt denies headache, loss of vision, blurred
+vision, diplopia, dysarthria, dysphagia, lightheadedness,
+vertigo, tinnitus or hearing difficulty. Denies difficulties
+producing or comprehending speech. Denies focal weakness,
+numbness, parasthesiae. No bowel or bladder incontinence or
+retention. Denies difficulty with gait.  
+
+On general review of systems, the pt denies recent fever or
+chills. No night sweats or recent weight loss or gain. Denies
+cough, shortness of breath. Denies chest pain or tightness,
+palpitations. Denies nausea, vomiting, diarrhea, constipation or
+abdominal pain. No recent change in bowel or bladder habits. No
+dysuria. Denies arthralgias or myalgias. Denies rash.
+ 
+Past Medical History:
+-CAD c/b STEMI s/p PCI to LAD/LM on ___
+-HIV/AIDS (CD4 5 at dx on ___, then nadir of 3 on ___
+- Hx of Kaposi&#x27;s sarcoma with prior chemotherapy
+- MR findings of encephalomalacia in a vascular distribution
+possibly consistent with old stroke 
+- HPV-related verrucae on his hands and legs
+- Hx of Rim-enhancing bone lesions of iliac crest, spine and
+acetabulum s/p at least 2 non-diagnostic bone biopsies
+-Chronic eosinophilia
+- Hx of Pulmonary embolism (___), hx of &quot;ischemic leg s/p
+thrombectomy&quot;
+- HIV-induced ITP
+- hx of Histoplasmosis, disseminated  
+- hx of Pneumocystis pneumonia ___  
+- Hypertension  
+- CKD 
+- Parotid hyperplasia   
+- h/o HBV infection (core and surface ab positive)  
+- h/o pericarditis with tamponade 
+ 
+
+ 
+Social History:
+___
+Family History:
+Patient denied family history of cardiovascular disease, 
+diabetes, and cancer. 
+ 
+Physical Exam:
+==============
+ADMISSION EXAM
+==============
+98.7 80 172/84 19 100% RA 
+General: Awake, cooperative, NAD.  
+HEENT: NC/AT, MMM
+Neck: Supple. No nuchal rigidity  
+Pulmonary: Lungs CTA bilaterally   
+Cardiac: RRR, nl. S1S2
+Abdomen: soft, NT/ND.  
+Extremities: LLE with significant and extensive Kaposi Sarcoma
+with ulcerations.  RLE WWP..  
+
+Neurologic:  
+-Mental Status: Alert, oriented x 3. Able to relate very limited
+history. Attentive to examiner. Mixes ___ and ___ in ___
+backwards.  Language is fluent with intact repetition and
+comprehension. Normal prosody. There were no paraphasic errors.
+Pt was able to name both high frequency objects. Able to read
+without difficulty. Speech was hypophonic. Able to follow both
+midline and appendicular commands. Pt was able to register 3
+objects on 2 tried  and recall ___ at 5 minutes.  He instead
+provided 2 Months of the year. There was no evidence of apraxia. 
+
+There is subtle visual extinction on the left.  
+ 
+-Cranial Nerves:  
+ II, III, IV, VI: PERRL 3 to 2mm and brisk. EOMI without
+nystagmus, but with significant saccadic intrusions. VFF to
+confrontation. Visual acuity ___ bilaterally. Unable to
+visualize fundus
+ V: Facial sensation intact to light touch, pinprick.  
+ VII: No facial droop.  
+ VIII: Hearing intact to finger-rub bilaterally.  
+ IX, X: Palate elevates symmetrically.  
+ XI: ___ strength in trapezii bilaterally.  
+ XII: Tongue protrudes in midline.  
+
+-Motor: Normal bulk.  LUE with spastic tone. LUE is obviously
+weak, with delated elevation and clear pronation with drift
+(prior to closing eyes).   No adventitious movements, such as
+tremor, noted. No asterixis noted.  
+   Delt Bic Tri WrE FFl FE  IP Quad Ham TA ___  
+ L 3     5    4+ 4+  ___-  5   5    5    5     5    
+ R 5     5    ___   ___   5    5    5     5    
+
+-Sensory: In the entirety of his left leg he reports decreased
+sensation to light touch and pinprick (within area of Kaposi). 
+Otherwise, no deficits to light touch, pinprick, cold sensation,
+vibratory sense, proprioception throughout. No extinction to 
+DSS.
+
+knees 3s, cross at knees.
+subtle jaw jerk. 
+98.7 80 172/84 19 100% RA
+
+-DTRs:  
+   Bi Tri ___ Pat  
+ L 3   3    3    3    
+ R 3   3    3    3
++ Crossed Adductors
++ Pec Jerks
++ Jaw Jerk
+- ___    
+ 
+-Coordination: No intention tremor, no dysdiadochokinesia noted
+on right.  On left, his clumsiness is in proportion to his
+weakness. No dysmetria on FNF.  
+
+-Gait: Attempted to get patient out of bed, but he almost rolled
+off the stretcher and fell (after having trouble sitting up
+independently).  Deferred. 
+
+ 
+Pertinent Results:
+=============
+INITIAL LABS
+=============
+
+___ 03:15PM BLOOD WBC-2.9* RBC-4.67 Hgb-13.6* Hct-41.9 
+MCV-90 MCH-29.1 MCHC-32.5 RDW-14.8 RDWSD-47.9* Plt ___
+___ 05:30AM BLOOD WBC-3.0* RBC-4.83 Hgb-13.8 Hct-46.5 
+MCV-96 MCH-28.6 MCHC-29.7* RDW-15.2 RDWSD-53.2* Plt ___
+___ 04:45AM BLOOD WBC-3.9* RBC-4.81 Hgb-13.9 Hct-41.9 
+MCV-87# MCH-28.9 MCHC-33.2# RDW-14.4 RDWSD-45.6 Plt ___
+___ 06:55AM BLOOD WBC-2.2* RBC-4.65 Hgb-13.7 Hct-41.2 
+MCV-89 MCH-29.5 MCHC-33.3 RDW-14.7 RDWSD-47.1* Plt ___
+___ 09:51AM BLOOD WBC-2.7* RBC-4.81 Hgb-13.9 Hct-43.1 
+MCV-90 MCH-28.9 MCHC-32.3 RDW-14.7 RDWSD-48.5* Plt ___
+___ 03:15PM BLOOD Neuts-64.7 ___ Monos-6.6 Eos-5.5 
+Baso-0.3 Im ___ AbsNeut-1.87 AbsLymp-0.62* AbsMono-0.19* 
+AbsEos-0.16 AbsBaso-0.01
+___ 05:30AM BLOOD Neuts-36.1 ___ Monos-11.8 
+Eos-19.3* Baso-0.7 Im ___ AbsNeut-1.07* AbsLymp-0.94* 
+AbsMono-0.35 AbsEos-0.57* AbsBaso-0.02
+___ 03:15PM BLOOD Plt ___
+___ 03:25PM BLOOD ___ PTT-39.4* ___
+___ 03:00PM BLOOD ___ PTT-38.9* ___
+___ 04:45AM BLOOD ___ PTT-41.9* ___
+___ 12:18PM BLOOD PTT-51.3*
+___ 07:45PM BLOOD PTT-66.9*
+___ 06:55AM BLOOD ___ PTT-60.8* ___
+___ 03:15PM BLOOD  WBC-2.9* Lymph-22 Abs ___ CD3%-55 
+Abs CD3-349* CD4%-0 Abs CD4-2* CD8%-46 Abs CD8-294 CD4/CD8-0.01*
+___ 03:15PM BLOOD Glucose-78 UreaN-13 Creat-1.2 Na-140 
+K-3.8 Cl-108 HCO3-21* AnGap-15
+___ 05:30AM BLOOD Glucose-72 UreaN-12 Creat-1.3* Na-142 
+K-4.2 Cl-109* HCO3-22 AnGap-15
+___ 04:45AM BLOOD Glucose-83 UreaN-11 Creat-1.3* Na-134 
+K-3.5 Cl-100 HCO3-19* AnGap-19
+___ 06:55AM BLOOD Glucose-83 UreaN-8 Creat-1.2 Na-137 K-3.7 
+Cl-104 HCO3-20* AnGap-17
+___ 09:51AM BLOOD Glucose-112* UreaN-9 Creat-1.2 Na-132* 
+K-3.9 Cl-100 HCO3-17* AnGap-19
+___ 03:15PM BLOOD ALT-13 AST-37 LD(LDH)-382* AlkPhos-76 
+TotBili-0.3
+___ 05:30AM BLOOD Calcium-8.5 Phos-2.8 Mg-2.1 Cholest-170
+___ 04:45AM BLOOD Calcium-8.1* Phos-2.5* Mg-1.7
+___ 06:55AM BLOOD Calcium-8.3* Phos-2.9 Mg-2.0
+___ 05:30AM BLOOD Triglyc-114 HDL-36 CHOL/HD-4.7 
+LDLcalc-111
+___ 05:30AM BLOOD %HbA1c-5.8 eAG-120
+___ 04:45AM BLOOD CRP-18.7*
+___ 03:15PM BLOOD ASA-NEG Acetmnp-NEG Bnzodzp-NEG 
+Barbitr-NEG Tricycl-NEG
+
+=======
+IMAGING
+=======
+___ CT Abdomen Pelvis
+IMPRESSION:   
+1. 1.4 cm mass arising from the lower pole of the right kidney 
+is stable dating back to ___.  This was previously 
+characterized on MR with differential diagnosis is including fat 
+poor AML, oncocytoma or papillary renal cell carcinoma. 
+2. Lucent bone lesions within the L5 vertebral body and left 
+iliac crest are smaller in size compared to the CT of ___.  The left iliac crest bone lesion was previously 
+biopsied. 
+3. Stable soft tissue density in stranding surrounding the 
+distal external iliac and common femoral arteries. 
+4. Spleen upper limits normal size. 
+5. No new mass is identified within the abdomen or pelvis. 
+
+___ TEE:
+No spontaneous echo contrast or thrombus is seen in the body of 
+the left atrium/left atrial appendage or the body of the right 
+atrium/right atrial appendage. Right atrial appendage ejection 
+velocity is good (&gt;20 cm/s). There is symmetric left ventricular 
+hypertrophy. No atrial septal defect is seen by 2D or color 
+Doppler or saline contrast at rest or with Valsalva (poor 
+cooperation with cough and Valsalva maneuvers due to sedation). 
+LV systolic function appears depressed. The aortic valve 
+leaflets (3) are mildly thickened. No masses or vegetations are 
+seen on the aortic valve. No aortic valve abscess is seen. No 
+aortic regurgitation is seen. The mitral valve leaflets are 
+mildly thickened. There is no mitral valve prolapse. No mass or 
+vegetation is seen on the mitral valve. No mitral valve abscess 
+is seen. Mild to moderate (___) mitral regurgitation is seen. 
+There is no abscess of the tricuspid valve. The pulmonary artery 
+systolic pressure could not be determined. No vegetation/mass is 
+seen on the pulmonic valve. There is no pericardial effusion. 
+ IMPRESSION: Mild to moderate mitral regurgitation wihtout 
+discrete vegetation/abscess. No atrial septal defect of PFO 
+identified. Symmetric left ventricular hypertrophy with globally 
+hypokinesis. 
+
+TTE ___
+The left atrium is mildly dilated. There is mild symmetric left 
+ventricular hypertrophy. The left ventricular cavity size is 
+normal. Overall left ventricular systolic function is normal 
+(LVEF = 60%). However, the apex is hypokinetic. Tissue Doppler 
+imaging suggests a normal left ventricular filling pressure 
+(PCWP&lt;12mmHg). Right ventricular chamber size and free wall 
+motion are normal. The aortic arch is mildly dilated. The aortic 
+valve leaflets (3) appear structurally normal with good leaflet 
+excursion and no aortic stenosis or aortic regurgitation. The 
+mitral valve appears structurally normal with trivial mitral 
+regurgitation. The estimated pulmonary artery systolic pressure 
+is normal. There is no pericardial effusion. 
+IMPRESSION: Suboptimal image quality. No obvious vegetations. 
+Hypokinetic apex.
+If clinically suggested, the absence of a vegetation by 2D 
+echocardiography does not exclude endocarditis. 
+Compared with the prior study (images reviewed) of ___, 
+LVEF is increased. 
+
+CT Chest ___
+No evidence of pneumonia or other intrathoracic infection.  Mild 
+atelectasis in both lower lung zones. 
+
+CTA HEAD &amp; NECK ___
+-Asymmetrical less perfusion and fewer branching vessels seen in 
+the M3 and M4 portions of the right middle cerebral artery as 
+compared to the left middle cerebral artery, corresponding to 
+regions of right frontal and parietal encephalomalacia.  
+Otherwise, the remainder of the intracranial circulation is 
+unremarkable. 
+-Mild atheromatous disease of the bilateral cervical internal 
+carotid arteries without stenosis by NASCET criteria. 
+-Right frontal and parietal lobe encephalomalacia.  Known 
+punctate peripheral subacute infarcts along the margins of the 
+encephalomalacia are too small to be characterized on CT 
+examination.  No acute intracranial abnormality on noncontrast 
+head CT.  
+
+- MRI/MRA HEAD ___: 
+1. Severely motion degraded examination demonstrating small 
+areas of right frontal and parietal cortical (affecting the pre 
+and postcentral gyrus) slowed diffusion, consistent with acute 
+to subacute infarct, along the margins of chronic infarct.
+2. Large chronic right frontal and posterior parietal infarcts 
+with smaller chronic infarct versus hemorrhage in the right 
+external capsule.
+3. No enhancing mass.
+4. Moderate atrophy and background areas of white matter signal 
+abnormality in a configuration most suggestive of chronic small 
+vessel ischemic disease.
+5. Mild narrowing of a hypoplastic V4 segment of the left 
+vertebral artery. Otherwise patent intracranial arterial 
+vasculature without significant stenosis, occlusion, or 
+aneurysm.
+6. Patent cervical arterial vasculature without significant 
+stenosis or occlusion.
+
+- CXR ___
+Slightly low lung volumes with patchy and streaky opacities in 
+the lung bases, possibly atelectasis, but infection cannot be 
+completely excluded.  Mild pulmonary vascular congestion without 
+overt pulmonary edema. 
+
+=============
+MICROBIOLOGY
+=============
+___ 3:15 pm BLOOD CULTURE 
+**FINAL REPORT ___ 
+Blood Culture, Routine (Final ___: 
+___ bottles STAPH AUREUS COAG +. 
+FINAL SENSITIVITIES. 
+___ bottles BETA STREPTOCOCCUS GROUP B. FINAL SENSITIVITIES. 
+SENSITIVITIES: MIC expressed in MCG/ML 
+_________________________________________________________ 
+STAPH AUREUS COAG + 
+| BETA STREPTOCOCCUS GROUP B 
+| | 
+CEFTRIAXONE----------- &lt;=0.12 S 
+CLINDAMYCIN-----------&lt;=0.25 S &lt;=0.25 S 
+ERYTHROMYCIN----------&lt;=0.25 S &lt;=0.12 S 
+GENTAMICIN------------ &lt;=0.5 S 
+LEVOFLOXACIN---------- 0.25 S 
+OXACILLIN------------- 0.5 S 
+PENICILLIN G---------- &lt;=0.06 S 
+TRIMETHOPRIM/SULFA---- &lt;=0.5 S 
+VANCOMYCIN------------ 0.5 S 
+___ Blood Cx (___): MSSA 
+
+CRYPTOCOCCAL ANTIGEN (Final ___: 
+      CRYPTOCOCCAL ANTIGEN NOT DETECTED. 
+
+RAPID PLASMA REAGIN TEST (Final ___: 
+      NONREACTIVE
+
+TOXOPLASMA IgG ANTIBODY (Final ___: 
+      POSITIVE FOR TOXOPLASMA IgG ANTIBODY BY EIA. 
+      208 IU/ML. 
+      Reference Range:  Negative &lt; 4 IU/ml, Positive &gt;= 8 IU/ml. 
+
+
+   TOXOPLASMA IgM ANTIBODY (Final ___: 
+      NEGATIVE FOR TOXOPLASMA IgM ANTIBODY BY EIA. 
+      INTERPRETATION:  INFECTION AT UNDETERMINED TIME. 
+      A positive IgG result generally indicates past exposure. 
+      Infection with Toxoplasma once contracted remains latent 
+and may
+      reactivate when immunity is compromised.
+
+QUANTIFERON(R)-TB GOLD        NEGATIVE   
+
+STRONGYLOIDES AB IGG          NEGATIVE            
+ 
+SCHISTOSOMA IGG ANTIBODY,     &lt;1.00   REFERENCE RANGE:  &lt;1.___ with history of AIDS ___ CD4 2), with OI/infectious hx 
+notable for KS s/p cycles of chemotherapy (___), PJP (___) 
+disseminated histoplasma infection (___), Hep B cAb +, h/o 
+DVT/PE and LV thrombus off Coumadin, CAD (h/o MI ___ s/p BMS 
+to LM and LAD) who presented with LUE focal motor seizure, found 
+acute CVA on MRI. Initially treated on neurology service, and 
+subsequently transferred to medicine for further management of 
+of HIV/AIDS, KS, and bacteremia.
+
+#Seizure, Stroke: Pt presented with LUE focal motor seizure x2 
+and was found to have punctate acute strokes in distribution of 
+prior infarcts. Seizures likely secondary to strokes and glial 
+scar. Acute strokes may have been secondary to septic emboli vs 
+vascular cause (given right hemispheric distribution).  Pt was 
+maintained on anticoagulation (first heparin gtt, and pt was 
+subsequently transitioned to apixaban). He was loaded with 
+Keppra and continued on Keppra 750mg PO BID. TTE did not show 
+any vegetation. Pt experienced no further seizures. Despite the 
+fact that TTE did not show any vegetation, pt was discharged 
+with plan to complete 6 week course of antibiotics because of 
+high suspicion for septic emboli causing strokes.
+
+#AIDS: CD4 count of 2. Pt had been off of HAART for unclear 
+amount of time on presentation. Viral load 5.2log10 on ___. 
+HAART initiation was initially deferred because of potential for 
+development of ___. Pt was first started on PCP ppx with 
+___ 1DS tab po daily and ___ ppx with Azithromycin 1200mg po 
+weekly. He subsequently began HAART with Descovy (Tenofovir 
+Alafenamide  + Emtricitabin)+ Dolutegarvir  (___). Per 
+Ophtho, no evidence of acute CMW retinitis (s/p retinoscopy). 
+Investigation for evidence of active opportunistic infection was 
+negative (see pertinent results section).
+
+#Kaposi Sarcoma: Pt has been treated in past with chemo for KS, 
+but now has possible oral lesion concerning for systemic 
+infection. Unclear whether ___ edema represents active disease vs 
+residual lymphedema. CT a/p with no e/o visceral KS. Dermatology 
+was consulted, per their recommendation, biopsy was deferred 
+given the likelihood of poor healing. Pt discharged with plan 
+for outpatient followup with his existing hematology/oncology 
+provider ___.
+
+# GPC septicemia: High-grade MSSA bacteremia and GBS bacteremia. 
+Likely from superficial infections on ___&#x27;s sarcomatous 
+lesions of left leg. TEE ___ with no e/o valve vegetation. 
+Quant gold negative. ___ placed ___. ID followed, and advised 
+primary team to treat pt for 6 weeks for presumed endocarditis 
+given ?septic emboli despite negative TEE. Pt was initially 
+treated with Vancomycin, which was changed to Cefazolin 2gm IV 
+q8h to better target MSSA and GBS bacteremia (projected end date 
+___. LP was attempted on ___ but resulted in dry tap. Further 
+attempts at LP were deferred given clinical improvement. 
+
+#Slight Cr Elevation: Creatinine increased from 1.2 to 1.5 after 
+starting Bactrim for PCP ___. This is considered an 
+acceptable elevation in response to starting this medication. 
+Creatinine did not increase further and was stable at time of 
+discharge.
+
+#Eosinophilia: Peaked at 32.4% on ___ and subsequently 
+downtrended. Could have been secondary to HIV, medication 
+related (but time course didn&#x27;t fit), allergy, or parasitic 
+infection. Pt did have a rash on his face, possibly Pruritic 
+Papular Eruption/eosinophilic folliculitis. Treated empirically 
+with 1 dose albendazole ___. Strongyloides and schistosoma both 
+negative. Betamethasone Dipro 0.05% Cream helped with facial 
+rash. 
+
+#Hx DVT/PE with LV thrombus. Pt not on anticoagulation on 
+admission for unclear reasons. PCP note from ___ says he was 
+on Coumadin at that time. Transitioned to apixaban this 
+admission and was discharged on this.
+
+#CAD: h/o MI ___ s/p BMS to LM and LAD. TTE on ___ showed 
+preserved EF (60%) but hypokinetic apex. Started aspirin and 
+metoprolol while in-house. Pt should eventually start statin, 
+and potentially an ACE-I. Initiation of these was deferred while 
+inpatient since we had started multiple other medications in a 
+short time period (including HAART medications) and wanted to 
+ensure that he could tolerate these before adding other 
+medications that might convolute the clinical picture.
+
+- Code Status: Full
+- Contact: HCP: ___ (Sister) ___  
+
+========= TRANSITIONAL ISSUES ==========
+[ ] Please consider initiating statin and potentially an ACEi 
+for his history of CAD s/p MI.
+[ ] Please call the office of Dr. ___ (___) to 
+arrange Heme-Onc follow up for his Kaposi Sarcoma within 4 weeks 
+of discharge.
+[ ] Please call the ___ Neurology Clinic (___) to 
+arrange neurology/stroke follow up for within 4 weeks of 
+discharge.
+[ ] ID follow up in ___ clinic on ___
+[ ] Patient to continue on IV Cefazolin 2g Q8H via ___ line 
+until ___.
+[ ] Please obtain the following labs once per week (first set 
+___ and fax results to ___ (Infectious 
+Disease) (Fax: ___: CBC with differential, BUN, 
+Creatinine, ESR, CRP 
+[ ] Needs repeat HIV VL + CD4 on ___ and faxed to ___ 
+___ (Fax: ___ 
+[ ] Once ready for return home from rehab, please arrange 
+appointment with his PCP ___.
+[ ] Once ready for return home from rehab, please ensure his 
+sister ___ (healthcare proxy, ___ is involved in this 
+decision/plan
+[ ] Incidental findings on CT that may require follow up: 
+--- 1.4 cm mass arising from the lower pole of the right kidney 
+is stable  dating back to ___.  This was previously 
+characterized on MR with differential diagnosis is including fat 
+poor AML, oncocytoma or papillary renal cell carcinoma. 
+--- Lucent bone lesions within the L5 vertebral body and left 
+iliac crest are smaller in size compared to the CT of ___. The left iliac crest bone lesion was biopsied in 
+___ and did not reveal a lymphoproliferative or plasma cell 
+malignancy.
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Warfarin 2.5 mg PO DAILY16 
+
+ 
+Discharge Disposition:
+Home With Service
+ 
+Facility:
+___
+ 
+___ Diagnosis:
+Primary Diagnoses: seizure, stroke, bacteremia
+
+Secondary Diagnoses: AIDS, Kaposi Sarcoma, acute kidney injury, 
+coronary artery disease 
+
+ 
+Discharge Condition:
+Mental Status: Confused - sometimes.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+ 
+It was a pleasure taking care of ___ at ___. 
+
+WHY DID ___ COME TO THE HOSPITAL?
+___ were having seizures in your left arm.
+
+WHAT HAPPENED WHILE ___ WERE HERE?
+We discovered that ___ suffered several small strokes that 
+likely caused your arm seizures. ___ also were growing bacteria 
+in your blood, so we treated ___ with antibiotics that ___ will 
+continue when ___ go home. Finally, we started ___ on several 
+new medications for your HIV. 
+
+WHAT SHOULD ___ DO WHEN ___ LEAVE THE HOSPITAL?
+Please continue to take all of your medications as directed, and 
+follow up with all of your doctors. ___ will continue your 
+course of antibiotics until ___ (for a total of 6 weeks). 
+
+Again, it was a pleasure taking care of ___!
+
+Sincerely, 
+
+Your ___ Team
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(29)</span></h3>
+  <ul>
+    <li>HIV/AIDS (Síndrome da Imunodeficiência Adquirida)</li>
+    <li>Sarcoma de Kaposi</li>
+    <li>Acidente Vascular Cerebral (AVC) agudo</li>
+    <li>Encefalomalácia hemisférica direita</li>
+    <li>Bacteremia por Staphylococcus aureus coagulase-positiva (MSSA)</li>
+    <li>Bacteremia por Estreptococo do Grupo B</li>
+    <li>Endocardite infecciosa (suspeita clínica, sem vegetação visualizada)</li>
+    <li>Doença Arterial Coronariana (CAD)</li>
+    <li>Infarto Agudo do Miocárdio (IAM) prévio</li>
+    <li>Insuficiência Cardíaca com fração de ejeção preservada (hipocinesia do ápice)</li>
+    <li>Doença Renal Crônica (DRC)</li>
+    <li>Tromboembolismo Venoso (TEV) / Trombo no ventrículo esquerdo</li>
+    <li>Trombocitopenia Imune (ITP) induzida por HIV</li>
+    <li>Histoplasmose disseminada (histórico)</li>
+    <li>Pneumonia por Pneumocystis jirovecii (histórico)</li>
+    <li>Hipertensão arterial sistêmica</li>
+    <li>Hepatite B (infecção prévia, anticorpos positivos)</li>
+    <li>Pericardite com tamponamento (histórico)</li>
+    <li>Eosinofilia crônica</li>
+    <li>Foliculite eosinofílica / Erupção pruriginosa papular</li>
+    <li>Massa renal (possível carcinoma de células renais ou oncocitoma)</li>
+    <li>Aterosclerose cervical</li>
+    <li>Convulsão focal motora</li>
+    <li>Acidente Vascular Isquêmico agudo (infarto agudo a subagudo)</li>
+    <li>Doença de pequenos vasos isquêmicos crônica</li>
+    <li>Atrofia cerebral</li>
+    <li>Insuficiência mitral leve a moderada</li>
+    <li>Hipertrofia ventricular esquerda simétrica</li>
+    <li>Aneurisma da aorta abdominal (não confirmado, apenas dilatação da aorta torácica)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(20)</span></h3>
+  <ul>
+    <li>Convulsão focal motora do membro superior esquerdo</li>
+    <li>Fraqueza do membro superior esquerdo</li>
+    <li>Tônus espástico no membro superior esquerdo</li>
+    <li>Desvio de pronador no membro superior esquerdo</li>
+    <li>Extinção visual no lado esquerdo</li>
+    <li>Saccadic intrusions (intrusões sacádicas)</li>
+    <li>Hipofonia da fala</li>
+    <li>Sensação diminuída no membro inferior esquerdo</li>
+    <li>exantema facial (possível erupção pruriginosa papular)</li>
+    <li>Lesões ulceradas de Sarcoma de Kaposi no membro inferior esquerdo</li>
+    <li>Edema (possível linfedema residual ou doença ativa)</li>
+    <li>Confusão mental ocasional</li>
+    <li>Hipocinesia do ápice ventricular esquerdo</li>
+    <li>Insuficiência mitral</li>
+    <li>Hipertrofia ventricular esquerda</li>
+    <li>Dilatação do átrio esquerdo</li>
+    <li>Dilatação da aorta torácica</li>
+    <li>Opacidades pulmonares em bases (possível atelectasia)</li>
+    <li>Congestão vascular pulmonar leve</li>
+    <li>Lesões ósseas lúcentes (iliaca, L5, coluna)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(16)</span></h3>
+  <ul>
+    <li>Ativan (Lorazepam)</li>
+    <li>Keppra (Levetiracetam) 1500mg IV dose única</li>
+    <li>Keppra (Levetiracetam) 750mg PO BID</li>
+    <li>Descovy (Tenofovir Alafenamide + Emtricitabina)</li>
+    <li>Dolutegravir</li>
+    <li>Azitromicina 1200mg PO semanal</li>
+    <li>Trimetoprima-Sulfametoxazol (Bactrim) 1DS PO diário</li>
+    <li>Vancomicina</li>
+    <li>Cefazolina 2g IV a cada 8 horas</li>
+    <li>Albendazol 1 dose</li>
+    <li>Betametasona Dipro 0.05% Creme</li>
+    <li>Apixabana</li>
+    <li>Aspirina</li>
+    <li>Metoprolol</li>
+    <li>Heparina (infusão contínua)</li>
+    <li>Warfarina 2.5mg PO diário</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(134)</span></h3>
+  <ul>
+    <li>WBC-2.9</li>
+    <li>WBC-3.0</li>
+    <li>WBC-3.9</li>
+    <li>WBC-2.2</li>
+    <li>WBC-2.7</li>
+    <li>Hgb-13.6</li>
+    <li>Hgb-13.8</li>
+    <li>Hgb-13.9</li>
+    <li>Hgb-13.7</li>
+    <li>Hct-41.9</li>
+    <li>Hct-46.5</li>
+    <li>Hct-41.2</li>
+    <li>Hct-43.1</li>
+    <li>MCV-90</li>
+    <li>MCV-96</li>
+    <li>MCV-87</li>
+    <li>MCV-89</li>
+    <li>MCH-29.1</li>
+    <li>MCH-28.6</li>
+    <li>MCH-28.9</li>
+    <li>MCH-29.5</li>
+    <li>MCHC-32.5</li>
+    <li>MCHC-29.7</li>
+    <li>MCHC-33.2</li>
+    <li>MCHC-33.3</li>
+    <li>MCHC-32.3</li>
+    <li>RDW-14.8</li>
+    <li>RDW-15.2</li>
+    <li>RDW-14.4</li>
+    <li>RDW-14.7</li>
+    <li>RDWSD-47.9</li>
+    <li>RDWSD-53.2</li>
+    <li>RDWSD-45.6</li>
+    <li>RDWSD-47.1</li>
+    <li>RDWSD-48.5</li>
+    <li>Neuts-64.7</li>
+    <li>Monos-6.6</li>
+    <li>Eos-5.5</li>
+    <li>Baso-0.3</li>
+    <li>AbsNeut-1.87</li>
+    <li>AbsLymp-0.62</li>
+    <li>AbsMono-0.19</li>
+    <li>AbsEos-0.16</li>
+    <li>AbsBaso-0.01</li>
+    <li>Neuts-36.1</li>
+    <li>Monos-11.8</li>
+    <li>Eos-19.3</li>
+    <li>Baso-0.7</li>
+    <li>AbsNeut-1.07</li>
+    <li>AbsLymp-0.94</li>
+    <li>AbsMono-0.35</li>
+    <li>AbsEos-0.57</li>
+    <li>AbsBaso-0.02</li>
+    <li>PTT-39.4</li>
+    <li>PTT-38.9</li>
+    <li>PTT-41.9</li>
+    <li>PTT-51.3</li>
+    <li>PTT-66.9</li>
+    <li>PTT-60.8</li>
+    <li>CD4-2</li>
+    <li>CD4%-0</li>
+    <li>CD8-294</li>
+    <li>CD4/CD8-0.01</li>
+    <li>Glucose-78</li>
+    <li>Glucose-72</li>
+    <li>Glucose-83</li>
+    <li>Glucose-112</li>
+    <li>UreaN-13</li>
+    <li>UreaN-12</li>
+    <li>UreaN-11</li>
+    <li>UreaN-8</li>
+    <li>UreaN-9</li>
+    <li>Creat-1.2</li>
+    <li>Creat-1.3</li>
+    <li>Na-140</li>
+    <li>Na-142</li>
+    <li>Na-134</li>
+    <li>Na-137</li>
+    <li>Na-132</li>
+    <li>K-3.8</li>
+    <li>K-4.2</li>
+    <li>K-3.5</li>
+    <li>K-3.7</li>
+    <li>K-3.9</li>
+    <li>Cl-108</li>
+    <li>Cl-109</li>
+    <li>Cl-100</li>
+    <li>Cl-104</li>
+    <li>HCO3-21</li>
+    <li>HCO3-22</li>
+    <li>HCO3-19</li>
+    <li>HCO3-20</li>
+    <li>HCO3-17</li>
+    <li>AnGap-15</li>
+    <li>AnGap-19</li>
+    <li>AnGap-17</li>
+    <li>ALT-13</li>
+    <li>AST-37</li>
+    <li>LD(LDH)-382</li>
+    <li>AlkPhos-76</li>
+    <li>TotBili-0.3</li>
+    <li>Calcium-8.5</li>
+    <li>Calcium-8.1</li>
+    <li>Calcium-8.3</li>
+    <li>Phos-2.8</li>
+    <li>Phos-2.5</li>
+    <li>Phos-2.9</li>
+    <li>Mg-2.1</li>
+    <li>Mg-1.7</li>
+    <li>Mg-2.0</li>
+    <li>Cholest-170</li>
+    <li>Triglyc-114</li>
+    <li>HDL-36</li>
+    <li>CHOL/HD-4.7</li>
+    <li>LDLcalc-111</li>
+    <li>%HbA1c-5.8</li>
+    <li>eAG-120</li>
+    <li>CRP-18.7</li>
+    <li>ASA-NEG</li>
+    <li>Acetmnp-NEG</li>
+    <li>Bnzodzp-NEG</li>
+    <li>Barbitr-NEG</li>
+    <li>Tricycl-NEG</li>
+    <li>Blood Culture-Staphylococcus aureus coagulase-positivo</li>
+    <li>Blood Culture-Beta Streptococcus Group B</li>
+    <li>Cryptococcal Antigen-Não detectado</li>
+    <li>RPR Test-Não reativo</li>
+    <li>Toxoplasma IgG-Positivo (208 IU/ML)</li>
+    <li>Toxoplasma IgM-Negativo</li>
+    <li>Quantiferon-TB Gold-Negativo</li>
+    <li>Strongyloides Ab IgG-Negativo</li>
+    <li>Schistosoma IgG Anticorpo-Negativo</li>
+    <li>CD4 count-2</li>
+    <li>HIV Viral Load-5.2 log10</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(14)</span></h3>
+  <ul>
+    <li>TC de crânio (NCHCT)</li>
+    <li>Ressonância Magnética (RM) de cérebro</li>
+    <li>Punção lombar (LP)</li>
+    <li>Tomografia Computadorizada (TC) de abdômen e pelve</li>
+    <li>Ecocardiograma Transesofágico (TEE)</li>
+    <li>Ecocardiograma Transtorácico (TTE)</li>
+    <li>Angiografia por TC (CTA) de cabeça e pescoço</li>
+    <li>Ressonância Magnética/Angiografia por RM (MRI/MRA) de cabeça</li>
+    <li>Raio-X de tórax (CXR)</li>
+    <li>Retinoscopia</li>
+    <li>Biópsia óssea (não diagnóstica)</li>
+    <li>Biópsia de pele (deferida)</li>
+    <li>Eletrocardiograma (ECG) implícito em monitorização</li>
+    <li>Exame físico neurológico completo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(8)</span></h3>
+  <ul>
+    <li>Staphylococcus aureus coagulase-positivo (MSSA)</li>
+    <li>Estreptococo do Grupo B (Beta Streptococcus Group B)</li>
+    <li>Vírus da Imunodeficiência Humana (HIV)</li>
+    <li>Toxoplasma gondii (exposição prévia, IgG positivo)</li>
+    <li>Mycobacterium tuberculosis (excluído por teste negativo)</li>
+    <li>Cryptococcus (excluído por teste negativo)</li>
+    <li>Strongyloides stercoralis (excluído por teste negativo)</li>
+    <li>Schistosoma (excluído por teste negativo)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente refere queixa principal de convulsões focais motoras no membro superior esquerdo (MSE). Relata história da doença atual (HDA) iniciada durante banho, por volta das 06:30, com início súbito de tremores no braço esquerdo sem aviso prévio, sem alteração do nível de consciência, sem envolvimento de face, perna ou lado contralateral. O episódio durou aproximadamente 15 minutos e resolveu espontaneamente. Posteriormente, no pronto-socorro, apresentou novo episódio de tremores no MSE por 10 minutos, abortado com Ativan. Paciente refere quebra de medicação antirretroviral (HAART) há aproximadamente [tempo não especificado] devido a questões de seguro. Relata fraqueza no braço esquerdo, mas não consegue fornecer cronologia precisa, apenas recorda dificuldade de uso do membro no trabalho. Nega cefaleia, perda de visão, visão turva, diplopia, disartria, disfagia, tontura, vertigem, zumbido ou dificuldade auditiva. Nega dificuldades na produção ou compreensão da fala. Nega fraqueza focal, dormência ou parestesias (exceto a fraqueza no MSE já mencionada). Nega incontinência ou retenção urinária/fecal. Nega dificuldade na marcha. Nega febre recente, calafrios, suores noturnos, perda ou ganho de peso. Nega tosse, falta de ar, dor ou aperto no peito, palpitações. Nega náuseas, vômitos, diarreia, constipação ou dor abdominal. Nega mudança recente nos hábitos intestinais ou urinários, disúria. Nega artralgias ou mialgias. Nega erupções cutâneas. Histórico médico pregresso relevante: HIV/AIDS com não adesão à terapia, Sarcoma de Kaposi, estado de hipercoagulabilidade, histórico de encefalomalácia hemisférica direita (provável AVC prévio), doença arterial coronariana com IAM, hipertensão, doença renal crônica, histórico de embolia pulmonar, trombose venosa profunda, ITP induzida por HIV, histoplasmose disseminada, pneumonia por Pneumocystis jirovecii, hepatite B, parotidomegalia e pericardite com tamponamento.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 98.7°F, FC 80 bpm, PA 172/84 mmHg, FR 19 irpm, SpO2 100% em ar ambiente.
+Geral: Paciente acordado, cooperativo, sem angústia aparente.
+HEENT: Cabeça e pescoço normais e atraumáticos, mucosas úmidas e hidratadas.
+Pescoço: Suplexível, sem rigidez de nuca.
+Pulmões: Ausculta pulmonar com murmúrio vesicular presente bilateralmente, sem ruídos adventícios.
+Cardiovascular: Ritmo cardíaco regular, bulhas normofonéticas, S1 e S2 normais.
+Abdome: Flácido, indolor à palpação, sem defesa ou rigidez.
+Extremidades: Membro inferior esquerdo (MIE) com Sarcoma de Kaposi significativo e extenso com ulcerações. Membro inferior direito (MID) sem alterações aparentes.
+Neurológico:
+- Estado Mental: Alerta, orientado x3. Capacidade de relatar história muito limitada. Atento ao examinador. Mistura idiomas. Fluente, com repetição e compreensão intactas. Prosódia normal. Sem erros parafásicos. Nomeia objetos de alta frequência. Leitura sem dificuldade. Fala hipofônica. Segue comandos midline e apendiculares. Registro de 3 objetos em 2 tentativas. Recuperação de 2 meses do ano aos 5 minutos (não recordou os 3 objetos). Sem apraxia. Extinção visual sutil à esquerda.
+- Nervos Cranianos: II, III, IV, VI: Pupilas isocóricas, fotorreagentes a 3mm, reflexos pupiliares vivos. Movimentos oculares intactos, sem nistagmo, mas com intrusões sacádicas significativas. Campo visual preservado à confrontação. Acuidade visual não aferida. Fundo de olho não visualizado. V: Sensibilidade facial intacta ao toque leve e picada. VII: Sem assimetria facial. VIII: Audição intacta ao atrito de dedos bilateralmente. IX, X: Palato eleva-se simetricamente. XI: Força nos trapézios bilateralmente. XII: Língua protrai-se na linha média.
+- Motor: Trofismo normal. MSE com tônus espástico. MSE obviamente fraco, com elevação delatada e pronação clara com desvio (antes de fechar os olhos). Sem movimentos adventícios como tremores. Sem asterixis. Força: MSE (Deltóide 3, Bíceps 5, Tríceps 4+, Extensor do Punho 4+, Flexor do Punho 4+, Extensor dos Dedos 5, Flexor dos Dedos 5, Intrínsecos da Mão 5, Quadríceps 5, Isquiotibiais 5, Tibial Anterior 5). MID (Deltóide 5, Bíceps 5, Tríceps 5, Extensor do Punho 5, Flexor do Punho 5, Extensor dos Dedos 5, Flexor dos Dedos 5, Intrínsecos da Mão 5, Quadríceps 5, Isquiotibiais 5, Tibial Anterior 5).
+- Sensitivo: No MIE inteiro, relata diminuição da sensibilidade ao toque leve e picada (dentro da área do Sarcoma de Kaposi). Sem déficits em toque leve, picada, sensação térmica, sensibilidade vibratória ou propriocepção em outras áreas. Sem extinção ao toque duplo simultâneo.
+- Reflexos Osteotendinosos: Bíceps 3+, Tríceps 3+, Patelar 3+, Aquileano 3+ bilateralmente. Adutores cruzados positivos. Reflexo do peitoral positivo. Reflexo mandibular positivo.
+- Coordenação: Sem tremor de intenção, sem disdiadococinesia à direita. À esquerda, desajeitamento proporcional à fraqueza. Sem dismetria no teste dedo-nariz.
+- Marcha: Tentativa de deambulação frustrada devido a risco de queda (quase rolou da maca após dificuldade em sentar-se independentemente). Exame de marcha deferido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Diferencial:
+- WBC: 2.9, 3.0, 3.9, 2.2, 2.7 (todos com asterisco indicando alteração).
+- RBC: 4.67, 4.83, 4.81, 4.65, 4.81.
+- Hemoglobina (Hgb): 13.6, 13.8, 13.9, 13.7, 13.9.
+- Hematócrito (Hct): 41.9, 46.5, 41.9, 41.2, 43.1.
+- MCV: 90, 96, 87, 89, 90.
+- MCH: 29.1, 28.6, 28.9, 29.5, 28.9.
+- MCHC: 32.5, 29.7, 33.2, 33.3, 32.3.
+- RDW: 14.8, 15.2, 14.4, 14.7, 14.7.
+- RDWSD: 47.9, 53.2, 45.6, 47.1, 48.5.
+- Plaquetas (Plt): Valores não especificados no texto original, mas marcados como alterados em alguns momentos.
+- Neutrófilos: 64.7%, 36.1%.
+- Linfócitos: 22%.
+- Monócitos: 6.6%, 11.8%.
+- Eosinófilos: 5.5%, 19.3%.
+- Basófilos: 0.3%, 0.7%.
+- Absolutos: Neutrófilos 1.87, 1.07; Linfócitos 0.62, 0.94; Monócitos 0.19, 0.35; Eosinófilos 0.16, 0.57; Basófilos 0.01, 0.02.
+- Contagem de Subpopulações Linfocitárias (CD4/CD8): CD3% 55, Abs CD3 349; CD4% 0, Abs CD4 2; CD8% 46, Abs CD8 294; Relação CD4/CD8 0.01.
+
+Bioquímica Sanguínea:
+- Glicose: 78, 72, 83, 83, 112.
+- Ureia (UreaN): 13, 12, 11, 8, 9.
+- Creatinina (Creat): 1.2, 1.3, 1.3, 1.2, 1.2.
+- Sódio (Na): 140, 142, 134, 137, 132.
+- Potássio (K): 3.8, 4.2, 3.5, 3.7, 3.9.
+- Cloreto (Cl): 108, 109, 100, 104, 100.
+- Bicarbonato (HCO3): 21, 22, 19, 20, 17.
+- Gap Aniónico (AnGap): 15, 15, 19, 17, 19.
+- ALT: 13.
+- AST: 37.
+- LDH: 382.
+- Fosfatase Alcalina (AlkPhos): 76.
+- Bilirrubina Total (TotBili): 0.3.
+- Cálcio: 8.5, 8.1, 8.3.
+- Fósforo (Phos): 2.8, 2.5, 2.9.
+- Magnésio (Mg): 2.1, 1.7, 2.0.
+- Colesterol Total: 170.
+- Triglicerídeos: 114.
+- HDL: 36.
+- LDL Calculado: 111.
+- HbA1c: 5.8%.
+- eAG: 120.
+- CRP: 18.7.
+
+Coagulação:
+- PTT: 39.4, 38.9, 41.9, 51.3, 66.9, 60.8.
+
+Toxicologia:
+- ASA: Negativo.
+- Acetaminofeno: Negativo.
+- Benzodiazepínicos: Negativo.
+- Barbitúricos: Negativo.
+- Tricíclicos: Negativo.
+
+Sorologias e Microbiologia:
+- Cultura de Sangue: Staphylococcus aureus Coagulase-positivo (MSSA) e Beta-Estreptococo do Grupo B.
+- Antígeno Criptocócico: Não detectado.
+- VDRL (Rapid Plasma Reagin): Não reagente.
+- Toxoplasma IgG: Positivo (208 UI/mL).
+- Toxoplasma IgM: Negativo.
+- Quantiferon-TB Gold: Negativo.
+- Anticorpo IgG Strongyloides: Negativo.
+- Anticorpo IgG Schistosoma: &lt;1.00.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">TC Abdome e Pélvis:
+- Massa de 1.4 cm no polo inferior do rim direito, estável desde data anterior, com diagnóstico diferencial incluindo AML pobre em gordura, oncocitoma ou carcinoma de células renais papilares.
+- Lesões ósseas lúcentes no corpo vertebral L5 e crista ilíaca esquerda, menores em comparação com TC anterior.
+- Densidade de tecido mole estável e emaranhada ao redor das artérias ilíaca externa distal e femoral comum.
+- Baço no limite superior do tamanho normal.
+- Nenhuma massa nova identificada no abdome ou pélvis.
+
+Ecocardiograma Transesofágico (TEE):
+- Sem contraste espontâneo ou trombo no átrio esquerdo/apêndice atrial esquerdo ou átrio direito/apêndice atrial direito.
+- Velocidade de ejeção do apêndice atrial direito boa (&gt;20 cm/s).
+- Hipertrofia ventricular esquerda simétrica.
+- Sem defeito do septo atrial visualizado por Doppler 2D ou colorido ou contraste salino.
+- Função sistólica do ventrículo esquerdo aparentemente deprimida.
+- Folhetos da válvula aórtica levemente espessados. Sem massas ou vegetações. Sem abscesso. Sem regurgitação aórtica.
+- Folhetos da válvula mitral levemente espessados. Sem prolapso. Sem massa ou vegetação. Sem abscesso. Regurgitação mitral leve a moderada.
+- Sem abscesso da válvula tricúspide. Pressão sistólica da artéria pulmonar não determinada. Sem vegetação/massa na válvula pulmonar. Sem derrame pericárdico.
+- Impressão: Regurgitação mitral leve a moderada sem vegetação/abscesso discreto. Sem defeito do septo atrial ou forame oval patente. Hipertrofia ventricular esquerda simétrica com hipocinesia global.
+
+Ecocardiograma Transtorácico (TTE):
+- Átrio esquerdo levemente dilatado. Hipertrofia ventricular esquerda simétrica leve. Cavidade do ventrículo esquerdo normal. Função sistólica global normal (FEVE = 60%). Ápice hipocinético. Doppler tecidual sugere pressão de enchimento ventricular esquerdo normal (PCWP &lt;12 mmHg). Câmara direita e movimento da parede livre normais. Aorta ascendente levemente dilatada. Válvula aórtica estruturalmente normal. Válvula mitral estruturalmente normal com regurgitação trivial. Pressão sistólica da artéria pulmonar estimada normal. Sem derrame pericárdico.
+- Impressão: Qualidade de imagem subótima. Sem vegetações óbvias. Ápice hipocinético. Ausência de vegetação por ecocardiografia 2D não exclui endocardite se clinicamente sugerido. FEVE aumentada comparada ao estudo anterior.
+
+TC Tórax:
+- Sem evidência de pneumonia ou outra infecção intratorácica. Atelectasia leve em ambas as zonas pulmonares inferiores.
+
+AngioTC de Cabeça e Pescoço:
+- Perfusão assimétrica menor e menos vasos ramificados nas porções M3 e M4 da artéria cerebral média direita em comparação com a esquerda, correspondendo a regiões de encefalomalácia frontoparietal direita.
+- Doença ateromatosa leve das artérias carótidas internas cervicais bilaterais sem estenose pelos critérios NASCET.
+- Encefalomalácia dos lobos frontal e parietal direito. Pequenos infartos subagudos periféricos pontuais ao longo das margens da encefalomalácia, muito pequenos para caracterização na TC. Sem anormalidade intracraniana aguda na TC de crânio sem contraste.
+
+RM/RM Angio de Cabeça:
+- Exame severamente degradado por movimento. Pequenas áreas de difusão retardada no córtex frontal e parietal direito (afetando giros pré e pós-central), consistentes com infarto agudo a subagudo, ao longo das margens de infarto crônico.
+- Grandes infartos crônicos frontais e parietais posteriores direitos, com infarto crônico menor versus hemorragia na cápsula externa direita.
+- Sem massa realçante.
+- Atrofia moderada e áreas de sinal anormal da substância branca de fundo, configuração mais sugestiva de doença isquêmica crônica de pequenos vasos.
+- Estreitamento leve de segmento V4 hipoplásico da artéria vertebral esquerda. Demais vasculatura arterial intracraniana patente sem estenose significativa, oclusão ou aneurisma.
+- Vasculatura arterial cervical patente sem estenose ou oclusão significativa.
+
+Raio-X de Tórax (CXR):
+- Volumes pulmonares levemente baixos com opacidades em manchas e estrias nas bases pulmonares, possivelmente atelectasia, mas infecção não pode ser completamente excluída. Congestão vascular pulmonar leve sem edema pulmonar evidente.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico complexo de HIV/AIDS com imunossupressão severa (CD4=2), Sarcoma de Kaposi, doença arterial coronariana com IAM prévio, e estado de hipercoagulabilidade, apresentou-se com convulsões focais motoras no membro superior esquerdo. O raciocínio clínico aponta para a etiologia das convulsões secundária a novos infartos cerebrais agudos/subagudos em áreas de encefalomalácia prévia (cicatriz glial), possivelmente decorrentes de êmbolos sépticos ou causa vascular. A presença de bacteremia de alto grau por Staphylococcus aureus sensível à meticilina (MSSA) e Beta-Estreptococo do Grupo B, provavelmente originada de lesões ulceradas do Sarcoma de Kaposi na perna, levanta forte suspeita de endocardite infecciosa com êmbolos sépticos, apesar do TEE não ter visualizado vegetações (o que não exclui o diagnóstico). O paciente foi tratado com anticoagulação (inicialmente heparina, depois apixabana) e antibióticos (Vancomicina, depois Cefazolina) por 6 semanas. A terapia antirretroviral (HAART) foi iniciada com Descovy + Dolutegravir após avaliação de risco de IRIS, e profilaxia para PCP e MAC foi instituída. A eosinofilia e a erupção facial foram tratadas empiricamente. A função renal apresentou leve elevação transitória associada ao uso de Bactrim, mas estabilizou. O paciente evoluiu sem novas convulsões durante a internação. Diagnósticos principais: Convulsão, Acidente Vascular Cerebral (AVC) agudo/subagudo, Bacteremia (MSSA e GBS). Diagnósticos secundários: AIDS, Sarcoma de Kaposi, Lesão Renal Aguda, Doença Arterial Coronariana, História de Tromboembolismo Venoso.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+- Cefazolina 2g IV a cada 8 horas via linha central (para completar 6 semanas de tratamento de bacteremia/endocardite presumida).
+- Apixabana (dose conforme protocolo de anticoagulação) para prevenção de tromboembolismo.
+- Descovy (Tenofovir Alafenamida + Emtricitabina) + Dolutegravir para tratamento do HIV.
+- Trimetoprima-Sulfametoxazol (1 comprimido simples por dia) para profilaxia de Pneumocystis jirovecii.
+- Azitromicina 1200mg por via oral semanal para profilaxia de Mycobacterium avium complex.
+- Betametasona Dipro 0.05% creme tópico para erupção facial.
+- Aspirina e Metoprolol para doença arterial coronariana (iniciados durante internação).
+
+Orientações ao Paciente:
+- Continuar todas as medicações conforme prescrito.
+- Completar o curso de 6 semanas de antibióticos.
+- Monitorar sinais de infecção, sangramento ou novas convulsões.
+- Envolver a irmã (procuradora de saúde) nas decisões e no plano de cuidados.
+
+Encaminhamentos e Seguimento:
+- Infectologia: Retorno na clínica de Infectologia em [data específica]. Solicitar exames de acompanhamento semanais (CBC com diferencial, BUN, Creatinina, VHS, PCR) e enviar resultados por fax. Repetir carga viral do HIV e CD4 em [data específica].
+- Hematologia/Oncologia: Agendar retorno com o provedor existente para acompanhamento do Sarcoma de Kaposi dentro de 4 semanas após a alta.
+- Neurologia/AVC: Agendar retorno na clínica de Neurologia dentro de 4 semanas após a alta.
+- Médico de Família (PCP): Agendar retorno assim que o paciente estiver pronto para retornar para casa da reabilitação.
+- Considerar início de estatina e IECA para história de doença arterial coronariana pós-IAM, conforme avaliação futura.
+- Acompanhamento de lesões renais e ósseas incidentais conforme descrito nos achados de imagem (massa renal e lesões ósseas), com monitoramento de estabilidade.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '24476606';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

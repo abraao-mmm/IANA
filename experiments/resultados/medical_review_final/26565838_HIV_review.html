@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 26565838 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 26565838</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 26565838 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 125
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___               Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Allergies/ADRs on File
+ 
+Attending: ___.
+ 
+Chief Complaint:
+high grade lymphoma, renal failure  
+
+ 
+Major Surgical or Invasive Procedure:
+CVL
+ 
+History of Present Illness:
+Mr. ___ is a ___ year old male with history of IV drug use 
+who presented to ___ ___ with generalized 
+malaise and productive cough, was found to have a new diagnosis 
+of high grade lymphoma and HIV and was transferred to ___ with 
+spontaneous TLS and ___.  
+In brief, Mr. ___ presented to ___ on ___ 
+with generalized malaise, productive cough and dysphagia. At 
+that time he had a low grade fever to 99.4 and was otherwise 
+hemodynamically stable. His physical exam was notable for a 
+large right sided neck mass and scattered cervical LAD. A CXR 
+was performed and showed a hazy density in the RLL ?penumonia. 
+Labs on admission were notable for anemia and thrombocytopenia. 
+The patient was admitted for management of a presumed pneumonia 
+and workup for possible lymphoma. He was started on vancomycin 
+and levofloxacin. A CT chest was performed on ___ and showed 
+mild splenomegaly, small left pleural effusion, and mediastinal 
+and left hilar LAD. The patient admitted to IVDU and having 
+relations with same sex partners and an HIV test was performed. 
+His HIV test was positive. CD4 count was 29. ID was consulted 
+and he was started on HAART (lopinavir/ritonavir, 
+emtricitabine/tenofovir). GI was consulted for esophagitis. An 
+EGD showed Grade D esophagitis with ___, HSV and MALT 
+lymphoma. He was started on PPI BID, carafate and reglan. He was 
+also started on diflucan to cover for ___ esophagitis, 
+acyclovir for HSV and his antibiotics were transitioned to 
+vanc/cefepime. Per ID recs his antibiotics were transitioned to 
+ceftriaxone and bactrim DS ppx. He was ruled out for TB with 3 
+negative smears. Heme/Onc was consulted and performed a BMBx 
+which showed aggressive lymphoma. ENT was also consulted for LN 
+bx of the right neck LN, however this was deferred due to his 
+TCP. The patient was also started on PPN for severe protein 
+malnutrition.  
+On ___ the patient suddenly decompensated, became short of 
+breath and had a worsening acidosis and was transferred to the 
+medical ICU for further management. He was intubated on ___ for 
+acute respiratory failure secondary to his metabolic acidosis. 
+Renal was consulted and the decision was made to hold off on HD. 
+His lactate was 13, UA 18.4, LDH ___, Cr 3.2. Acyclovir and 
+bactrim were held. He received rasburicase (unclear if on ___ or 
+___, with repeat UA 2) and was transferred to ___ for 
+management of TLS, ___, and high grade lymphoma.  
+ 
+Past Medical History:
+Asthma  
+Recent molar extraction  
+
+ 
+Social History:
+___
+Family History:
+Unknown as patient intubated  
+
+ 
+Physical Exam:
+Physical Exam:  
+Vitals- T 100.8, HR 133, BP 104/52, 91% on CMV Vt 500, RR 24, 
+FiO2 60%, PEEP 5  
+General: intubated, sedated  
+HEENT: PERRL, sclera anicteric, dry MM, ETT, OGT  
+Lungs: referred upper airway noises, intubated  
+CV: tachycardic, regular rhythm, no murmurs  
+Abdomen: soft, non-distended, bowel sounds present, 
++splenomegaly  
+GU: + foley  
+Ext: warm, well perfused, 2+ pulses, no clubbing, cyanosis or 
+edema  
+
+ 
+Pertinent Results:
+ADMISSION LABS:
+___ 05:42PM BLOOD WBC-10.2 RBC-3.20* Hgb-8.9* Hct-27.5* 
+MCV-86 MCH-27.8 MCHC-32.3 RDW-17.5* Plt Ct-23*
+___ 05:42PM BLOOD ___ PTT-37.7* ___
+___ 05:42PM BLOOD Glucose-66* UreaN-19 Creat-3.9* Na-140 
+K-4.6 Cl-109* HCO3-13* AnGap-23*
+___ 05:42PM BLOOD ALT-24 AST-645* ___ AlkPhos-91 
+TotBili-0.3
+___ 05:42PM BLOOD Calcium-8.6 Phos-7.5* Mg-2.3 UricAcd-0.3*
+___ 06:04PM BLOOD Lactate-16.2*
+___ 06:04PM BLOOD freeCa-1.13
+.
+DISCHARGE LABS: 
+___ 11:43AM BLOOD WBC-29.7* RBC-3.39* Hgb-9.4* Hct-30.1* 
+MCV-89 MCH-27.7 MCHC-31.2 RDW-17.2* Plt Ct-74*
+___ 05:35PM BLOOD UreaN-18 Creat-2.6* Na-134 K-5.8* Cl-92* 
+HCO3-9* AnGap-39*
+___ 05:35PM BLOOD ___ CK(CPK)-668*
+___ 05:35PM BLOOD Calcium-8.2* Phos-9.0* Mg-2.2 
+UricAcd-0.6*
+___ 08:23PM BLOOD Type-CENTRAL VE Temp-36.7 pO2-42* 
+pCO2-34* pH-7.08* calTCO2-11* Base XS--20 Intubat-INTUBATED 
+Vent-CONTROLLED
+ 
+Brief Hospital Course:
+Mr. ___ is a ___ year old male with history of IV drug use 
+who presented to ___ ___ with generalized 
+malaise and productive cough, was found to have a new diagnosis 
+of high grade lymphoma and HIV and was transferred to ___ with 
+spontaneous TLS and ___ who passed away on ___.
+ 
+# New diagnosis of high grade lymphoma with spontaneous TLS. 
+Diagnosed based off of a bone marrow biopsy at ___. 
+Concern for Burkitts is high given EBV IgM+ and HIV diagnosis. 
+Arrived at ___ with tumor lysis syndrome and acute renal 
+failure. Treated with Dexamethasone 20mg IV daily while here. In 
+the setting of septic shock and acute renal failure and 
+inability to tolerate CVVH resulting in severe metabolic 
+acidosis (ABG 7.___/134/9 and a lactate of 19.4), the 
+patient&#x27;s family made the decision to change his goals of care 
+from aggressive medical care and to focus on comfort-focused 
+care. This decision was reached after a multidisciplinary 
+meeting with the ICU team, the ___ service and the patient&#x27;s 
+family, during which time the medical teams made it clear to the 
+patient&#x27;s family that while he was receiving all possible 
+medical treatments, it was extremely unlikely that he would 
+survive. The family endorsed understanding of this, and after 
+several more hours of aggressive care, the family ultimately 
+made the decision to transition to comfort-focused care given 
+clinical worsening despite maximal medical care. Mr. ___ 
+passed away on ___ and appeared to be comfortable during the 
+dying process. 
+
+# Septic shock. Was started on Vancomycin, Cefepime, Fluconazole 
+and Acyclovir. No source was identified. Required up to 3 
+pressors including Norepinephrine, vasopression, and dobutamine. 
+Patient remained profoundly hypotensive with increasing 
+vasopressor needs over the course of his hospitalization; 
+ultimately, given refractory shock, the decision was made to 
+transition to comfort-focused care and vasopressors were 
+discontinued. 
+
+# Acute renal failure/Metabolic acidosis. Secondary to 
+spontanous tumor lysis of high grade lymphoma. Could not 
+tolerate CVVH. Lactate trended up to 20.1. 
+
+# Respiratory failure. Intubated in the setting of severe 
+acidosis as above and with significant pulmonary edema. 
+
+# HIV. New diagnosis at ___ and HARRT was started. Per 
+report CD4 count 28. Per ID recs, HARRT was halted. 
+
+# ___ vs HSV esophagitis. Continued fluconazole and 
+acyclovir. 
+ 
+Medications on Admission:
+Reglan 10 mg q6h IV  
+Bactrim DS 1 PO daily (held)  
+Ceftriaxone 1 g IV daily  
+Kaletra 2 tabs PO BID  
+Truvada 1 tab PO daily  
+APAP 650 q4h prn  
+Diflucan 400 mg IV daily  
+Mag Oxid  
+Carafate  
+Protonix 40 mg IV BID  
+Ambien 5 mg PO qHS  
+Zofran  
+Sodium HCO3 D5W 150 mEq IVF  
+Acyclovir 350 mg q8h IV  
+Allopurinol ___ mg daily  
+
+HOME MEDICATIONS:  
+None known  
+
+ 
+Discharge Medications:
+Mr. ___ passed away. 
+ 
+Discharge Disposition:
+Expired
+ 
+Discharge Diagnosis:
+Mr. ___ died during this hospitalization 
+ 
+Discharge Condition:
+Mr. ___ died during this hospitalization 
+ 
+Discharge Instructions:
+Mr. ___ died during this hospitalization 
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(12)</span></h3>
+  <ul>
+    <li>Linfoma de alto grau</li>
+    <li>Síndrome de lise tumoral espontânea</li>
+    <li>Infecção pelo HIV</li>
+    <li>Sepse</li>
+    <li>Choque séptico</li>
+    <li>Acidose metabólica</li>
+    <li>Insuficiência respiratória</li>
+    <li>Edema pulmonar</li>
+    <li>Esofagite por HSV</li>
+    <li>Linfoma MALT</li>
+    <li>Asma</li>
+    <li>Esofagite por Candida</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(16)</span></h3>
+  <ul>
+    <li>Mal-estar generalizado</li>
+    <li>Tosse produtiva</li>
+    <li>Disfagia</li>
+    <li>Febre</li>
+    <li>Massa cervical direita</li>
+    <li>Linfadenopatia cervical</li>
+    <li>Linfadenopatia mediastinal e hilar esquerda</li>
+    <li>Esplenomegalia</li>
+    <li>Derrame pleural esquerdo</li>
+    <li>Dispneia</li>
+    <li>Ruídos aéreos superiores</li>
+    <li>Taquicardia</li>
+    <li>Hipotensão</li>
+    <li>Hipoxemia</li>
+    <li>Sinais vitais instáveis</li>
+    <li>Lesão renal aguda</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(24)</span></h3>
+  <ul>
+    <li>Vancomicina</li>
+    <li>Levofloxacino</li>
+    <li>Cefepima</li>
+    <li>Ceftriaxona</li>
+    <li>Bactrim DS (Sulfametoxazol/Trimetoprima)</li>
+    <li>Dexametasona</li>
+    <li>Norepinefrina</li>
+    <li>Vasopressina</li>
+    <li>Dobutamina</li>
+    <li>Fluconazol</li>
+    <li>Aciclovir</li>
+    <li>Rasburicase</li>
+    <li>Reglan (Metoclopramida)</li>
+    <li>Kaletra (Lopinavir/Ritonavir)</li>
+    <li>Truvada (Emtricitabina/Tenofovir)</li>
+    <li>Diflucan (Fluconazol)</li>
+    <li>Protonix (Pantoprazol)</li>
+    <li>Carafate (Sucralfato)</li>
+    <li>APAP (Paracetamol)</li>
+    <li>Ambien (Zolpidem)</li>
+    <li>Zofran (Ondansetron)</li>
+    <li>Bicarbonato de Sódio</li>
+    <li>Allopurinol</li>
+    <li>Óxido de Magnésio</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(56)</span></h3>
+  <ul>
+    <li>Leucócitos-10.2</li>
+    <li>Hemoglobina-8.9 g/dL</li>
+    <li>Hematócrito-27.5%</li>
+    <li>Plaquetas-23.000/mm³</li>
+    <li>PTT-37.7 s</li>
+    <li>Glicose-66 mg/dL</li>
+    <li>Ureia-19 mg/dL</li>
+    <li>Creatinina-3.9 mg/dL</li>
+    <li>Sódio-140 mEq/L</li>
+    <li>Potássio-4.6 mEq/L</li>
+    <li>Cloreto-109 mEq/L</li>
+    <li>Bicarbonato-13 mEq/L</li>
+    <li>Gap Anion-23 mEq/L</li>
+    <li>ALT-24 U/L</li>
+    <li>AST-645 U/L</li>
+    <li>Fosfatase Alcalina-91 U/L</li>
+    <li>Bilirrubina Total-0.3 mg/dL</li>
+    <li>Cálcio-8.6 mg/dL</li>
+    <li>Fósforo-7.5 mg/dL</li>
+    <li>Magnésio-2.3 mg/dL</li>
+    <li>Ácido Úrico-0.3 mg/dL</li>
+    <li>Lactato-16.2 mg/dL</li>
+    <li>Cálcio Livre-1.13 mmol/L</li>
+    <li>Leucócitos-29.7</li>
+    <li>Hemoglobina-9.4 g/dL</li>
+    <li>Hematócrito-30.1%</li>
+    <li>Plaquetas-74.000/mm³</li>
+    <li>Ureia-18 mg/dL</li>
+    <li>Creatinina-2.6 mg/dL</li>
+    <li>Sódio-134 mEq/L</li>
+    <li>Potássio-5.8 mEq/L</li>
+    <li>Cloreto-92 mEq/L</li>
+    <li>Bicarbonato-9 mEq/L</li>
+    <li>Gap Anion-39 mEq/L</li>
+    <li>CK-668 U/L</li>
+    <li>Cálcio-8.2 mg/dL</li>
+    <li>Fósforo-9.0 mg/dL</li>
+    <li>Magnésio-2.2 mg/dL</li>
+    <li>Ácido Úrico-0.6 mg/dL</li>
+    <li>pH-7.08</li>
+    <li>pO2-42 mmHg</li>
+    <li>pCO2-34 mmHg</li>
+    <li>HCO3-11 mEq/L</li>
+    <li>Excesso de Base--20</li>
+    <li>CD4-29 células/mm³</li>
+    <li>CD4-28 células/mm³</li>
+    <li>HIV-Positivo</li>
+    <li>EBV IgM-Positivo</li>
+    <li>HIV Western Blot-Positivo</li>
+    <li>Cultura de escarro para TB-Negativo (3 amostras)</li>
+    <li>Biópsia de medula óssea-Linfoma agressivo</li>
+    <li>EGD-Esofagite Grau D com HSV e Linfoma MALT</li>
+    <li>CXR-Densidade difusa no LIE (?pneumonia)</li>
+    <li>TC de tórax-Esplenomegalia leve, derrame pleural esquerdo pequeno, linfadenopatia mediastinal e hilar esquerda</li>
+    <li>Urina-18.4</li>
+    <li>Urina-2</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(13)</span></h3>
+  <ul>
+    <li>Cateter venoso central (CVL)</li>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Tomografia computadorizada de tórax (CT chest)</li>
+    <li>Teste para HIV</li>
+    <li>Contagem de CD4</li>
+    <li>Endoscopia digestiva alta (EGD)</li>
+    <li>Biópsia de medula óssea (BMBx)</li>
+    <li>Biópsia de linfonodo cervical (deferida)</li>
+    <li>Gasometria arterial (ABG)</li>
+    <li>Hemograma completo</li>
+    <li>Perfil bioquímico</li>
+    <li>Cultura de escarro para tuberculose</li>
+    <li>Sorologia para EBV</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(4)</span></h3>
+  <ul>
+    <li>Vírus da Imunodeficiência Humana (HIV)</li>
+    <li>Vírus Herpes Simples (HSV)</li>
+    <li>Vírus de Epstein-Barr (EBV)</li>
+    <li>Candida</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, com histórico de uso de drogas intravenosas, queixou-se de mal-estar generalizado, tosse produtiva e disfagia. Relata que foi diagnosticado recentemente com linfoma de alto grau e HIV. O paciente refere que, ao apresentar-se inicialmente, teve febre baixa. Relata uso de drogas intravenosas e relações sexuais com parceiros do mesmo sexo. Paciente refere histórico de asma. Nega alergias a medicamentos. Paciente não relatou outros sintomas específicos além dos mencionados. O paciente faleceu durante a internação.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 100,8°F, Frequência Cardíaca 133 bpm, Pressão Arterial 104/52 mmHg, Saturação de Oxigênio 91% (em ventilação mecânica), Frequência Respiratória 24 irpm, FiO2 60%, PEEP 5. Geral: Paciente intubado e sedado. Cabeça, Pescoço, Olhos, Ouvidos, Nariz e Garganta (HEENT): Pupilas isocóricas e fotorreagentes, escleras anictéricas, mucosas orais secas, presença de tubo endotraqueal (ETT) e sonda orogástrica (OGT). Pulmões: Ruídos de via aérea superior referidos, paciente intubado. Cardiovascular: Taquicárdico, ritmo regular, sem sopros. Abdome: Flácido, não distendido, ruídos hidroaéreos presentes, esplenomegalia palpável. Genitourinário: Presença de sonda vesical de demora (Foley). Extremidades: Quentes, bem perfundidas, pulsos 2+, sem clubbing, cianose ou edema.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma de Admissão: Leucócitos 10.2, Hemácias 3.20, Hemoglobina 8.9, Hematócrito 27.5, MCV 86, MCH 27.8, MCHC 32.3, RDW 17.5, Plaquetas 23. Coagulação: PTT 37.7. Bioquímica de Admissão: Glicose 66, Ureia 19, Creatinina 3.9, Sódio 140, Potássio 4.6, Cloreto 109, Bicarbonato 13, Gap Aniónico 23. Enzimas Hepáticas de Admissão: ALT 24, AST 645, Fosfatase Alcalina 91, Bilirrubina Total 0.3. Eletrólitos de Admissão: Cálcio 8.6, Fósforo 7.5, Magnésio 2.3, Ácido Úrico 0.3. Lactato de Admissão: 16.2. Cálcio Livre de Admissão: 1.13. Hemograma de Alta: Leucócitos 29.7, Hemácias 3.39, Hemoglobina 9.4, Hematócrito 30.1, MCV 89, MCH 27.7, MCHC 31.2, RDW 17.2, Plaquetas 74. Bioquímica de Alta: Ureia 18, Creatinina 2.6, Sódio 134, Potássio 5.8, Cloreto 92, Bicarbonato 9, Gap Aniónico 39. CPK de Alta: 668. Eletrólitos de Alta: Cálcio 8.2, Fósforo 9.0, Magnésio 2.2, Ácido Úrico 0.6. Gasometria Arterial (via cateter central): Temperatura 36,7°C, pO2 42, pCO2 34, pH 7.08, TCO2 calculado 11, Excesso de Base -20. Sorologia: HIV positivo. Contagem de CD4: 29 (admissão) e 28 (relato). Marcadores Inflamatórios/Outros: LDH elevado (valor específico não transcrito no texto, apenas indicado como elevado). Urina: Ácido Úrico urinário inicial 18.4, repetido 2 após rasburicase. Hemocultura: Sem fonte identificada de sepse. Sorologia para EBV: IgM positivo. TBC: 3 esfregaços negativos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Raio-X de Tórax (Admissão): Densidade difusa no lobo inferior direito, sugestivo de pneumonia. Tomografia Computadorizada (TC) de Tórax: Esplenomegalia leve, pequeno derrame pleural esquerdo, linfadenopatia mediastinal e hilar esquerda. Biópsia de Medula Óssea: Linfoma agressivo. Endoscopia Digestiva Alta (EGD): Esofagite Grau D com úlceras, presença de HSV e linfoma MALT.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de uso de drogas intravenosas, diagnosticado com linfoma de alto grau (suspeita de Linfoma de Burkitt devido à positividade para EBV IgM e HIV) e HIV com imunossupressão severa (CD4 ~28-29). Apresentou-se com Síndrome de Lise Tumoral (SLT) espontânea, levando a insuficiência renal aguda e acidose metabólica grave. O quadro evoluiu para choque séptico refratário (requerendo até 3 vasopressores: norepinefrina, vasopressina e dobutamina) e falência respiratória, necessitando de intubação orotraqueal. A acidose metabólica foi severa (pH 7.08, lactato até 20.1). A equipe de Infectologia iniciou terapia antirretroviral (HAART), que foi posteriormente suspensa devido ao quadro clínico instável. A equipe de Gastroenterologia diagnosticou esofagite por Candida e HSV. A equipe de Hematologia confirmou linfoma agressivo. A equipe de Nefrologia consultada optou por não iniciar hemodiálise devido à intolerância do paciente. Diante da progressão do quadro com choque refratário e acidose metabólica grave, apesar de tratamento médico máximo, a família, após reunião multidisciplinar, optou por mudar o foco para cuidados paliativos (conforto). O paciente faleceu durante a internação.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">O paciente faleceu durante a internação. Não há prescrição de medicações de alta, encaminhamentos ou retornos programados. O plano final foi a transição para cuidados de conforto, com descontinuação de vasopressores e suporte de vida, focando no alívio de sintomas e conforto do paciente durante o processo de morte.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '26565838';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

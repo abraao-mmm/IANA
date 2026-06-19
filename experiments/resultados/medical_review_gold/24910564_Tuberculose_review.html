@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 24910564 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 24910564</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 24910564 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Tuberculose<br>
+    <strong>Entidades extraídas:</strong> 116 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+chest pain, bilateral arm pain
+ 
+Major Surgical or Invasive Procedure:
+Bronchoscopy ___
+
+ 
+History of Present Illness:
+___ ___ ___ worker presenting to the ED with back 
+pain, B/L upper extremity pain, chest pain, and low back pain. 
+Pt is visiting ___ from ___ on vacation with his famly, 
+came to ___ 5 days ago. He reports his symptoms are chronic and 
+that the chest pain started approximately 2 months ago. His back 
+pain has been present for over ___ year and started acutely after 
+having sexual intercourse with his wife. He was bed bound and 
+unable to walk for several months after the onset of the back 
+pain. He said the pain was in his lower back at approximately 
+the level of L4/L5 and radiated down to his buttocks. An imaging 
+study of his back revealed a disc herniation. He also sustained 
+a fall about 3 months ago, but denies back injury during that 
+time. His bilateral arm pain has been present for about 9 
+months, worse with movement, better with rest. He rated the arm 
+pain as a ___. Pain in arms and chest described as an aching 
+pain, but he periodically will have sharp shooting pains in his 
+mid-sternum that radiate down his arms stopping just below the 
+shoulder. He stated that the chest pain was an ___ yesterday 
+when he came to the ED, but today it is ___. First episode of 
+chest pain about 2 months ago, and has had low levels of chronic 
+chest pain since then. This underlying pain has been punctuated 
+by several episodes of more severe, episodic pain that radiates 
+down his arms. He had an episode of this more severe pain on the 
+morning he presented to the ED. The pain he says is usually 
+worse in the morning, worse with exertion, and better with rest, 
+but he will occassionally get severe pain when he is lying down. 
+Intermittently associated with SOB. He denies any tingling in 
+limbs, recent weight loss, fever (although he had one when he 
+had malaria), cough, SOB, abdominal pain and any other pain 
+apart from arm, back and chest pain he mentioned. Also reports 
+he has a &quot;mosquito born&quot; illness 2 weeks ago, treated with 
+?coartem (pt spelled quarten) x 1 week. Has been taking Voltaren 
+(diclofenac) for pain with intermittent relief. In the ED, 
+initial vital signs were: 98.8 59 128/82 16 100%. Exam 
+unremarkable. Labs were notable for troponin &lt;0.01 x 2, lactate 
+1.7 
+Studies performed include blood, urine cultures, and mycotic 
+blood cx. EKG with diffuse STE. STAT Echo was notable for mild 
+symmetric LVH with preserved global and regional biventricular 
+systolic function. Mildly dilated aortic root. No evidence of 
+pericardial effusion. Patient was given aspirin 324 mg, 
+ibuprofen 600mg, naproxen 500mg, colchicine 0.6mg. Vitals on 
+transfer: 98.5 71 136/94 16 100%r/a RA. Upon arrival to the 
+floor, the patient was standing up in his room in no apparent 
+distress. Currently reports ___ chest pain without any arm 
+pain. Ambulating around the room without difficulty. No 
+shortness of breath, abdominal pain, nausea/vomiting/diarrhea, 
+no night sweats.
+ 
+Past Medical History:
+- RECURRENT MALARIA
+- CHRONIC LOW BACK PAIN
+- HTN 
+- HX of L ankle fx s/p fall
+ 
+Social History:
+___
+Family History:
+Father has CAD s/p MI; also mentioned he has respiratory 
+problems,but patient was unable to describe the details. Mother 
+and siblings healthy. Cousin mentioned extensive family history 
+of diabetes and early onset renal disease. 
+ 
+Physical Exam:
+ADMISSION EXAM:
+Vitals- Tc 98.7 144/90 56 18 100% RA 
+General: ___ man standing up in no apparent distress.  
+HEENT: sclera were an-icteric; mucus membranes were moist; eye 
+movements were intact
+Neck: was supple; no JVP was appreciated  
+CV: RRR; normal S1 &amp; S2, no murmurs rubs or gallops  
+Lungs: lungs were clear to auscultation bilaterally  
+Abdomen: normoative bowel sounds, non-tender non-distended; no 
+hepatosplenomegaly 
+Ext: warm, well perfused with + bilateral pedal pulses; no 
+oedema
+MSK: point tenderness at the level of L4-L5 that radiates down 
+to buttocks 
+Neuro: CN II-XII were entact; ___ tricepts and bicept and ___ 
+hip flexors and extensors; arm pain elicited with strength exam 
+R&gt;L
+Skin: no obvious skin lesions or rashes were appreciated
+
+DISCHARGE EXAM:
+Vitals: 97.7 135/98 62 18 100%RA
+General: ___ gentleman, very pleasant in NAD
+HEENT: PERRLA, sclera anicteric
+Neck: supple 
+CV: RRR, normal S1/S2, no murmurs rubs or gallops  
+Lungs: lungs clear to auscultation bilaterally without crackles, 
+wheezes, rhonchi  
+Abdomen: normoative bowel sounds, non-tender, non-distended
+Ext: warm, well perfused, no edema
+MSK: point tenderness at the level of L4-L5 that radiates down 
+to buttocks 
+Neuro: A+O X 3, CN II-XII intact
+Skin: limited skin-colored papular rash on chest and upper 
+abdomen, non-pruritic, non-erythematous, without ulcers or 
+excoriation 
+ 
+Pertinent Results:
+LABS ON ADMISSION:
+___ 09:00PM BLOOD WBC-4.9 RBC-5.05 Hgb-15.5 Hct-44.4 MCV-88 
+MCH-30.7 MCHC-34.9 RDW-13.5 Plt ___
+___ 09:00PM BLOOD Neuts-44* Bands-0 ___ Monos-10 
+Eos-3 Baso-0 Atyps-2* ___ Myelos-0
+___ 09:00PM BLOOD Hypochr-NORMAL Anisocy-NORMAL 
+Poiklo-NORMAL Macrocy-NORMAL Microcy-NORMAL Polychr-NORMAL
+___ 09:00PM BLOOD Plt Smr-NORMAL Plt ___
+___ 09:00PM BLOOD Glucose-94 UreaN-14 Creat-0.9 Na-143 
+K-5.3* Cl-100 HCO3-28 AnGap-20
+___ 09:00PM BLOOD cTropnT-&lt;0.01
+___ 07:15AM BLOOD Calcium-9.4 Phos-4.4 Mg-1.8
+___ 09:00PM BLOOD TSH-2.5
+___ 09:00PM BLOOD CRP-1.1
+
+PERTINENT LABS:
+___ 03:00AM BLOOD cTropnT-&lt;0.01
+___ 05:10PM BLOOD CK-MB-5
+___ 06:20PM BLOOD HBsAg-NEGATIVE HBsAb-NEGATIVE 
+HBcAb-NEGATIVE
+___ 06:20PM BLOOD HIV Ab-NEGATIVE
+___ 06:20PM BLOOD HCV Ab-NEGATIVE
+
+MICRO:
+___: QUANTIFERON(R)-TB GOLD        POSITIVE  A         
+NEGATIVE
+___ 05:10PM BLOOD Parst S-NEGATIVE
+___: Urine Histoplasma Antigen xxxxx
+___: Universal PCR XXX
+
+___: Urine culture negative
+___: Blood culture negative
+AFB smear negative x 3
+___: RPR negative
+___: Malaria antigen test negative
+
+PATHOLOGY:
+___: Lung core biopsy
+- Scant fragments of alveolated lung parenchyma and airway 
+tissue with a single partially necrotizing
+granuloma (best seen on level 1A-10), see Note.
+- GMS, AFB, and ___ (modified AFB) stains are negative for 
+microorganisms.
+- No malignancy identified, multiple levels examined.
+
+EKG:
+___:
+Sinus bradycardia. Slight ST segment elevation in the inferior 
+and leads V3-V6 which could be consistent with normal early 
+repolarization. Ischemia or pericarditis cannot be excluded. No 
+previous tracing available for comparison.
+RatePRQRSQTQTc (___)  ___
+___
+
+___:
+Sinus bradycardia. Slight diffuse J point elevations without PR 
+segment
+deviation, a finding most consistent with early repolarization 
+variant,
+although, pericarditis is not excluded. Biphasic T wave 
+inversion in lead V2 may also be seen as a physiologic variant. 
+Overall, the tracing is not
+diagnostically changed from ___.
+
+TTE:
+___:
+The left atrium and right atrium are normal in cavity size. No 
+atrial septal defect is seen by 2D or color Doppler. The 
+estimated right atrial pressure is ___ mmHg. Mild symmetric left 
+ventricular hypertrophy with normal cavity size, and 
+regional/global systolic function (biplane LVEF = 55 %). Tissue 
+Doppler imaging suggests a normal left ventricular filling 
+pressure (PCWP&lt;12mmHg). Right ventricular chamber size and free 
+wall motion are normal. The aortic root is mildly dilated at the 
+sinus level. The aortic valve leaflets (3) appear structurally 
+normal with good leaflet excursion and no aortic stenosis or 
+aortic regurgitation. The mitral valve leaflets are mildly 
+thickened. There is no mitral valve prolapse. Physiologic mitral 
+regurgitation is seen (within normal limits). The tricuspid 
+valve leaflets are mildly thickened. The estimated pulmonary 
+artery systolic pressure is normal. There is no pericardial 
+effusion. 
+
+IMPRESSION: Mild symmetric left ventricular hypertrophy with 
+preserved global and regional biventricular systolic function. 
+Mildly dilated aortic root. 
+
+IMAGING:
+CXR ___:
+Right upper lung opacity potentially due to scarring however 
+given lack of
+priors to document stability, chest CT is suggested for further 
+evaluation on a nonurgent basis to evaluate for underlying mass.
+
+CT Chest ___:
+Dominant low-density nodule and clusters of peribronchial micro 
+nodules in the apical right upper lobe, with diffuse bronchial 
+wall thickening which is most extensive in the right upper lobe. 
+These findings are most concerning for pulmonary tuberculosis. 
+Other atypical infection, including fungal infection, should 
+also be considered. Please correlate clinically. Malignancy is 
+less likely, but follow up is needed after treatment of the 
+presumed infection.
+
+Xray L Spine:
+___:
+This examination is essentially normal.  The partially 
+visualized hips and SI joints are WNL.  Normal vertebral body 
+alignment and discs.  No fracture or bone destruction.  Normal 
+bowel gas.
+ IMPRESSION: Normal.
+
+ 
+Brief Hospital Course:
+___ ___ gentleman presenting with back pain, bilateral upper 
+extremity pain, chest pain, and low back pain found to have 
+positive quantiferon gold, pathology consistent with necrotizing 
+granulomas and CXR and chest CT findings concerning for 
+tuberculosis, initiated on RIPE treatment for TB during this 
+hospitalization. 
+
+#TUBERCULOSIS: Mr. ___ presented with a RUL mass that was 
+seen on CXR and CT. Bronchoscopy images initially were 
+concerning for malignancy. However quantiferon gold positive 
+with travel history and path concerning for necrotizing 
+granuloma and TB despite AFB negative x 3. HIV was negative. 
+Infectious disease was consulted and given public health risk 
+and high suspicion for TB, started RIPE therapy ___. 
+Patient&#x27;s BAL GeneXpert returned positive on ___. He was 
+continued on rifampin 600mg PO daily, isoniazid ___ PO daily, 
+pyridoxine 50mg PO daily, pyrazinamide 1500mg PO daily, 
+ethambutol 1200mg PO daily during his hospitalization and was 
+discharged with two months of medications and plan to follow-up 
+with DPH and the ___ at ___.
+
+#RASH: New on chest after starting RIPE therapy. Most likely 
+very mild drug reaction. Limited and without mucosal surface 
+involvement. Improving at time of discharge.
+
+#TRANSAMINITIS: Elevated with labs prior to RIPE initiation. 
+Will need to be trended as outpatient particularly given 
+isoniazid. Hepatitis serologies negative on admission. LFTs 
+downtrending prior to discharge.
+
+#BACK AND ARM PAIN: Patient w/long history of back pain that 
+started abruptly when he had a slipped disc a year ago. Likely 
+MSK strain/radiculopathy. Potts disease was r/o w/ normal plain 
+film. Continue acetaminophen ___ mg PO/NG Q8H:PRN pain and 
+lidocaine patch. 
+
+TRANSITONAL ISSUES:
+-Mr. ___ had a positive quant gold test, RUL finding on 
+bronchoscopy concerning for tuberculosis and MTB GeneXpert that 
+confirmed the presence of active TB infection. 
+-Mr. ___ being discharged on RIPE therapy with a plan to 
+continue this therapy for 2 months with subsequent therapy 
+directed by his ID physicians. HE WILL FOLLOW-UP IN CLINIC WITH 
+___. ___ AT ___ ON ___.
+-Patient does not have immunity to hepatitis B, would benefit 
+from vaccination.
+-Patient was HIV negative during this admission but recommend 
+retesting in ___ months for confirmation.
+# Code Status: Full Code
+# Emergency Contact/HCP: Sister, ___ ___ Cousin, 
+___ ___
+ 
+___ on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Diclofenac Sodium ___ 50 mg PO BID 
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Primary:
+Milliary Tuberculosis
+Hepatitis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+It was a pleasure taking care of you during your recent 
+admission to ___. You came into 
+the hospital because of chest, arm, and back pain. We found that 
+you had concerning findings in your right lung for tuberculosis 
+and you were started on treatment for this infection. 
+Additionally you underwent a bronchoscopy that confirmed the 
+presence of tuberculosis (TB). It is very important that you 
+take your medications as directed and see a doctor after you 
+complete treatment for tuberculosis.
+
+Be well and take care.
+
+Sincerely,
+Your ___ Care Team
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(12)</span></h3>
+  <ul>
+    <li>Tuberculose miliar</li>
+    <li>Tuberculose pulmonar</li>
+    <li>Infecção ativa por Mycobacterium tuberculosis</li>
+    <li>Reação medicamentosa cutânea leve</li>
+    <li>Transaminase elevada</li>
+    <li>Hipertensão arterial sistêmica</li>
+    <li>Discopatia degenerativa com hérnia de disco</li>
+    <li>Fratura de tornozelo esquerdo prévia</li>
+    <li>Malaria recorrente (histórico)</li>
+    <li>Doença arterial coronariana (histórico familiar)</li>
+    <li>Diabetes mellitus (histórico familiar)</li>
+    <li>Doença renal crônica (histórico familiar)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(19)</span></h3>
+  <ul>
+    <li>Dor torácica</li>
+    <li>Dor bilateral nos braços</li>
+    <li>Dor lombar</li>
+    <li>Dor aguda na região L4-L5 irradiada para glúteos</li>
+    <li>Dispneia intermitente</li>
+    <li>exantema papular colorido na pele no tórax e abdome superior</li>
+    <li>Tendência à dor em ponto específico na coluna lombar</li>
+    <li>Hipertrofia ventricular esquerda simétrica leve</li>
+    <li>Raiz aórtica levemente dilatada</li>
+    <li>Opacidade no pulmão superior direito</li>
+    <li>Nódulo de baixa densidade dominante e micro-nódulos peribronquiais no lobo superior direito</li>
+    <li>Espessamento difuso da parede brônquica</li>
+    <li>Granuloma necrosante</li>
+    <li>Bradicardia sinusal</li>
+    <li>Elevação do segmento ST</li>
+    <li>Elevação do ponto J difusa</li>
+    <li>Inversão da onda T bifásica em V2</li>
+    <li>Insuficiência mitral fisiológica</li>
+    <li>Espessamento leve das valvas mitral e tricúspide</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(13)</span></h3>
+  <ul>
+    <li>Rifampina 600 mg PO diária</li>
+    <li>Isoniazida PO diária</li>
+    <li>Piridoxina 50 mg PO diária</li>
+    <li>Pirazinamida 1500 mg PO diária</li>
+    <li>Etambutol 1200 mg PO diária</li>
+    <li>Acetaminofeno 500 mg PO/NG a cada 8 horas conforme necessidade para dor</li>
+    <li>Parche de lidocaína</li>
+    <li>Diclofenaco sódico 50 mg PO duas vezes ao dia</li>
+    <li>Aspirina 324 mg</li>
+    <li>Ibuprofeno 600 mg</li>
+    <li>Naproxeno 500 mg</li>
+    <li>Colchicina 0,6 mg</li>
+    <li>Coartem (tratamento para malária)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(45)</span></h3>
+  <ul>
+    <li>WBC-4.9</li>
+    <li>RBC-5.05</li>
+    <li>Hemoglobina-15.5</li>
+    <li>Hematócrito-44.4</li>
+    <li>MCV-88</li>
+    <li>MCH-30.7</li>
+    <li>MCHC-34.9</li>
+    <li>RDW-13.5</li>
+    <li>Neutrófilos-44%</li>
+    <li>Bastonetes-0%</li>
+    <li>Monócitos-10%</li>
+    <li>Eosinófilos-3%</li>
+    <li>Basófilos-0%</li>
+    <li>Atípicos-2%</li>
+    <li>Glucose-94</li>
+    <li>Ureia-14</li>
+    <li>Creatinina-0.9</li>
+    <li>Sódio-143</li>
+    <li>Potássio-5.3</li>
+    <li>Cloreto-100</li>
+    <li>Bicarbonato-28</li>
+    <li>Gap aniônico-20</li>
+    <li>Troponina T-&lt;0.01</li>
+    <li>Cálcio-9.4</li>
+    <li>Fósforo-4.4</li>
+    <li>Magnésio-1.8</li>
+    <li>TSH-2.5</li>
+    <li>PCR-1.1</li>
+    <li>CK-MB-5</li>
+    <li>HBsAg-Negativo</li>
+    <li>HBsAb-Negativo</li>
+    <li>HBcAb-Negativo</li>
+    <li>HIV Ab-Negativo</li>
+    <li>HCV Ab-Negativo</li>
+    <li>Quantiferon Gold-TB-Positivo</li>
+    <li>Parasita no sangue-Negativo</li>
+    <li>Antígeno de Histoplasma na urina-Negativo</li>
+    <li>Cultura de urina-Negativa</li>
+    <li>Cultura de sangue-Negativa</li>
+    <li>Esfregaço AFB-Negativo x 3</li>
+    <li>RPR-Negativo</li>
+    <li>Antígeno de Malária-Negativo</li>
+    <li>GeneXpert BAL-Positivo para Mycobacterium tuberculosis</li>
+    <li>Lactato-1.7</li>
+    <li>Troponina T (repetida)-&lt;0.01</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(26)</span></h3>
+  <ul>
+    <li>Broncoscopia</li>
+    <li>Eletrocardiograma (ECG)</li>
+    <li>Ecocardiograma (Echo)</li>
+    <li>Biópsia de núcleo pulmonar</li>
+    <li>Raio-X de tórax (CXR)</li>
+    <li>Tomografia computadorizada de tórax (CT Chest)</li>
+    <li>Raio-X da coluna lombar</li>
+    <li>Cultura de sangue</li>
+    <li>Cultura de urina</li>
+    <li>Esfregaço de AFB</li>
+    <li>Teste de antígeno de Histoplasma na urina</li>
+    <li>Teste de antígeno de Malária</li>
+    <li>Sorologia para Hepatite B (HBsAg, HBsAb, HBcAb)</li>
+    <li>Sorologia para HIV</li>
+    <li>Sorologia para Hepatite C</li>
+    <li>Teste Quantiferon Gold-TB</li>
+    <li>Teste RPR</li>
+    <li>GeneXpert no lavado broncoalveolar (BAL)</li>
+    <li>Hemograma completo</li>
+    <li>Perfil bioquímico (eletrólitos, função renal, hepática)</li>
+    <li>Troponina T</li>
+    <li>CK-MB</li>
+    <li>PCR</li>
+    <li>TSH</li>
+    <li>Lactato</li>
+    <li>Cálcio, Fósforo, Magnésio</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Mycobacterium tuberculosis</li>
+  </ul>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente refere queixa principal de dor torácica, dor bilateral nos braços e dor lombar. Relata que a dor torácica iniciou há aproximadamente 2 meses, sendo descrita como uma dor constante de baixo nível, pontuada por episódios de dor mais severa e episódica que irradia para os braços. A dor piora pela manhã e com esforço, melhorando com o repouso, mas ocasionalmente ocorre dor severa ao deitar. Relata intermitente falta de ar (dispneia). A dor lombar está presente há mais de 1 ano, iniciando-se de forma aguda após relação sexual, associada a imobilidade na cama e incapacidade de caminhar por vários meses. A dor lombar localiza-se no nível L4/L5 e irradia para os glúteos. Relata queda há 3 meses, mas nega lesão nas costas durante a queda. A dor bilateral nos braços está presente há cerca de 9 meses, pior com movimento e melhor com repouso. Paciente nega formigamento nos membros, perda de peso recente, tosse, dor abdominal e outras dores além das mencionadas. Relata febre no passado (associada a malária), mas nega febre atual. Relata doença transmitida por mosquito há 2 semanas, tratada com Coartem por 1 semana. Refere uso de Voltaren (diclofenaco) para dor com alívio intermitente. Paciente refere histórico de malária recorrente, dor lombar crônica, hipertensão arterial sistêmica e fratura de tornozelo esquerdo após queda. Nega alergias a medicamentos.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na Admissão: Temperatura 37,1°C (98,7°F), PA 144/90 mmHg, FC 56 bpm, FR 18 irpm, SpO2 100% em ar ambiente. Sinais Vitais na Alta: Temperatura 36,5°C (97,7°F), PA 135/98 mmHg, FC 62 bpm, FR 18 irpm, SpO2 100% em ar ambiente. Exame Físico na Admissão: Geral: Homem em boas condições gerais, em pé, sem aparente desconforto. HEENT: Escleras anictéricas, mucosas úmidas, movimentos oculares intactos. Pescoço: Suplê, sem jugular distendida. Cardiovascular: Rítmico, bulhas normofonéticas, sem sopros, atritos ou galopos. Pulmões: Murmúrio vesicular presente e claro bilateralmente, sem ruídos adventícios. Abdome: RHA presentes, não doloroso à palpação, não distendido, sem hepatosplenomegalia. Extremidades: Quentes, bem perfundidas, pulsos pediosos palpáveis bilateralmente, sem edema. MSK: Dor à palpação pontual no nível L4-L5 com irradiação para os glúteos. Neuro: Nervos cranianos II-XII intactos, força muscular preservada (tríceps, bíceps, flexores e extensores do quadril), dor no braço elicita no exame de força (R&gt;L). Pele: Sem lesões ou erupções óbvias. Exame Físico na Alta: Geral: Homem agradável, sem desconforto aparente. HEENT: Pupilas isocóricas e fotorreagentes, escleras anictéricas. Pescoço: Suplê. Cardiovascular: Rítmico, bulhas normofonéticas, sem sopros, atritos ou galopos. Pulmões: Murmúrio vesicular claro bilateralmente, sem estertores, sibilos ou roncos. Abdome: RHA presentes, não doloroso, não distendido. Extremidades: Quentes, bem perfundidas, sem edema. MSK: Dor à palpação pontual no nível L4-L5 com irradiação para os glúteos. Neuro: Orientado x3, nervos cranianos II-XII intactos. Pele: Erupção papular limitada, cor da pele, no tórax e abdome superior, não pruriginosa, não eritematosa, sem úlceras ou excoriações.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Admissão: Leucócitos 4.9, Hemácias 5.05, Hemoglobina 15.5, Hematócrito 44.4, VCM 88, HCM 30.7, CHCM 34.9, RDW 13.5, Plaquetas (valor não especificado no texto, mas relatado como normal no resumo), Neutrófilos 44%, Bastões 0%, Linfócitos (valor não especificado), Monócitos 10%, Eosinófilos 3%, Basófilos 0%, Atípicos 2%, Mielócitos 0%. Bioquímica Admissão: Glicose 94 mg/dL, Ureia 14 mg/dL, Creatinina 0.9 mg/dL, Sódio 143 mEq/L, Potássio 5.3 mEq/L, Cloro 100 mEq/L, Bicarbonato 28 mEq/L, Gap Aniónico 20. Marcadores Cardíacos: Troponina T &lt;0.01 ng/mL (x2), CK-MB 5 ng/mL. Hormônios: TSH 2.5 mIU/L. Inflamatórios: PCR 1.1 mg/dL. Eletrólitos Adicional: Cálcio 9.4 mg/dL, Fósforo 4.4 mg/dL, Magnésio 1.8 mg/dL. Sorologias: HBsAg Negativo, HBsAb Negativo, HBcAb Negativo, HIV Ab Negativo, HCV Ab Negativo, RPR Negativo. Testes Específicos: Quantiferon-TB Gold Positivo, Antígeno de Histoplasmose na Urina (resultado não especificado no texto, apenas listado), PCR Universal (resultado não especificado), Antígeno de Malária Negativo, Parasita no Sangue Negativo. Culturas: Urina Negativa, Sangue Negativo. Esfregaço de AFB: Negativo x3. GeneXpert (BAL): Positivo para Mycobacterium tuberculosis.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Eletrocardiograma (Admissão): Bradicardia sinusal. Elevação leve do segmento ST nas derivações inferiores e V3-V6, compatível com repolarização precoce normal. Isquemia ou pericardite não excluídas. Eletrocardiograma (Seguimento): Bradicardia sinusal. Elevações difusas do ponto J sem desvio do segmento PR, achado mais consistente com variante de repolarização precoce, embora pericardite não seja excluída. Inversão de onda T bifásica em V2, possivelmente variante fisiológica. Ecocardiograma Transtorácico: Átrio esquerdo e direito normais. Sem defeito do septo atrial. Pressão estimada do átrio direito normal. Hipertrofia ventricular esquerda leve e simétrica com tamanho de cavidade normal e função sistólica global e regional preservada (FEVE biplano = 55%). Pressão de enchimento ventricular esquerda normal. Câmara direita e parede livre normais. Raiz aórtica levemente dilatada ao nível do seio. Válvula aórtica estruturalmente normal, sem estenose ou regurgitação. Válvula mitral levemente espessada, sem prolapso, regurgitação fisiológica. Válvula tricúspide levemente espessada. Pressão sistólica da artéria pulmonar normal. Sem derrame pericárdico. Raio-X de Tórax: Opacidade no pulmão superior direito, potencialmente devido a cicatrização, mas sem exames anteriores para documentar estabilidade; sugerido TC de tórax para avaliação de massa subjacente. Tomografia Computadorizada de Tórax: Nódulo de baixa densidade dominante e clusters de micronódulos peribronquiais no lobo superior direito apical, com espessamento difuso da parede brônquica, mais extenso no lobo superior direito. Achados mais preocupantes para tuberculose pulmonar. Outras infecções atípicas, incluindo fúngica, devem ser consideradas. Malignidade menos provável, mas acompanhamento necessário. Raio-X de Coluna Lombar: Exame essencialmente normal. Hips e articulações sacroilíacas parcialmente visualizados dentro dos limites da normalidade. Alinhamento vertebral e discos normais. Sem fratura ou destruição óssea. Sem gás intestinal anormal.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de malária recorrente e dor lombar crônica, apresentou-se com dor torácica, dor nos braços e dor lombar. O quadro clínico e os achados de imagem (TC de tórax mostrando nódulos apicais e espessamento brônquico) são altamente sugestivos de tuberculose pulmonar. O diagnóstico foi confirmado pela positividade do teste Quantiferon-TB Gold e pelo GeneXpert positivo no lavado broncoalveolar (BAL), apesar de três esfregaços de AFB negativos. A biópsia pulmonar revelou granuloma necrosante, compatível com tuberculose, sem evidência de malignidade. O paciente foi iniciado em terapia RIPE (Rifampicina, Isoniazida, Pirazinamida, Etambutol) durante a internação. A dor torácica e os achados de ECG (elevação do ST) foram atribuídos a repolarização precoce, com troponinas negativas e ecocardiograma sem derrame pericárdico ou disfunção sistólica significativa, descartando síndrome coronariana aguda ou pericardite ativa como causa primária. A dor lombar e nos braços é atribuída a histórico de hérnia de disco e possível radiculopatia/strain musculoesquelético, com radiografia de coluna normal que descartou doença de Pott (tuberculose espinhal). O paciente desenvolveu uma erupção cutânea leve no tórax após o início da terapia RIPE, provavelmente reação medicamentosa leve, que estava melhorando na alta. Observou-se elevação das transaminases pré-início da terapia, com tendência à queda na alta, necessitando monitoramento ambulatorial devido ao uso de isoniazida. O paciente é HIV negativo nesta admissão, mas recomenda-se reteste em 3 meses. O diagnóstico principal é Tuberculose (com suspeita de forma miliar dada a disseminação e achados, embora a apresentação seja predominantemente pulmonar com granulomas necrosantes). Hepatite é listada como diagnóstico secundário devido à elevação das enzimas hepáticas, provavelmente relacionada à medicação ou infecção viral não identificada (sorologias negativas para hepatites A, B, C na admissão).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: Rifampicina 600 mg PO diariamente, Isoniazida (dose não especificada no texto, padrão 300mg) PO diariamente, Piridoxina 50 mg PO diariamente, Pirazinamida 1500 mg PO diariamente, Etambutol 1200 mg PO diariamente. Analgesia: Acetaminofeno 650 mg PO/NG a cada 8 horas conforme necessidade para dor, e adesivo de lidocaína. Orientações: Tomar medicamentos conforme prescrito para tratamento de tuberculose por 2 meses iniciais, com seguimento posterior definido pelo infectologista. Evitar álcool e monitorar sinais de hepatotoxicidade (icterícia, náuseas, dor abdominal). Retornar para acompanhamento com o Departamento de Saúde Pública (DPH) e Infectologia. Vacinação contra Hepatite B recomendada (paciente não imune). Reavaliação de sorologia para HIV em 3 meses. Exames de seguimento: Monitoramento de função hepática (LFTs) como paciente ambulatorial. Retorno programado para consulta com Infectologia e DPH conforme agendamento. Encaminhamento para especialista em doenças infecciosas para gestão contínua da tuberculose. Código de Status: Código Completo.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

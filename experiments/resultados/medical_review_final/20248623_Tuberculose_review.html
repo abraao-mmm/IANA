@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 20248623 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 20248623</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 20248623 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 79
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                     Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+adhesive tape / Iodinated Contrast Media - IV Dye
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Neck pain, lump c/f Scrofula
+ 
+Major Surgical or Invasive Procedure:
+None
+
+ 
+History of Present Illness:
+History somewhat limited by language barrier. It is via phone 
+translator.
+
+Mrs ___ is a ___ with a history of HL, possibly GERD, and TB 
+with recurrent scrofula s/p multiple rounds of treatment incl 
+excision, previously followed by Dr ___ presents with new 
+tender neck nodule and some B symptoms, concerning for recurrent 
+scrofula.
+
+She was in her usual state of health until about 1 month ago 
+when she began to notice swelling along the site of her prior 
+node excision. She then began to notice a dull pain, which 
+worsened and became a sharp needle like pain that she rates as 
+very painful; it then transformed into more of a burning pain. 
+The pain is at the site of a nodule on her neck. Along with the 
+nodule and the pain, she has also noticed chills and sweats, but 
+no weight loss, cough, or fever. She became concerned that her 
+scrofula was returning so she came to the ED.
+
+In the ED, she had stable vital signs and unremarkable 
+laboratories. CXR was performed and was unremarkable. She had a 
+CT of her neck that showed a nodule and a possible tract. She 
+received no treatments. Admission was requested.
+
+A 10 point ROS is otherwise negative except as above
+ 
+Past Medical History:
+Hyperlipidemia
+TB, see Dr ___ from ___ for details (of note, 
+___ had done the excision)
+GERD
+ 
+Social History:
+___
+Family History:
+Brother with TB. 
+ 
+Physical Exam:
+ADMISSION
+ Vitals AVSS
+ Gen NAD, quite pleasant
+ Abd soft, NT, ND, bs+
+ CV RRR, systolic murmur
+ Lungs CTA ___
+ Ext WWP, no edema
+ Skin no rash, anicteric
+ GU no foley
+ Eyes EOMI
+ HENT MMM, OP clear
+ Neuro nonfocal, moves all extremities
+ Psych normal affect
+ Neck right side has a slightly atrophic surgical scar from 
+prior excision; superior to this there is a very round, shiny, 
+erythematous 1cm nodule with some reddish exudate on surface; 
+slightly tender to touch
+
+DISCHARGE
+VS: 97.9 121/72 65 16 97%RA 
+Gen: sitting up in bed, comfortable
+Eyes - EOMI
+ENT - OP clear, MMM; R neck with well-healed surgical scar; 1cm 
+superior to scar is well-defined round depression at site of 
+draining sinus tract, which is non-tender, nonerythematous
+Heart - RRR no mrg
+Lungs - CTA bilaterally
+Abd - soft nontender, normoactive bowel sounds
+Ext - no edema
+Skin - no rashes
+Vasc - 2+ DP/radial pulses
+Neuro - AOx3, moving all extremities
+Psych - appropriate
+
+ 
+Pertinent Results:
+ADMISSION
+___ 08:50PM BLOOD WBC-7.2 RBC-4.37 Hgb-13.1 Hct-39.7 MCV-91 
+MCH-30.0 MCHC-33.0 RDW-12.6 RDWSD-42.3 Plt ___
+___ 08:50PM BLOOD Glucose-95 UreaN-14 Creat-0.6 Na-141 
+K-3.7 Cl-106 HCO3-23 AnGap-16
+
+DISCHARGE
+___ 06:40AM BLOOD WBC-6.1 RBC-4.33 Hgb-12.8 Hct-39.0 MCV-90 
+MCH-29.6 MCHC-32.8 RDW-12.4 RDWSD-41.1 Plt ___
+___ 06:40AM BLOOD Glucose-102* UreaN-16 Creat-0.5 Na-142 
+K-3.9 Cl-106 HCO3-28 AnGap-12
+
+MICRO
+___ 9:08 am SWAB      Source: R neck wound. 
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+   WOUND CULTURE (Preliminary): 
+
+___ 1:00 am SPUTUM      Source: Induced. 
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+   ACID FAST CULTURE (Preliminary): 
+
+Comment: TB PCR OF RT NECK WOUND
+___ ___
+MYCOBACTERIUM TUBERCULOSIS COMPLEX, PCR, NON-RESPIRATORYResults 
+Pending
+
+CT Neck
+1. Study is limited due to lack of administration of intravenous 
+contrast and
+secondary to dental streak artifact.
+2. 10 x 10 mm subcutaneous soft tissue nodule which is partially 
+calcified in
+the right lateral neck.  A tract extends from this nodule 
+anteriorly and
+superiorly to the deep fascial planes posterior to the right
+sternocleidomastoid and internal jugular vein.  Assessment for 
+the
+significance of these findings is limited in the absence of IV 
+contrast. No
+definite fluid collection identified.
+3. Unchanged multilevel right cervical calcified lymph nodes are 
+consistent
+with prior granulomatous infection.
+4. Stable upper lung post granulomatous infection findings, 
+detailed above. 
+Stable solid and ground-glass pulmonary nodules measuring up to 
+9 mm.
+5. Multiple hypodense thyroid nodules are grossly unchanged, 
+measuring up to 8
+mm in the right thyroid lobe.  Per underlying medical record, 
+patient is
+currently being evaluate by the ___ thyroid Center.
+ 
+Brief Hospital Course:
+___ year old female with past medical of TB lymphadenitis s/p 
+prior courses of TB therapy and eventual resection, admitted 
+___ w new cervical nodule and pain
+
+# Cervical Nodule / Concern for TB lymphadenitis - patient 
+presented with several weeks of worsening swelling at R neck; 
+exam showed cervical nodule superior to site of prior nodal 
+excision; CT showed &quot;10 x 10 mm subcutaneous soft tissue nodule 
+which is partially calcified in the right lateral neck.  A tract 
+extends from this nodule anteriorly and superiorly to the deep 
+fascial planes posterior to the right sternocleidomastoid and 
+internal jugular vein.&quot;.  Per ID recs, initial plan was to 
+obtain tissue via excisional biopsy (prior FNA / core biopsy at 
+time of prior infection were not diagnostic, so this was felt to 
+best approach to confirm TB and identify sensitivities).  ENT 
+recommended against this initially.  While awaiting consensus 
+between consulting services, nodule spontaneously started 
+draining purulent material.  This material was collected and 
+sent for culture, acid fast culture and TB PCR.  Per ID service, 
+it was felt that patient could be discharged home with 
+outpatient ID follow-up (they will call to arrange) for 
+follow-up of pending workup, and discussion whether or not 
+surgical excision would be necessary. 
+
+# Abnormal CT Findings: CT scan also showed &quot;3. Unchanged 
+multilevel right cervical calcified lymph nodes are consistent 
+with prior granulomatous infection.
+4. Stable upper lung post granulomatous infection findings, 
+detailed above. Stable solid and ground-glass pulmonary nodules 
+measuring up to 9 mm.
+5. Multiple hypodense thyroid nodules are grossly unchanged, 
+measuring up to 8
+mm in the right thyroid lobe.  Per underlying medical record, 
+patient is currently being evaluate by the ___ thyroid 
+Center.&quot;  Results were communicated to PCP.  At discharge 
+patient reminded of thyroid center follow-up appointment.
+
+# Hyperlipidemia - continued statin
+
+# GERD - continued PPI
+
+TRANSITIONAL ISSUES
+- Discharged home
+- ID to arrange outpatient visit to follow-up pending acid fast 
+culture and TB PCR
+
+&gt; 30 minutes spent on this discharge
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Omeprazole 20 mg PO BID 
+2. Calcium 600 + D(3) (calcium carbonate-vitamin D3) 600 
+mg(1,500mg) -400 unit oral DAILY 
+3. Multivitamins 1 TAB PO DAILY 
+4. Simvastatin 20 mg PO QPM 
+
+ 
+Discharge Medications:
+1. Multivitamins 1 TAB PO DAILY 
+2. Omeprazole 20 mg PO BID 
+3. Simvastatin 20 mg PO QPM 
+4. Calcium 600 + D(3) (calcium carbonate-vitamin D3) 600 
+mg(1,500mg) -400 unit oral DAILY 
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+# Cervical Nodule / Concern for TB lymphadenitis 
+# Hyperlipidemia
+# GERD
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+It was a pleasure caring for you at ___.  You were admitted 
+due to an area of swelling in your neck.   You had a CT scan and 
+were seen by infection doctors.  ___ were concerned this could 
+be a recurrence of your tuberculosis infection (&quot;TB 
+lymphadenitis&quot;).  A sample of fluid from the swelling was 
+sampled and sent to the lab for testing.  The infection doctors 
+recommended that ___ see them in their clinic to discuss whether 
+or not further treatment and surgery is needed.  
+
+You are now ready for discharge.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(5)</span></h3>
+  <ul>
+    <li>Tuberculose</li>
+    <li>Linfadenite tuberculosa</li>
+    <li>Escrófula</li>
+    <li>Dislipidemia</li>
+    <li>Doença do Refluxo Gastroesofágico (DRGE)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(21)</span></h3>
+  <ul>
+    <li>Dor cervical</li>
+    <li>Nódulo cervical</li>
+    <li>Calafrios</li>
+    <li>Sudorese</li>
+    <li>Nódulo subcutâneo</li>
+    <li>Trato fistuloso</li>
+    <li>Linfonodos cervicais calcificados</li>
+    <li>Nódulos pulmonares</li>
+    <li>Nódulos tireoidianos</li>
+    <li>Eritema</li>
+    <li>Exsudato</li>
+    <li>Sopro sistólico</li>
+    <li>Nódulo cervical doloroso</li>
+    <li>Nódulo cervical com exsudato</li>
+    <li>Cicatriz atrófica</li>
+    <li>Cicatriz cirúrgica</li>
+    <li>Dor em queimação</li>
+    <li>Dor aguda</li>
+    <li>Dor em pontada</li>
+    <li>Sensibilidade ao toque</li>
+    <li>Nódulo cervical recorrente</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(5)</span></h3>
+  <ul>
+    <li>Omeprazol</li>
+    <li>Cálcio</li>
+    <li>Vitamina D3</li>
+    <li>Multivitamínicos</li>
+    <li>Simvastatina</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(38)</span></h3>
+  <ul>
+    <li>WBC-7.2</li>
+    <li>RBC-4.37</li>
+    <li>Hgb-13.1</li>
+    <li>Hct-39.7</li>
+    <li>MCV-91</li>
+    <li>MCH-30.0</li>
+    <li>MCHC-33.0</li>
+    <li>RDW-12.6</li>
+    <li>RDWSD-42.3</li>
+    <li>Glucose-95</li>
+    <li>UreaN-14</li>
+    <li>Creat-0.6</li>
+    <li>Na-141</li>
+    <li>K-3.7</li>
+    <li>Cl-106</li>
+    <li>HCO3-23</li>
+    <li>AnGap-16</li>
+    <li>WBC-6.1</li>
+    <li>RBC-4.33</li>
+    <li>Hgb-12.8</li>
+    <li>Hct-39.0</li>
+    <li>MCV-90</li>
+    <li>MCH-29.6</li>
+    <li>MCHC-32.8</li>
+    <li>RDW-12.4</li>
+    <li>RDWSD-41.1</li>
+    <li>Glucose-102</li>
+    <li>UreaN-16</li>
+    <li>Creat-0.5</li>
+    <li>Na-142</li>
+    <li>K-3.9</li>
+    <li>HCO3-28</li>
+    <li>AnGap-12</li>
+    <li>Gram stain (Swab R neck wound)-1+ Polymorphonuclear Leukocytes, No microorganisms seen</li>
+    <li>Acid Fast Smear (Sputum)-No Acid Fast Bacilli seen</li>
+    <li>TB PCR (Neck wound)-Mycobacterium tuberculosis complex Pending</li>
+    <li>Cultura de ferida (Preliminar)</li>
+    <li>Cultura de ácido rápido (Preliminar)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(10)</span></h3>
+  <ul>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Tomografia computadorizada (TC) de pescoço</li>
+    <li>Biópsia excisional (planejada)</li>
+    <li>Punção aspirativa por agulha fina (FNA) (histórico)</li>
+    <li>Biópsia por agulha (histórico)</li>
+    <li>Cultura de ferida</li>
+    <li>Cultura de ácido rápido</li>
+    <li>PCR para Tuberculose</li>
+    <li>Gram stain</li>
+    <li>Acid Fast Smear</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente refere queixa principal de dor no pescoço e presença de nódulo compatível com escrófula. Relata história da doença atual iniciada há aproximadamente 1 mês, quando notou inchaço no local de uma excisão nodular prévia. Descreve evolução da dor de tipo surdo para aguda, em forma de agulha, classificada como muito dolorosa, transformando-se posteriormente em dor do tipo queimação, localizada no sítio do nódulo cervical. Paciente relata presença de calafrios e sudorese. Nega perda de peso, tosse ou febre. Paciente refere histórico médico pregresso de Tuberculose (TB) com escrófula recorrente, submetida a múltiplos ciclos de tratamento incluindo excisão cirúrgica. Relata histórico de hiperlipidemia e Doença do Refluxo Gastroesofágico (DRGE). Nega outras queixas sistêmicas na revisão de sistemas. Paciente menciona irmão com histórico de tuberculose.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão: Geral: Paciente sem aparência de doença aguda, agradável. Abdome: Macio, não doloroso à palpação, sem defesa, ruídos hidroaéreos presentes. Cardiovascular: Rítmico, ruídos cardíacos regulares, sopro sistólico auscultado. Pulmões: Murmúrio vesicular claro bilateralmente. Extremidades: Sem edema, pulsos presentes. Pele: Sem erupções, icterícia ausente. Genitourinário: Sem cateter vesical. Olhos: Movimentos oculares intactos. Cabeça, Pescoço, Orelhas, Nariz e Garganta (HENT): Mucosas úmidas e coradas, orofaringe limpa. Neurológico: Sem déficits focais, movimenta todos os membros. Psiquiátrico: Afeto normal. Pescoço: À direita, presença de cicatriz cirúrgica levemente atrófica de excisão prévia; superior a esta, nódulo arredondado, brilhante, eritematoso de 1 cm com exsudato avermelhado na superfície; levemente doloroso à palpação.
+
+Alta: Sinais Vitais: Temperatura 97.9°F, PA 121/72 mmHg, FC 65 bpm, FR 16 irpm, SpO2 97% em ar ambiente. Geral: Sentada na cama, confortável. Olhos: Movimentos oculares intactos. HENT: Mucosas úmidas e coradas, orofaringe limpa; pescoço direito com cicatriz cirúrgica bem cicatrizada; 1 cm superior à cicatriz, depressão arredondada bem definida no local de trato sinusal drenante, não doloroso, sem eritema. Coração: Rítmico, sem sopros, atrito ou estalidos. Pulmões: Murmúrio vesicular claro bilateralmente. Abdome: Macio, não doloroso, ruídos hidroaéreos normoativos. Extremidades: Sem edema. Pele: Sem erupções. Vascular: Pulsos dorsais e radiais 2+ presentes. Neurológico: Orientado x3, movimenta todos os membros. Psiquiátrico: Apropriado.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão (08:50): Hemograma: Leucócitos 7.2, Hemácias 4.37, Hemoglobina 13.1, Hematócrito 39.7, VCM 91, HCM 30.0, CHCM 33.0, RDW 12.6, RDWSD 42.3, Plaquetas (valor não especificado). Bioquímica: Glicose 95 mg/dL, Ureia 14 mg/dL, Creatinina 0.6 mg/dL, Sódio 141 mEq/L, Potássio 3.7 mEq/L, Cloreto 106 mEq/L, Bicarbonato 23 mEq/L, Gap Aniónico 16.
+
+Alta (06:40): Hemograma: Leucócitos 6.1, Hemácias 4.33, Hemoglobina 12.8, Hematócrito 39.0, VCM 90, HCM 29.6, CHCM 32.8, RDW 12.4, RDWSD 41.1, Plaquetas (valor não especificado). Bioquímica: Glicose 102 mg/dL, Ureia 16 mg/dL, Creatinina 0.5 mg/dL, Sódio 142 mEq/L, Potássio 3.9 mEq/L, Cloreto 106 mEq/L, Bicarbonato 28 mEq/L, Gap Aniónico 12.
+
+Microbiologia: Swab de ferida do pescoço direito: Coloração de Gram (Final): 1+ (&lt;1 por campo 1000X) de leucócitos polimorfonucleares; nenhum microrganismo visto. Cultura de ferida (Preliminar): Pendente. Escarro induzido: Esfregaço de Bacilo Ácido-Fast (BAF) (Final): Nenhum bacilo ácido-fast visto no esfregaço direto; nenhum bacilo ácido-fast visto no esfregaço concentrado. Cultura de BAF (Preliminar): Pendente. PCR para Mycobacterium tuberculosis complex (ferida do pescoço direito): Resultados pendentes.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Radiografia de Tórax (Admissão): Sem achados relevantes.
+
+Tomografia Computadorizada (TC) de Pescoço: 1. Estudo limitado devido à falta de administração de contraste intravenoso e artefato de estriação dental. 2. Nódulo de tecido mole subcutâneo de 10 x 10 mm, parcialmente calcificado, no pescoço lateral direito. Trato estende-se deste nódulo anteriormente e superiormente até os planos fasciais profundos posteriores ao esternocleidomastóide direito e veia jugular interna. Avaliação da significância limitada na ausência de contraste IV. Nenhuma coleção líquida definida identificada. 3. Linfonodos cervicais direitos calcificados multiníveis, sem alteração, consistentes com infecção granulomatosa prévia. 4. Achados pulmonares estáveis pós-infecção granulomatosa na porção superior, conforme detalhado. Nódulos pulmonares sólidos e em vidro fosco estáveis, medindo até 9 mm. 5. Múltiplos nódulos tireoidianos hipodensos, grosseiramente sem alteração, medindo até 8 mm no lobo direito da tireoide.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente do sexo feminino com histórico de linfadenite tuberculosa (escrófula) tratada cirurgicamente e medicamente, admitida por nódulo cervical novo e dor. O quadro clínico é altamente sugestivo de recidiva de tuberculose ganglionar (escrófula), corroborado pelo histórico de TB, contato familiar (irmão com TB), sintomas B (sudorese, calafrios) e achados de imagem (nódulo com trato sinusal e linfonodos calcificados). O exame físico inicial mostrou nódulo eritematoso e doloroso que evoluiu para drenagem espontânea de material purulento. A TC confirmou nódulo com trato sinusal e linfonodos calcificados estáveis. O esfregaço de BAF no escarro foi negativo, e a cultura de ferida e PCR para TB estão pendentes. A equipe de Infectologia avaliou que a biópsia excisional inicial foi adiada pela equipe de Otorrinolaringologia, mas a drenagem espontânea permitiu coleta de material para cultura e PCR. O paciente foi liberado para acompanhamento ambulatorial com Infectologia para aguardar resultados definitivos e discutir necessidade de excisão cirúrgica ou tratamento medicamentoso. Diagnósticos diferenciais considerados incluem infecção bacteriana secundária, mas a história e achados de imagem favorecem TB. Hiperlipidemia e DRGE são condições crônicas estáveis.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na alta: 1. Multivitamínicos 1 comprimido via oral diariamente. 2. Omeprazol 20 mg via oral duas vezes ao dia. 3. Simvastatina 20 mg via oral à noite. 4. Cálcio 600 + Vitamina D3 (carbonato de cálcio-vitamina D3) 600 mg (1.500 mg de cálcio) - 400 unidades de Vitamina D3 via oral diariamente.
+
+Orientações ao paciente: Paciente orientada sobre a suspeita de recidiva de tuberculose (linfadenite tuberculosa). Informada que amostra de fluido foi enviada para laboratório e que os resultados estão pendentes. Orientada a retornar ao ambulatório de Infectologia para discussão dos resultados e definição de tratamento (medicamentoso ou cirúrgico). Orientada a manter acompanhamento no Centro de Tireoide conforme agendamento prévio.
+
+Encaminhamentos: Agendamento de consulta ambulatorial com Infectologia para acompanhamento dos resultados de cultura de ácido-fast e PCR de TB.
+
+Retorno programado: Retorno ao ambulatório de Infectologia conforme contato da equipe para agendamento. Retorno ao Centro de Tireoide conforme agendamento prévio.
+
+Exames de seguimento: Aguardar resultados de cultura de ferida, cultura de BAF e PCR para Mycobacterium tuberculosis.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '20248623';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

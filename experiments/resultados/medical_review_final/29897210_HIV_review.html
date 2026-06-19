@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 29897210 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 29897210</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 29897210 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 155
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                 Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Bactrim
+ 
+Attending: ___.
+ 
+Chief Complaint:
+gait instability
+ 
+Major Surgical or Invasive Procedure:
+none
+ 
+History of Present Illness:
+___ y/oM with HIV (CD4 176, VL&lt;48 measured ___, HIV 
+neurocognitive disorder, HCV, parkinsonianism, frequent 
+admissions to ___ for agititation (most recent discharged 
+___ who is being re-admitted for similar complaints.  
+  
+Per son, patient was discharged to ___ Neurobehavioral Unit 
+following last hospitalization, but complained of maltreatment. 
+His son decided to take him home 3 days prior to this admission, 
+but found that he could not manage the patient&#x27;s behavioral 
+issues at home. Per son, the patient was screaming throughout 
+the day and night, claiming that he was going to fall and 
+subsequently throwing himself on the floor. Per son, he was 
+compliant with all his medications and had no fevers, chills or 
+other systemic complaints.  
+  
+Of note, the patient has had a subacute decline in mental status 
+since ___ of this year requiring multiple admissions. He 
+has had a thorough evaluation for etiology with no evidence of 
+traumatic, infectious or inflammatory insult. Evaluation to date 
+has included unchanged head MRI, LP, infectious serologies 
+(including ___, CMV, EBV, RPR), neurologic and 
+psychiatric evaluation. He does have frontal- release and 
+extrapyramidal symptoms with akathisia, bradykinesia and 
+rigidity. During last hospital admission, medicine team 
+attempted to wean atypic antipsychotics in hopes that rigidity 
+would improve but decrease in meds resulted in worsening of 
+generalized agitation. Symptoms improved with low dose IM 
+haldol.  
+  
+In the ED, VS 98.6 92 120/75 18 92%. On exam, patient was noted 
+to be diffusely weak, confused and mildly agitated with no other 
+significant acute exam findings. Initial labs were remarkable 
+for creatinine of 1.4 from normal baseline. CT head with no 
+acute findings. Patient admitted for placement.  
+ 
+Review of systems:  
+(+) Per HPI  
+(-) Denies fever, chills, night sweats, headache, diploplia, 
+shortness of breath, chest pain or tightness, palpitations. 
+Denied nausea, vomiting, diarrhea, constipation or abdominal 
+pain. No recent change in bowel or bladder habits. No dysuria. 
+Denied arthralgias or myalgias.  
+
+ 
+Past Medical History:
+1. AIDS: diagnosed in ___, currently on HAART therapy  
+2. PPD positive in the 1970s, treated with INH for six months.  
+3. Pneumonia in ___ and ___.  
+4. Peptic ulcer disease, s/p abdominal surgery.  
+5. h/o RLE cellulitis; wound cultures positive for MSSA  
+6. h/o thrush.  
+7. HCV dx ___  
+8. Kaposi&#x27;s sarcoma  
+9. HIV-associated neurocognitive disorder  
+10. Remote history of hepatitis B (HBV core antibody positive)  
+11. Recurrent hospital admission for failure to thrive  
+- ___  
+
+ 
+Social History:
+___
+Family History:
+Father: died at ___ of vascular complications of DM.  
+He has 9 siblings, and one died of AIDS.  
+Son died at ___ from disseminated Kaposi sarcoma 
+
+ 
+Physical Exam:
+Vitals: T: 97.6  BP: 114/70  P: 78  R: 20  O2: 100% RA  
+General: lying stiffly in bed, masked facies; no acute distress
+HEENT: Sclera anicteric, dry mucosa with no thrush, oropharynx 
+clear  
+Neck: stiff, no LAD  
+Lungs: Clear to auscultation anteriorly
+CV: Regular rate and rhythm, normal S1 + S2, no murmurs, rubs, 
+gallops  
+Abdomen: soft, non-tender, non-distended, bowel sounds present, 
+no rebound tenderness or guarding 
+Ext: Warm, well perfused, 2+ pulses, + clubbing  
+Neuro: A+O x 3, diffusely rigid with resting tremor. No 
+asterixis CN II-XII intact. Increased tone throughout with 
+symmetric ___ reflexes; patient unwilling to comply with 
+strength exam but &gt; ___ in all extremities. Unable to test 
+cerebellar exam
+Psych: flat affect  
+
+ 
+Pertinent Results:
+Labs on admission:
+___ 04:30AM   WBC-5.2 RBC-3.08* HGB-10.1* HCT-30.7* 
+MCV-100* MCH-32.7* MCHC-32.8 RDW-13.7
+___ 04:30AM   NEUTS-76.4* LYMPHS-17.7* MONOS-5.1 EOS-0.4 
+BASOS-0.3
+___ 04:30AM   GLUCOSE-110* UREA N-33* CREAT-1.3* SODIUM-142 
+POTASSIUM-4.7 CHLORIDE-105 TOTAL CO2-29 ANION GAP-13
+___ 04:30AM   ALT(SGPT)-59* AST(SGOT)-53* CK(CPK)-303 ALK 
+PHOS-76
+___ 04:30AM   CALCIUM-9.6 PHOSPHATE-3.8 MAGNESIUM-2.5
+___ 04:43AM   LACTATE-1.5 K+-4.4
+___ 04:30AM URINE  BLOOD-NEG NITRITE-NEG PROTEIN-TR 
+GLUCOSE-NEG KETONE-NEG BILIRUBIN-NEG UROBILNGN-2* PH-6.5 
+LEUK-NEG
+___ 04:30AM URINE  RBC-1 WBC-1 BACTERIA-NONE YEAST-NONE 
+EPI-0
+___ 04:30AM URINE  HYALINE-22*
+
+CXR: ___ (compared to ___ CXR)
+The cardiomediastinal and hilar contours are normal. Clips in 
+the 
+epigastrium likely represent prior hiatal hernia surgery. The 
+lung volumes 
+are low but demonstrate improvement in previously described left 
+lower lung opacity. There is no large pleural effusion or 
+pneumothorax.   
+IMPRESSION: Improvement of left lower lobe consolidation 
+
+Microbiology:
+blood cx: ___ pending
+urine cx: ___ no growth
+
+Labs on Discharge:
+___ 02:51AM BLOOD WBC-3.5* RBC-2.92* Hgb-9.4* Hct-28.5* 
+MCV-97 MCH-32.0 MCHC-32.9 RDW-14.0 Plt ___
+___ 02:51AM BLOOD Glucose-96 UreaN-26* Creat-1.0 Na-135 
+K-4.4 Cl-102 HCO3-26 AnGap-11
+___ 01:25PM BLOOD CK(CPK)-369*
+___ 02:51AM BLOOD ALT-67* AST-61* LD(LDH)-236 CK(CPK)-225 
+AlkPhos-79 TotBili-0.5
+___ 02:51AM BLOOD Calcium-9.0 Phos-4.0 Mg-2.___ y/oM with HIV (CD4 176, VL&lt;48 measured ___, HIV 
+neurocognitive disorder, HCV, parkinsonianism, frequent 
+admissions to ___ for agititation (most recent discharged 
+___ who was re-admitted for placement in a longterm care 
+facility.  
+
+1. neurocognitive disoder: progressive deterioration in 
+functional status over past several months with neurologic exam 
+showing frontal release signs, behavioral disinhibition, and 
+parkinsonism features. Per previous evaluation (including lumbar 
+puncture, MRI/ CT head, infectious serologies), presentation is 
+most consistent with AIDS encephalopathy: no infectious, 
+neoplastic or metabolic disturbances have been identified.  
+Parkinsonian features are assumed to be related to EPS effects 
+of antipsycotics and underlying HIV dementia, bu have had 
+difficulties starting dopaminergic meds and downtitrating 
+antipsychotics due to behavioral issues.
+During current hospitalization, outpatient neurologist Dr. 
+___, was consulted and recommended initiation of low dose 
+pramipexole.  Patient developed worsened agitation and 
+disinhibition requiring multiple doses of haldol.  The 
+pramipexole was stopped and behavior returned to baseline.  
+Patient will continue to follow with Dr. ___ as an 
+outpatient to further titrate medications. 
+
+2. suicide attempt/ depression:  Through hospital course patient 
+displayed emotional liability marked by agitation and suicidal 
+ideation.  Patient did have one suicide attempt where he wrapped 
+a telephone cord around his neck.  Following event, patient 
+admitted that this was an attention getting maneuver, he had 
+never actually thought about killing himself.  Psychiatry was 
+consulted and recommended continuation of his psychiatric 
+regimen with citalopram, seroquel QHS, and halidol BID.  EKGs 
+were monitored and showed no evidence of QTc prolongation.  Per 
+psychiatry, there was no indication for acute inpatient 
+psychiatric hospitalization.  
+  
+3. AIDS/ HIV: viral load undetectable, CD4 count &lt; 200 in 
+___ on HAART with no evidence of opportunistic infection. As 
+above, comprehensive evaluation in the past has shown no 
+evidence of infection or neoplasm as the cause of progressive 
+dementia.  Patient was continued on outpatient HAART regimen of 
+emtricitabine-tenofovir, fosamprenavir, ritonavir with dapsone 
+for PCP ___. 
+
+4. seborrheric dermatitis: moderately severe seborrheic 
+dermatitis of the face and scalp likely worsened in the setting 
+of a depressed CD4 count.  Patient maintained on ketoconazole 
+shampoo with attention to hygiene.  By time of discharge, rash 
+had improved significantly and had almost resolved. 
+
+5. macrocytic anemia: stable, likely related to antiretrovirals 
+with normal vitamin B12, folate levels in the past. 
+
+Social: Due to patient&#x27;s progressive neurocognitive decline, the 
+patient&#x27;s son and health care proxy, ___, was invoked to be 
+acting healthcare ___.  Given guarded prognosis and 
+poor quality of life, patient&#x27;s code status was changed to DNR/ 
+DNI 
+ 
+Medications on Admission:
+- ritonavir 100 mg Capsule BID  
+- fosamprenavir 700 mg Tablet BID  
+- emtricitabine-tenofovir 200-300 mg Tablet daily  
+- dapsone 100 mg Tablet daily  
+- citalopram 40 mg Tablet daily  
+- quetiapine 50 mg Tablet QHS  
+- multivitamin daily  
+- ketoconazole 2 % Shampoo daily  
+- hydrocortisone 2.5 % Cream daily prn  
+- haloperidol 0.5 mg Tablet BID  
+
+ 
+Discharge Medications:
+1. ritonavir 100 mg Capsule Sig: One (1) Capsule PO BID (2 times 
+a day).  
+2. fosamprenavir 700 mg Tablet Sig: One (1) Tablet PO Q12H 
+(every 12 hours).  
+3. emtricitabine-tenofovir 200-300 mg Tablet Sig: One (1) Tablet 
+PO DAILY (Daily).  
+4. quetiapine 25 mg Tablet Sig: Two (2) Tablet PO QHS (once a 
+day (at bedtime)).  
+5. haloperidol 0.5 mg Tablet Sig: One (1) Tablet PO BID (2 times 
+a day).  
+6. dapsone 100 mg Tablet Sig: One (1) Tablet PO DAILY (Daily).  
+7. citalopram 20 mg Tablet Sig: Two (2) Tablet PO DAILY (Daily). 
+ 
+8. ketoconazole 2 % Shampoo Sig: One (1) Appl Topical ASDIR (AS 
+DIRECTED).  
+9. lidocaine 5 %(700 mg/patch) Adhesive Patch, Medicated Sig: 
+One (1) Adhesive Patch, Medicated Topical DAILY (Daily).  
+10. oxycodone 5 mg Tablet Sig: One (1) Tablet PO Q6H (every 6 
+hours) as needed for pain.  
+11. haloperidol 0.5 mg Tablet Sig: One (1) Tablet PO TID (3 
+times a day) as needed for agitation.  
+12. multivitamin     Tablet Sig: One (1) Tablet PO DAILY 
+(Daily).  
+13. docusate sodium 100 mg Capsule Sig: One (1) Capsule PO BID 
+(2 times a day) as needed for constipation.  
+14. senna 8.6 mg Tablet Sig: One (1) Tablet PO BID (2 times a 
+day) as needed for constipation.  
+15. magnesium hydroxide 400 mg/5 mL Suspension Sig: Thirty (30) 
+ML PO Q6H (every 6 hours) as needed for Constipation.  
+16. acetaminophen 500 mg Tablet Sig: Two (2) Tablet PO Q 8H 
+(Every 8 Hours).  
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary Diagnosis:
+HIV associated Dementia
+Parkinsonism
+Depression
+
+Secondary Diagnosis:
+HIV/ AIDS
+ 
+Discharge Condition:
+Mental Status: Confused - sometimes.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - requires assistance or aid (walker 
+or cane).
+ 
+Discharge Instructions:
+Mr. ___,
+
+You were admitted to the hospital due to progressive decline in 
+your functional status and inability to care for yourself at 
+home.  Many of your problems are caused by your HIV and you 
+should continue on your current antiretroviral regimen.
+
+Please continue to take all of your medications as previously 
+prescribed.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(13)</span></h3>
+  <ul>
+    <li>AIDS (Síndrome da Imunodeficiência Adquirida)</li>
+    <li>Transtorno neurocognitivo associado ao HIV</li>
+    <li>Hepatite C</li>
+    <li>Parkinsonismo</li>
+    <li>Depressão</li>
+    <li>Dermatite seborreica</li>
+    <li>Anemia macrocítica</li>
+    <li>Pneumonia</li>
+    <li>Úlcera péptica</li>
+    <li>Celulite de membro inferior direito</li>
+    <li>Sarcoma de Kaposi</li>
+    <li>Hepatite B</li>
+    <li>Falência de crescimento</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(29)</span></h3>
+  <ul>
+    <li>Instabilidade da marcha</li>
+    <li>Agitação</li>
+    <li>Gritos</li>
+    <li>Declínio subagudo do estado mental</li>
+    <li>Sinais de liberação frontal</li>
+    <li>Sintomas extrapiramidais</li>
+    <li>Acatisia</li>
+    <li>Bradicinesia</li>
+    <li>Rigidez</li>
+    <li>Agitação generalizada</li>
+    <li>Fraqueza difusa</li>
+    <li>Confusão</li>
+    <li>Mucosa seca</li>
+    <li>Rigidez cervical</li>
+    <li>Tremor de repouso</li>
+    <li>Aumento do tônus muscular</li>
+    <li>Reflexos simétricos</li>
+    <li>Afecto plano</li>
+    <li>Labilidade emocional</li>
+    <li>Ideação suicida</li>
+    <li>exantema</li>
+    <li>Hipocratismo digital</li>
+    <li>Masked facies (fácies mascarada)</li>
+    <li>Sclera anicteric (esclera anictérica)</li>
+    <li>Oropharynx clear (orofaringe limpa)</li>
+    <li>Lungs clear (pulmões limpos)</li>
+    <li>Abdomen macio (abdome mole)</li>
+    <li>Pulso 2+</li>
+    <li>A+O x 3 (Orientado x 3)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(18)</span></h3>
+  <ul>
+    <li>Ritonavir</li>
+    <li>Fosamprenavir</li>
+    <li>Emtricitabina-Tenofovir</li>
+    <li>Dapsona</li>
+    <li>Citalopram</li>
+    <li>Quetiapina</li>
+    <li>Multivitamínico</li>
+    <li>Cetoconazol</li>
+    <li>Hidrocortisona</li>
+    <li>Haloperidol</li>
+    <li>Pramipexol</li>
+    <li>Lidocaína</li>
+    <li>Oxicodona</li>
+    <li>Docusato de sódio</li>
+    <li>Senna</li>
+    <li>Hidróxido de magnésio</li>
+    <li>Paracetamol</li>
+    <li>Isoniazida</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(79)</span></h3>
+  <ul>
+    <li>CD4-176</li>
+    <li>Carga viral &lt;48</li>
+    <li>RPR-Negativo</li>
+    <li>CMV-Negativo</li>
+    <li>EBV-Negativo</li>
+    <li>Creatinina-1.4</li>
+    <li>WBC-5.2</li>
+    <li>RBC-3.08</li>
+    <li>Hemoglobina-10.1</li>
+    <li>Hematócrito-30.7</li>
+    <li>MCV-100</li>
+    <li>MCH-32.7</li>
+    <li>MCHC-32.8</li>
+    <li>RDW-13.7</li>
+    <li>Neutrófilos-76.4</li>
+    <li>Linfócitos-17.7</li>
+    <li>Monócitos-5.1</li>
+    <li>Eosinófilos-0.4</li>
+    <li>Basófilos-0.3</li>
+    <li>Glicose-110</li>
+    <li>Ureia-33</li>
+    <li>Sódio-142</li>
+    <li>Potássio-4.7</li>
+    <li>Cloreto-105</li>
+    <li>CO2 total-29</li>
+    <li>Gap aniônico-13</li>
+    <li>ALT-59</li>
+    <li>AST-53</li>
+    <li>CK-303</li>
+    <li>Fosfatase alcalina-76</li>
+    <li>Cálcio-9.6</li>
+    <li>Fosfato-3.8</li>
+    <li>Magnésio-2.5</li>
+    <li>Lactato-1.5</li>
+    <li>Urina: Sangue-Negativo</li>
+    <li>Urina: Nitrito-Negativo</li>
+    <li>Urina: Proteína-Traço</li>
+    <li>Urina: Glicose-Negativo</li>
+    <li>Urina: Cetonas-Negativo</li>
+    <li>Urina: Bilirrubina-Negativo</li>
+    <li>Urina: Urobilinogênio-2</li>
+    <li>Urina: pH-6.5</li>
+    <li>Urina: Leucócitos-Negativo</li>
+    <li>Urina: RBC-1</li>
+    <li>Urina: WBC-1</li>
+    <li>Urina: Bactérias-Nenhuma</li>
+    <li>Urina: Leveduras-Nenhuma</li>
+    <li>Urina: Cilindros hialinos-22</li>
+    <li>Cultura de sangue: Pendente</li>
+    <li>Cultura de urina: Sem crescimento</li>
+    <li>WBC-3.5</li>
+    <li>RBC-2.92</li>
+    <li>Hemoglobina-9.4</li>
+    <li>Hematócrito-28.5</li>
+    <li>MCV-97</li>
+    <li>MCH-32.0</li>
+    <li>MCHC-32.9</li>
+    <li>RDW-14.0</li>
+    <li>Glicose-96</li>
+    <li>Ureia-26</li>
+    <li>Creatinina-1.0</li>
+    <li>Sódio-135</li>
+    <li>Potássio-4.4</li>
+    <li>Cloreto-102</li>
+    <li>Bicarbonato-26</li>
+    <li>Gap aniônico-11</li>
+    <li>CK-369</li>
+    <li>ALT-67</li>
+    <li>AST-61</li>
+    <li>LDH-236</li>
+    <li>CK-225</li>
+    <li>Fosfatase alcalina-79</li>
+    <li>Bilirrubina total-0.5</li>
+    <li>Cálcio-9.0</li>
+    <li>Fosfato-4.0</li>
+    <li>HBV core antibody-Positivo</li>
+    <li>Vitamina B12-Normal</li>
+    <li>Folato-Normal</li>
+    <li>EKG: Sem prolongamento do QTc</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(12)</span></h3>
+  <ul>
+    <li>Ressonância magnética de cabeça</li>
+    <li>Punção lombar</li>
+    <li>Sorologias infecciosas</li>
+    <li>Tomografia computadorizada de cabeça</li>
+    <li>Raio-X de tórax</li>
+    <li>Eletrocardiograma</li>
+    <li>Hemograma completo</li>
+    <li>Cultura de sangue</li>
+    <li>Urinálise</li>
+    <li>Cultura de urina</li>
+    <li>Avaliação neurológica</li>
+    <li>Avaliação psiquiátrica</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(4)</span></h3>
+  <ul>
+    <li>Staphylococcus aureus</li>
+    <li>HIV/AIDS</li>
+    <li>Vírus da Hepatite C (HCV)</li>
+    <li>Vírus da Hepatite B (HBV)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, com histórico de HIV (refere imunossupressão), HIV neurocognitivo, hepatite C e parkinsonismo. Queixa principal: instabilidade na marcha e agitação comportamental. História da Doença Atual: Paciente foi reinternado para avaliação de colocação em instituição de longa permanência. Relata que, após alta de unidade neurocomportamental anterior, foi levado para casa pelo filho há 3 dias devido a alegações de maus-tratos na instituição. O acompanhante relata que o paciente não conseguia ser manejado em casa, apresentando gritos constantes durante o dia e noite, alegando que iria cair e, subsequentemente, atirando-se ao chão. O paciente refere adesão a todas as medicações. Nega febre, calafrios ou outras queixas sistêmicas. O paciente apresenta declínio subagudo do estado mental desde o início do ano, com múltiplas internações. Relata sintomas de rigidez, bradicinesia e acatisia. Durante internação anterior, a equipe de medicina tentou reduzir antipsicóticos atípicos, o que resultou em piora da agitação generalizada; os sintomas melhoraram com haloperidol intramuscular em baixa dose. Revisão de Sistemas: Nega febre, calafrios, suores noturnos, cefaleia, diplopia, falta de ar, dor ou aperto no peito, palpitações. Nega náuseas, vômitos, diarreia, constipação ou dor abdominal. Nega alterações recentes nos hábitos intestinais ou vesicais. Nega disúria. Nega artralgias ou mialgias. Histórico Médico Pregresso: AIDS (diagnosticado em ano anterior, em terapia antirretroviral), PPD positivo na década de 1970 (tratado com Isoniazida por 6 meses), pneumonia recorrente, doença péptica úlcera com cirurgia abdominal prévia, celulite de membro inferior direito (cultura positiva para MSSA), candidíase oral (sapinho), Hepatite C, Sarcoma de Kaposi, HIV associado a distúrbio neurocognitivo, histórico remoto de hepatite B, múltiplas internações por falha de crescimento.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 97.6°F, PA 114/70 mmHg, FC 78 bpm, FR 20 irpm, SpO2 100% em ar ambiente. Geral: Paciente deitado rigidamente na cama, facies emmascarada, sem sofrimento agudo. Cabeça, Pescoço, Olhos, Ouvidos, Nariz e Garganta (HEENT): Escleras anictéricas, mucosas secas, sem sapinho, orofaringe limpa. Pescoço: Rígido, sem linfadenopatia. Pulmões: Limpos à ausculta anteriormente. Cardiovascular: Ritmo regular, S1 e S2 normais, sem sopros, atritos ou galopos. Abdome: Macio, não doloroso, não distendido, ruídos hidroaéreos presentes, sem rebote ou defesa. Extremidades: Quentes, bem perfundidas, pulsos 2+, presença de clubbing (hipocratismo digital). Neurológico: Orientado x 3, rigidez difusa com tremor de repouso. Sem asterixis. Nervos cranianos II-XII íntegros. Tônus aumentado em toda a extensão com reflexos simétricos. Paciente não cooperou para avaliação de força, mas força &gt; 3/5 em todos os membros. Exame cerebelar não testável. Psiquiatria: Afecto plano.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma de Admissão: Leucócitos 5.2, Hemácias 3.08 (baixo), Hemoglobina 10.1 (baixo), Hematócrito 30.7 (baixo), VCM 100 (alto), HCM 32.7, CHCM 32.8, RDW 13.7. Diferencial: Neutrófilos 76.4% (alto), Linfócitos 17.7% (baixo), Monócitos 5.1%, Eosinófilos 0.4%, Basófilos 0.3%. Bioquímica de Admissão: Glicose 110 (alto), Ureia 33 (alto), Creatinina 1.3 (alto), Sódio 142, Potássio 4.7, Cloreto 105, CO2 Total 29, Gap Aniônico 13. Enzimas de Admissão: ALT 59 (alto), AST 53 (alto), CPK 303 (alto), Fosfatase Alcalina 76. Eletrólitos de Admissão: Cálcio 9.6, Fósforo 3.8, Magnésio 2.5. Lactato 1.5, Potássio 4.4. Urinálise de Admissão: Sangue negativo, Nitrito negativo, Proteína traço, Glicose negativa, Cetonas negativas, Bilirrubina negativa, Urobilinogênio 2 (alto), pH 6.5, Leucócitos negativos. Sedimento Urinário: Hemácias 1, Leucócitos 1, Bactérias nenhuma, Leveduras nenhuma, Células epiteliais 0, Cilindros hialinos 22 (alto). Hemograma de Alta: Leucócitos 3.5 (baixo), Hemácias 2.92 (baixo), Hemoglobina 9.4 (baixo), Hematócrito 28.5 (baixo), VCM 97, HCM 32.0, CHCM 32.9, RDW 14.0. Bioquímica de Alta: Glicose 96, Ureia 26 (alto), Creatinina 1.0, Sódio 135, Potássio 4.4, Cloreto 102, Bicarbonato 26, Gap Aniônico 11. Enzimas de Alta: CPK 369 (alto), ALT 67 (alto), AST 61 (alto), LDH 236, CPK 225, Fosfatase Alcalina 79, Bilirrubina Total 0.5, Cálcio 9.0, Fósforo 4.0, Magnésio 2.5. Sorologias/Outros: Carga viral de HIV &lt; 48 (indetectável), CD4 176. Culturas: Cultura de sangue pendente, Cultura de urina sem crescimento.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada (TC) de Crânio: Sem achados agudos. Radiografia de Tórax (CXR): Contornos cardiomediastinais e hilares normais. Clips cirúrgicos no epigástrio, provavelmente representando cirurgia prévia de hérnia de hiato. Volumes pulmonares baixos, mas com melhora da opacidade previamente descrita no lobo inferior esquerdo. Não há derrame pleural grande ou pneumotórax. Impressão: Melhora da consolidação do lobo inferior esquerdo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com HIV avançado (AIDS), CD4 &lt; 200, apresentando declínio funcional progressivo e instabilidade comportamental. O quadro clínico é consistente com Encefalopatia por AIDS (Demência Associada ao HIV), caracterizada por deterioração subaguda do estado mental, sinais de liberação frontal, desinibição comportamental e parkinsonismo. A avaliação extensa (incluindo punção lombar, ressonância magnética/TC de crânio e sorologias infecciosas) descartou etiologias infecciosas, neoplásicas ou metabólicas alternativas. O parkinsonismo é atribuído aos efeitos extrapiramidais dos antipsicóticos e à própria demência por HIV. Durante a internação, a tentativa de introdução de pramipexol resultou em piora da agitação e desinibição, sendo a medicação suspensa com retorno ao estado basal. O paciente apresentou episódio de ideação suicida e tentativa de autoextermínio (cordão de telefone), que foi avaliado pela psiquiatria como um comportamento de chamar atenção, sem intenção real de morte, mantendo-se o regime psiquiátrico atual. O paciente mantém carga viral indetectável e está em terapia antirretroviral (HAART) sem evidência de infecções oportunistas ativas. Foi diagnosticada dermatite seborreica moderada a grave, que melhorou com tratamento tópico. Anemia macrocítica estável, provavelmente relacionada aos antirretrovirais. Devido ao prognóstico reservado e baixa qualidade de vida, o status de código foi alterado para DNR/DNI (Não Reanimar/Não Intubar). O paciente foi internado principalmente para avaliação de colocação em instituição de cuidados de longa permanência.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: 1. Ritonavir 100 mg, 1 cápsula VO a cada 12 horas. 2. Fosamprenavir 700 mg, 1 comprimido VO a cada 12 horas. 3. Emtricitabina-Tenofovir 200-300 mg, 1 comprimido VO diariamente. 4. Quetiapina 25 mg, 2 comprimidos VO à noite (QHS). 5. Haloperidol 0.5 mg, 1 comprimido VO a cada 12 horas (manutenção) e 1 comprimido VO a cada 8 horas conforme necessário para agitação. 6. Dapsona 100 mg, 1 comprimido VO diariamente. 7. Citalopram 20 mg, 2 comprimidos VO diariamente. 8. Cetoconazol 2% (xampu), aplicação tópica conforme orientação. 9. Lidocaína 5% (adesivo), 1 adesivo tópico diariamente. 10. Oxycodona 5 mg, 1 comprimido VO a cada 6 horas conforme necessário para dor. 11. Multivitamínico, 1 comprimido VO diariamente. 12. Docusato de sódio 100 mg, 1 cápsula VO a cada 12 horas conforme necessário para constipação. 13. Senna 8.6 mg, 1 comprimido VO a cada 12 horas conforme necessário para constipação. 14. Hidróxido de magnésio 400 mg/5 mL, 30 mL VO a cada 6 horas conforme necessário para constipação. 15. Acetaminofeno 500 mg, 2 comprimidos VO a cada 8 horas. Orientações: Continuar o regime antirretroviral atual. Manter higiene e uso do xampu para dermatite seborreica. Monitorar sinais de agitação e dor. Encaminhamentos: Seguimento ambulatorial com neurologista (Dr. ___) para ajuste de medicações e com psiquiatria. Retorno conforme necessidade ou agendamento. Destino da Alta: Instituição de Cuidados Estendidos (Extended Care). Status de Código: DNR/DNI.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '29897210';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

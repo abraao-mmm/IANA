@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 26536278 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 26536278</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 26536278 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Sifilis<br>
+    <strong>Entidades extraídas:</strong> 49 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                 Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___.
+ 
+Chief Complaint:
+penicillin desensitization
+ 
+Major Surgical or Invasive Procedure:
+penicillin desensitization
+ 
+History of Present Illness:
+___ year old male with a past medical history
+of prostate cancer, peripheral neuropathy, osteoarthritis,
+secondary polycythemia from sleep apnea and syphilis.  Per his
+records he was first diagnosed with syphilis back in ___ when 
+at
+that time his RPR was noted to be &quot;&gt;1:4&quot; with a positive
+treponemal test.  At that time he received 2 IM injections of
+PCN, but reportedly developed a rash after the second injection
+so he never completed the therapy.  The next RPR assessment we
+have after that was in ___ at which time his titer was 1:8. 
+After that it has been persistently in the 1:4 range since early
+___.  In ___ he was treated with Doxycycline for 
+28 days as second line treatment for late latent syphilis.  He 
+also had a lumbar puncture during that time period in ___ (he was also getting a workup with neuro for his peripheral 
+neuropathy).  He had no significant pleocytosis in his CSF and 
+his VDRL was negative.  
+His RPR was rechecked on ___ and it is still reactive at 
+1:4. 
+  He was admitted to the MICU for penicillin desensitization as 
+his RPR was still reactive when last checked.  His review of 
+systems was negative for chest pain, shortness of breath, 
+abdominal pain, changes in bowel habits, fevers, chills, rashes. 
+ He reported arm and leg &quot;numbness and tingling&quot; that has been 
+persistent for one year.  He denies back pain, saddle 
+anesthesia, bowel incontinence.
+ 
+Past Medical History:
++PPD from bcg vaccine 
+polycythemia ___
+prostate ca
+DM diet controlled
+OA
+depression
+neuropathy
+OSA (does not tolerate bipap)
+syphillis 
+ 
+Social History:
+___
+Family History:
+NC
+ 
+Physical Exam:
+VS: T 98.0, HR 55, BP 128/69, 97%ra, 19
+Gen-NAD, lying in bed comfortably
+CV-RRR, S1, S2 no m/r/g
+Pulm-CTAB
+Abdomen-soft, NT, +BS
+Extremities-no edema
+ 
+Pertinent Results:
+___ 09:23PM BLOOD WBC-7.2 RBC-5.54 Hgb-14.2 Hct-45.3 MCV-82 
+MCH-25.6* MCHC-31.3 RDW-15.4 Plt ___
+___ 09:23PM BLOOD ___
+___ 09:23PM BLOOD Plt ___
+___ 09:23PM BLOOD Glucose-124* UreaN-17 Creat-1.1 Na-142 
+K-3.8 Cl-107 HCO3-26 AnGap-13
+ 
+Brief Hospital Course:
+Mr. ___ is a ___ yo male with late latent syphilis with a 
+penicillin allergy, admitted to the MICU for penicillin 
+desensitization
+.
+1) Syphilis:  Patient with a persistently reactive RPR, now 
+admitted for penicillin desensitization per protocol.  He 
+received escalating doses of penicillin q 30 minutes x 7 doses.  
+His last dose of protocol will be followed by Penicillin 2.4 
+million units IM q week x 3 weeks.  Patient to maintain blood 
+levels of PCN between IM doses with oral PCN 500 mg BID at 
+discharge, he will f/u in ___ clinic on ___ for next IM dose
+Epinephrine, diphenyhydramine, ibuprofen PRN adverse reaction, 
+which did not occur.  The patient tolerated the desensitization 
+well and was discharged the following morning.
+.
+2) Atrial flutter:  Was in NSR on telemetry for the duration of 
+his hospitaliation.
+He is anticoagulated on coumadin, and was in his target INR ___. 
+ He was rate controlled on his home dose of metoprolol.
+.
+3) PPx: None, as he is anticoagulated on coumadin.
+.
+4) FEN: He was NPO until after first dose of penicillin, then 
+cardiac diet. 
+.
+5) Code statu: full code. 
+ 
+Medications on Admission:
+Metoprolol 50 mg BID
+Percocet ___ BID
+Warfarin 5 mg daily
+ 
+Discharge Medications:
+1. Warfarin 2.5 mg Tablet Sig: Three (3) Tablet PO HS (at 
+bedtime).  
+2. Metoprolol Tartrate 50 mg Tablet Sig: One (1) Tablet PO BID 
+(2 times a day).  
+3. Penicillin V Potassium 500 mg Tablet Sig: One (1) Tablet PO 
+twice a day for 2 weeks.
+Disp:*28 Tablet(s)* Refills:*0*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+penicillin desensitization for treatment of latent syphillis
+atrial fibrillation
+prostate cancer
+secondary polycythemia
+
+ 
+Discharge Condition:
+stable, afebrile, good po intake
+
+ 
+Discharge Instructions:
+You were admitted to the MICU for penicillin desensitization.  
+The complete series of penicillin doses were administered 
+without event.  You received an intramuscular dose of penicillin 
+at the end of the series.  You will need to take penicillin 
+500mg by mouth twice daily for two weeks.  Please continue to 
+take your medications as prescribed.
+Call your doctor or go to the ER if you have any shortness of 
+breath, dizzyness, rashes, swelling, wheezing, chest pain, or 
+any other concerning symptoms.
+It is important that you follow up as outlined below.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(9)</span></h3>
+  <ul>
+    <li>Sífilis latente tardia</li>
+    <li>Câncer de próstata</li>
+    <li>Neuropatia periférica</li>
+    <li>Osteoartrite</li>
+    <li>Policitemia secundária</li>
+    <li>Apneia obstrutiva do sono</li>
+    <li>Depressão</li>
+    <li>Fibrilação atrial</li>
+    <li>Flutter atrial</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(3)</span></h3>
+  <ul>
+    <li>dormência e formigamento nos braços e pernas</li>
+    <li>exantema (após injeção de penicilina no passado)</li>
+    <li>Alergia à penicilina</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Penicilina</li>
+    <li>Doxiciclina</li>
+    <li>Epinefrina</li>
+    <li>Difenidramina</li>
+    <li>Ibuprofeno</li>
+    <li>Metoprolol</li>
+    <li>Percocet</li>
+    <li>Varfarina</li>
+    <li>Penicilina V Potássio</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(25)</span></h3>
+  <ul>
+    <li>RPR-1:4</li>
+    <li>Teste treponêmico-Positivo</li>
+    <li>RPR-1:8</li>
+    <li>RPR-1:4 (persistente)</li>
+    <li>Líquor (CSF)-Sem pleocitose significativa</li>
+    <li>VDRL-Negativo</li>
+    <li>RPR-Reativo (1:4)</li>
+    <li>WBC-7.2</li>
+    <li>RBC-5.54</li>
+    <li>Hgb-14.2</li>
+    <li>Hct-45.3</li>
+    <li>MCV-82</li>
+    <li>MCH-25.6</li>
+    <li>MCHC-31.3</li>
+    <li>RDW-15.4</li>
+    <li>Glucose-124</li>
+    <li>UreaN-17</li>
+    <li>Creat-1.1</li>
+    <li>Na-142</li>
+    <li>K-3.8</li>
+    <li>Cl-107</li>
+    <li>HCO3-26</li>
+    <li>AnGap-13</li>
+    <li>PPD-Positivo (devido à vacina BCG)</li>
+    <li>INR-alvo</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(3)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+    <li>Desensibilização à penicilina</li>
+    <li>Telemetria cardíaca</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, com histórico de câncer de próstata, neuropatia periférica, osteoartrite, policitemia secundária à apneia do sono e sífilis. Relata diagnóstico de sífilis realizado anteriormente, quando seu RPR foi notado como &#x27;&gt;1:4&#x27; com teste treponêmico positivo. Naquela ocasião, recebeu 2 injeções intramusculares de penicilina, mas desenvolveu erupção cutânea após a segunda injeção, não completando a terapia. Relata que o RPR permaneceu na faixa de 1:4 desde o início do ano passado. Em ano anterior, foi tratado com doxiciclina por 28 dias como tratamento de segunda linha para sífilis latente tardia. Realizou punção lombar durante aquele período (em avaliação neurológica para neuropatia periférica), sem pleocitose significativa no líquor e VDRL negativo. Paciente refere que seu RPR foi reavaliado recentemente e continua reagente. Foi admitido para dessensibilização à penicilina. Revisão de sistemas negativa para dor torácica, falta de ar, dor abdominal, alterações no hábito intestinal, febre, calafrios ou erupções cutâneas. Relata dormência e formigamento em braços e pernas, persistente há um ano. Nega dor lombar, anestesia em sela ou incontinência intestinal. Nega alergias medicamentosas além de penicilinas.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 98.0°F, Frequência Cardíaca 55 bpm, Pressão Arterial 128/69 mmHg, Saturação de Oxigênio 97% em ar ambiente, Frequência Respiratória 19 irpm. Exame Físico: Geral: Sem alterações aparentes, deitado na cama confortavelmente. Cardiovascular: Rítmico, bulhas S1 e S2 normais, sem sopros, atritos ou galopes. Pulmões: Murmúrio vesicular claro em ambos os campos pulmonares, sem ruídos adventícios. Abdome: Macio, indolor à palpação, com ruídos hidroaéreos presentes. Extremidades: Sem edema.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo: Leucócitos 7.2, Hemácias 5.54, Hemoglobina 14.2, Hematócrito 45.3, VCM 82, HCM 25.6, HCMC 31.3, RDW 15.4, Plaquetas (valor não especificado no texto). Bioquímica Sanguínea: Glicose 124 mg/dL, Ureia 17 mg/dL, Creatinina 1.1 mg/dL, Sódio 142 mEq/L, Potássio 3.8 mEq/L, Cloreto 107 mEq/L, Bicarbonato 26 mEq/L, Gap Aniónico 13. Sorologia: RPR reagente (título 1:4).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Não foram realizados ou relatados exames de imagem (radiografias, tomografias, ecocardiogramas) neste registro.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com sífilis latente tardia e alergia à penicilina, admitido para dessensibilização à penicilina. O paciente apresentou RPR persistentemente reativo (título 1:4) apesar de tratamentos anteriores incompletos ou alternativos (doxiciclina). A punção lombar anterior descartou neurosífilis (VDRL negativo, sem pleocitose). O paciente foi submetido com sucesso ao protocolo de dessensibilização à penicilina na UTI Médica, recebendo doses escalonadas a cada 30 minutos por 7 doses, sem reações adversas. Ao final do protocolo, recebeu dose intramuscular de penicilina. Durante a internação, apresentou fibrilação atrial (notada como &#x27;atrial flutter&#x27; na evolução e &#x27;atrial fibrillation&#x27; no diagnóstico de alta), mantendo-se em ritmo sinusal durante a monitorização telemétrica, com controle de frequência e anticoagulação terapêutica (INR no alvo). O paciente tolerou bem o procedimento, sem eventos adversos, e foi liberado no dia seguinte. Diagnósticos principais: Sífilis latente tardia em tratamento, Dessensibilização à penicilina realizada com sucesso. Diagnósticos associados: Fibrilação atrial, Câncer de próstata, Policitemia secundária, Neuropatia periférica.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Medicamentos na alta: 
+   - Varfarina 2.5 mg, 3 comprimidos por via oral ao deitar (HS) diariamente.
+   - Metoprolol Tartrato 50 mg, 1 comprimido por via oral 2 vezes ao dia (BID).
+   - Penicilina V Potássio 500 mg, 1 comprimido por via oral 2 vezes ao dia (BID) por 2 semanas (para manter níveis sanguíneos entre as doses IM semanais).
+2. Tratamento da Sífilis: O paciente receberá Penicilina G Benzatina 2,4 milhões de unidades IM semanalmente por 3 semanas (próxima dose agendada para consulta em clínica especializada). 
+3. Orientações: Manter medicações conforme prescrito. Monitorar sinais de reação alérgica (falta de ar, tontura, erupções, inchaço, chiado, dor torácica) e procurar emergência se ocorrerem. 
+4. Seguimento: Retorno agendado para clínica especializada para administração da próxima dose intramuscular de penicilina. 
+5. Conduta: Alta hospitalar em condições estáveis, afebril, com boa ingestão oral.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 27381409 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 27381409</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 27381409 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 130
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                    Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Azithromycin / Bactrim
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Altered mental status, Fevers
+ 
+Major Surgical or Invasive Procedure:
+Central line Placement
+Intubation, mechanical ventilation
+ 
+History of Present Illness:
+___ yo male with HIV/AIDS (last CD4 count of 2 on ___ who 
+presented initially ___ with altered mental status from his 
+residential treatment program.  He was noted to have acute 
+changes in mental status 2 days prior to admission from being 
+fully oriented to lethargic, not oriented and not opening eyes 
+to command.  He also reportedly had worsening of his chronically 
+poor po intake, thought to be secondary to dysphagia related to 
+severe oral thrush.
+.  
+Of note, he was recently admitted ___ to ___ for confusion at 
+which time he underwent an extensive workup and it was thought 
+by neuro that he most likely was suffering from HIV 
+encephalopathy (workup at that time included MRI brain showed 
+diffuse atrophy but otherwise unremarkable; total spine read as 
+normal.  LP negative, CSF HSV PCR neg, HSV viral load neg. CSF 
+JCV PCR neg. Crypto Ag neg. CMV IgG pos but IgM and viral load 
+neg. Toxo IgG/M neg. CSF VDRL and serum RPR neg. Blood cultures 
+neg for bacteria neg while fungal and AFB are neg to date. Stool 
+neg for O+P, salmonella, shigella, campylobacter, crypto, 
+giardia; mycobacterium neg to date.  Stool was positive for c. 
+diff on ___ at which time a 2 week course of flagyl was 
+initiated.  
+.  
+On initial presentation to the ED this admission, his vitals 
+were: T 100.1 HR 133 BP 118/77 RR 14 Sat 96% on RA. He had an LP 
+done which showed 2 wbc, 1 rbc, protein 122, gluc 42. Gram stain 
+with no PML, no microorganisms. Fluid, fungal, mycobacterial, 
+viral cx pending. Crypto Ag neg. He received ceftriaxone 2 g IV, 
+ampicillin 2 g IV, acyclovir 500 gm IV, and flagyl 500 mg IV and 
+admitted to general medicine service, where he was also started 
+on Vanco 1000 mg IV. On the medical floor, the patient was noted 
+to be febrile to 101.7 although his mental status improved 
+improved. Pt was nonverbal when he first came to the floor but 
+was subsequently able to give short answers although he remained 
+extremely lethargic with poor attention.  
+.  
+On ___, his mental status was waxing and waning.  He became 
+tachypneic to the ___ and his O2 sat dropped to the ___ BP 
+remained stable but HR increased to 110. Pt was placed on NRB 
+with improvement in O2 sat to 94% and given 2 L NS bolus with 
+improvement in his BP before being tx to the ICU given concern 
+for sepsis and respiratory distress.  
+.
+In the ICU, he was intubated upon arrival out of concern for 
+hypoxia and airway protection due to his depressed mental 
+status.  He underwent bronchoscopy on ___ with 3+ PMNs, but 
+negative cultures, AFB smear, and fungal cx NGTD, PCP ___.  
+Additional cx data including blood, urine and stool (including 
+c. diff x3) have been negative this admission.  In the ICU he 
+was started on cefepime and continued on 
+vanco/ampicillin/flagyl/acyclovir.  He was briefly on 
+voriconazole for fungal coverage which was discontinued at 
+recommendation of ID team; ampicillin and voriconazole both were 
+d/c&#x27;d on ___.  Additionally, acyclovir was discontinued on ___.  
+As per ID team recommendations, he was started on HAART in the 
+ICU.
+
+ 
+Past Medical History:
+1. HIV/AIDS - CD4 2, VL ___ on ___ dx in ___ with PCP, 
+likely ___ unprotected sex with woman, not on HAART x ___ year ___ 
+depression.  
+2. Depression with paranoia and psychotic features
+3. Recent h/o C.Diff colitis
+4. Oral thrush  
+5. PCP ___ ___, ? in ___ treated with bactrim but 
+switched to atovaquone ___ granulocytopenia  
+6. Giardia  
+7. Primary syphilis per pt, treated with IM PCN  
+8. Necrotizing granulomatous hepatitis, stage II fibrosis and 
+grade 3 inflammation by MRI and path - neg viral hepatitis  
+9. Hemorrhoids  
+
+ 
+Social History:
+___
+Family History:
+Patient admits to a family history of diabetes and hypertension.
+He denies any liver disease in his family.  
+
+ 
+Physical Exam:
+V/S: T 97.6 BP 118/62 P 82 RR 20 Sat 92% NC
+General: young, thin male lying in bed with his eyes closed, 
+barely opening his eyes when spoken to, nonverbal  
+HEENT: patient resisted eye opening and moved his eyes away from 
+the light - unable to assess his pupils, patient did not open 
+his mouth to command. Mouth slightly open with green material 
+present between his teeth.  
+Neck: no LAD, supple, JVP not seen  
+Heart: RRR, no MRG  
+Lungs: coarse breath sounds b/l  
+Abd: +BS, soft ND  
+Ext: no edema  
+Neuro: Patient stuporous, will slightly open his eyes to voice, 
+can squeeze his hands b/l to command, cannot move his toes to 
+command or open his mouth. Down-going toes b/l on Babinski. When 
+either arm is raised off the bed, he will slowly let them drift 
+down when let go. When either leg is lifted off the bed, it will 
+fall down immediately when let go. 2+ biceps and radialis on the 
+Rt side, 1+ Biceps and radialis on the Lt, unable to elicit 
+patellar reflexes b/l  
+Skin: no rashes  
+
+ 
+Brief Hospital Course:
+#HIV-Previous to this admission, the patient was not treated 
+with HAART therapy ___ depression and poor compliance; given 
+severity of infection he was started on HAART therapy with 
+darunavir, raltegravir, tenofovir, ritonavir and lamivudine per 
+ID recs.  He tolerated these medications well.
+.
+#Respiratory- Pt was tachypneic on floor and given MS changes 
+unclear if could protect airway and adequately ventilate; thus 
+pt intubated on arrival to MICU.  Etiology of tachypnea unclear 
+but possibly related to infectious process/PCP vs CAP vs 
+aspiration pna.  Pt was intubated for a period of time and 
+underwent bronchoscopy during this admission, with 3+ PMNs but 
+otherwise unrevealing bronchial washings. PCP was negative from 
+the BAL, and fungal/viral cultures were negative.  On ___ the 
+patient was successfully extubated with improvement in his 
+respiratory status after several days of broad spectrum 
+antibiotic coverage for possible bacterial, viral, and fungal 
+infection.  A code blue was called on the evening of ___ when 
+Mr. ___ went into respiratory distress.  He was intubated and 
+transferred to the MICU under the MICU-green service.  A CXR 
+revealed collapse of his RLL from a mucous plug, with moderate 
+mediastinal shift.  The patient underwent urgent bronchoscopy 
+with removal of several right sided mucous plugs.  His right 
+lung was better aerated after the procedure with near complete 
+recovery of his mediastinal shift.  Vancomycin and cefepime were 
+added back to his regimen that evening given his tenuous 
+repsiratory state, and the BAL washings were sent for culture.  
+After the mucus plug was taken out, the patient&#x27;s respiratory 
+status improved rapidly and he was able to be extubated the next 
+morning without difficulty.  Given this rapid respiratory 
+improvement, his vancomycin and cefepime were d/c and during the 
+remainder of his hospital course he did not have any further 
+respiratory issues.  He remained afebrile breathing room air.  
+.
+#ID/Sepsis- Pt has a poorly controlled HIV infection with low 
+CD4 count (count of 1) and thus susceptibility to many 
+opportunistic infections; he may have encephalitis with 
+opportunistic infection; LP most c/w viral infection but need to 
+r/o other sources.  Initially transferred to ICU with fever, 
+tachypnea (meets criteria for SIRS) with presumed infection (and 
+thus sepsis) although nothing has cultured and the source was 
+unclear.  LP with only 2 WBCs, 1 RBC, elevated protein but 
+normal glucose which is not inconsistent with cryptococcus but 
+PCR negative.  CSF for VDRL, HSV, CMV, EBV, ___, VZV, 
+cryptococcus all negative by PCR.  Given negative EBV PCR, CNS 
+lymphoma unlikely.  Negative ___ PCR still does not exclude PML 
+as etiology. CT abdomen without source of infection. CXR with ? 
+patchy infiltrates and pt does have elevated LSH.  Differential 
+included PCP pneumonia, CMV, EBV, HSV, VZV, JCV, Histo, 
+Cryptococcus, however PCP ruled out via negative bronch 
+washings. 
+Central line was inserted and pt was aggressively fluid 
+rescitated given his hypotension and fevers.  Pt intermittently 
+required pressors for BP support, but at very low doses.  LP 
+cultures were negative for HSV, CMV, VZV, EBV, JCV, and 
+Cryptococcus.  Urine legionella antigen was negative. Blood 
+cultures to date with no growth. ID followed closely and 
+recommended continuing empiric treatment with Vancomycin, 
+Cefepime (for pseumonas coverage), acyclovir, and PCP 
+prophylaxis with ___.  Ampicillin, voriconazole, and 
+Bactrim were discontinued.  HAART therapy was intiated during 
+this hospitalization and were tolerated well.  All of his 
+cultures remained negative and a full infectious work-up for his 
+altered mental status was negative, including multiple CSF 
+studies.  He continued on his HAART for the AIDS, Atovaquone for 
+PCP prophylaxis, ___ for MAC prophylaxis, and completed a 
+course of flagyl for possible C.diff infection, despite 
+continual negative C.diff studies. 
+.
+#Mental Status change - Patient with HIV/AIDS (CD4 count of 1 on 
+admission) thought to have HIV encephalopathy, but at baseline 
+more alert and oriented than on admit.  It is, however, not 
+entirely clear as to whether his mental status is due to CNS 
+infective process (negative CSF studies as above although 
+elevated protein) vs. PML (despite negative ___ PCR) vs. HIV 
+encephalopathy vs. d/t underlying metabolic insult from 
+different source of infection. Bacterial meningitis ruled out 
+via LP, however, persistently poor MS could be a progression of 
+HIV encephalopathy, or could represent encephalitis (HSV). CSF 
+also negative for ACE on ___ therefore rule out neurosarcoid.  
+Head CT on admission  showed no bleed. Neurology was consulted 
+and the patient underwent an EEG on ___ which showed evidence of 
+benzodiazepine or barbiturate effect (during which was the 
+patient was intubated and sedated). EEG showed no ongoing 
+epileptiform activity, and no focal abnormalities. The pattern 
+was most consistent with a moderate to severe encephalopathy of 
+toxic, metabolic, or anoxic etiology.  Of note however repeat 
+MRI again reveals atrophy suggestive of some chronicity to this 
+CNS process and abnormal signal in the basal ganglia (neuro 
+reports nonspeicific), but no masses or focal lesions.  
+Continued work-up by neurology, including additional LP exams 
+continued to not identify any other source for the patients 
+altered mental status.  He was continued on the above described 
+medications and did show some overall improvement during his 
+hospitalization while on HAART treatment, although he remained 
+profoundly weak from his shoulders down, essentially remaining 
+non-verbal. On ___ CD4 28, viral load 3200. Speech and swallow 
+assessment were done three times with the final assessment 
+showing some progress to allow patient to have light PO intake 
+of fluids via straws. 
+.
+#Acute Anemia - During his stay in the ICU, the patient was 
+noted to have a decline in his Hct with a nadir of 24. One unit 
+of PRBCs was transfused. The patient was guiac negative and 
+there was no evidence of GI bleeding. Drug-related 
+myelosupression/anemia was considered but given the timing of 
+his recent initiation of HAART therapy, this was considered 
+unlikely. After blood transfusion, the patient&#x27;s Hct remained 
+stable and his acute anemia was attributed to a combination of 
+dilution and frequent phlebotomy while in the ICU.
+.
+# Pancytopenia:  Pancytopenic on presentation whereas prior to 
+that was leukopenic and anemic (with nml platelets).  Unclear 
+whether due to BM involvement and suppression from underlying 
+HIV or whether bactrim as etiology.  Also ? due to other 
+infectious process including viral, fungal, or bacterial despite 
+no positive culture data to date.  Appears he had been off 
+bactrim since last admission and was admitted on atovaquone so 
+perhaps less likely due to this.  Was neutropenic on last 
+admission, but has not been during this stay and WBC count has 
+improved and is stable with broad spectrum abx and initiation of 
+HAART. Baseline hct fluctuates but appears previously low-mid 
+___, most recently in the high ___ and stable.  Had BRBPR during 
+last admission without further GI w/u at that time given 
+concurrent c. diff infection.  ___ labs revealed normal INR, 
+elevated fibrinogen and normal FDP.  Today with 1% bands and 
+suspect less reflection of infectious process and more 
+reflection of productive BM in setting of HAART initiation.
+. 
+# Systolic dysfunction:  LVEF on this admission 25% and ? due to 
+HIV or from other toxic metabolic insult particularly in the 
+setting of sepsis upon presentation to the ICU.  Was diuresed 
+with prn IV lasix prior to extubation and currently does not 
+appear markedly overloaded on exam.
+- will repeat TTE this admission to eval for improvement now 
+that sepsis has resolved 
+.
+# Transaminitis:  Has h/o granulomatous hepatitis with stage 2 
+fibrosis.  Transaminase elevation noted during last admission 
+and upon this presentation, since having normalized as of most 
+recent ___ LFTs.  Normal alk phos and t.bili.  HCV viral load 
+negative here, hep B and hep A neg. Monitored intermittently and 
+continued to show normal levels.
+.  
+# Recent C.diff infection:  C. diff neg x3 on this admission, 
+however given recent infection and on broad spectrum antibiotics 
+otherwise, he was continued on a course of flagyl which he 
+completed and was then taken off of.
+.  
+# FEN:  Patient nutrition was maintained through feeding tube, 
+intially by NGT and then on ___ patient had ___ guided PEG tube 
+placed without complications.  PEG tube started to be used on 
+___ without complications.  Nutrition continued to follow 
+patient. Received Probalance feeds at 65 cc/hr with no 
+complications. Patient reported some throat pain and was placed 
+on 5 days of fluconazole (during which time the rifabutin was 
+stopped due to possible drug interactions); throat pain has 
+since resolved. 
+.  
+# PPx:  SC heparin; decrease tid dosing if PTT remains 
+significantly elevated.
+.  
+# Access:  RIJ placed (___), 2 PIV.  Will d/c IJ pending 
+continued HD stability on floor.
+
+# GU: Patient initially placed on foley catheter.  This was 
+converted to condom catheter on ___ and patient has been able 
+to void.
+.  
+# Code:  FULL (discussed with the patient&#x27;s family); will need 
+to have another family meeting in order to further address 
+prognosis and course from here.  
+.  
+# Dispo:  pending further w/u and treatment as above.  
+.  
+# Contact:  mother, ___ ___ father, ___ 
+___ ___.  
+A code blue was called on the evening of ___ when Mr. ___ 
+went into respiratory distress.  He was intubated and 
+transferred to the MICU under the MICU-green service.  A CXR 
+revealed collapse of his RLL from a mucous plug, with moderate 
+mediastinal shift.  The patient underwent urgent bronchoscopy 
+with removal of several right sided mucous plugs.  His right 
+lung was better aerated after the procedure with near complete 
+recovery of his mediastinal shift.  Vancomycin and cefepime were 
+added back to his regimen that evening given his tenuous 
+repsiratory state, and the BAL washings were sent for culture.  
+ 
+Medications on Admission:
+1. Atovaquone 750 mg po bid  
+2. Vancomycin 125 mg po q6h  
+3. Dronabinol 5 mg bid  
+4. Citalopram 30 mg daily  
+5. Nystatin Swich and swallow tid  
+6. Clotirimazole qid  
+7. MVI  
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+1. HIV encephalopathy
+2. Respiratory distress
+3. Systolic dysfunction
+5. HIV 
+6. Oral thrush
+7. s/p PEG tube placement
+
+ 
+
+ 
+Discharge Condition:
+Hemodynamically stable, tolerating PEG tubefeeds at goal, unable 
+to ambulate, non-verbal
+
+ 
+Discharge Instructions:
+You have been diagnosed with HIV encephalopathy, and possibly 
+PML.  You should continue to take your HAART Medication until 
+your follow up appointment with infectious disease clinic. Your 
+mouth can continue to be swabbed with Nystatin solution.  Please 
+take all medications as prescribed.  You will continue to get 
+nutrition via you PEG tube.
+
+If you have any questions regarding your HIV treatment, please 
+call Dr. ___ at ___
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(14)</span></h3>
+  <ul>
+    <li>HIV encefalopatia</li>
+    <li>Leucoencefalopatia multifocal progressiva (PML)</li>
+    <li>Sífilis primária</li>
+    <li>Colite por Clostridioides difficile</li>
+    <li>Hepatite granulomatosa necrotizante com fibrose estágio II e inflamação grau 3</li>
+    <li>Giardíase</li>
+    <li>Candidíase oral</li>
+    <li>Pancitopenia</li>
+    <li>Anemia aguda</li>
+    <li>Disfunção sistólica</li>
+    <li>Transaminitis</li>
+    <li>Depressão com paranoia e sintomas psicóticos</li>
+    <li>Hemorroidas</li>
+    <li>Obstrução de vias aéreas por plugue de muco</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(24)</span></h3>
+  <ul>
+    <li>Alteração do estado mental</li>
+    <li>Febre</li>
+    <li>Letargia</li>
+    <li>Disfagia</li>
+    <li>Dispneia</li>
+    <li>Taquipneia</li>
+    <li>Hipoxia</li>
+    <li>Estupor</li>
+    <li>Não verbal</li>
+    <li>Fraqueza de membros inferiores</li>
+    <li>Reflexos patelares ausentes bilateralmente</li>
+    <li>Sinal de Babinski negativo</li>
+    <li>Desvio de pronador</li>
+    <li>Queda de membros inferiores ao serem elevados</li>
+    <li>Sons respiratórios ásperos bilateralmente</li>
+    <li>Dor de garganta</li>
+    <li>Material verde entre os dentes</li>
+    <li>Atrofia cerebral</li>
+    <li>Sinal anormal nos gânglios basais</li>
+    <li>Elevação de fibrinogênio</li>
+    <li>Saturação de O2 reduzida</li>
+    <li>Taquicardia</li>
+    <li>Hipotensão</li>
+    <li>Atelectasia do lobo inferior direito</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(25)</span></h3>
+  <ul>
+    <li>Azitromicina</li>
+    <li>Bactrim (Trimetoprima/Sulfametoxazol)</li>
+    <li>Ceftriaxona</li>
+    <li>Ampicilina</li>
+    <li>Aciclovir</li>
+    <li>Metronidazol</li>
+    <li>Vancomicina</li>
+    <li>Cefepima</li>
+    <li>Voriconazol</li>
+    <li>Darunavir</li>
+    <li>Raltegravir</li>
+    <li>Tenofovir</li>
+    <li>Ritonavir</li>
+    <li>Lamivudina</li>
+    <li>Atovaquona</li>
+    <li>Rifabutina</li>
+    <li>Dronabinol</li>
+    <li>Citalopram</li>
+    <li>Nistatina</li>
+    <li>Clotrimazol</li>
+    <li>Multivitamínico</li>
+    <li>Probalance</li>
+    <li>Heparina</li>
+    <li>Furosemida</li>
+    <li>Fluconazol</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(44)</span></h3>
+  <ul>
+    <li>CD4 count: 2</li>
+    <li>CD4 count: 1</li>
+    <li>CD4 count: 28</li>
+    <li>Carga viral HIV: 3200</li>
+    <li>LP: 2 leucócitos, 1 hemácia, proteína 122, glicose 42</li>
+    <li>LP Gram stain: sem microrganismos</li>
+    <li>LP Culturas: pendentes</li>
+    <li>LP Crypto Ag: Negativo</li>
+    <li>LP PCR HSV: Negativo</li>
+    <li>LP PCR JCV: Negativo</li>
+    <li>LP PCR CMV: Negativo</li>
+    <li>LP PCR EBV: Negativo</li>
+    <li>LP PCR VZV: Negativo</li>
+    <li>LP PCR Cryptococcus: Negativo</li>
+    <li>LP PCR PML (JCV): Negativo</li>
+    <li>LP VDRL: Negativo</li>
+    <li>LP ACE: Negativo</li>
+    <li>Soro RPR: Negativo</li>
+    <li>Soro HSV viral load: Negativo</li>
+    <li>Soro CMV IgG: Positivo, IgM e viral load: Negativo</li>
+    <li>Soro Toxo IgG/M: Negativo</li>
+    <li>Cultura de sangue: Negativa</li>
+    <li>Cultura de fezes: Negativa para O+P, Salmonella, Shigella, Campylobacter, Crypto, Giardia, Mycobacterium</li>
+    <li>Cultura de fezes C. diff: Positiva (histórico), Negativa x3 (atual)</li>
+    <li>Hematócrito nadir: 24%</li>
+    <li>Hemograma: Pancitopenia na apresentação</li>
+    <li>Bastonetes: 1%</li>
+    <li>INR: Normal</li>
+    <li>Fibrinogênio: Elevado</li>
+    <li>FDP: Normal</li>
+    <li>BAL: 3+ PMNs</li>
+    <li>BAL Culturas: Negativas</li>
+    <li>BAL AFB smear: Negativo</li>
+    <li>BAL Fungal cx: Negativo</li>
+    <li>BAL PCP: Negativo</li>
+    <li>Antígeno de Legionella na urina: Negativo</li>
+    <li>Cultura de urina: Negativa</li>
+    <li>LFTs: Normalizados</li>
+    <li>Fosfatase alcalina: Normal</li>
+    <li>Bilirrubina total: Normal</li>
+    <li>HCV viral load: Negativo</li>
+    <li>Hepatite B: Negativo</li>
+    <li>Hepatite A: Negativo</li>
+    <li>Teste de guaiac: Negativo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(19)</span></h3>
+  <ul>
+    <li>Colocação de cateter central</li>
+    <li>Intubação</li>
+    <li>Ventilação mecânica</li>
+    <li>Ressonância Magnética de cérebro</li>
+    <li>Ressonância Magnética de coluna total</li>
+    <li>Punção lombar</li>
+    <li>Cultura de sangue</li>
+    <li>Cultura de fezes</li>
+    <li>Broncoscopia</li>
+    <li>Lavado broncoalveolar</li>
+    <li>Tomografia Computadorizada de abdômen</li>
+    <li>Raio-X de tórax</li>
+    <li>Eletroencefalograma</li>
+    <li>Ecocardiograma</li>
+    <li>Avaliação de fala e deglutição</li>
+    <li>Colocação de sonda nasogástrica</li>
+    <li>Colocação de sonda gastrostomica percutânea</li>
+    <li>Cateterismo vesical</li>
+    <li>Teste de guaiac</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(4)</span></h3>
+  <ul>
+    <li>HIV/AIDS</li>
+    <li>Clostridioides difficile</li>
+    <li>Giardia lamblia</li>
+    <li>Treponema pallidum</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, portador de HIV/AIDS, refere alteração do estado mental progressiva iniciada 2 dias antes da admissão, evoluindo de orientado para letárgico, desorientado e sem abertura ocular a comandos. Relata piora da ingestão oral crônica, associada a disfagia secundária a candidíase oral severa (sapinho). Paciente refere histórico de depressão com paranoia e sintomas psicóticos. Relata histórico prévio de colite por C. difficile, tratada com metronidazol. Paciente nega dor torácica, dispneia aguda (antes da admissão), diarreia atual ou sangramentos. Refere histórico de sífilis primária tratada. Nega histórico familiar de doença hepática, mas admite histórico familiar de diabetes e hipertensão arterial.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 97,6°F, PA 118/62 mmHg, FC 82 bpm, FR 20 irpm, SatO2 92% em ar ambiente (oximetria de pulso).&lt;br&gt;Geral: Homem jovem, magro, deitado na cama, olhos fechados, abrindo-os apenas minimamente ao ser falado, não verbal.&lt;br&gt;HEENT: Paciente resistiu à abertura ocular e desviou o olhar da luz; pupilas não avaliáveis. Não abriu a boca a comando. Boca levemente aberta com material esverdeado presente entre os dentes.&lt;br&gt;Pescoço: Sem linfadenopatia, jugular supple, JVP não visível.&lt;br&gt;Cardiovascular: Rítmico, sem sopros, murmúrios ou galopes.&lt;br&gt;Pulmões: Ruídos respiratórios grosseiros bilateralmente.&lt;br&gt;Abdome: RHA presentes, macio, não doloroso à palpação.&lt;br&gt;Extremidades: Sem edema.&lt;br&gt;Neurológico: Paciente estupefato, abre levemente os olhos a comandos verbais. Squeeze bilateral de mãos a comando. Não consegue mover os dedos dos pés a comando nem abrir a boca. Reflexo de Babinski plantar flexor bilateral. Quando um braço é levantado, ele cai lentamente ao ser solto (desvio). Quando uma perna é levantada, cai imediatamente ao ser solta. Reflexos bíceps e radial 2+ no lado direito, 1+ no lado esquerdo. Reflexos patelares não elicíveis bilateralmente.&lt;br&gt;Pele: Sem erupções cutâneas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica:&lt;br&gt;- Hematócrito (Hct): Nadir de 24% durante a internação; baseline flutuante (alto ___).&lt;br&gt;- Leucócitos: Pancytopenia na admissão, com melhora posterior e estabilidade.&lt;br&gt;- Bandas: 1%.&lt;br&gt;- INR: Normal.&lt;br&gt;- Fibrinogênio: Elevado.&lt;br&gt;- FDP: Normal.&lt;br&gt;- Transaminases: Elevadas na admissão, normalizadas nas últimas avaliações.&lt;br&gt;- Fosfatase Alcalina e Bilirrubina Total: Normais.&lt;br&gt;&lt;br&gt;Sorologias e Marcadores Infecciosos:&lt;br&gt;- HIV: Carga viral 3200 (último registro), CD4 28 (último registro). Histórico de CD4 2 na admissão.&lt;br&gt;- Hepatite C: Carga viral negativa.&lt;br&gt;- Hepatite B e A: Negativas.&lt;br&gt;- VDRL (Líquor e Soro): Negativo.&lt;br&gt;- RPR (Soro): Negativo.&lt;br&gt;- Antígeno Cryptococcus (Líquor): Negativo.&lt;br&gt;- PCR para HSV, CMV, EBV, VZV, JCV no líquor: Negativo.&lt;br&gt;- PCR para Cryptococcus no líquor: Negativo.&lt;br&gt;- Antígeno Legionella na urina: Negativo.&lt;br&gt;- Culturas de sangue: Negativas (sem crescimento).&lt;br&gt;- Culturas de urina: Negativas.&lt;br&gt;- Culturas de fezes (O+P, Salmonella, Shigella, Campylobacter, Crypto, Giardia): Negativas.&lt;br&gt;- C. difficile (fezes): Negativo x3 nesta admissão.&lt;br&gt;- Mycobacterium (cultura de fezes e escarro): Negativo até a data.&lt;br&gt;&lt;br&gt;Líquor (Punção Lombar):&lt;br&gt;- Leucócitos: 2/mm³.&lt;br&gt;- Hemácias: 1/mm³.&lt;br&gt;- Proteína: 122 mg/dL.&lt;br&gt;- Glicose: 42 mg/dL.&lt;br&gt;- Gram: Sem polimorfonucleares (PMNs), sem microrganismos.&lt;br&gt;- ACE: Negativo.&lt;br&gt;&lt;br&gt;Outros:&lt;br&gt;- PCR para PCP (Lavado Broncoalveolar - BAL): Negativo.&lt;br&gt;- Culturas de BAL (fúngicas, virais, AFB): Negativas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Ressonância Magnética (RM) de Crânio (admissão e repetida): Mostra atrofia difusa sugestiva de cronicidade do processo do SNC e sinal anormal nos gânglios da base (relatado como inespecífico pela neurologia). Sem massas ou lesões focais.&lt;br&gt;Raio-X de Tórax (admissão): Sugere infiltrados em manchas.&lt;br&gt;Raio-X de Tórax (durante crise respiratória): Revelou colapso do Lobo Inferior Direito (RLL) devido a rolha de muco, com desvio mediastinal moderado.&lt;br&gt;Tomografia Computadorizada (TC) de Abdome: Sem fonte de infecção identificada.&lt;br&gt;Tomografia Computadorizada (TC) de Coluna Total: Leitura normal.&lt;br&gt;Eletroencefalograma (EEG): Padrão consistente com encefalopatia moderada a grave de etiologia tóxica, metabólica ou anóxica. Sem atividade epiléptica contínua ou anormalidades focais. Sugere efeito de benzodiazepínicos ou barbitúricos.&lt;br&gt;Ecocardiograma (TTE): Fração de ejeção do ventrículo esquerdo (FEVE) de 25% (disfunção sistólica).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com HIV/AIDS avançado (CD4 muito baixo, inicialmente 2, evoluindo para 28) e histórico de múltiplas infecções oportunistas, apresentou-se com alteração aguda do estado mental, febre e instabilidade respiratória.&lt;br&gt;&lt;br&gt;Raciocínio Clínico:&lt;br&gt;1. **Alteração do Estado Mental**: O quadro é compatível com Encefalopatia por HIV, dada a atrofia cerebral difusa na RM e a exclusão de outras causas infecciosas no líquor (PCR negativos para HSV, CMV, VZV, JCV, Crypto, etc.). A encefalopatia por JCV (PML) permanece como diagnóstico diferencial, apesar do PCR negativo no líquor, devido à sensibilidade limitada do teste. A encefalite viral (HSV) foi considerada, mas descartada pelo líquor negativo. A encefalopatia tóxica/metabólica/anóxica também é possível, conforme EEG.&lt;br&gt;2. **Instabilidade Respiratória e Sepse**: O paciente evoluiu com taquipneia e hipoxemia, necessitando de intubação. A etiologia inicial foi incerta (PCP vs. Pneumonia Bacteriana vs. Aspiração). O BAL foi negativo para PCP e culturas. Uma crise respiratória subsequente foi causada por rolha de muco com colapso de lobo, resolvida com broncoscopia. Culturas de sangue e urina permaneceram negativas, sugerindo sepse de fonte não identificada ou resposta inflamatória sistêmica (SIRS) sem infecção bacteriana documentada.&lt;br&gt;3. **Disfunção Sistólica**: FEVE de 25% encontrada, possivelmente secundária à infecção viral (miocardite) ou insulto tóxico/metabólico no contexto de sepse.&lt;br&gt;4. **Hematologia**: Pancytopenia na admissão, provavelmente multifatorial (HIV, medicações prévias, infecção), com melhora após início da TARV e antibióticos. Anemia aguda atribuída a hemodiluição e flebotomias frequentes.&lt;br&gt;5. **Hepática**: Histórico de hepatite granulomatosa com fibrose. Elevação transitória de transaminases que se normalizou.&lt;br&gt;&lt;br&gt;Conclusão das Equipes:&lt;br&gt;A equipe de Infectologia seguiu o paciente, recomendando TARV (HAART) e profilaxia para PCP e MAC. A equipe de Neurologia concluiu que não há evidência de infecção ativa do SNC tratável, favorecendo encefalopatia por HIV ou PML. O paciente melhorou clinicamente com o início da TARV e suporte, mas permanece com sequelas neurológicas significativas (não verbal, fraqueza severa).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:&lt;br&gt;1. **TARV (HAART)**: Continuar esquema prescrito (Darunavir, Raltegravir, Tenofovir, Ritonavir, Lamivudina) conforme recomendação da Infectologia.&lt;br&gt;2. **Profilaxia para PCP**: Atovaquone 750 mg via sonda (PO/PEG) duas vezes ao dia.&lt;br&gt;3. **Profilaxia para MAC**: Rifabutina (dose ajustada conforme interações, anteriormente suspensa temporariamente por interação com fluconazol, retomar conforme avaliação).&lt;br&gt;4. **Candidíase Oral**: Nistatina solução para bochecho e deglutição (Swish and swallow) 3 vezes ao dia.&lt;br&gt;5. **Antibióticos**: Metronidazol (Flagyl) para completar curso por suspeita prévia de C. diff (já concluído na internação, verificar necessidade de continuação se houver sintomas, caso contrário, descontinuar).&lt;br&gt;6. **Outros**: Citalopram 30 mg diário (depressão), Dronabinol 5 mg duas vezes ao dia (apetite/náusea).&lt;br&gt;&lt;br&gt;Orientações ao Paciente e Familiares:&lt;br&gt;- Manter uso estrito da medicação antirretroviral até a consulta de retorno.&lt;br&gt;- Continuar higiene oral com Nistatina.&lt;br&gt;- Nutrição exclusiva via sonda PEG (Probalance a 65 cc/hora).&lt;br&gt;- Monitorar sinais de infecção ou piora do estado mental.&lt;br&gt;- Retornar ao ambulatório de Infectologia para acompanhamento.&lt;br&gt;- Contatar Dr. ___ para dúvidas sobre tratamento do HIV.&lt;br&gt;&lt;br&gt;Encaminhamentos e Seguimento:&lt;br&gt;- Retorno ao Ambulatório de Infectologia.&lt;br&gt;- Retorno ao Ambulatório de Neurologia para reavaliação do estado mental e possível repetição de exames.&lt;br&gt;- Avaliação de Fonoaudiologia e Terapia Ocupacional para reabilitação e avaliação de deglutição futura.&lt;br&gt;- Repetição de Ecocardiograma (TTE) para reavaliação da função ventricular após resolução da sepse.&lt;br&gt;- Monitoramento laboratorial de CD4, Carga Viral, hemograma e função hepática.&lt;br&gt;&lt;br&gt;Disposição de Alta:&lt;br&gt;Transferência para Unidade de Cuidados Estendidos (Extended Care) para reabilitação e suporte nutricional contínuo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '27381409';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

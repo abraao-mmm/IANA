@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 24918106 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 24918106</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 24918106 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 77
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: PSYCHIATRY
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___.
+ 
+Chief Complaint:
+___ year old man who states &quot;I am not going back to that 
+building.  They were testing me [his neighbors].&quot;
+ 
+Major Surgical or Invasive Procedure:
+None
+ 
+History of Present Illness:
+The patient is a ___ y/o cauc. male with a history of HIV, 
+anxiety, and depression. He self presentes to the ED tonight 
+after he felt unsafe at home.
+
+  The patient has lived in a building in ___ for the last ___ 
+years. He states &quot;I am the only gay, white, educated man in that 
+building.&quot; He says ___ months ago he began having trouble with 
+some of the neighbors. This consisted of homophobic remarks in 
+the hallway. He describes these people as &quot;black and hispanic, 
+young kids who do drugs.&quot; &quot;They were testing me,&quot; he says. He 
+relates that recently a group of 7 or 8 were taunting him so 
+that he felt if he gave them reason it would have turned 
+violent. His history is confusing as he once says this was ___ 
+months ago, and then later says it was today. Also, he relates 
+that ___ months ago someone kicked his door while someone else 
+was banging on his wall.  He does have one friend in the 
+building who he stayed with recently because he felt unsafe.  
+Today he was annxious enough that his ___ brought him to the ED. 
+The patient would like to be discharged and plans to go stay 
+with his friend ___ who lives nearby.
+
+  I spoke with the covering ___ (___) in place of the 
+___ regular RN ___. Per the covering RN the 
+___ complaints represent paranoid delusions and are not 
+based in reality. She states that the patient ahs been 
+escalating for the last 3 weeks. She also conveyed that she was 
+not aware that the patient was a danger to himself or anyone 
+else, but felt that he was ill and in need of treatment. Per the 
+___ they are not aware that the patient has been using drugs 
+recently.
+
+  I spoke with the ___ friend ___ (___) 
+with whom he plans to stay tonight. ___ states he has not 
+noticed anything that confirms the patients complaints. However, 
+he did mention &quot;clicking&quot; on the phone line and says the 
+___ fears re: wiretaps may be true. He confirmed that he 
+has known the patient for years and that the patient would be 
+welcome to stay with him.
+
+  I spoke with the ___ mother ___ (___). 
+ The mother confirmed the ___ problems with his neighbors, 
+though she does not believe that he is being wiretapped. &quot;He 
+won&#x27;t even talk to me on the phone anymore he is so scared of 
+it.&quot; States that his problems increased after he reported his 
+problems to the building management. While the mother does not 
+believe the patient is delusional, she does feel that he is not 
+able to care for himself currently and is in favor of inpatient 
+hospitalization. She reported that while the patient comes 
+across as cognitively intact, underneath are deficits related to 
+PML (dx in ___ and his past drug abuse. She relates that he 
+has burned himself twice while living on his own due to 
+cognitive deficits.  She also relates that prior to moving into 
+this building the patient was never paranoid or delusional. She 
+stated &quot;I&#x27;m afraid he would get hurt if he left tonight.&quot; SHe 
+did not want him to go home as she was afraid he would be the 
+victim of violence, and she did not want him to stay with ___ 
+because ___ is involved with illicit drugs.
+ 
+Past Medical History:
+HIV and PML
+depression
+vertigo
+h/o duodenectomy for ulcers
+
+ 
+Social History:
+___
+Family History:
+Per the patient his mother suffers from anxiety and depression.
+ 
+Physical Exam:
+MENTAL STATUS EXAM 
+     APPEARANCE: ___ y/o F, appears stated age, bearded, wearing 
+hospital gowns, sitting in gurney for interview, smells strongly 
+of tobacco
+     BEHAVIOR: cooperative with interview, insisting that he 
+needs to leave soon and that he has to smoke, accepted news that 
+he was going to be admitted well
+     SPEECH: rapid, mildly pressured, nml tone and prosody
+     MOOD: &quot;fine&quot;
+     AFFECT: anxious
+     THOUGHT FORM: mostly linear, however sometimes his details 
+do not make sense and there seems to be some underlying 
+cognitive dysfunction though he covers it well
+     THOUGHT CONTENT: no evidence of AVH, SI/HI. It is unclear 
+to me at this time if his complaints about his building are 
+accurate, however it is clear that he is frightened, making poor 
+choices tonight, and seems to have some underlying cognitive 
+deficits
+     INSIGHT AND JUDGMENT: Poor/Impaired
+     COGNITIVE ASSESSMENT:
+          SENSORIUM: Alert and Oriented x3
+          ATTENTION: DOTW backwards without error
+          MEMORY: ___ registration, ___ recall after several 
+minutes with prompts
+          CALCULATIONS: &quot;9&quot; quarters in $2.25
+          PROVERB INTERPRETATION: grass/greener = &quot;something 
+optimistic&quot;
+          SIMILARITIES/ANALOGIES: apple/orange = &quot;both fruit&quot;
+ 
+Pertinent Results:
+___ 04:30PM BLOOD WBC-12.0* RBC-4.73 Hgb-15.7 Hct-43.3 
+MCV-92 MCH-33.1* MCHC-36.1* RDW-13.4 Plt ___
+___ 04:30PM BLOOD Neuts-74.6* ___ Monos-4.8 Eos-0.8 
+Baso-0.5
+___ 04:30PM BLOOD Glucose-148* UreaN-9 Creat-0.9 Na-136 
+K-4.6 Cl-104 HCO3-22 AnGap-15
+___ 03:45PM BLOOD ALT-38 AST-23 AlkPhos-112 TotBili-0.1
+___ 03:45PM BLOOD Albumin-4.1
+___ 03:45PM BLOOD VitB12-299 Folate-11.1
+___ 03:45PM BLOOD TSH-1.5
+___ 03:45PM BLOOD Free T4-1.1
+___ 04:30PM BLOOD ASA-NEG Ethanol-NEG Acetmnp-NEG 
+Bnzodzp-NEG Barbitr-NEG Tricycl-NEG
+ 
+Brief Hospital Course:
+Psychopharm:  The patient was initially admitted on a regimen of 
+Zoloft and Seroquel.  Since the patient presented initially with 
+pressured speech, psychomotor agitation, expansive affect, and 
+paranoia, his Zoloft was discontinued due to it&#x27;s potential for 
+manic switch.  He also complained of concern for weight gain and 
+diabetes on Seroquel and so this medication was discontinued and 
+he was started on Abilify 10mg PO Qbedtime.  This anti-psychotic 
+was selected for it&#x27;s decreased risk of weight gain and 
+metabolic syndrome.  He reported that Abilify improved his 
+anxiety and that he was better able to sleep.  We increased the 
+dosage of Abilify to 15mg PO Qbedtime which he tolerated well 
+and ultimately discharged him on 20mg PO Qbedtime.  During his 
+hospitalization he requested that we restart his Seroquel 
+stating that it was helpful for anxiety and insomnia.  He 
+reported that he was no longer as concerned about the metabolic 
+side effects but that he would ask his PCP to check his blood 
+sugar.  We also started Ativan for anxiety initially as a 0.5mg 
+BID standing dosage and then as a PRN with the intention to 
+discontinue this medication on discharge.  He was discharged on 
+a regimen of Abilify and Seroquel (see dosages below).
+  
+Psychosocial:  Mr. ___ was active in groups and in 
+individual therapy and cooperative with treatment throughout his 
+hospitalization.  He displayed no paranoia toward staff or other 
+patients.  He was mildly emotionally disregulated at times when 
+minor inconveniences occurred such as an order for Maalox not 
+being written in his chart.  He reported that he had &quot;temper 
+tantrums&quot; during this time, but no overt acting out behavior was 
+noted by nursing staff.  During the last week of his 
+hospitalization he reported none of these occurences.
+
+Mr. ___ was extremely preoccupied throughout his 
+hospitalization with concerns about his living arrangements and 
+plans to move his belongings out of his former apartment.  He 
+showed a great deal of disorganization regarding dispo planning 
+and required a lot of assistance in devising a plan that made 
+sense.  He seemed overwhelmed at many points by plans or 
+decisions that needed to be made.  It was unclear if this was 
+primarily due to his executive dysfunction or to an anxiety or 
+psychotic disorder.  However, even as his anxiety and paranoia 
+stabilized, he continued to have great difficulty planning and 
+making decisions suggesting a baseline level of executive 
+dysfunction.
+
+The patient displayed increased insight about the sources of the 
+intense anxiety he experienced in his apartment building.  He 
+was able to express that he felt his fear was exacerbated and 
+triggered by memories of severe physical abuse at the hands of 
+his father.  He was quite tearful when discussing his father and 
+stated that he did not feel ready to fully explore this topic 
+but that he would like to do so in long term therapy.  At 
+discharge he was able to discuss the conditions in his apartment 
+calmly and without apparent anxiety.  
+
+He was discharged to his mother&#x27;s home with plans to attend the 
+___.  He was advised to apply for housing in the ___ 
+___ (at discharge there were no beds available).  An 
+application was submitted for him to the ___ program at 
+___.  
+
+Legal: ___
+**Note: Prior psychiatric/medical records from ___ 
+were obtained. They confirm the pt was hospitalized at 
+___ behavioral unit for roughly a year for disorganized 
+behavior ___ HIV-related brain dysfunction. Specifically, FULL 
+NP Testing was done which clearly document neurocognitive 
+impairment c/w a frontal-subcortical network disorder related to 
+HIV encephalopathy. He was not deemed to have bipolar affective 
+disorder**
+ 
+Medications on Admission:
+Seroquel qHS and PRN
+Atripla
+Lipitor
+MVI
+Zoloft
+ 
+Discharge Medications:
+1. Aripiprazole 10 mg Tablet Sig: Two (2) Tablet PO DAILY 
+(Daily).
+Disp:*60 Tablet(s)* Refills:*0*
+2. Quetiapine 25 mg Tablet Sig: ___ tab BID PRN anxiety or 2 
+tabs QHS PRN insomnia Tablet PO ___ tab BID PRN anxiety and 2 
+tabs QHS PRN insomnia as needed for anxiety/insomnia.
+Disp:*90 Tablet(s)* Refills:*0*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Axis I: Brief Psychotic disorder, Dysexecutive syndrome, 
+polysubstance abuse, Anxiety NOS (not otherwise specified)
+Axis II: Deferred
+Axis III: HIV (Human Immunodeficiency Virus), PML (Progressive 
+Multifocal Leukoencephalopathy), vertigo, duodenectomy for 
+peptic ulcer disease
+Axis IV: Homelessness, recent arrest for cocaine possession
+Axis V: 60
+
+ 
+Discharge Condition:
+At discharge the patient was stable at his baseline status which 
+is mildly grandiose and mildly pressured with impaired executive 
+function.  His thought process was clear and linear and he 
+showed no overt signs of paranoia.  He reported that his mood 
+was much improved and his affect was full and appropriate.  He 
+denied AVH, SI, or HI.  He was sleeping and eating well.
+ 
+Discharge Instructions:
+Please attend scheduled appointments with outpatient providers 
+and take medications as directed. Please return to the ER with 
+recurrent thoughts of doing harm to others or yourself.
+
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(12)</span></h3>
+  <ul>
+    <li>HIV (Human Immunodeficiency Virus)</li>
+    <li>PML (Progressive Multifocal Leukoencephalopathy)</li>
+    <li>Depressão</li>
+    <li>Vertigem</li>
+    <li>Úlcera duodenal</li>
+    <li>Transtorno psicótico breve</li>
+    <li>Síndrome disexecutiva</li>
+    <li>Abuso de múltiplas substâncias</li>
+    <li>Ansiedade não especificada</li>
+    <li>Encefalopatia por HIV</li>
+    <li>Transtorno neurocognitivo relacionado ao HIV</li>
+    <li>Doença de úlcera péptica</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(16)</span></h3>
+  <ul>
+    <li>Fala acelerada</li>
+    <li>Fala levemente pressionada</li>
+    <li>Afeição ansiosa</li>
+    <li>Afeição expansiva</li>
+    <li>Paranoia</li>
+    <li>Agitação psicomotora</li>
+    <li>Delírios paranoides</li>
+    <li>Disfunção cognitiva</li>
+    <li>Déficits cognitivos</li>
+    <li>Desregulação emocional leve</li>
+    <li>Choro</li>
+    <li>Grandiosidade leve</li>
+    <li>Disfunção executiva</li>
+    <li>Insônia</li>
+    <li>Odor forte de tabaco</li>
+    <li>Comportamento desorganizado</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Penicilinas (Alergia)</li>
+    <li>Zoloft (Sertralina)</li>
+    <li>Seroquel (Quetiapina)</li>
+    <li>Abilify (Aripiprazol)</li>
+    <li>Ativan (Lorazepam)</li>
+    <li>Atripla</li>
+    <li>Lipitor (Atorvastatina)</li>
+    <li>MVI (Multivitamínico)</li>
+    <li>Aripiprazol</li>
+    <li>Quetiapina</li>
+    <li>Maalox</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(35)</span></h3>
+  <ul>
+    <li>WBC-12.0*</li>
+    <li>RBC-4.73</li>
+    <li>Hgb-15.7</li>
+    <li>Hct-43.3</li>
+    <li>MCV-92</li>
+    <li>MCH-33.1*</li>
+    <li>MCHC-36.1*</li>
+    <li>RDW-13.4</li>
+    <li>Neuts-74.6*</li>
+    <li>Monos-4.8</li>
+    <li>Eos-0.8</li>
+    <li>Baso-0.5</li>
+    <li>Glucose-148*</li>
+    <li>UreaN-9</li>
+    <li>Creat-0.9</li>
+    <li>Na-136</li>
+    <li>K-4.6</li>
+    <li>Cl-104</li>
+    <li>HCO3-22</li>
+    <li>AnGap-15</li>
+    <li>ALT-38</li>
+    <li>AST-23</li>
+    <li>AlkPhos-112</li>
+    <li>TotBili-0.1</li>
+    <li>Albumin-4.1</li>
+    <li>VitB12-299</li>
+    <li>Folate-11.1</li>
+    <li>TSH-1.5</li>
+    <li>Free T4-1.1</li>
+    <li>ASA-Negativo</li>
+    <li>Etanol-Negativo</li>
+    <li>Acetaminofeno-Negativo</li>
+    <li>Benzodiazepínicos-Negativo</li>
+    <li>Barbitúricos-Negativo</li>
+    <li>Tricíclicos-Negativo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(3)</span></h3>
+  <ul>
+    <li>Teste Neuropsicológico Completo (Full NP Testing)</li>
+    <li>Exame de Estado Mental</li>
+    <li>Avaliação Cognitiva</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">ERRO: extração falhou</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '24918106';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 22345559 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 22345559</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 22345559 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Sifilis<br>
+    <strong>Entidades extraídas:</strong> 103 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Rash, hearing loss
+ 
+Major Surgical or Invasive Procedure:
+Lumbar puncture 
+
+ 
+History of Present Illness:
+Mr. ___ is a ___ year-old man with a history of HIV 
+presenting with a 4 month history of a peeling rash on his palms 
+and soles and difficulty hearing. He reports that he presented 
+to his PCP 4 months prior to admission with peeling rashes on 
+his hands and feet along with a headache, and his PCP advised 
+him to use a lotion and a salt rub. Over the course of the 4 
+months, his rashes have worsened, and he identifies nothing that 
+has helped reduce them. The rash is mildly tender to touch, but 
+not exquisitely so. Advil has helped to alleviate his headache, 
+which he describes as intermittent and pressure-like, with 
+radiation down his neck and into his shoulders. He also has 
+experienced increased difficulty hearing, as voices now sound 
+muffled and he has a constant ringing sensation in both ears. He 
+denies any exposures to new substances. He denies penile 
+discharge, dysuria, or rashes on other bodily locations.
+ 
+He mentions that he presented to his ID doctor 1 week PTA who 
+was quite concerned that he may have syphilis. Although the 
+history is unclear, it seems that his ID doctor ordered an RPR 
+which was highly reactive at 1:256, but was unable to perform an 
+LP for CSF VDRL to confirm the diagnosis of neurosyphilis. He 
+was then referred to the ED by either his PCP or ID doctor for 
+further workup.
+
+In the ED, initial vitals were T 97.2, HR 116, BP 154/94, RR 19, 
+O2Sat 100% RA. Exam notable for desquamating red rash on palms 
+and soles, neurologically intact. Labs notable for RPR highly 
+reactive at 1:256, CSF with 300-475 WBCs and elevated protein to 
+170. Chemistries, CBC, and UA were unremarkable. CT head 
+demonstrated no definite evidence of mass effect or abscess. The 
+patient was given fioricet x2, penicillin G x2, ceftriaxone 2g, 
+vancomycin 1 g, 2L NS, and 1mg Ativan. Decision was made to 
+admit for further treatment for likely neurosyphilis. 
+Pre-transfer vitals were T 98.4, HR 90, BP 158/80, RR 16, O2Sat 
+100% RA. 
+ 
+On the floor, he is lying comfortably on his bed waiting for his 
+dinner. He complains of a headache but has no other issues.
+ 
+Review of systems:  
+(+) Per HPI  
+(-) Denies fever, chills, night sweats. Denies cough or 
+shortness of breath. Denies chest pain. Denies nausea, vomiting, 
+diarrhea, or abdominal pain. No recent change in bowel or 
+bladder habits. No dysuria or penile discharge.
+ 
+Past Medical History:
+- HIV (___): He previously took Truvada and another 
+antiretroviral drug but discontinued these ___ years ago due to 
+an insurance issue. He is planning to restart HAART with his ID 
+doctor soon after discharge.
+- MRSA cellulitis (___)
+- Questionable gamma-globulin deficiency as a child, was born 
+with PNA and scarlet fever, remembers getting &quot;shots&quot; for it. 
+After the age of ___ years, he does not remember it being an 
+issue. 
+ 
+Social History:
+___
+Family History:
+Parents and siblings alive and healthy. No h/o malignancies, 
+HTN, DM that he is aware of. 
+ 
+Physical Exam:
+Admission Physical Exam:
+========================
+VS: 98.2  131/76  84  19  100%RA
+Gen: Middle-aged man sitting comfortably on his bed in NAD
+HEENT: NCAT. EOMI.
+Neck: supple, 1cm palpable and rubbery anterior chain nodes 
+bilaterally. No pain on neck flexion
+CV: RRR, no murmurs/rubs/gallops
+Pulm: CTAB, no crackles or wheezes
+Abd: soft, non-tender, non-distended. No rebound or guarding
+Ext: WWP, no ___ edema
+Skin: Blotchy, mildly erythematous rash over abdomen. 
+Erythematous, scaling rash on bilateral palms and soles
+Neuro: A/Ox3. Hearing intact to finger rub bilaterally. Normal 
+gait.
+
+Discharge Physical Exam:
+========================
+VS: 98.3 116/69 81 20 98% RA
+Gen: Middle-aged man sitting comfortably on his bed in NAD
+HEENT: NCAT. EOMI.
+Neck: supple, 1cm palpable and rubbery anterior chain nodes 
+bilaterally. No pain on neck flexion
+CV: RRR, no murmurs/rubs/gallops
+Pulm: CTAB, no crackles or wheezes
+Abd: soft, non-tender, non-distended. No rebound or guarding
+Ext: WWP, no ___ edema
+Skin: Blotchy, mildly erythematous rash over abdomen. 
+Erythematous, scaling rash on bilateral palms and soles
+Neuro: A/Ox3. Hearing intact to finger rub bilaterally but 
+softer on left. Normal gait.
+ 
+Pertinent Results:
+Admission Labs:
+===============
+___ 02:50AM BLOOD WBC-5.2 RBC-4.87 Hgb-13.7 Hct-41.2 MCV-85 
+MCH-28.1 MCHC-33.3 RDW-13.2 RDWSD-41.2 Plt ___
+___ 02:50AM BLOOD Neuts-57.1 ___ Monos-8.4 Eos-2.5 
+Baso-0.8 Im ___ AbsNeut-2.99 AbsLymp-1.61 AbsMono-0.44 
+AbsEos-0.13 AbsBaso-0.04
+___ 02:50AM BLOOD ___ PTT-28.6 ___
+___ 02:50AM BLOOD  WBC-5.2 Lymph-31 Abs ___ CD3%-82 
+Abs CD3-1314 CD4%-23 Abs CD4-375 CD8%-55 Abs CD8-891* 
+CD4/CD8-0.42*
+___ 02:50AM BLOOD Glucose-134* UreaN-15 Creat-0.9 Na-136 
+K-3.6 Cl-99 HCO3-27 AnGap-14
+___ 06:45AM BLOOD ALT-8 AST-14 LD(LDH)-127 AlkPhos-76 
+TotBili-0.2
+___ 06:45AM BLOOD Albumin-3.8 Calcium-9.1 Phos-4.1 Mg-2.1
+
+Discharge Labs:
+===============
+___ 06:03AM BLOOD WBC-6.2 RBC-4.99 Hgb-14.1 Hct-42.5 MCV-85 
+MCH-28.3 MCHC-33.2 RDW-13.6 RDWSD-42.0 Plt ___
+___ 06:03AM BLOOD Glucose-89 UreaN-10 Creat-0.7 Na-141 
+K-4.1 Cl-103 HCO3-32 AnGap-10
+___ 06:03AM BLOOD Calcium-9.3 Phos-4.0 Mg-2.2
+
+Micro:
+======
+Serum HIV Viral Load ___: Pending
+RPR ___: Nonreactive 
+CSF Viral Culture ___: No enterovirus isolated
+CSF Culture ___: ___ no PMNs and no organisms; bacterial and 
+fungal cultures NG; AFB cultures pending
+CSF HIV Viral Load ___: Pending
+CSF Cryptococcal Antigen ___: Negative
+CSF VDRL: Reactive 1:64
+Blood Cultures x2 ___: Pending, NGTD
+
+Studies:
+========
+CT Head w/ contrast:
+1. No definite evidence of mass effect or abscess. Please note 
+contrast MRI of the brain is more sensitive for the evaluation 
+of intracranial mass or abscess. 
+2. Paranasal sinus disease as described.
+ 
+Brief Hospital Course:
+___ year-old man with a history of HIV (not on HAART) presenting 
+with a 4-week history of scaling, erythematous rash on his 
+bilateral palms and soles along with bilateral tinnitus and 
+difficulty hearing in the setting of a reactive RPR, most 
+concerning for tertiary syphilis.
+
+# Syphilis: Tertiary syphilis is the most likely cause for the 
+scaling rash on his palms and soles along with headache and 
+tinnitus (auditory nerve involvement). RPR was reactive at his 
+PCP&#x27;s office and reactive 1:256 in-house, and CSF VDRL was 
+reactive 1:64. HSV meningitis ruled out with negative CSF HSV 
+PCR, so empiric acyclovir d/c&#x27;ed on HD2. Bacterial meningitis 
+unlikely given ___ut initially treated with 
+vanc/ceftriaxone, which were d/c&#x27;ed on HD2 when CSF cell counts 
+and ___ were not c/w bacterial meningitis (473 WBCs with 
+lymphocytic predominance, no organisms or PMNs on ___. PICC 
+inserted on ___ for two-week antibiotic course. Neurosyphilis 
+treated with IV Penicillin G 4 million units q4h x14 days 
+(___), and pt was discharged to a SNF to finish antibiotic 
+course. Pt will require neuro exams and LP with CSF-VDRL q3 
+months to assess response to treatment. Pt was informed to tell 
+all close contacts that they need to be treated for syphilis 
+with a single dose of benzathine penicillin G 2.4 million units 
+IM. If penicillin allergic, doxycycline 100mg BID x14 days is an 
+alternative regimen. 
+
+# HIV: Not currently on HAART, but has plan to initiate HAART as 
+outpatient with ID. CD4 count currently 375, viral load pending 
+on discharge. Was seen by SW consult due to concerns about 
+patient having trouble affording medications. Pt said that when 
+he was at risk for losing his job as well as his medication 
+coverage, he stopped taking antiretrovirals because he knew that 
+taking them intermittently would be risky. His insurance 
+situation is now stable, and he will be able to take his 
+medication consistently.
+
+# Tobacco Abuse: 
+Pt given tobacco cessation counseling and a nicotine patch while 
+in-house and upon discharge.
+
+Transitional Issues:
+- Penicillin G Potassium 4 Million Units IV Q4H, Duration: 14 
+Days (___). Will only need 4am, 8am, and 12pm doses on ___. 
+
+- Will require neuro exam and LP with CSF-VDRL q3 months to 
+assess response to treatment.
+- F/u HIV viral load and consider restarting HAART.
+- Consider further STD workup, including urine GC and chlamydia.
+- Please ensure regular STD screening.
+- Patient informed to tell all close contacts that they need to 
+be treated for syphilis with a single dose of benzathine 
+penicillin G 2.4 million units IM. If penicillin allergic, 
+doxycycline 100mg BID x14 days is an alternative regimen. 
+- ___ stay anticipated to be &lt;30 days
+
+# Code status: Full
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Ibuprofen Dose is Unknown  PO Frequency is Unknown 
+
+ 
+Discharge Medications:
+1. Ibuprofen 400 mg PO Q6H:PRN pain 
+2. Acetaminophen 650 mg PO Q4H:PRN headache 
+3. Nicotine Patch 21 mg TD DAILY 
+4. Penicillin G Potassium 4 Million Units IV Q4H Duration: 14 
+Days 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary:
+Tertiary syphilis
+
+Secondary:
+HIV
+Tobacco abuse
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+You presented to ___ with 
+several months of rash on your hands, headaches, and hearing 
+loss. You were found to have neurosyphilis and were started on a 
+two-week course of IV penicillin. You were discharged to a 
+facility that can help you complete your IV antibiotics. 
+
+You should follow up with your PCP after discharge from the 
+skilled nursing facility to restart HAART for your HIV. 
+
+Thank you for allowing us to participate in your care.
+
+Sincerely,
+Your ___ Care Team
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(5)</span></h3>
+  <ul>
+    <li>Sífilis terciária</li>
+    <li>Neurosífilis</li>
+    <li>HIV/AIDS</li>
+    <li>Celulite por MRSA</li>
+    <li>Abuso de tabaco</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(11)</span></h3>
+  <ul>
+    <li>Erupção cutânea descamativa nas palmas das mãos e plantas dos pés</li>
+    <li>Erupção cutânea eritematosa e descamativa no abdômen</li>
+    <li>Dor de cabeça</li>
+    <li>Perda auditiva</li>
+    <li>Zumbido (tinnitus)</li>
+    <li>Linfadenopatia cervical anterior palpável</li>
+    <li>Sensação de pressão na cabeça com irradiação para o pescoço e ombros</li>
+    <li>exantema (peeling exantema)</li>
+    <li>Dificuldade para ouvir</li>
+    <li>Sons abafados</li>
+    <li>Linfonodos palpáveis e borrachudos na cadeia anterior do pescoço</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(10)</span></h3>
+  <ul>
+    <li>Ibuprofeno</li>
+    <li>Paracetamol</li>
+    <li>Parche de nicotina</li>
+    <li>Penicilina G Potássica</li>
+    <li>Fioricet</li>
+    <li>Ceftriaxona</li>
+    <li>Vancomicina</li>
+    <li>Ativan</li>
+    <li>Doxiciclina</li>
+    <li>Benzatina Penicilina G</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(74)</span></h3>
+  <ul>
+    <li>RPR (Soro) - Reativo 1:256</li>
+    <li>RPR (Soro) - Não reativo (alta)</li>
+    <li>CSF VDRL - Reativo 1:64</li>
+    <li>CSF - Leucócitos 300-475</li>
+    <li>CSF - Proteína 170</li>
+    <li>CSF - Cultura bacteriana e fúngica Negativa</li>
+    <li>CSF - Cultura de AFB Pendente</li>
+    <li>CSF - Cultura viral Negativa (sem enterovírus isolado)</li>
+    <li>CSF - Antígeno Criptocócico Negativo</li>
+    <li>CSF - PCR para HSV Negativo</li>
+    <li>HIV Viral Load (Soro) - Pendente</li>
+    <li>HIV Viral Load (Líquor) - Pendente</li>
+    <li>Culturas de Sangue x2 - Pendentes/Negativas para crescimento (NGTD)</li>
+    <li>WBC (Soro) - 5.2</li>
+    <li>Hemoglobina - 13.7</li>
+    <li>Hematócrito - 41.2</li>
+    <li>Plaquetas - Pendente</li>
+    <li>CD4% - 23</li>
+    <li>Contagem Absoluta de CD4 - 375</li>
+    <li>CD4/CD8 - 0.42</li>
+    <li>Glicose (Soro) - 134</li>
+    <li>Creatinina - 0.9</li>
+    <li>Sódio - 136</li>
+    <li>Potássio - 3.6</li>
+    <li>ALT - 8</li>
+    <li>AST - 14</li>
+    <li>LDH - 127</li>
+    <li>Fosfatase Alcalina - 76</li>
+    <li>Bilirrubina Total - 0.2</li>
+    <li>Albumina - 3.8</li>
+    <li>Cálcio - 9.1</li>
+    <li>Fósforo - 4.1</li>
+    <li>Magnésio - 2.1</li>
+    <li>WBC (Soro - Alta) - 6.2</li>
+    <li>Glicose (Soro - Alta) - 89</li>
+    <li>Creatinina (Alta) - 0.7</li>
+    <li>Sódio (Alta) - 141</li>
+    <li>Potássio (Alta) - 4.1</li>
+    <li>Cálcio (Alta) - 9.3</li>
+    <li>Fósforo (Alta) - 4.0</li>
+    <li>Magnésio (Alta) - 2.2</li>
+    <li>Neutrófilos - 57.1</li>
+    <li>Monócitos - 8.4</li>
+    <li>Eosinófilos - 2.5</li>
+    <li>Basófilos - 0.8</li>
+    <li>Abs Neutrófilos - 2.99</li>
+    <li>Abs Linfócitos - 1.61</li>
+    <li>Abs Monócitos - 0.44</li>
+    <li>Abs Eosinófilos - 0.13</li>
+    <li>Abs Basófilos - 0.04</li>
+    <li>PTT - 28.6</li>
+    <li>Linfócitos - 31</li>
+    <li>CD3% - 82</li>
+    <li>Abs CD3 - 1314</li>
+    <li>CD8% - 55</li>
+    <li>Abs CD8 - 891</li>
+    <li>AnGap - 14</li>
+    <li>AnGap (Alta) - 10</li>
+    <li>HCO3 - 27</li>
+    <li>HCO3 (Alta) - 32</li>
+    <li>Cl - 99</li>
+    <li>Cl (Alta) - 103</li>
+    <li>UreaN - 15</li>
+    <li>UreaN (Alta) - 10</li>
+    <li>MCV - 85</li>
+    <li>MCH - 28.1</li>
+    <li>MCHC - 33.3</li>
+    <li>RDW - 13.2</li>
+    <li>RDWSD - 41.2</li>
+    <li>MCV (Alta) - 85</li>
+    <li>MCH (Alta) - 28.3</li>
+    <li>MCHC (Alta) - 33.2</li>
+    <li>RDW (Alta) - 13.6</li>
+    <li>RDWSD (Alta) - 42.0</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(3)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+    <li>Tomografia computadorizada (TC) de crânio com contraste</li>
+    <li>Exame físico neurológico</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, com histórico de HIV (não em uso de TARV há anos devido a questões de seguro), apresenta queixa principal de erupção cutânea descamativa nas palmas das mãos e plantas dos pés há 4 meses, associada a dificuldade auditiva e zumbido constante em ambos os ouvidos. Relata que a erupção piorou progressivamente, sendo levemente dolorosa ao toque. Refere cefaleia intermitente, descrita como pressão com irradiação para o pescoço e ombros, que melhora com anti-inflamatórios. Nega febre, calafrios, sudorese noturna, tosse, falta de ar, dor torácica, náuseas, vômitos, diarreia ou dor abdominal. Nega disúria, corrimento peniano ou erupções em outras localizações corporais. Nega exposição a novas substâncias. Relata que, há 1 semana, foi avaliado por infectologista que suspeitou de sífilis e solicitou RPR, que foi altamente reativo (1:256), mas não foi possível realizar punção lombar na época. Paciente refere que parou a medicação antirretroviral há anos por instabilidade financeira, mas planeja retomar o tratamento após a alta. Nega alergias medicamentosas conhecidas.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na admissão: Temperatura 98.2°F, PA 131/76 mmHg, FC 84 bpm, FR 19 irpm, SpO2 100% em ar ambiente. Sinais Vitais na alta: Temperatura 98.3°F, PA 116/69 mmHg, FC 81 bpm, FR 20 irpm, SpO2 98% em ar ambiente.
+
+Exame Físico:
+- Geral: Homem de meia-idade, confortável, em estado geral preservado, sem angústia aparente.
+- HEENT: Cabeça e pescoço normais e atraumáticos. Exame ocular dentro dos limites normais.
+- Pescoço: Suplê, com linfonodos palpáveis e borrachudos de 1 cm na cadeia anterior bilateral. Sem dor à flexão cervical.
+- Cardiovascular: Rítmico, sem sopros, atritos ou galopos.
+- Pulmões: Murmúrio vesicular presente, sem estertores ou sibilos.
+- Abdome: Macio, não doloroso à palpação, sem distensão. Sem rebote ou defesa.
+- Extremidades: Sem edema, pulsos presentes.
+- Pele: Erupção cutânea manchada, levemente eritematosa sobre o abdome. Erupção eritematosa e descamativa nas palmas das mãos e plantas dos pés bilaterais.
+- Neurológico: Orientado x3. Audição intacta ao atrito de dedos bilateralmente na admissão; na alta, audição intacta ao atrito de dedos, porém mais suave no lado esquerdo. Marcha normal.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma e Bioquímica (Admissão):
+- Leucócitos: 5.2
+- Hemoglobina: 13.7 g/dL
+- Hematócrito: 41.2%
+- Plaquetas: (valor não especificado no texto)
+- Neutrófilos: 57.1%
+- Linfócitos: 31%
+- Monócitos: 8.4%
+- Eosinófilos: 2.5%
+- Basófilos: 0.8%
+- Contagem Absoluta de Neutrófilos: 2.99
+- Contagem Absoluta de Linfócitos: 1.61
+- Contagem Absoluta de Monócitos: 0.44
+- Contagem Absoluta de Eosinófilos: 0.13
+- Contagem Absoluta de Basófilos: 0.04
+- CD3%: 82%
+- Contagem Absoluta CD3: 1314
+- CD4%: 23%
+- Contagem Absoluta CD4: 375
+- CD8%: 55%
+- Contagem Absoluta CD8: 891
+- Relação CD4/CD8: 0.42
+- Glicose: 134 mg/dL
+- Ureia: 15 mg/dL
+- Creatinina: 0.9 mg/dL
+- Sódio: 136 mEq/L
+- Potássio: 3.6 mEq/L
+- Cloro: 99 mEq/L
+- Bicarbonato: 27 mEq/L
+- Gap Aniónico: 14
+- ALT: 8 U/L
+- AST: 14 U/L
+- LDH: 127 U/L
+- Fosfatase Alcalina: 76 U/L
+- Bilirrubina Total: 0.2 mg/dL
+- Albumina: 3.8 g/dL
+- Cálcio: 9.1 mg/dL
+- Fósforo: 4.1 mg/dL
+- Magnésio: 2.1 mg/dL
+- PTT: 28.6 s
+
+Hemograma e Bioquímica (Alta):
+- Leucócitos: 6.2
+- Hemoglobina: 14.1 g/dL
+- Hematócrito: 42.5%
+- Glicose: 89 mg/dL
+- Ureia: 10 mg/dL
+- Creatinina: 0.7 mg/dL
+- Sódio: 141 mEq/L
+- Potássio: 4.1 mEq/L
+- Cloro: 103 mEq/L
+- Bicarbonato: 32 mEq/L
+- Gap Aniónico: 10
+- Cálcio: 9.3 mg/dL
+- Fósforo: 4.0 mg/dL
+- Magnésio: 2.2 mg/dL
+
+Sorologias e Microbiologia:
+- RPR (Soro): Não reativo (na alta) / Altamente reativo 1:256 (na admissão)
+- VDRL do LCR: Reativo 1:64
+- Cultura de LCR: Sem PMNs e sem organismos; culturas bacterianas e fúngicas negativas; culturas para AFB pendentes
+- Cultura de LCR para Enterovírus: Isolamento negativo
+- Antígeno Criptocócico no LCR: Negativo
+- PCR para HSV no LCR: Negativo (excluído)
+- Carga Viral do HIV no Soro: Pendente
+- Carga Viral do HIV no LCR: Pendente
+- Hemoculturas x2: Pendentes/Negativas para crescimento até o momento
+
+Outros:
+- Contagem de células no LCR: 300-475 WBCs (predomínio linfocitário)
+- Proteína no LCR: 170 mg/dL</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Tomografia Computadorizada de Crânio com contraste:
+1. Nenhuma evidência definitiva de efeito de massa ou abscesso. Nota-se que a ressonância magnética com contraste do cérebro é mais sensível para avaliação de massa ou abscesso intracraniano.
+2. Doença dos seios paranasais conforme descrito.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de HIV não tratado (CD4 375) apresenta quadro clínico compatível com sífilis terciária/neurosífilis. O diagnóstico é sustentado pela tríade de erupção descamativa em palmas e plantas, cefaleia e sintomas auditivos (zumbido e perda auditiva), em contexto de RPR soroaltamente reativo (1:256) e VDRL do LCR reativo (1:64). O LCR mostrou pleocitose linfocitária significativa (300-475 células) e proteína elevada (170), sem evidência de meningite bacteriana ou viral (HSV PCR negativo, culturas negativas). A tomografia de crânio descartou abscesso ou efeito de massa. O paciente foi tratado com Penicilina G IV por 14 dias. A equipe de Infectologia e Neurologia concordou com o diagnóstico de neurosífilis. O paciente foi transferido para unidade de cuidados estendidos (SNF) para completar o curso antibiótico. O HIV está estável, mas requer reinício imediato da TARV após a conclusão do tratamento para sífilis. Necessário acompanhamento rigoroso com repetição de LP e VDRL do LCR a cada 3 meses para avaliar resposta terapêutica. Orientado sobre notificação de contatos sexuais para tratamento profilático.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Penicilina G Potássio 4.000.000 Unidades IV a cada 4 horas (durar 14 dias) - para completar o tratamento de neurosífilis em unidade de cuidados estendidos.
+2. Ibuprofeno 400 mg VO a cada 6 horas conforme necessário para dor.
+3. Acetaminofeno 650 mg VO a cada 4 horas conforme necessário para cefaleia.
+4. Adesivo de Nicotina 21 mg transdérmico diariamente (para cessação tabágica).
+
+Encaminhamentos e Seguimento:
+- Transferência para unidade de cuidados estendidos (SNF) para administração de antibióticos IV.
+- Retorno ao Infectologista para reinício da Terapia Antirretroviral (TARV) após a alta da unidade de cuidados estendidos.
+- Retorno ao Clínico Geral (PCP) para acompanhamento.
+- Exames de seguimento: Carga viral do HIV e consideração de reinício da TARV.
+- Rastreamento adicional de DST: Urina para Gonococo e Clamídia.
+- Monitoramento: Exame neurológico e punção lombar com VDRL do LCR a cada 3 meses para avaliar resposta ao tratamento.
+- Orientações ao Paciente:
+  - Informar todos os contatos próximos para que sejam tratados para sífilis com uma dose única de Penicilina G Benzatina 2.4 milhões de Unidades IM. Se alérgico à penicilina, usar Doxiciclina 100 mg VO 2x ao dia por 14 dias como alternativa.
+  - Orientação sobre cessação do tabagismo.
+  - Retorno programado conforme instruções acima.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 26536278 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 26536278</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 26536278 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 49
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                 Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___.
+ 
+Chief Complaint:
+penicillin desensitization
+ 
+Major Surgical or Invasive Procedure:
+penicillin desensitization
+ 
+History of Present Illness:
+___ year old male with a past medical history
+of prostate cancer, peripheral neuropathy, osteoarthritis,
+secondary polycythemia from sleep apnea and syphilis.  Per his
+records he was first diagnosed with syphilis back in ___ when 
+at
+that time his RPR was noted to be &quot;&gt;1:4&quot; with a positive
+treponemal test.  At that time he received 2 IM injections of
+PCN, but reportedly developed a rash after the second injection
+so he never completed the therapy.  The next RPR assessment we
+have after that was in ___ at which time his titer was 1:8. 
+After that it has been persistently in the 1:4 range since early
+___.  In ___ he was treated with Doxycycline for 
+28 days as second line treatment for late latent syphilis.  He 
+also had a lumbar puncture during that time period in ___ (he was also getting a workup with neuro for his peripheral 
+neuropathy).  He had no significant pleocytosis in his CSF and 
+his VDRL was negative.  
+His RPR was rechecked on ___ and it is still reactive at 
+1:4. 
+  He was admitted to the MICU for penicillin desensitization as 
+his RPR was still reactive when last checked.  His review of 
+systems was negative for chest pain, shortness of breath, 
+abdominal pain, changes in bowel habits, fevers, chills, rashes. 
+ He reported arm and leg &quot;numbness and tingling&quot; that has been 
+persistent for one year.  He denies back pain, saddle 
+anesthesia, bowel incontinence.
+ 
+Past Medical History:
++PPD from bcg vaccine 
+polycythemia ___
+prostate ca
+DM diet controlled
+OA
+depression
+neuropathy
+OSA (does not tolerate bipap)
+syphillis 
+ 
+Social History:
+___
+Family History:
+NC
+ 
+Physical Exam:
+VS: T 98.0, HR 55, BP 128/69, 97%ra, 19
+Gen-NAD, lying in bed comfortably
+CV-RRR, S1, S2 no m/r/g
+Pulm-CTAB
+Abdomen-soft, NT, +BS
+Extremities-no edema
+ 
+Pertinent Results:
+___ 09:23PM BLOOD WBC-7.2 RBC-5.54 Hgb-14.2 Hct-45.3 MCV-82 
+MCH-25.6* MCHC-31.3 RDW-15.4 Plt ___
+___ 09:23PM BLOOD ___
+___ 09:23PM BLOOD Plt ___
+___ 09:23PM BLOOD Glucose-124* UreaN-17 Creat-1.1 Na-142 
+K-3.8 Cl-107 HCO3-26 AnGap-13
+ 
+Brief Hospital Course:
+Mr. ___ is a ___ yo male with late latent syphilis with a 
+penicillin allergy, admitted to the MICU for penicillin 
+desensitization
+.
+1) Syphilis:  Patient with a persistently reactive RPR, now 
+admitted for penicillin desensitization per protocol.  He 
+received escalating doses of penicillin q 30 minutes x 7 doses.  
+His last dose of protocol will be followed by Penicillin 2.4 
+million units IM q week x 3 weeks.  Patient to maintain blood 
+levels of PCN between IM doses with oral PCN 500 mg BID at 
+discharge, he will f/u in ___ clinic on ___ for next IM dose
+Epinephrine, diphenyhydramine, ibuprofen PRN adverse reaction, 
+which did not occur.  The patient tolerated the desensitization 
+well and was discharged the following morning.
+.
+2) Atrial flutter:  Was in NSR on telemetry for the duration of 
+his hospitaliation.
+He is anticoagulated on coumadin, and was in his target INR ___. 
+ He was rate controlled on his home dose of metoprolol.
+.
+3) PPx: None, as he is anticoagulated on coumadin.
+.
+4) FEN: He was NPO until after first dose of penicillin, then 
+cardiac diet. 
+.
+5) Code statu: full code. 
+ 
+Medications on Admission:
+Metoprolol 50 mg BID
+Percocet ___ BID
+Warfarin 5 mg daily
+ 
+Discharge Medications:
+1. Warfarin 2.5 mg Tablet Sig: Three (3) Tablet PO HS (at 
+bedtime).  
+2. Metoprolol Tartrate 50 mg Tablet Sig: One (1) Tablet PO BID 
+(2 times a day).  
+3. Penicillin V Potassium 500 mg Tablet Sig: One (1) Tablet PO 
+twice a day for 2 weeks.
+Disp:*28 Tablet(s)* Refills:*0*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+penicillin desensitization for treatment of latent syphillis
+atrial fibrillation
+prostate cancer
+secondary polycythemia
+
+ 
+Discharge Condition:
+stable, afebrile, good po intake
+
+ 
+Discharge Instructions:
+You were admitted to the MICU for penicillin desensitization.  
+The complete series of penicillin doses were administered 
+without event.  You received an intramuscular dose of penicillin 
+at the end of the series.  You will need to take penicillin 
+500mg by mouth twice daily for two weeks.  Please continue to 
+take your medications as prescribed.
+Call your doctor or go to the ER if you have any shortness of 
+breath, dizzyness, rashes, swelling, wheezing, chest pain, or 
+any other concerning symptoms.
+It is important that you follow up as outlined below.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(9)</span></h3>
+  <ul>
+    <li>Sífilis latente tardia</li>
+    <li>Câncer de próstata</li>
+    <li>Neuropatia periférica</li>
+    <li>Osteoartrite</li>
+    <li>Policitemia secundária</li>
+    <li>Apneia obstrutiva do sono</li>
+    <li>Depressão</li>
+    <li>Fibrilação atrial</li>
+    <li>Flutter atrial</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(3)</span></h3>
+  <ul>
+    <li>dormência e formigamento nos braços e pernas</li>
+    <li>exantema (após injeção de penicilina no passado)</li>
+    <li>Alergia à penicilina</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Penicilina</li>
+    <li>Doxiciclina</li>
+    <li>Epinefrina</li>
+    <li>Difenidramina</li>
+    <li>Ibuprofeno</li>
+    <li>Metoprolol</li>
+    <li>Percocet</li>
+    <li>Varfarina</li>
+    <li>Penicilina V Potássio</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(25)</span></h3>
+  <ul>
+    <li>RPR-1:4</li>
+    <li>Teste treponêmico-Positivo</li>
+    <li>RPR-1:8</li>
+    <li>RPR-1:4 (persistente)</li>
+    <li>Líquor (CSF)-Sem pleocitose significativa</li>
+    <li>VDRL-Negativo</li>
+    <li>RPR-Reativo (1:4)</li>
+    <li>WBC-7.2</li>
+    <li>RBC-5.54</li>
+    <li>Hgb-14.2</li>
+    <li>Hct-45.3</li>
+    <li>MCV-82</li>
+    <li>MCH-25.6</li>
+    <li>MCHC-31.3</li>
+    <li>RDW-15.4</li>
+    <li>Glucose-124</li>
+    <li>UreaN-17</li>
+    <li>Creat-1.1</li>
+    <li>Na-142</li>
+    <li>K-3.8</li>
+    <li>Cl-107</li>
+    <li>HCO3-26</li>
+    <li>AnGap-13</li>
+    <li>PPD-Positivo (devido à vacina BCG)</li>
+    <li>INR-alvo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(3)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+    <li>Desensibilização à penicilina</li>
+    <li>Telemetria cardíaca</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade nesta categoria.</p>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, com histórico de câncer de próstata, neuropatia periférica, osteoartrite, policitemia secundária à apneia do sono e sífilis. Relata diagnóstico de sífilis realizado anteriormente, quando seu RPR foi notado como &#x27;&gt;1:4&#x27; com teste treponêmico positivo. Naquela ocasião, recebeu 2 injeções intramusculares de penicilina, mas desenvolveu erupção cutânea após a segunda injeção, não completando a terapia. Relata que o RPR permaneceu na faixa de 1:4 desde o início do ano passado. Em ano anterior, foi tratado com doxiciclina por 28 dias como tratamento de segunda linha para sífilis latente tardia. Realizou punção lombar durante aquele período (em avaliação neurológica para neuropatia periférica), sem pleocitose significativa no líquor e VDRL negativo. Paciente refere que seu RPR foi reavaliado recentemente e continua reagente. Foi admitido para dessensibilização à penicilina. Revisão de sistemas negativa para dor torácica, falta de ar, dor abdominal, alterações no hábito intestinal, febre, calafrios ou erupções cutâneas. Relata dormência e formigamento em braços e pernas, persistente há um ano. Nega dor lombar, anestesia em sela ou incontinência intestinal. Nega alergias medicamentosas além de penicilinas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 98.0°F, Frequência Cardíaca 55 bpm, Pressão Arterial 128/69 mmHg, Saturação de Oxigênio 97% em ar ambiente, Frequência Respiratória 19 irpm. Exame Físico: Geral: Sem alterações aparentes, deitado na cama confortavelmente. Cardiovascular: Rítmico, bulhas S1 e S2 normais, sem sopros, atritos ou galopes. Pulmões: Murmúrio vesicular claro em ambos os campos pulmonares, sem ruídos adventícios. Abdome: Macio, indolor à palpação, com ruídos hidroaéreos presentes. Extremidades: Sem edema.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo: Leucócitos 7.2, Hemácias 5.54, Hemoglobina 14.2, Hematócrito 45.3, VCM 82, HCM 25.6, HCMC 31.3, RDW 15.4, Plaquetas (valor não especificado no texto). Bioquímica Sanguínea: Glicose 124 mg/dL, Ureia 17 mg/dL, Creatinina 1.1 mg/dL, Sódio 142 mEq/L, Potássio 3.8 mEq/L, Cloreto 107 mEq/L, Bicarbonato 26 mEq/L, Gap Aniónico 13. Sorologia: RPR reagente (título 1:4).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Não foram realizados ou relatados exames de imagem (radiografias, tomografias, ecocardiogramas) neste registro.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com sífilis latente tardia e alergia à penicilina, admitido para dessensibilização à penicilina. O paciente apresentou RPR persistentemente reativo (título 1:4) apesar de tratamentos anteriores incompletos ou alternativos (doxiciclina). A punção lombar anterior descartou neurosífilis (VDRL negativo, sem pleocitose). O paciente foi submetido com sucesso ao protocolo de dessensibilização à penicilina na UTI Médica, recebendo doses escalonadas a cada 30 minutos por 7 doses, sem reações adversas. Ao final do protocolo, recebeu dose intramuscular de penicilina. Durante a internação, apresentou fibrilação atrial (notada como &#x27;atrial flutter&#x27; na evolução e &#x27;atrial fibrillation&#x27; no diagnóstico de alta), mantendo-se em ritmo sinusal durante a monitorização telemétrica, com controle de frequência e anticoagulação terapêutica (INR no alvo). O paciente tolerou bem o procedimento, sem eventos adversos, e foi liberado no dia seguinte. Diagnósticos principais: Sífilis latente tardia em tratamento, Dessensibilização à penicilina realizada com sucesso. Diagnósticos associados: Fibrilação atrial, Câncer de próstata, Policitemia secundária, Neuropatia periférica.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Medicamentos na alta: 
+   - Varfarina 2.5 mg, 3 comprimidos por via oral ao deitar (HS) diariamente.
+   - Metoprolol Tartrato 50 mg, 1 comprimido por via oral 2 vezes ao dia (BID).
+   - Penicilina V Potássio 500 mg, 1 comprimido por via oral 2 vezes ao dia (BID) por 2 semanas (para manter níveis sanguíneos entre as doses IM semanais).
+2. Tratamento da Sífilis: O paciente receberá Penicilina G Benzatina 2,4 milhões de unidades IM semanalmente por 3 semanas (próxima dose agendada para consulta em clínica especializada). 
+3. Orientações: Manter medicações conforme prescrito. Monitorar sinais de reação alérgica (falta de ar, tontura, erupções, inchaço, chiado, dor torácica) e procurar emergência se ocorrerem. 
+4. Seguimento: Retorno agendado para clínica especializada para administração da próxima dose intramuscular de penicilina. 
+5. Conduta: Alta hospitalar em condições estáveis, afebril, com boa ingestão oral.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '26536278';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+[
+  {
+    "paciente_id": "___",
+    "codigo_cid": "042",
+    "doenca_alvo_identificada": "HIV",
+    "ner": {
+      "disease_or_syndrome": [
+        "Síndrome da Imunodeficiência Adquirida",
+        "Pneumonia por Pneumocystis jirovecii",
+        "Hipertensão",
+        "Hiperlipidemia",
+        "Ansiedade",
+        "Doença do refluxo gastroesofágico"
+      ],
+      "sign_or_symptom": [
+        "falta de ar",
+        "cansaço",
+        "dor no peito",
+        "tosse seca",
+        "dor no corpo",
+        "rigidez no pescoço",
+        "desaturação de oxigênio"
+      ],
+      "pharmacologic_substance": [
+        "Truvada",
+        "Ritonavir",
+        "Darunavir",
+        "Bactrim",
+        "Prednisona",
+        "Trazodona",
+        "Valsartan",
+        "HCTZ",
+        "Omeprazol",
+        "MVI",
+        "Óleo de peixe"
+      ],
+      "laboratory_or_test_result": [
+        "CD4%-8 Abs CD4-113*",
+        "Viral Load 113K",
+        "HIV Ab-POSITIVE",
+        "LD(LDH)-700*",
+        "HbsAg-NEGATIVE",
+        "HCV Ab-NEGATIVE",
+        "Triglyc-72",
+        "Ferritina-1324*"
+      ],
+      "diagnostic_procedure": [
+        "CXR",
+        "Broncoalveolar lavage",
+        "Teste de HIV-1 Ab",
+        "Teste de cultura viral respiratória"
+      ],
+      "organism_or_virus": [
+        "HIV",
+        "Pneumocystis jirovecii",
+        "Herpes simplex vírus tipo 1"
+      ]
+    },
+    "soap": {
+      "subjetivo": "O paciente apresenta falta de ar progressiva e aperto no peito intermitente há 2 meses, tosse seca, dor no corpo e rigidez no pescoço. Os sintomas começaram após ter um novo parceiro sexual. O paciente foi tratado para gonorreia e Hepatite B. Teste rápido de HIV positivo.",
+      "objetivo": "Na admissão, sinais vitais: T=97.0, BP=128/78, P=82, R=18, O2 sat 95% em RA. CXR mostrou opacidades bibasilares em piora. O paciente foi tratado com Bactrim e Levofloxacino. Exame físico revelou leve crepitação e sibilos basilares.",
+      "avaliacao": "O paciente foi diagnosticado com AIDS e pneumonia por Pneumocystis jirovecii. O tratamento antirretroviral foi iniciado e o paciente tolerou bem. A pneumonia foi confirmada por lavagem broncoalveolar.",
+      "plano": "O paciente foi orientado a continuar com os medicamentos antirretrovirais e antibióticos. O seguimento ambulatorial próximo foi recomendado."
+    }
+  },
+  {
+    "paciente_id": "___",
+    "codigo_cid": "0940",
+    "doenca_alvo_identificada": "Sífilis",
+    "ner": {
+      "disease_or_syndrome": [
+        "Sífilis",
+        "Charcot",
+        "doença degenerativa do pé",
+        "neuropatia periférica idiopática"
+      ],
+      "sign_or_symptom": [
+        "pé de Charcot bilateral",
+        "úlcera no pé esquerdo",
+        "dor crônica",
+        "escarificação seca"
+      ],
+      "pharmacologic_substance": [
+        "Clonazepam 1mg",
+        "Methylphenidate 54 mg",
+        "Topiramate 50-100 mg",
+        "Tramadol 50 mg",
+        "Acetaminophen 500 mg",
+        "Multivitamin 1 TAB",
+        "Oxycodone-Acetaminophen",
+        "OxyContin 30 mg"
+      ],
+      "laboratory_or_test_result": [
+        "Radiografias PA e lateral do tórax: coração de tamanho normal",
+        "contornos mediastinais e hilar sem anormalidades",
+        "pulmões claros",
+        "sem derrame pleural",
+        "sem pneumotórax",
+        "estruturas ósseas sem anormalidades"
+      ],
+      "diagnostic_procedure": [
+        "amputação abaixo do joelho",
+        "biópsia de gordura",
+        "exostectomia do pé esquerdo"
+      ],
+      "organism_or_virus": []
+    },
+    "soap": {
+      "subjetivo": "Homem não diabético com pé de Charcot bilateral e úlcera no pé esquerdo que se apresenta para uma amputação abaixo do joelho à esquerda. Ele tem neuropatia periférica idiopática desde ___, que começou após uma queda. Ele nega febre, calafrios, náuseas, vômitos, dor no peito ou falta de ar. Ele tem se locomovido, mas de forma limitada. A úlcera está seca há algum tempo.",
+      "objetivo": "Exame físico: paciente alerta e orientado, sem sinais de angústia. Exame físico revela eschar/úlcera seca de 2x2cm na superfície plantar do antepé, sem eritema ou drenagem ao redor. Radiografias do tórax normais, sem processo cardiopulmonar agudo.",
+      "avaliacao": "O paciente foi admitido para amputação abaixo do joelho à esquerda e tolerou bem o procedimento, sem complicações. O controle da dor foi gerenciado pela equipe de dor aguda.",
+      "plano": "Medicações prescritas na alta incluem Clonazepam, Topiramate, Tramadol, Oxycodone-Acetaminophen e OxyContin. O paciente deve evitar atividades extenuantes por 6 semanas e manter o local da amputação elevado."
+    }
+  },
+  {
+    "paciente_id": "___",
+    "codigo_cid": "A1884",
+    "doenca_alvo_identificada": "Tuberculose",
+    "ner": {
+      "disease_or_syndrome": [
+        "Tuberculose",
+        "Pericardite",
+        "Tachicardia",
+        "Efusão pericárdica",
+        "Efusão pleural",
+        "Nódulo pulmonar",
+        "Hipertensão",
+        "Hiperlipidemia"
+      ],
+      "sign_or_symptom": [
+        "Febres",
+        "Dor torácica pleurítica",
+        "Suores noturnos",
+        "Tosse seca",
+        "Hipotensão",
+        "Tachicardia",
+        "Cansaço",
+        "Desconforto torácico",
+        "Cefaleia"
+      ],
+      "pharmacologic_substance": [
+        "Atenolol 50 mg",
+        "Carbonato de cálcio 500 mg",
+        "Colchicina 0.6 mg",
+        "Hidroclorotiazida 25 mg",
+        "Ibuprofeno 600 mg",
+        "Multivitaminas",
+        "Omeprazole 40 mg",
+        "Pravastatina 20 mg",
+        "Vitamina D 1000 unidades"
+      ],
+      "laboratory_or_test_result": [
+        "Leucócitos 11.5",
+        "Hematócrito 36.9",
+        "Hemoglobina 12.2",
+        "Creatinina 0.6",
+        "Glucose 102",
+        "D-Dimer 3813",
+        "Sedimentação 87.8"
+      ],
+      "diagnostic_procedure": [
+        "CXR",
+        "TTE",
+        "CTA"
+      ],
+      "organism_or_virus": [
+        "Mycoplasma pneumoniae",
+        "Brucella"
+      ]
+    },
+    "soap": {
+      "subjetivo": "A paciente apresenta febres recorrentes e dor torácica pleurítica persistente após a conclusão de um curso de antibióticos para HCAP. Ela relata suores noturnos e tosse seca, além de ter histórico de fatores de risco significativos para tuberculose e teste positivo para Quantiferon Gold.",
+      "objetivo": "Exame físico revela taquicardia e leve sopro diastólico. Os sinais vitais mostram febre, pressão arterial baixa e frequência cardíaca elevada. Exames laboratoriais indicam leucocitose e resultados de imagem mostram efusões pleurais bilaterais e efusão pericárdica pequena.",
+      "avaliacao": "A paciente apresenta quadro clínico sugestivo de pericardite tuberculosa, com histórico de exposição ocupacional à tuberculose e teste positivo para Quantiferon Gold. A decisão foi de não iniciar terapia para tuberculose no momento devido à recusa da paciente em realizar biópsia pericárdica.",
+      "plano": "A paciente foi orientada a seguir com o tratamento com ibuprofeno e colchicina, além de realizar acompanhamento ambulatorial com seu médico de cuidados primários e especialistas em doenças infecciosas."
+    }
+  }
+]

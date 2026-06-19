@@ -1,0 +1,373 @@
+ 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Reglan / Imitrex / Morphine / Zofran
+ 
+Attending: ___
+ 
+Chief Complaint:
+Abdominal pain.
+ 
+Major Surgical or Invasive Procedure:
+None.
+
+ 
+History of Present Illness:
+Ms. ___ is a ___ woman with past medical history 
+significant for cystic fibrosis gene mutation causing chronic 
+pancreatitis, acute ischemic colitis, chronic pain, 
+polysubstance abuse, major depressive disorder with suicide 
+attempts (including while hospitalized at ___, and 
+cardiomyopathy (EF 50-55% in ___ recently admitted 
+___ for recurrent acute pancreatitis presenting with 
+abdominal pain x2 days.
+
+Patient reports that she was in her USOH since leaving the 
+hospital until until she began experiencing epigastric pain 
+starting ___ AM. She reports it as insidious onset 
+gradually worsening epigastric pain that radiaties across her R 
+abdomen to the back with associated with nausea and non-bloody 
+vomiting (x4 episodes). No fevers, chills, diarrhea, or bloody 
+stools. She reports last BM was yesterday, pale and somewhat 
+"mucous-y." Pain is typical of pancreatitis episodes though she 
+reports Never had before. No dysuria, chest pain, or sob.  
+
+In the ED, initial VS were T98.4, HR 52, BP 154/106, RR18, 98% 
+RA  
+ Exam notable for  
+ Labs showed  
+ BMP:  
+ 140 103 12 AGap=17  
+ ------------< 86  
+ 3.7 24 0.8  
+ CBC:  
+ 7.2 10.8 273  
+ 34.0  
+ LFTs:  
+ ALT: 34 AP: 174 Tbili: <0.2 Alb: 3.9  
+ AST: 23 LDH:  
+ Lip: 43  
+ UTox: positive for barbituates, opiates, and methadone.  
+ Imaging showed CT scan negative  
+ Received NS 100 cc/hr, dil ___ q3, toradol 30 q8, promethazine 
+25 q6, lorazepam ___ m g q4  
+ Transfer VS were T98.2, HR92, BP155/88, RR16, 97% RA  
+ Decision was made to admit to medicine for further management.  
+
+ On arrival to the floor, patient reports continued abdominal 
+pain per above, improved by medications in ED. Denies any or 
+prior CP/SOB. Reports significant fatigue with number of recent 
+hospitalizations. Endorses significant pruritis ___ pain 
+medication. 
+
+ REVIEW OF SYSTEMS:  
+ (+) per above
+ (-) Fever, chills, night sweats, headache, vision changes, 
+rhinorrhea, congestion, sore throat, cough, shortness of breath, 
+chest pain, abdominal pain, nausea, vomiting, diarrhea, 
+constipation, BRBPR, melena, hematochezia, dysuria, hematuria.  
+ 
+Past Medical History:
+- Chronic Pancreatitis  
+  * Diagnosed in ___ with secretin test-- peak bicarb 54, 
+however previous CT abdomen and MRCP with no evidence of acute 
+or chronic pancreatitis
+  * s/p J-tube placement ___ for poor nutrition, J tube 
+nonfunctional    
+- C. difficile associated diarrhea (___)
+- Depression: s/p suicide attempts (including trying to hang  
+herself while hospitalized at ___ ___
+- Anxiety 
+- polysubstance abuse 
+- Left Upper Extremity DVT (___)  
+- Left Axillary and Proximal Brachial Vein Thrombus (US 
+___  
+- Cardiomyopathy: LVEF 30% > 50% in ___, > 50-55% ___  
+- Hypertension  
+- Iron deficiency anemia  
+- Migraine headaches  
+- Vitamin D deficiency 
+- Seizure disorder
+ 
+Social History:
+___
+Family History:
+- Adopted at age ___ along with half sister
+- Mother: ___ cancer and ovarian cancer in her ___.  
+
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM:
+=======================
+VS:  ___.9 PO 126 / 86 Sitting 78 16 95 RA 
+ GENERAL: NAD  
+ HEENT: NCAT, EOMI, PERRL, anicteric sclera, pink conjunctiva, 
+MMM, good dentition  
+ NECK: nontender supple neck, no LAD, no JVD  
+ HEART: RRR, S1/S2, no murmurs, gallops, or rubs  
+ LUNGS: CTAB, no wheezes, rales, rhonchi, breathing comfortably 
+without use of accessory muscles  
+ ABDOMEN: +BS distended, tender to light palpation in epigastric 
+and RUQ. No rebound / guarding
+ EXTREMITIES: no cyanosis, clubbing or edema, moving all 4 
+extremities with purpose  
+ PULSES: 2+ DP pulses bilaterally  
+ NEURO: CN II-XII intact  
+ SKIN: warm and well perfused, no excoriations or lesions, no 
+rashes  
+
+DISCHARGE PHYSICAL EXAM:
+=========================
+VS: T 98.8, 127 / 92, 87, 18, 96 RA 
+ GENERAL: NAD  
+ HEENT: NCAT, EOMI, MMM
+ NECK: nontender supple neck, no LAD
+ HEART: RRR, S1/S2, no murmurs, gallops, or rubs  
+ LUNGS: CTAB, no wheezes, rales, rhonchi, breathing comfortably 
+without use of accessory muscles  
+ ABDOMEN: +BS, distended and tender to palpation in epigastric 
+region. No rebound / guarding
+ EXTREMITIES: no cyanosis, clubbing or edema, moving all 4 
+extremities with purpose  
+ PULSES: 2+ DP pulses bilaterally  
+ NEURO: no gross motor/coordination abnormalities  
+ SKIN: warm and well perfused, no excoriations or lesions, no 
+rashes 
+ 
+Pertinent Results:
+ADMISSION LABS:
+======================
+___ 08:57AM BLOOD WBC-7.2 RBC-3.90 Hgb-10.8* Hct-34.0 
+MCV-87 MCH-27.7 MCHC-31.8* RDW-13.4 RDWSD-42.5 Plt ___
+___ 08:57AM BLOOD Neuts-64.0 ___ Monos-5.6 Eos-0.0* 
+Baso-0.0 Im ___ AbsNeut-4.58 AbsLymp-2.15 AbsMono-0.40 
+AbsEos-0.00* AbsBaso-0.00*
+___ 08:57AM BLOOD Glucose-86 UreaN-12 Creat-0.8 Na-140 
+K-3.7 Cl-103 HCO3-24 AnGap-17
+___ 08:57AM BLOOD ALT-34 AST-23 AlkPhos-174* TotBili-<0.2
+___ 05:24PM BLOOD Calcium-8.6 Phos-3.6 Mg-2.0
+___ 08:57AM BLOOD Albumin-3.9
+___ 08:57AM BLOOD ASA-NEG Ethanol-NEG Acetmnp-NEG 
+Bnzodzp-NEG Barbitr-NEG Tricycl-POS*
+___ 08:57AM BLOOD HCG-<5
+
+MICROBIOLOGY:
+=====================
+None this admission
+
+IMAGING:
+=======================
+1. No acute intra-abdominal abnormality.  Specifically, no 
+evidence for
+appendicitis or pancreatitis.
+2. Large stool burden throughout the colon.
+3. Unchanged mild intrahepatic biliary duct dilation likely 
+related to prior
+cholecystectomy.
+
+DISCHARGE LABS:
+======================
+___ 06:50AM BLOOD WBC-5.8 RBC-3.28* Hgb-9.2* Hct-29.0* 
+MCV-88 MCH-28.0 MCHC-31.7* RDW-14.5 RDWSD-46.6* Plt ___
+___ 06:50AM BLOOD Plt ___
+___ 06:50AM BLOOD Glucose-74 UreaN-5* Creat-0.8 Na-140 
+K-3.2* Cl-102 HCO3-26 AnGap-15
+___ 06:50AM BLOOD ALT-91* AST-50* AlkPhos-346* TotBili-0.2
+___ 06:50AM BLOOD Calcium-8.6 Phos-3.3 Mg-1.9
+ 
+Brief Hospital Course:
+Ms. ___ is a ___ year old F with history of CFTR gene mutation, 
+chronic pancreatitis, chronic pain, polysubstance abuse, major 
+depressive disorder, HF with recovered ejection fraction, 
+presenting with abdominal pain, nausea, and vomiting concerning 
+for recurrent acute on chronic pancreatitis.
+
+# Acute on chronic pancreatitis: Abdominal pain, nausea, and 
+vomiting likely due to recurrent pancreatitis. Abdominal pain 
+similar to prior episodes, but with new pain on the R side of 
+the abdomen. Lipase on admission was normal. CT abdomen with no 
+acute processes, specifically appendicitis or pancreatitis. She 
+was last hospitalized at the beginning of ___. Patient was 
+started on IV medications per protocol established in 
+collaboration with the patient and her PCP ___ documented 
+in her ___ chart and in additional note in OMR. She was 
+hydrated with IV D5NS while she was NPO and as her symptoms 
+improved, her diet was advanced as tolerated. Her home PO 
+medications were also re-started, slowly, with a few pills 
+started each day (beginning with lamotrigine and seroquel, then 
+anti-hypertensives, then other medications). During this 
+admission, several discussions were had with long-term 
+providers, Dr. ___, who have discussed possible 
+modification of the pain protocol, given that she is requiring 
+to come in more frequently, but coming in earlier/more 
+pre-emptively during her pain episodes. Ms. ___ was open to 
+attempting PO medications and PO diet more early in the course 
+and would like to continue having these discussions as an 
+outpatient.
+
+# Positive UTox:
+UTox is positive for opiates, methadone, and barbituates. 
+Methadone has cross-reactivity to the seroquel that the patient 
+takes, and the barbituates are due to the fioricet. However, the 
+patient is not on any narcotic medications and reports no 
+narcotic use at home. She has a script for tramadol, but per 
+chemistry lab, this would not cause a positive opiate screen. 
+Per time-stamps, dilaudid was given ~1 hour prior to Utox 
+collection in the ED, which is not enough time for the opiate to 
+make it to the urine. However, time stamps are often inaccurate 
+and given that patient was not urinating as much when she 
+arrived, it is possible that the positive opiate screen came 
+from the dilaudid. Mass spec was sent for confirmation of the 
+opiates and will require follow up. These results were discussed 
+with Ms. ___, who reports possibly taking one or two 
+unidentified pills at home once (thinking it was ativan), but is 
+otherwise not taking any narcotics or other recreational 
+opiates.
+
+# Transaminitis
+Patient has elevated AST, ALT, and alk phos on this admission. 
+Has had this on previous admissions with pain flares, but alk 
+phos is more elevated on this admission compared to prior (353, 
+prior admissions 100s-200s). Unclear etiology given CT abdomen 
+without only chronic changes. LFTs were trended and remained 
+stable.
+
+# Hypertension: BP as high as 188/119 without symptoms, likely 
+___ clonidine withdrawal. Lisinopril and clonidine were held 
+during the first couple of days of her inpatient stay when she 
+did not tolerate PO meds. Once the patient started being able to 
+tolerate PO medications, her home medications were restarted. As 
+on her prior admission, the patient reports feeling very weak 
+and lightheaded after taking clonidine, and it may be beneficial 
+to switch her to a different antihypertensive. 
+
+# Seizure: Her last seizure was in ___ from benzodiazepine 
+withdrawal. She continued her lamotrigine while in the hospital. 
+
+
+# Anxiety: She was continued on Ativan per pain protocol. 
+
+# Depression: She was continued on her home Seroquel. 
+Amitryptiline was held per patient request with her nausea, 
+given that she experiences discomfort if regurgitated. It was 
+re-started at discharge.
+
+# GERD: Omeprazole was continued once she began to tolerate PO.
+
+TRANSITIONAL ISSUES
+==============
+- continue to have discussions about modifying the pain protocol 
+as an outpatient
+- ensure that any modification of the pain protocol is 
+documented into webOMR for future housestaff to use
+- follow up on UTox mass-spec.
+- consider different anti-hypertensive given that clonidine 
+sometimes make the patient feel lightheaded
+- CODE: FULL (presumed)
+- CONTACT: ___ (PARTNER ___
+ 
+___ on Admission:
+The Preadmission Medication list may be inaccurate and requires 
+futher investigation.
+1. Acetaminophen-Caff-Butalbital ___ TAB PO Q8H:PRN headache 
+2. Amitriptyline 100 mg PO QHS 
+3. Creon 12 4 CAP PO QIDWMHS 
+4. Docusate Sodium 100 mg PO BID 
+5. Heparin Flush (10 units/ml) 5 mL IV DAILY and PRN, line flush 
+
+6. Lisinopril 20 mg PO DAILY 
+7. Omeprazole 20 mg PO DAILY 
+8. Promethazine 25 mg IM Q8H:PRN severe nausea 
+9. QUEtiapine Fumarate 400 mg PO BID 
+10. Triamcinolone Acetonide 0.1% Cream 1 Appl TP BID mouth 
+lesions 
+11. Vitamin D ___ UNIT PO 1X/WEEK (___) 
+12. Heparin Flush (100 units/ml) 5 mL IV PRN DE-ACCESSING port 
+13. LamoTRIgine 200 mg PO QHS 
+14. LORazepam 2 mg PO QHS:PRN insomnia 
+15. LORazepam 1 mg PO Q6H:PRN anxiety/anusea 
+16. ProAir HFA (albuterol sulfate) 90 mcg/actuation INHALATION 
+EVERY ___ shortness of breath 
+17. TraMADol 100 mg PO BID (extended release formulation) 
+18. TraMADol 50 mg PO TID:PRN Pain - Moderate 
+19. CloNIDine 0.2 mg PO BID:PRN BP > 150/90 
+
+ 
+Discharge Medications:
+1.  Acetaminophen-Caff-Butalbital ___ TAB PO Q8H:PRN headache  
+2.  Amitriptyline 100 mg PO QHS  
+3.  CloNIDine 0.2 mg PO BID:PRN BP > 150/90  
+4.  Creon 12 4 CAP PO QIDWMHS  
+5.  Docusate Sodium 100 mg PO BID  
+6.  Heparin Flush (10 units/ml) 5 mL IV DAILY and PRN, line 
+flush  
+7.  Heparin Flush (100 units/ml) 5 mL IV PRN DE-ACCESSING port  
+8.  LamoTRIgine 200 mg PO QHS  
+9.  Lisinopril 20 mg PO DAILY  
+10.  LORazepam 2 mg PO QHS:PRN insomnia  
+11.  LORazepam 1 mg PO Q6H:PRN anxiety/anusea  
+12.  Omeprazole 20 mg PO DAILY  
+13.  ProAir HFA (albuterol sulfate) 90 mcg/actuation INHALATION 
+EVERY ___ shortness of breath  
+14.  Promethazine 25 mg IM Q8H:PRN severe nausea  
+15.  QUEtiapine Fumarate 400 mg PO BID  
+16.  TraMADol 100 mg PO BID (extended release formulation)  
+17.  TraMADol 50 mg PO TID:PRN Pain - Moderate  
+18.  Triamcinolone Acetonide 0.1% Cream 1 Appl TP BID mouth 
+lesions  
+19.  Vitamin D ___ UNIT PO 1X/WEEK (___)  
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Abdominal pain
+Chronic pancreatitis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Ms. ___,
+
+You were seen at ___.
+
+Why were you here?
+===========================
+- You were having nausea, vomiting, and abdominal pain from your 
+chronic pancreatitis.
+
+What did we do for you?
+==============================
+- We gave you IV fluids and pain medicine. You were slowly able 
+to take food by mouth and your pain improved, so we started your 
+home medications.
+
+What do you need to do?
+=============================
+- It is recommended that you follow up with your primary care 
+doctor after leaving the hospital.
+- As we discussed during your hospitalization, small adjustments 
+to your pain protocol may be helpful for you.
+- Please weight yourself daily and call your doctor if you gain 
+more than 3 pounds.
+
+It was a pleasure caring for you while you were here!
+
+All the best,
+Your ___ Medicine Team
+ 
+Followup Instructions:
+___

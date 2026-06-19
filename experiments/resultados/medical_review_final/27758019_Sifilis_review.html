@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 27758019 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 27758019</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 27758019 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 85
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                      Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+No Known Allergies / Adverse Drug Reactions
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Penile ulcer 
+ 
+Major Surgical or Invasive Procedure:
+None.
+
+ 
+History of Present Illness:
+___ y/o M with no significant past medical history presenting 
+with penile rash x 2 months. Patient reports that he had a small 
+lesion on the glans penis starting approximately 2 months ago, 1 
+month after he had unprotected intercourse. Denies penile 
+discharge or dysuria. Was seen at ___ where 
+they diagnosed him with genital herpes at that time (patient 
+cannot remember treatment). Underwent treatment without 
+provement and lesions became more swollen and painful spreading 
+up his groin. Seen again at ___ 3 weeks ago 
+and was discharged home with 2 week course of Bactrim, again w/o 
+improvement. 5 days ago, he began developing rash on his face 
+and legs. No fevers or chills. Painful ulcer. Of note, was 
+treated for syphilis ~6 months ago with monthly Penicillin shots 
+x3 after one of his partners tested positive. 
+ 
+Past Medical History:
+h/o Chlamydial STI 
+h/o RPR (+) syphilis in ___
+ 
+Social History:
+___
+___ History:
+No rash 
+ 
+Physical Exam:
+Admission Exam:
+VS: 98.2 119/73 96 18 99RA
+General: pleasant, awake, alert, NAD
+HEENT: PERRL, sclerae injected, neck supple, moist mucous
+membranes, tongue somewhat white and patient reports 3 tongue
+piercings noted on exam
+CV: RRR, no m/r/g
+Lungs: CTAB
+BACK: no focal tenderness, no CVA tenderness
+GI: +BS, soft, non-tender, non-distended, no hepatosplenomegaly
+Extremities: warm and well perfused, no edema
+LYMPH: +inguinal LAD, no cervical, axillary lymphadenopathy
+SKIN: On the penis (shaft and glans) are numerous 1cm ulcers 
+with
+heaped pink borders, one with purulent exudate. These lesions
+continue onto the scrotum bilaterally. 
+On the bilateral legs are scattered 4-6mm pink papules. On the
+dorsum of the left foot are three 4-6mm scaly light pink 
+plaques.
+On the palm of the right hand is a 5mm pink papule.  On the face
+are scattered 4-8mm pink plaques. Over the entire scalp are 
+4-7mm
+pink scaly macules becoming confluent in many areas. 
+.
+Discharge Exam:
+VS 98.3  118/74  90  18
+Gen: NAD. Sleeping peacefully
+HEENT: MMM. Anicteric sclera. Lesions on face much improved and 
+almost entirely resolved
+Neck: B/l cervical and preauricular lymphadenopathy grossly 
+unchanged
+CV: RRR. NS1&amp;S2. NMRG
+Resp: CTAB. Good air flow
+GI: BS+4. S. NT. ND. No HSM
+Ext: Macular lesions on anterior BLE much improved. Several 
+~1-2mm macular erythematous lesions remain. Macular lesions on 
+soles of feet unchanged
+GU: Penile lesions much improved. Primary chancre still visible. 
+Erythematous lesions on scrotum almost entirely resolved.
+ 
+ 
+Pertinent Results:
+Admission Labs:
+___ 03:30AM BLOOD WBC-4.5 RBC-4.77 Hgb-12.7* Hct-39.4* 
+MCV-83 MCH-26.6* MCHC-32.2 RDW-13.9 Plt ___
+___ 03:30AM BLOOD Glucose-89 UreaN-18 Creat-0.9 Na-135 
+K-4.1 Cl-101 HCO3-28 AnGap-10
+___ 03:30AM BLOOD ALT-109* AST-83* AlkPhos-102 TotBili-0.3
+.
+Discharge Labs:
+___ 10:13AM BLOOD WBC-4.2 RBC-4.52*# Hgb-12.6*# Hct-37.7* 
+MCV-83 MCH-27.8 MCHC-33.3 RDW-13.7 Plt ___
+___ 06:09AM BLOOD Glucose-91 UreaN-13 Creat-0.7 Na-134 
+K-4.9 Cl-105 HCO3-26 AnGap-8
+___ 06:09AM BLOOD ALT-103* AST-76* AlkPhos-88 TotBili-0.1
+.
+Pertinent Labs:
+___ 03:30AM BLOOD HBsAg-NEGATIVE HBsAb-POSITIVE 
+HBcAb-POSITIVE
+___ 03:30AM BLOOD HCV Ab-NEGATIVE
+___ 12:06PM CEREBROSPINAL FLUID (CSF) WBC-4 RBC-4* Polys-0 
+___ ___ 12:06PM CEREBROSPINAL FLUID (CSF) TotProt-74* 
+Glucose-60
+___ CSF VDRL-Pending
+
+___ SEROLOGY/BLOOD RAPID PLASMA REAGIN 
+TEST-FINAL; QUANTITATIVE RPR-FINAL; TREPONEMAL ANTIBODY TEST: 
+Date/Time: ___ 3:44 am
+      SEROLOGY/BLOOD
+                            **FINAL REPORT ___
+
+   RAPID PLASMA REAGIN TEST (Final ___: 
+      REACTIVE. 
+      Reference Range: Non-Reactive. 
+      Reported to and read back by ___ ___ ___ 
+11:30AM. 
+
+   QUANTITATIVE RPR (Final ___: 
+      REACTIVE AT A TITER OF 1:4096. 
+      TEST PERFORMED BY STATE LAB. 
+
+   TREPONEMAL ANTIBODY TEST (Final ___: 
+      TP-PA REACTIVE. 
+      TEST PERFORMED BY STATE LAB. 
+.
+.
+Micro:
+___ Blood Culture, Routine-PENDING 
+___ Blood Culture, Routine-PENDING 
+___ SEROLOGY/BLOOD RAPID PLASMA REAGIN 
+TEST-Positive; QUANTITATIVE RPR-Pending; TREPONEMAL ANTIBODY 
+TEST-Pending
+___ NEISSERIA GONORRHOEAE (GC), NUCLEIC ACID PROBE, WITH 
+AMPLIFICATION-Neg 
+ 
+Brief Hospital Course:
+___ yo M w/PMH significant for syphilis diagnosed in ___ in ___ 
+that presented to BID after 2 month h/o penile lesion and 
+subsequent full body rash. Treated for secondary syphilis, and 
+eventually treated for neurosyphilis following lumbar puncture.
+.
+Active Issues:
+#Rash: Pt presented to ___ with erythematous maculopapular 
+rash on face, BLE, palm of R hand and dorsum of b/l feet. In 
+addition to this, also had ___, 1-2mm erythematous macules 
+along scrotum, single cartilaginous 3-4cm ulcer at the base of 
+the glans, and additional 1-2cm weeping ulcer at base of penile 
+shaft. Had previously been treated for syphilis with 3 doses 
+qweek in ___ after learning he had been exposed to an infected 
+partner. Pt was asymptomatic at that time. In ___ pt 
+engaged in unprotected sex with a male ___ carrier status. 
+2 weeks later, he noted painless ulcer, which later became 
+super-infected and treated as HSV at ___. 5 days prior to 
+admission, he noted diffuse full body rash. In-house seen by ID 
+and dermatology, and initial presentation thought to be 
+secondary syphilis. RPR (+), though unclear if this represents 
+new infection or prior infection that was not successfully 
+treated. Unable to obtain prior RPR titers from ___. Pt 
+refused HIV test in-house, as he was concerned there would be a 
+false positive because &quot;tests get mixed up in hospitals&quot;. LP is 
+indicated in all pt with CD4 &lt;250. There was a high suspicion pt 
+was HIV positive, so LP was done empirically to rule out 
+neurosyphilis. LP positive for increased protein and VDRL 
+pending at time of discharge. Decision to treat with 14 days of 
+IV penicillin made by ID. Pt will have follow-up in infectious 
+disease clinic. He assures us that he will have HIV test 
+performed then. To be seen by ___ for establishment of PCP.   
+.
+Transitional Issues:
+#MUST OBTAIN HIV STATUS
+#follow-up RPR titers and TP-A
+#follow-up CSF VDRL
+#Treat for 14 days total
+ 
+Medications on Admission:
+None
+ 
+Discharge Medications:
+1. Penicillin G Potassium 4 Million Units IV Q4H Duration: 14 
+Days 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary Diagnoses: syphilis
+
+Secondary Diagnoses: None.
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+It was a pleasure taking care of you during your stay at ___ 
+___.  You originally came in to our 
+Emergency Department with a rash on your face, legs, and penis, 
+as well as some lesions on the soles of your feet and palms of 
+your hands.  As you had recently had several unprotected sexual 
+encounters and a history of a partner with syphilis, we tested 
+you for a number of sexually transmitted infections.  We also 
+gave you several antibiotics that would treat a number of 
+different sexually transmitted infections, and you were admitted 
+to the hospital for an expedited workup of your rash. You were 
+found to have a positive test for syphilis, and your rash began 
+to improve with treatment of an intramuscular injection of 
+penicillin.  After consulting with our dermatology and 
+infectious disease colleagues, we decided that since you did not 
+know your HIV status, it would be important to do a lumbar 
+puncture to evaluate your spinal fluid for evidence of syphilis. 
+ Your spinal fluid showed an elevated protein level, which was 
+concerning that you may have the infection in your central 
+nervous system.  We therefore placed a peripheral intravenous 
+central catheter so that we could give you a higher dose of 
+antibiotic, which is more effective at treating syphilis in the 
+spinal fluid.  You will need to continue receiving this medicine 
+every four hours through your line for 14 total days, so we are 
+transferring you to a facility that will be able to accomodate 
+this treatment. You will receive treatment through ___.
+
+It will also be very important that you use protection such as 
+condoms in future sexual encounters, as well as obtain an HIV 
+test in the outpatient setting.  We have scheduled follow up 
+appointments with our infectious disease doctors and ___ primary 
+doctor here, who will be able to help support you in these 
+endeavors.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(5)</span></h3>
+  <ul>
+    <li>Sífilis</li>
+    <li>Sífilis secundária</li>
+    <li>Sífilis neuro</li>
+    <li>Infecção por Chlamydia (histórico)</li>
+    <li>Infecção por Neisseria gonorrhoeae (negativa, descartada)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(20)</span></h3>
+  <ul>
+    <li>Úlcera peniana</li>
+    <li>Úlcera dolorosa</li>
+    <li>Exantema maculopapular</li>
+    <li>Lesões papulares</li>
+    <li>Placas escamosas</li>
+    <li>Maculas escamosas</li>
+    <li>Linfadenopatia inguinal</li>
+    <li>Linfadenopatia cervical</li>
+    <li>Linfadenopatia pré-auricular</li>
+    <li>Sclera injetada</li>
+    <li>Glossite (língua branca)</li>
+    <li>Piercings na língua</li>
+    <li>Exsudato purulento</li>
+    <li>Eritema escrotal</li>
+    <li>Lesões maculares nas solas dos pés</li>
+    <li>Lesões maculares nas palmas das mãos</li>
+    <li>Lesões maculares nas pernas</li>
+    <li>Lesões maculares no rosto</li>
+    <li>Lesões maculares no couro cabeludo</li>
+    <li>Chancre primário</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(2)</span></h3>
+  <ul>
+    <li>Penicilina G Potássica 4 milhões de unidades IV a cada 4 horas por 14 dias</li>
+    <li>Bactrim (Sulfametoxazol-Trimetoprima) - curso de 2 semanas (histórico de tratamento prévio)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(50)</span></h3>
+  <ul>
+    <li>WBC-4.5</li>
+    <li>Hgb-12.7</li>
+    <li>Hct-39.4</li>
+    <li>MCV-83</li>
+    <li>MCH-26.6</li>
+    <li>MCHC-32.2</li>
+    <li>RDW-13.9</li>
+    <li>Glucose-89</li>
+    <li>UreaN-18</li>
+    <li>Creat-0.9</li>
+    <li>Na-135</li>
+    <li>K-4.1</li>
+    <li>Cl-101</li>
+    <li>HCO3-28</li>
+    <li>AnGap-10</li>
+    <li>ALT-109</li>
+    <li>AST-83</li>
+    <li>AlkPhos-102</li>
+    <li>TotBili-0.3</li>
+    <li>WBC-4.2</li>
+    <li>Hgb-12.6</li>
+    <li>Hct-37.7</li>
+    <li>Glucose-91</li>
+    <li>UreaN-13</li>
+    <li>Creat-0.7</li>
+    <li>Na-134</li>
+    <li>K-4.9</li>
+    <li>Cl-105</li>
+    <li>HCO3-26</li>
+    <li>AnGap-8</li>
+    <li>ALT-103</li>
+    <li>AST-76</li>
+    <li>AlkPhos-88</li>
+    <li>TotBili-0.1</li>
+    <li>HBsAg-Negativo</li>
+    <li>HBsAb-Positivo</li>
+    <li>HBcAb-Positivo</li>
+    <li>HCV Ab-Negativo</li>
+    <li>CSF WBC-4</li>
+    <li>CSF RBC-4</li>
+    <li>CSF TotProt-74</li>
+    <li>CSF Glucose-60</li>
+    <li>CSF VDRL-Pendente</li>
+    <li>RPR-Reativo</li>
+    <li>RPR Quantitativo-Reativo com título de 1:4096</li>
+    <li>TP-PA-Reativo</li>
+    <li>Neisseria gonorrhoeae (GC) Probe-Negativo</li>
+    <li>Cultura de Sangue-Pendente</li>
+    <li>RPR-Pendente (relatório inicial)</li>
+    <li>TP-A-Pendente (relatório inicial)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(6)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+    <li>Sorologia para sífilis (RPR, TP-PA)</li>
+    <li>Sorologia para Hepatite B (HBsAg, HBsAb, HBcAb)</li>
+    <li>Sorologia para Hepatite C (HCV Ab)</li>
+    <li>Cultura de sangue rotineira</li>
+    <li>Probe de ácido nucleico para Neisseria gonorrhoeae</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(2)</span></h3>
+  <ul>
+    <li>Treponema pallidum (confirmado por RPR e TP-PA reativos)</li>
+    <li>Neisseria gonorrhoeae (testado, resultado negativo)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, sem histórico médico pregresso significativo além de infecções sexualmente transmissíveis (ISTs) prévias, apresenta queixa principal de úlcera peniana e erupção cutânea generalizada há 2 meses. Relata o surgimento de uma pequena lesão no glande peniano há aproximadamente 2 meses, iniciada 1 mês após relação sexual desprotegida. Nega corrimento peniano ou disúria. Refere que foi atendido anteriormente em outro serviço com diagnóstico de herpes genital, recebendo tratamento que não obteve melhora; as lesões tornaram-se mais inchadas, dolorosas e espalharam-se para a virilha. Foi reavaliado há 3 semanas e recebeu tratamento com Bactrim por 2 semanas, sem melhora. Há 5 dias, desenvolveu erupção cutânea no rosto e nas pernas. Nega febre ou calafrios. Refere que a úlcera é dolorosa. Relata histórico de tratamento para sífilis há aproximadamente 6 meses, com 3 doses mensais de penicilina, após parceiro testar positivo. Paciente refere histórico de clamídia. Paciente relata que recusou teste de HIV durante a internação devido à preocupação com falsos positivos. Paciente refere ter tido relações sexuais desprotegidas com parceiro masculino portador de HIV.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+Sinais Vitais: Temperatura 98.2°F, PA 119/73 mmHg, FC 96 bpm, FR 18 irpm, SpO2 99% em ar ambiente.
+Geral: Paciente agradável, acordado, alerta, sem angústia aparente.
+HEENT: Pupilas isocóricas e fotorreagentes, escleras injetadas, pescoço suplex, mucosas úmidas, língua com aspecto esbranquiçado; paciente relata 3 piercings na língua, observados no exame.
+Cardiovascular: Rítmico, sem sopros, atritos ou galopes.
+Pulmões: Murmúrio vesicular presente, sem ruídos adventícios.
+Abdome: RHA presentes, macio, não doloroso à palpação, sem distensão, sem hepatosplenomegalia.
+Extremidades: Quentes e bem perfundidas, sem edema.
+Linfonodos: Linfadenopatia inguinal presente; sem linfadenopatia cervical ou axilar.
+Pele: No pênis (haste e glande), múltiplas úlceras de 1 cm com bordas elevadas rosadas, uma com exsudato purulento. As lesões estendem-se bilateralmente para o escroto. Nas pernas bilaterais, pápulas rosadas espalhadas de 4-6 mm. No dorso do pé esquerdo, três placas escamosas rosadas claras de 4-6 mm. Na palma da mão direita, pápula rosada de 5 mm. No rosto, placas rosadas espalhadas de 4-8 mm. No couro cabeludo, máculas rosadas escamosas de 4-7 mm, confluentes em muitas áreas.
+
+Exame de Alta:
+Sinais Vitais: Temperatura 98.3°F, PA 118/74 mmHg, FC 90 bpm, FR 18 irpm.
+Geral: Sem angústia aparente, dormindo pacificamente.
+HEENT: Mucosas úmidas. Escleras anictéricas. Lesões no rosto muito melhoradas e quase totalmente resolvidas.
+Pescoço: Linfadenopatia cervical bilateral e pré-auricular, grosseiramente inalterada.
+Cardiovascular: Rítmico, S1 e S2 normais, sem sopros, atritos ou galopes.
+Respiratório: Murmúrio vesicular presente, bom fluxo aéreo.
+Abdome: RHA presentes, macio, não doloroso, sem distensão, sem hepatosplenomegalia.
+Extremidades: Lesões maculares na porção anterior dos membros inferiores inferiores muito melhoradas. Várias lesões maculares eritematosas de ~1-2 mm permanecem. Lesões maculares nas solas dos pés inalteradas.
+Genitourinário: Lesões penianas muito melhoradas. O cancro primário ainda é visível. Lesões eritematosas no escroto quase totalmente resolvidas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Exames de Admissão:
+- Hemograma: Leucócitos 4.5, Hemácias 4.77, Hemoglobina 12.7 g/dL, Hematócrito 39.4%, MCV 83 fL, MCH 26.6 pg, MCHC 32.2 g/dL, RDW 13.9%, Plaquetas (valor não especificado).
+- Bioquímica: Glicose 89 mg/dL, Ureia 18 mg/dL, Creatinina 0.9 mg/dL, Sódio 135 mEq/L, Potássio 4.1 mEq/L, Cloreto 101 mEq/L, Bicarbonato 28 mEq/L, Gap Aniónico 10.
+- Função Hepática: ALT 109 U/L, AST 83 U/L, Fosfatase Alcalina 102 U/L, Bilirrubina Total 0.3 mg/dL.
+
+Exames de Alta:
+- Hemograma: Leucócitos 4.2, Hemácias 4.52, Hemoglobina 12.6 g/dL, Hematócrito 37.7%, MCV 83 fL, MCH 27.8 pg, MCHC 33.3 g/dL, RDW 13.7%, Plaquetas (valor não especificado).
+- Bioquímica: Glicose 91 mg/dL, Ureia 13 mg/dL, Creatinina 0.7 mg/dL, Sódio 134 mEq/L, Potássio 4.9 mEq/L, Cloreto 105 mEq/L, Bicarbonato 26 mEq/L, Gap Aniónico 8.
+- Função Hepática: ALT 103 U/L, AST 76 U/L, Fosfatase Alcalina 88 U/L, Bilirrubina Total 0.1 mg/dL.
+
+Sorologias e Marcadores Específicos:
+- HBsAg: Negativo.
+- HBsAb: Positivo.
+- HBcAb: Positivo.
+- HCV Ab: Negativo.
+- RPR (Rapid Plasma Reagin): Reativo.
+- RPR Quantitativo: Reativo com título de 1:4096.
+- TP-PA (Anticorpo Antitreponêmico): Reativo.
+- Nucleic Acid Probe para Neisseria gonorrhoeae: Negativo.
+
+Líquor (Punção Lombar):
+- Leucócitos: 4.
+- Hemácias: 4.
+- Polimorfonucleares: 0.
+- Proteína Total: 74 mg/dL (elevada).
+- Glicose: 60 mg/dL.
+- VDRL no líquor: Pendente no momento da alta.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Nenhum exame de imagem (radiografia, tomografia, ultrassom) foi realizado ou relatado no prontuário fornecido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de sífilis prévia (tratada há 6 meses) e clamídia, que apresenta quadro clínico de úlcera peniana dolorosa e erupção cutânea generalizada (face, membros inferiores, palmas das mãos e solas dos pés). O quadro clínico é altamente sugestivo de sífilis secundária, corroborado pelos exames sorológicos: RPR reativo com título muito elevado (1:4096) e TP-PA reativo. A presença de lesões em palmas e solas é clássica para sífilis secundária. O paciente possui alto risco para coinfecção por HIV (relações desprotegidas, parceiro positivo), embora tenha recusado o teste durante a internação. Devido à suspeita clínica de neurosífilis (suspensão de tratamento prévio, título elevado, risco de HIV com possível imunossupressão não documentada), foi realizada punção lombar. O líquor mostrou proteinorraquia (proteína total 74 mg/dL), e o VDRL no líquor estava pendente, mas a decisão clínica foi tratar empiricamente para neurosífilis. O paciente foi diagnosticado com Sífilis (provável neurosífilis dada a indicação de tratamento com penicilina IV de alta dose) e encaminhado para tratamento prolongado. A evolução hospitalar foi favorável, com melhora significativa das lesões cutâneas e penianas após início da antibioticoterapia.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">1. Tratamento Farmacológico:
+   - Penicilina G Potássica 4 milhões de unidades IV a cada 4 horas, por 14 dias totais. O paciente será transferido para unidade de cuidados estendidos para continuidade deste regime.
+
+2. Orientações ao Paciente:
+   - Necessidade imperativa de realizar teste de HIV no ambulatório (clínica de doenças infecciosas) para confirmação do status sorológico.
+   - Uso de preservativos em todas as futuras relações sexuais.
+   - Importância da adesão completa ao tratamento de 14 dias com penicilina intravenosa.
+
+3. Encaminhamentos e Seguimento:
+   - Transferência para unidade de cuidados estendidos para administração de antibióticos.
+   - Acompanhamento ambulatorial com a equipe de Doenças Infecciosas.
+   - Acompanhamento com médico de família (PCP) para estabelecimento de cuidados primários e suporte.
+   - Agendamento de retorno para monitoramento dos títulos de RPR e TP-PA.
+   - Agendamento de retorno para reavaliação do VDRL no líquor (CSF VDRL).
+   - Monitoramento da evolução das lesões cutâneas e penianas.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '27758019';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

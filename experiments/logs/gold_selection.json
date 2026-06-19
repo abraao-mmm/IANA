@@ -1,0 +1,140 @@
+{
+  "seed": 42,
+  "timestamp": "2026-04-10T14:52:42.110990",
+  "anchored": {
+    "total": 10,
+    "by_disease": {
+      "HIV": 4,
+      "Sifilis": 3,
+      "Tuberculose": 3
+    },
+    "missing": []
+  },
+  "filters": {
+    "total": 738,
+    "excluded_ner": 35,
+    "excluded_soap": 6,
+    "excluded_sparse": 0,
+    "excluded_outlier": 11,
+    "excluded_anchored": 9,
+    "eligible": 677
+  },
+  "pool_availability": {
+    "Sifilis": {
+      "medias": 44,
+      "curtas": 8
+    },
+    "HIV": {
+      "curtas": 45,
+      "medias": 518,
+      "longas": 4
+    },
+    "Tuberculose": {
+      "medias": 49,
+      "longas": 3,
+      "curtas": 6
+    }
+  },
+  "selection_details": {
+    "HIV": {
+      "curtas": [
+        "26565838",
+        "21532494"
+      ],
+      "medias": [
+        "29897210",
+        "23732240",
+        "27381409"
+      ],
+      "longas": [
+        "24476606"
+      ]
+    },
+    "Tuberculose": {
+      "curtas": [
+        "23349971",
+        "25375128",
+        "27566857"
+      ],
+      "medias": [
+        "25601328",
+        "24910564",
+        "26539098"
+      ],
+      "longas": [
+        "21182239"
+      ]
+    },
+    "Sifilis": {
+      "curtas": [
+        "29297881",
+        "26536278",
+        "29347314"
+      ],
+      "medias": [
+        "23481209",
+        "22964568",
+        "22345559",
+        "27758019"
+      ],
+      "longas": []
+    }
+  },
+  "adjustments": [],
+  "new_ids": [
+    "26565838",
+    "21532494",
+    "29897210",
+    "23732240",
+    "27381409",
+    "24476606",
+    "23349971",
+    "25375128",
+    "27566857",
+    "25601328",
+    "24910564",
+    "26539098",
+    "21182239",
+    "29297881",
+    "26536278",
+    "29347314",
+    "23481209",
+    "22964568",
+    "22345559",
+    "27758019"
+  ],
+  "final_distribution": {
+    "HIV": {
+      "total": 10,
+      "anchored": 4,
+      "new": 6
+    },
+    "Sifilis": {
+      "total": 10,
+      "anchored": 3,
+      "new": 7
+    },
+    "Tuberculose": {
+      "total": 10,
+      "anchored": 3,
+      "new": 7
+    }
+  },
+  "complexity_distribution": {
+    "HIV": {
+      "medias": 6,
+      "curtas": 3,
+      "longas": 1
+    },
+    "Sifilis": {
+      "medias": 6,
+      "curtas": 4
+    },
+    "Tuberculose": {
+      "medias": 6,
+      "curtas": 3,
+      "longas": 1
+    }
+  },
+  "total_selected": 30
+}

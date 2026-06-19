@@ -1,0 +1,47 @@
+# ============================================================
+# Projeto IANA - Dependencias
+# ============================================================
+
+# --- Core Data ---
+polars>=1.38.1
+pandas>=2.3.3
+numpy>=2.2.6
+
+# --- LLM Pipeline (LangGraph + vLLM) ---
+langgraph>=1.0.7
+langchain>=0.3.0
+langchain-openai>=0.3.0
+langchain-core>=0.3.0
+pydantic>=2.0
+
+# --- Servidor de Inferencia (instalar na DGX) ---
+# vllm>=0.17.1  # Descomentar na DGX. Nao instalar localmente.
+
+# --- Visualizacao e Notebooks ---
+matplotlib>=3.10.8
+jupyter_client>=8.8.0
+ipykernel>=7.2.0
+ipython>=8.38.0
+
+# --- Utilitarios ---
+python-dotenv>=1.0.0
+tqdm>=4.67.3
+gdown>=5.2.1
+requests>=2.32.5
+json-repair>=0.30.0  # repair LLM-generated JSON (truncation, missing brackets)
+
+# --- Legado (notebook 03 - POC com API OpenAI) ---
+# openai>=1.0.0    # So necessario se usar a API OpenAI diretamente
+# instructor>=0.3.0 # So necessario se usar o notebook 03
+
+# --- Treino de modelos compactos (experiments/training/) ---
+# Instalar APENAS na DGX antes de treinar. Nao instalar localmente.
+# transformers>=4.45
+# peft>=0.13
+# trl>=0.12
+# accelerate>=1.0
+# datasets>=3.0
+# evaluate>=0.4
+# seqeval>=1.2
+# huggingface-hub>=0.26
+# pyyaml>=6.0

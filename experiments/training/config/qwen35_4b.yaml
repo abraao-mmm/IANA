@@ -1,0 +1,22 @@
+model_id: Qwen/Qwen3.5-4B
+task: instruction_tuning
+max_seq_length: 4096
+gradient_checkpointing: true
+num_train_epochs: 3
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 1.0e-4
+lr_scheduler: cosine
+warmup_ratio: 0.03
+optim: adamw_torch
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  bias: none
+  task_type: CAUSAL_LM
+seed: 42
+output_dir: checkpoints/qwen35_4b/
+data_dir: data/chatml/
+log_dir: logs/

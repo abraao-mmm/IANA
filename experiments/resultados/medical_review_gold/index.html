@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IANA — Índice de Revisão Médica</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; }
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<h1>Projeto IANA — Revisão por Especialista Médico</h1>
+<p style="margin:12px 0 24px; color:#4b5563; font-size:0.95rem;">
+    Pipeline v3.1 — Test batch com 10 notas estratificadas (HIV, Sífilis, Tuberculose).<br>
+    Clique no ID do paciente para abrir a revisão detalhada de cada nota.
+</p>
+
+<table class="index">
+    <thead>
+        <tr>
+            <th>Paciente ID</th>
+            <th>Doença</th>
+            <th>Categoria</th>
+            <th>Entidades</th>
+            <th>Status (NER / SOAP / Audit)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td><a href="26565838_HIV_review.html">26565838</a></td><td>HIV</td><td>HIV</td><td style='text-align:center'>125</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="21532494_HIV_review.html">21532494</a></td><td>HIV</td><td>HIV</td><td style='text-align:center'>67</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="29897210_HIV_review.html">29897210</a></td><td>HIV</td><td>HIV</td><td style='text-align:center'>155</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="23732240_HIV_review.html">23732240</a></td><td>HIV</td><td>HIV</td><td style='text-align:center'>116</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="27381409_HIV_review.html">27381409</a></td><td>HIV</td><td>HIV</td><td style='text-align:center'>130</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="24476606_HIV_review.html">24476606</a></td><td>HIV</td><td>HIV</td><td style='text-align:center'>221</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-warn">token_overflow</span></td></tr><tr><td><a href="23349971_Tuberculose_review.html">23349971</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>54</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="25375128_Tuberculose_review.html">25375128</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>53</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="27566857_Tuberculose_review.html">27566857</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>67</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="25601328_Tuberculose_review.html">25601328</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>173</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="24910564_Tuberculose_review.html">24910564</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>116</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="26539098_Tuberculose_review.html">26539098</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>170</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="21182239_Tuberculose_review.html">21182239</a></td><td>Tuberculose</td><td>Tuberculose</td><td style='text-align:center'>193</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="29297881_Sifilis_review.html">29297881</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>77</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="26536278_Sifilis_review.html">26536278</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>49</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="29347314_Sifilis_review.html">29347314</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>68</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="23481209_Sifilis_review.html">23481209</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>67</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="22964568_Sifilis_review.html">22964568</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>69</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="22345559_Sifilis_review.html">22345559</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>103</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span></td></tr><tr><td><a href="27758019_Sifilis_review.html">27758019</a></td><td>Sifilis</td><td>Sifilis</td><td style='text-align:center'>85</td><td><span class="badge badge-ok">ok</span> <span class="badge badge-ok">ok</span> <span class="badge badge-warn">token_overflow</span></td></tr>
+    </tbody>
+</table>
+
+<div class="annotation-instructions" style="margin-top:24px;">
+    <strong>Instruções gerais:</strong> Cada arquivo contém o texto original
+    da nota clínica (em inglês) e a extração estruturada produzida pelo
+    pipeline (em português). Ao final de cada arquivo há uma tabela para
+    anotar erros encontrados. Foque em: entidades omitidas, entidades na
+    categoria errada, testes negativos extraídos como positivos, e erros
+    de tradução.
+</div>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48
+</div>
+</body>
+</html>

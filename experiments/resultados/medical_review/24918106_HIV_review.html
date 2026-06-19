@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 24918106 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 24918106</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 24918106 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong> 042 &nbsp;|&nbsp;
+    <strong>Categoria:</strong> HIV simples<br>
+    <strong>Entidades extraídas:</strong> 75 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                  Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: PSYCHIATRY
+ 
+Allergies: 
+Penicillins
+ 
+Attending: ___.
+ 
+Chief Complaint:
+___ year old man who states &quot;I am not going back to that 
+building.  They were testing me [his neighbors].&quot;
+ 
+Major Surgical or Invasive Procedure:
+None
+ 
+History of Present Illness:
+The patient is a ___ y/o cauc. male with a history of HIV, 
+anxiety, and depression. He self presentes to the ED tonight 
+after he felt unsafe at home.
+
+  The patient has lived in a building in ___ for the last ___ 
+years. He states &quot;I am the only gay, white, educated man in that 
+building.&quot; He says ___ months ago he began having trouble with 
+some of the neighbors. This consisted of homophobic remarks in 
+the hallway. He describes these people as &quot;black and hispanic, 
+young kids who do drugs.&quot; &quot;They were testing me,&quot; he says. He 
+relates that recently a group of 7 or 8 were taunting him so 
+that he felt if he gave them reason it would have turned 
+violent. His history is confusing as he once says this was ___ 
+months ago, and then later says it was today. Also, he relates 
+that ___ months ago someone kicked his door while someone else 
+was banging on his wall.  He does have one friend in the 
+building who he stayed with recently because he felt unsafe.  
+Today he was annxious enough that his ___ brought him to the ED. 
+The patient would like to be discharged and plans to go stay 
+with his friend ___ who lives nearby.
+
+  I spoke with the covering ___ (___) in place of the 
+___ regular RN ___. Per the covering RN the 
+___ complaints represent paranoid delusions and are not 
+based in reality. She states that the patient ahs been 
+escalating for the last 3 weeks. She also conveyed that she was 
+not aware that the patient was a danger to himself or anyone 
+else, but felt that he was ill and in need of treatment. Per the 
+___ they are not aware that the patient has been using drugs 
+recently.
+
+  I spoke with the ___ friend ___ (___) 
+with whom he plans to stay tonight. ___ states he has not 
+noticed anything that confirms the patients complaints. However, 
+he did mention &quot;clicking&quot; on the phone line and says the 
+___ fears re: wiretaps may be true. He confirmed that he 
+has known the patient for years and that the patient would be 
+welcome to stay with him.
+
+  I spoke with the ___ mother ___ (___). 
+ The mother confirmed the ___ problems with his neighbors, 
+though she does not believe that he is being wiretapped. &quot;He 
+won&#x27;t even talk to me on the phone anymore he is so scared of 
+it.&quot; States that his problems increased after he reported his 
+problems to the building management. While the mother does not 
+believe the patient is delusional, she does feel that he is not 
+able to care for himself currently and is in favor of inpatient 
+hospitalization. She reported that while the patient comes 
+across as cognitively intact, underneath are deficits related to 
+PML (dx in ___ and his past drug abuse. She relates that he 
+has burned himself twice while living on his own due to 
+cognitive deficits.  She also relates that prior to moving into 
+this building the patient was never paranoid or delusional. She 
+stated &quot;I&#x27;m afraid he would get hurt if he left tonight.&quot; SHe 
+did not want him to go home as she was afraid he would be the 
+victim of violence, and she did not want him to stay with ___ 
+because ___ is involved with illicit drugs.
+ 
+Past Medical History:
+HIV and PML
+depression
+vertigo
+h/o duodenectomy for ulcers
+
+ 
+Social History:
+___
+Family History:
+Per the patient his mother suffers from anxiety and depression.
+ 
+Physical Exam:
+MENTAL STATUS EXAM 
+     APPEARANCE: ___ y/o F, appears stated age, bearded, wearing 
+hospital gowns, sitting in gurney for interview, smells strongly 
+of tobacco
+     BEHAVIOR: cooperative with interview, insisting that he 
+needs to leave soon and that he has to smoke, accepted news that 
+he was going to be admitted well
+     SPEECH: rapid, mildly pressured, nml tone and prosody
+     MOOD: &quot;fine&quot;
+     AFFECT: anxious
+     THOUGHT FORM: mostly linear, however sometimes his details 
+do not make sense and there seems to be some underlying 
+cognitive dysfunction though he covers it well
+     THOUGHT CONTENT: no evidence of AVH, SI/HI. It is unclear 
+to me at this time if his complaints about his building are 
+accurate, however it is clear that he is frightened, making poor 
+choices tonight, and seems to have some underlying cognitive 
+deficits
+     INSIGHT AND JUDGMENT: Poor/Impaired
+     COGNITIVE ASSESSMENT:
+          SENSORIUM: Alert and Oriented x3
+          ATTENTION: DOTW backwards without error
+          MEMORY: ___ registration, ___ recall after several 
+minutes with prompts
+          CALCULATIONS: &quot;9&quot; quarters in $2.25
+          PROVERB INTERPRETATION: grass/greener = &quot;something 
+optimistic&quot;
+          SIMILARITIES/ANALOGIES: apple/orange = &quot;both fruit&quot;
+ 
+Pertinent Results:
+___ 04:30PM BLOOD WBC-12.0* RBC-4.73 Hgb-15.7 Hct-43.3 
+MCV-92 MCH-33.1* MCHC-36.1* RDW-13.4 Plt ___
+___ 04:30PM BLOOD Neuts-74.6* ___ Monos-4.8 Eos-0.8 
+Baso-0.5
+___ 04:30PM BLOOD Glucose-148* UreaN-9 Creat-0.9 Na-136 
+K-4.6 Cl-104 HCO3-22 AnGap-15
+___ 03:45PM BLOOD ALT-38 AST-23 AlkPhos-112 TotBili-0.1
+___ 03:45PM BLOOD Albumin-4.1
+___ 03:45PM BLOOD VitB12-299 Folate-11.1
+___ 03:45PM BLOOD TSH-1.5
+___ 03:45PM BLOOD Free T4-1.1
+___ 04:30PM BLOOD ASA-NEG Ethanol-NEG Acetmnp-NEG 
+Bnzodzp-NEG Barbitr-NEG Tricycl-NEG
+ 
+Brief Hospital Course:
+Psychopharm:  The patient was initially admitted on a regimen of 
+Zoloft and Seroquel.  Since the patient presented initially with 
+pressured speech, psychomotor agitation, expansive affect, and 
+paranoia, his Zoloft was discontinued due to it&#x27;s potential for 
+manic switch.  He also complained of concern for weight gain and 
+diabetes on Seroquel and so this medication was discontinued and 
+he was started on Abilify 10mg PO Qbedtime.  This anti-psychotic 
+was selected for it&#x27;s decreased risk of weight gain and 
+metabolic syndrome.  He reported that Abilify improved his 
+anxiety and that he was better able to sleep.  We increased the 
+dosage of Abilify to 15mg PO Qbedtime which he tolerated well 
+and ultimately discharged him on 20mg PO Qbedtime.  During his 
+hospitalization he requested that we restart his Seroquel 
+stating that it was helpful for anxiety and insomnia.  He 
+reported that he was no longer as concerned about the metabolic 
+side effects but that he would ask his PCP to check his blood 
+sugar.  We also started Ativan for anxiety initially as a 0.5mg 
+BID standing dosage and then as a PRN with the intention to 
+discontinue this medication on discharge.  He was discharged on 
+a regimen of Abilify and Seroquel (see dosages below).
+  
+Psychosocial:  Mr. ___ was active in groups and in 
+individual therapy and cooperative with treatment throughout his 
+hospitalization.  He displayed no paranoia toward staff or other 
+patients.  He was mildly emotionally disregulated at times when 
+minor inconveniences occurred such as an order for Maalox not 
+being written in his chart.  He reported that he had &quot;temper 
+tantrums&quot; during this time, but no overt acting out behavior was 
+noted by nursing staff.  During the last week of his 
+hospitalization he reported none of these occurences.
+
+Mr. ___ was extremely preoccupied throughout his 
+hospitalization with concerns about his living arrangements and 
+plans to move his belongings out of his former apartment.  He 
+showed a great deal of disorganization regarding dispo planning 
+and required a lot of assistance in devising a plan that made 
+sense.  He seemed overwhelmed at many points by plans or 
+decisions that needed to be made.  It was unclear if this was 
+primarily due to his executive dysfunction or to an anxiety or 
+psychotic disorder.  However, even as his anxiety and paranoia 
+stabilized, he continued to have great difficulty planning and 
+making decisions suggesting a baseline level of executive 
+dysfunction.
+
+The patient displayed increased insight about the sources of the 
+intense anxiety he experienced in his apartment building.  He 
+was able to express that he felt his fear was exacerbated and 
+triggered by memories of severe physical abuse at the hands of 
+his father.  He was quite tearful when discussing his father and 
+stated that he did not feel ready to fully explore this topic 
+but that he would like to do so in long term therapy.  At 
+discharge he was able to discuss the conditions in his apartment 
+calmly and without apparent anxiety.  
+
+He was discharged to his mother&#x27;s home with plans to attend the 
+___.  He was advised to apply for housing in the ___ 
+___ (at discharge there were no beds available).  An 
+application was submitted for him to the ___ program at 
+___.  
+
+Legal: ___
+**Note: Prior psychiatric/medical records from ___ 
+were obtained. They confirm the pt was hospitalized at 
+___ behavioral unit for roughly a year for disorganized 
+behavior ___ HIV-related brain dysfunction. Specifically, FULL 
+NP Testing was done which clearly document neurocognitive 
+impairment c/w a frontal-subcortical network disorder related to 
+HIV encephalopathy. He was not deemed to have bipolar affective 
+disorder**
+ 
+Medications on Admission:
+Seroquel qHS and PRN
+Atripla
+Lipitor
+MVI
+Zoloft
+ 
+Discharge Medications:
+1. Aripiprazole 10 mg Tablet Sig: Two (2) Tablet PO DAILY 
+(Daily).
+Disp:*60 Tablet(s)* Refills:*0*
+2. Quetiapine 25 mg Tablet Sig: ___ tab BID PRN anxiety or 2 
+tabs QHS PRN insomnia Tablet PO ___ tab BID PRN anxiety and 2 
+tabs QHS PRN insomnia as needed for anxiety/insomnia.
+Disp:*90 Tablet(s)* Refills:*0*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Axis I: Brief Psychotic disorder, Dysexecutive syndrome, 
+polysubstance abuse, Anxiety NOS (not otherwise specified)
+Axis II: Deferred
+Axis III: HIV (Human Immunodeficiency Virus), PML (Progressive 
+Multifocal Leukoencephalopathy), vertigo, duodenectomy for 
+peptic ulcer disease
+Axis IV: Homelessness, recent arrest for cocaine possession
+Axis V: 60
+
+ 
+Discharge Condition:
+At discharge the patient was stable at his baseline status which 
+is mildly grandiose and mildly pressured with impaired executive 
+function.  His thought process was clear and linear and he 
+showed no overt signs of paranoia.  He reported that his mood 
+was much improved and his affect was full and appropriate.  He 
+denied AVH, SI, or HI.  He was sleeping and eating well.
+ 
+Discharge Instructions:
+Please attend scheduled appointments with outpatient providers 
+and take medications as directed. Please return to the ER with 
+recurrent thoughts of doing harm to others or yourself.
+
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(11)</span></h3>
+  <ul>
+    <li>HIV (Human Immunodeficiency Virus)</li>
+    <li>PML (Progressive Multifocal Leukoencephalopathy)</li>
+    <li>HIV encephalopathy</li>
+    <li>Brief Psychotic disorder</li>
+    <li>Dysexecutive syndrome</li>
+    <li>Polysubstance abuse</li>
+    <li>Anxiety NOS (not otherwise specified)</li>
+    <li>Vertigo</li>
+    <li>Peptic ulcer disease</li>
+    <li>Neurocognitive impairment</li>
+    <li>Cocaine possession</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(19)</span></h3>
+  <ul>
+    <li>Pressured speech</li>
+    <li>Psychomotor agitation</li>
+    <li>Expansive affect</li>
+    <li>Paranoia</li>
+    <li>Anxiety</li>
+    <li>Insomnia</li>
+    <li>Tearfulness</li>
+    <li>Cognitive deficits</li>
+    <li>Executive dysfunction</li>
+    <li>Grandiosity</li>
+    <li>Rapid speech</li>
+    <li>Cognitive dysfunction</li>
+    <li>Impaired executive function</li>
+    <li>Mildly pressured</li>
+    <li>Mildly grandiose</li>
+    <li>Emotional disregulation</li>
+    <li>Temper tantrums</li>
+    <li>Disorganized behavior</li>
+    <li>Smells strongly of tobacco</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(9)</span></h3>
+  <ul>
+    <li>Aripiprazole</li>
+    <li>Quetiapine</li>
+    <li>Seroquel</li>
+    <li>Atripla</li>
+    <li>Lipitor</li>
+    <li>MVI</li>
+    <li>Zoloft</li>
+    <li>Ativan</li>
+    <li>Maalox</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(35)</span></h3>
+  <ul>
+    <li>WBC-12.0</li>
+    <li>RBC-4.73</li>
+    <li>Hgb-15.7</li>
+    <li>Hct-43.3</li>
+    <li>MCV-92</li>
+    <li>MCH-33.1</li>
+    <li>MCHC-36.1</li>
+    <li>RDW-13.4</li>
+    <li>Neuts-74.6</li>
+    <li>Monos-4.8</li>
+    <li>Eos-0.8</li>
+    <li>Baso-0.5</li>
+    <li>Glucose-148</li>
+    <li>UreaN-9</li>
+    <li>Creat-0.9</li>
+    <li>Na-136</li>
+    <li>K-4.6</li>
+    <li>Cl-104</li>
+    <li>HCO3-22</li>
+    <li>AnGap-15</li>
+    <li>ALT-38</li>
+    <li>AST-23</li>
+    <li>AlkPhos-112</li>
+    <li>TotBili-0.1</li>
+    <li>Albumin-4.1</li>
+    <li>VitB12-299</li>
+    <li>Folate-11.1</li>
+    <li>TSH-1.5</li>
+    <li>Free T4-1.1</li>
+    <li>ASA-Negativo</li>
+    <li>Ethanol-Negativo</li>
+    <li>Acetmnp-Negativo</li>
+    <li>Bnzodzp-Negativo</li>
+    <li>Barbitr-Negativo</li>
+    <li>Tricycl-Negativo</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(1)</span></h3>
+  <ul>
+    <li>FULL NP Testing (Neuropsychological Testing)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, ___ anos, com queixa principal de sentir-se inseguro em sua residência, relatando: &#x27;Não vou voltar para aquele prédio. Eles estavam me testando [meus vizinhos]&#x27;. História da Doença Atual (HDA): Paciente com histórico de HIV, ansiedade e depressão, apresentou-se ao Pronto Socorro (PS) após sentir-se inseguro em casa. Relata morar no mesmo prédio há ___ anos. Descreve que há ___ meses começou a ter problemas com vizinhos, caracterizados por comentários homofóbicos no corredor. Descreve os vizinhos como &#x27;jovens negros e hispânicos que usam drogas&#x27;. Relata que recentemente um grupo de 7 ou 8 pessoas o provocou, fazendo-o sentir que qualquer reação sua poderia resultar em violência. A história apresenta inconsistências temporais (relata eventos ocorridos há ___ meses e também &#x27;hoje&#x27;). Relata que há ___ meses alguém chutou sua porta enquanto outra pessoa batia na parede. Possui um amigo no prédio com quem ficou recentemente por sentir-se inseguro. Hoje, apresentou ansiedade significativa, sendo trazido ao PS por seu ___. O paciente deseja alta e planeja ficar com seu amigo ___ que mora nas proximidades. A enfermeira de plantão relatou que as queixas representam delírios paranóides não baseados na realidade, com escalada de sintomas nas últimas 3 semanas. Não há relato de uso recente de drogas por parte do paciente. O amigo ___ confirmou que não notou nada que corroborasse as queixas do paciente, mas mencionou &#x27;cliques&#x27; na linha telefônica, sugerindo que o medo de grampos pode ter algum fundamento. A mãe do paciente confirmou problemas com vizinhos, mas não acredita em grampos telefônicos. Relata que o paciente não fala mais ao telefone por medo. A mãe acredita que o paciente não consegue cuidar de si mesmo no momento e é favorável à internação hospitalar. Relata déficits cognitivos relacionados à Leucoencefalopatia Multifocal Progressiva (PML) diagnosticada em ___ e ao histórico de abuso de drogas. Relata que o paciente queimou-se duas vezes ao viver sozinho devido a déficits cognitivos. A mãe afirma que, antes de mudar para este prédio, o paciente nunca foi paranóide ou delirante. Expressa medo de que o paciente seja vítima de violência se sair hoje e não deseja que ele fique com o amigo ___ devido ao envolvimento deste com drogas ilícitas. Revisão de Sistemas: O paciente nega alucinações auditivas ou visuais (AVH), ideação suicida (SI) ou ideação homicida (HI). Nega febre, tosse, dispneia, dor torácica, dor abdominal, náuseas ou vômitos. Nega uso recente de álcool ou drogas ilícitas (confirmado por toxicologia). Histórico Médico Pregresso: HIV, PML, depressão, tontura, histórico de duodenectomia para úlcera péptica. Histórico de abuso de substâncias (polissubstâncias). Histórico familiar: Mãe com ansiedade e depressão.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Exame Físico (Exame do Estado Mental): Aparente: ___ anos, aparenta idade declarada, barbado, vestindo jaleco hospitalar, sentado em maca para entrevista, cheiro forte de tabaco. Comportamento: Cooperativo com a entrevista, insistindo que precisa sair logo e que precisa fumar, aceitou bem a notícia de que seria internado. Fala: Rápida, levemente pressurizada, tom e prosódia normais. Humor: &#x27;Bem&#x27;. Afeto: Ansioso. Forma de Pensamento: Majoritariamente linear, porém às vezes os detalhes não fazem sentido e parece haver alguma disfunção cognitiva subjacente, embora ele a disfarce bem. Conteúdo do Pensamento: Sem evidência de alucinações auditivas ou visuais (AVH), ideação suicida (SI) ou ideação homicida (HI). Não está claro se as queixas sobre o prédio são precisas, mas é evidente que ele está assustado, tomando más decisões e parece ter déficits cognitivos subjacentes. Insight e Julgamento: Pobre/Comprometido. Avaliação Cognitiva: Sensorium: Alerta e Orientado x3. Atenção: Dígitos de ordem inversa (DOTW) sem erro. Memória: ___ registro, ___ recordação após vários minutos com prompts. Cálculos: &#x27;9&#x27; moedas de 25 centavos em $2,25. Interpretação de Provérbios: &#x27;Grama mais verde&#x27; = &#x27;algo otimista&#x27;. Semelhanças/Analogias: &#x27;Maçã/Laranja&#x27; = &#x27;ambas frutas&#x27;. Sinais Vitais: Não foram relatados valores numéricos específicos de Temperatura, Pressão Arterial, Frequência Cardíaca, Frequência Respiratória ou Saturação de Oxigênio (SpO2) no texto fornecido.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma Completo (04:30): Leucócitos (WBC): 12.0* (elevado); Hemácias (RBC): 4.73; Hemoglobina (Hgb): 15.7; Hematócrito (Hct): 43.3; VCM (MCV): 92; HCM (MCH): 33.1* (elevado); CHCM (MCHC): 36.1* (elevado); RDW: 13.4; Plaquetas (Plt): ___ (valor não informado). Fórmula Leucocitária (04:30): Neutrófilos (Neuts): 74.6* (elevado); Monócitos (Monos): 4.8; Eosinófilos (Eos): 0.8; Basófilos (Baso): 0.5. Bioquímica Sanguínea (04:30): Glicose: 148* (elevado); Ureia (UreaN): 9; Creatinina (Creat): 0.9; Sódio (Na): 136; Potássio (K): 4.6; Cloro (Cl): 104; Bicarbonato (HCO3): 22; Gap Aniónico (AnGap): 15. Função Hepática (03:45): ALT: 38; AST: 23; Fosfatase Alcalina (AlkPhos): 112; Bilirrubina Total (TotBili): 0.1. Albumina (03:45): 4.1. Vitamina B12 (03:45): 299; Folato (Folate): 11.1. Função Tireoidiana (03:45): TSH: 1.5; T4 Livre (Free T4): 1.1. Toxicologia (04:30): Ácido Acetilsalicílico (ASA): Negativo; Etanol: Negativo; Acetaminofeno (Acetmnp): Negativo; Benzodiazepínicos (Bnzodzp): Negativo; Barbitúricos (Barbitr): Negativo; Tricíclicos (Tricycl): Negativo.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Nenhum exame de imagem (Raio-X, Tomografia, Ressonância, Ecocardiograma, etc.) foi relatado no texto fornecido. O texto menciona apenas que testes neuropsicológicos completos foram realizados anteriormente, documentando comprometimento neurocognitivo compatível com transtorno de rede fronto-subcortical relacionado à encefalopatia por HIV, mas não descreve achados de imagem radiológica recentes.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente do sexo masculino, ___ anos, com histórico de HIV e PML, internado por quadro de desregulação emocional, paranoia e delírios persecutórios relacionados a vizinhos e supostos grampos telefônicos. O quadro clínico é compatível com Transtorno Psicótico Breve, sobreposto a uma Síndrome Disexecutiva de base (provavelmente secundária à encefalopatia por HIV e sequelas da PML), conforme documentado em avaliações neuropsicológicas prévias. O paciente apresentou fala pressurizada, agitação psicomotora e afeto expansivo inicialmente, o que levou à suspensão da Sertralina (risco de virada maníaca) e introdução de Aripiprazol. A ansiedade e a paranoia melhoraram significativamente com o tratamento farmacológico (Aripiprazol e Quetiapina). O paciente demonstrou aumento de insight sobre as fontes de sua ansiedade, relacionando-as a memórias de abuso físico paterno, embora ainda tenha dificuldade em explorar o tema profundamente. A disfunção executiva basal persiste, evidenciada pela dificuldade em planejar a alta e tomar decisões, mesmo com a estabilização dos sintomas psicóticos. Não há evidência de uso atual de substâncias. O diagnóstico diferencial incluiu transtorno bipolar (excluído por testes neuropsicológicos prévios), delírio por uso de substâncias (excluído por toxicologia negativa e história) e demência por HIV (o quadro atual é agudo sobreposto a déficits crônicos). O paciente foi estabilizado e liberado para o lar da mãe, com plano de acompanhamento ambulatorial.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta: 1. Aripiprazol 10 mg comprimido: Tomar 2 comprimidos por via oral diariamente (Total de 20 mg/dia). Dispensado: 60 comprimidos, sem reabastecimento. 2. Quetiapina 25 mg comprimido: Tomar 1 comprimido por via oral 2 vezes ao dia (BID) conforme necessário para ansiedade OU 2 comprimidos por via oral à noite (QHS) conforme necessário para insônia. Dispensado: 90 comprimidos, sem reabastecimento. Orientações ao Paciente: Comparecer às consultas agendadas com os provedores ambulatoriais. Tomar as medicações conforme prescrito. Retornar ao Pronto Socorro em caso de pensamentos recorrentes de fazer mal a si mesmo ou a outros. Encaminhamentos: Encaminhado para o programa de ___ (aplicação submetida). Orientado a solicitar moradia no ___ (na alta não havia vagas disponíveis). Retorno Programado: Agendar retorno com psiquiatra ambulatorial e provedores de cuidados primários para monitoramento de glicemia (devido ao uso de antipsicóticos e histórico de preocupação com diabetes) e acompanhamento da condição de HIV/PML. Acompanhamento de saúde mental de longo prazo para explorar traumas relacionados ao abuso paterno.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-08 15:18 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

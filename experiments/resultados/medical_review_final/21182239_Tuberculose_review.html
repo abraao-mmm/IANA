@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 21182239 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 21182239</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 21182239 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 193
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___.             Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: NEUROLOGY
+ 
+Allergies: 
+Penicillins / Ibuprofen / Sulfa (Sulfonamide Antibiotics)
+ 
+Attending: ___
+ 
+Chief Complaint:
+Acute right hearing loss 
+(in setting of recent temporal lobe biopsy for an enhancing mass 
+with pathology results concerning for CNS tuberculosis)
+Confusion/delirium
+ 
+Major Surgical or Invasive Procedure:
+___ lumbar puncture
+ 
+History of Present Illness:
+The patient is an ___ year old right-handed woman who presents 
+with one day of right ear hearing loss.
+
+Her history begins perhaps as early as ___ when in ___ she 
+experienced some left arm weakness and numbness. There isn&#x27;t any 
+documentation available to describe the medical reasoning at 
+that time, but she underwent a contrast-enahnced MRI Brain which 
+did not reveal any lesions, ischemic strokes, or hemorrhages. 
+Subsequently, she has had chronic &quot;dull,&quot; aching daily headaches
+lasting a few months at a time. In ___, she developed 
+horizontal vertigo with nausea and emesis lasting minutes to 
+hours at a time. She was also having headaches during this time. 
+She underwent evaluation by Otolaryngology with an audiogram 
+(with left ear moderate-severe hearing loss) and ENG (which as
+essentially normal). However, during a subsequent ___ clinic 
+visit she developed an acute onset of vertigo with nausea and 
+emesis, prompting a transfer to the Emergency Department where 
+she presented as a Code Stroke. Besides counterclockwise and 
+rightward rotary nystagmus in primary gaze and lateral gazes, 
+her examination was unrevealing. She had no major vascular 
+occlusions on vessel imaging, though there was a possible 
+&quot;ependymal bleed&quot;
+noted by Radiology in the right lateral ventricle. She was 
+admitted to Neurology for further investigation which revealed a 
+right temporal lobe and right lateral ventricle (occipital horn) 
+enhancing mass. She underwent a screen for systemic malignancy 
+(unrevealing), lumbar punctures (showing atypical cells), and 
+eventually a stereotactic lesional biopsy on ___ on the 
+Neurosurgery service. Post-operatively, she was taken off 
+aspirin and was discharged to an extended care facility.
+
+She was seen well on ___ by one daughter who describes that 
+she was essentially in the same condition as she was when 
+discharged from the hospital after her biopsy. Yesterday, 
+another daughter visited her and she she was noted to have 
+dramatic right ear hearing loss. She was alert and described 
+this fluently to her caretakers and her daughter. She asked 
+people to write on
+paper or a board, and she could answer their questions 
+subsequently. Her daughter thinks that she appeared more tired 
+and lethargic later in the day. She was also not eating well, 
+described more &quot;dizziness&quot; (with some rotational component), and 
+had more difficulty walking with her walker. Her daughter thinks
+that her &quot;taste was off&quot; because she was eating tuna and peaches 
+together.
+
+The patient describes that it is mostly &quot;voices that I can&#x27;t 
+hear.&quot; She states that the right ear hearing loss started &quot;one 
+week ago,&quot; but her daughters disagree and insist that it started 
+yesterday. Her only other endorsed symptom is a headache which 
+she describes a dull, non-throbbing vertex headache without any 
+other associated features. Besides the description of lethargy 
+yesterday, she has had no fainting spells or unexplained loss of 
+consciousness. She has no associated chest pain, neck pain, 
+dyspnea, or palpitations.
+
+On neurologic review of systems, the patient endorses headache.
+Denies lightheadedness, or confusion. 
+Endorses hearing loss and vertigo.
+Denies difficulty with producing or comprehending speech.
+Denies loss of vision, blurred vision, diplopia, dysarthria, or 
+dysphagia.
+Denies muscle weakness.
+Denies loss of sensation.
+Denies bowel or bladder incontinence or retention.
+Endorses difficulty with gait.
+
+On general review of systems, the patient denies fevers, rigors, 
+night sweats, or noticeable weight loss.
+Denies chest pain, palpitations, dyspnea, or cough.
+Denies nausea, vomiting, diarrhea, constipation, or abdominal 
+pain.
+Denies dysuria or hematuria.
+Denies myalgias, arthralgias, or rash.
+ 
+Past Medical History:
+1.  Osteoporosis, T-score of -2.5 at the hip, -5 at the radius
+and ulna, trialed several oral and IV bisphosphonates, last
+documented ___.
+2.  Polymyalgia rheumatica, on a chronic dose of 5 mg of
+prednisone since ___ and 9 mg for flares, increased recently to
+60 mg and currently on a taper.  Rheumatologist name is Dr. ___ in ___.
+3.  Question of hyperparathyroidism.
+4.  Hypokalemia.  The patient on potassium supplements,
+hypokalemia thought to be due to Prednisone mineralocorticoid
+activity.
+ 
+Social History:
+___
+Family History:
+Ovarian cancer (daughter). ___ cancer (daughter). 
+
+ 
+Physical Exam:
+Admission Exam:
+VS T: 97.9 HR: 92 BP: 147/92 RR: 18 SaO2: 98% RA 
+General: NAD, lying in bed comfortably, well-appearing elderly
+woman. / Head: NC/AT, no conjunctival icterus, no oropharyngeal
+lesions, no apparent obstruction in the auditory canals / Neck:
+Supple, no nuchal rigidity, no meningismus, no bruits /
+Cardiovascular: RRR, no M/R/G / Pulmonary: Equal air entry
+bilaterally, no crackles or wheezes / Abdomen: Soft, NT, ND, 
++BS,
+no guarding / Extremities: Warm, no edema, palpable
+radial/dorsalis pedis pulses / Skin: No rashes or lesions
+
+Neurologic Examination:
+
+- Mental Status - Awake, alert, oriented x 3. Attention to
+examiner easily attained and maintained. Answers questions
+appropriately (when read from a sheet of paper that the examiner
+writes on). Structure of speech demonstrates fluency with full
+sentences and intact verbal comprehension. Content of speech
+demonstrates intact naming (high and low frequency) and no
+paraphasias. Normal prosody. No dysarthria. No evidence of
+hemineglect. No left-right agnosia.
+
+- Cranial Nerves - [II] PERRL 2-&gt;1 brisk. VF full to number
+counting. Funduscopy obscured by the small pupils and bright
+lights (in the hallway examination space). [III, IV, VI] EOMI,
+counterclockwise rotary nystagmus looking up and to the left,
+suppresses looking right. [V] Corneals present bilaterally. 
+[VII]
+No facial movement asymmetry, though right nasolabial fold
+appears slightly flatter at rest. [VIII] Hearing impaired
+bilaterally: able to hear watch tick and voice next to her right
+ear (can identify names of fingers spoken into her ear), but not
+finger rub. Cannot hear voice or finger rub in left ear, but can
+barely hear watch tick. [IX, X] Palate elevation symmetric. [XI]
+SCM/Trapezius strength ___ bilaterally. [XII] Tongue midline.
+
+- Motor - Normal tone, decreased bulk at the first dorsal
+interossei, EDBs. No pronation, no drift. No tremor or 
+asterixis.
+=[Delt] [Bic] [Tri] [ECR] [IO] [IP] [Quad] [Ham] [TA] [Gas] 
+[___]
+  [C5]  [C5]  [C7]  [C6]  [T1] [L2]  [L3]  [L5]  [L4] [S1]  [L5]
+L  5      5     5     5     5-   5    5      5-    5    5     5-
+R  5      5     5     5     5-   5    5      5-    5    5     5-
+
+- Sensory - No deficits to light touch bilaterally. Mild
+impairment of proprioceptive sensation at the first toes
+bilaterally. Difficult to assess pin at this time.
+
+- Reflexes
+=[Bic] [Tri] [___] [Quad] [Gastroc]
+L 2      2      2      1        0
+R 2      2      2      1        0
+Plantar response flexor bilaterally.
+
+- Coordination - No frank dysmetria with finger to nose testing
+bilaterally, but intention tremor present bilaterally. Good 
+speed
+and intact cadence with rapid alternating movements.
+
+- Gait - Normal initiation. Very wide base. Short stride length.
+Sways to either side when walking assisted. Sway bilaterally 
+with
+Romberg.
+
+Discharge Exam:
+Awake, intermittently unattentive. Unable to hear, but follows 
+written one-step commands. Marked improvement compared to the 
+prior days, when she did not follow any commands.
+ 
+Pertinent Results:
+Admission labs:
+___ 05:00PM   GLUCOSE-124* UREA N-9 CREAT-0.5 SODIUM-137 
+POTASSIUM-3.8 CHLORIDE-100 TOTAL CO2-25 ANION GAP-16
+___ 05:00PM   CALCIUM-9.1 PHOSPHATE-2.9 MAGNESIUM-2.2
+___ 05:00PM   WBC-16.9* RBC-4.61 HGB-14.7 HCT-44.5 MCV-97 
+MCH-32.0 MCHC-33.1 RDW-13.7
+___ 05:00PM   NEUTS-83.3* LYMPHS-13.3* MONOS-2.8 EOS-0.4 
+BASOS-0.2
+___ 05:00PM   PLT COUNT-276
+___ 05:00PM URINE  COLOR-Yellow APPEAR-Cloudy SP ___
+___ 05:00PM URINE  BLOOD-MOD NITRITE-NEG PROTEIN-30 
+GLUCOSE-NEG KETONE-10 BILIRUBIN-NEG UROBILNGN-2* PH-7.0 LEUK-LG
+___ 05:00PM URINE  RBC-129* WBC-&gt;182* BACTERIA-MOD 
+YEAST-NONE EPI-4
+___ 05:00PM URINE  WBCCLUMP-MANY MUCOUS-OCC
+
+Discharge labs:
+___ 06:30AM BLOOD WBC-10.8 RBC-4.05* Hgb-12.8 Hct-38.1 
+MCV-94 MCH-31.6 MCHC-33.6 RDW-12.8 Plt ___
+___ 06:30AM BLOOD Glucose-93 UreaN-11 Creat-0.5 Na-136 
+K-3.1* Cl-104 HCO3-23 AnGap-12
+___ 06:30AM BLOOD ALT-41* AST-44* AlkPhos-56 TotBili-0.4
+___ 06:30AM BLOOD Calcium-7.9* Phos-2.4* Mg-2.1
+
+Other:
+TSH ___: 2.7
+Cortisol ___: 12.4
+
+URINE CULTURE (Final ___: 
+      ESCHERICHIA COLI.    &gt;100,000 ORGANISMS/ML.. 
+
+___ 5:00 pm SPUTUM      Source: Induced. 
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &lt;10 epithelial cells/100X field. 
+      3+  ___ per 1000X FIELD):   MULTIPLE ORGANISMS 
+CONSISTENT WITH OROPHARYNGEAL FLORA. QUALITY OF SPECIMEN CANNOT 
+BE ASSESSED. 
+   RESPIRATORY CULTURE (Final ___: 
+      MODERATE GROWTH Commensal Respiratory Flora. 
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+   ACID FAST CULTURE (Preliminary):    NO MYCOBACTERIA ISOLATED. 
+
+
+___ 12:07 am SPUTUM      Source: Induced. 
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+   ACID FAST CULTURE (Preliminary):    NO MYCOBACTERIA ISOLATED.
+
+___ 11:02 am SPUTUM      Source: Induced. 
+   GRAM STAIN (Final ___: 
+      &lt;10 PMNs and &gt;10 epithelial cells/100X field. 
+      Gram stain indicates extensive contamination with upper 
+respiratory
+      secretions. Bacterial culture results are invalid. 
+      PLEASE SUBMIT ANOTHER SPECIMEN. 
+   RESPIRATORY CULTURE (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+   ACID FAST CULTURE (Preliminary): 
+
+___ 4:00 pm CSF;SPINAL FLUID      Source: LP TUBE 3. 
+   GRAM STAIN (Final ___: 
+      NO POLYMORPHONUCLEAR LEUKOCYTES SEEN. 
+      NO MICROORGANISMS SEEN. 
+      This is a concentrated smear made by cytospin method, 
+please refer to hematology for a quantitative white blood cell 
+count.. 
+   FLUID CULTURE (Final ___:    NO GROWTH. 
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+   ACID FAST CULTURE (Preliminary): 
+      The sensitivity of an AFB smear on CSF is very low.. 
+      If present, AFB may take ___ weeks to grow.. 
+      NO MYCOBACTERIA ISOLATED. 
+   VIRAL CULTURE (Preliminary):    NO VIRUS ISOLATED. 
+
+CSF cryptococcal antigen ___: negative
+
+CSF TB PCR ___: negative
+
+CSF HSV PCR ___: negative
+
+CSF analysis ___ (tube 4): WBCs 99, RBCs 419, polys 0, lymphs 
+99, monos 1 
+
+CSF analysis ___ (tube 1): WBCs 64, RBCs 475, polys 1, lymphs 
+98, monos 1 
+
+CSF analysis ___ (tube 2): protein 187, glucose 57, LDH 67 
+Quantiferon TB Gold ___ negative 
+
+CT head non-contrast (___): Post-biopsy changes related to
+right lateral ventricle occipital horn subependymal lesion.
+Pneumocephalus seen on the immediate post-biopsy exam of
+___ has resolved. Focal hyperdensity involving the
+occipital horn of the right lateral ventricle is slightly more
+conspicuous than pre-biopsy exam of ___ and likely
+represents residual lesion, tiny focus of associated hemorrhage
+cannot be excluded. Subacute right cerebellar infarcts.
+
+MR head non-contrast (___): Markedly limited study as 
+gadolinium was not given as patient was unable to continue.  New 
+areas of restricted diffusion likely due to infarcts are seen in 
+the right cerebellar hemisphere.  An area of increased signal 
+with appearance of a rim is seen in the left middle cerebellar 
+peduncle which is not typical for an infarct and could be due to 
+a neoplastic lesion or due to inflammation.  A repeat study with 
+gadolinium should be obtained for further assessment as 
+indicated.  Limited evaluation of the internal auditory canals 
+demonstrate no obvious mass lesion but inflammation cannot be 
+excluded without gadolinium-enhanced images. 
+
+MR head with and without contrast (___): As suggested on the 
+prior study from ___ and new compared to ___, there are new foci of restricted diffusion in the right 
+cerebellum and middle cerebellar peduncle which could represent 
+acute infarctions.  Minimal enhancement is noted in one of the 
+right cerebellar lesions, which could be seen with subacute 
+infarction. Additionally, there is a lesion in the left middle 
+cerebellar peduncle, which does not demonstrate restricted 
+diffusion centrally but rather in the periphery.  No significant 
+
+ring enhancement is noted with this lesion as well.  This could 
+represent a slightly older age infarction.  There are presumed 
+post-biopsy changes in the right occipital lobe.  There is 
+minimal improvement in the enhancing abnormality within the 
+right occipital horn but this may be technical.  Previously 
+noted punctate enhancement in the right temporal lobe is not 
+well seen. Intracranial flow voids are maintained. 
+  
+CXR ___: No acute cardiopulmonary process. 
+
+EEG ___: This is an abnormal routine EEG in the awake state 
+due to the 
+presence of frequent bursts of generalized slowing in the 
+setting of a 
+disorganized background though the posterior dominant rhythm did 
+reach normal frequencies. These findings suggest the presence of 
+deep midline brain dysfunction but are non-specific as to 
+etiology. No epileptiform features were seen. 
+
+EEG ___: This is an abnormal continuous VEEG recording due 
+to very 
+disorganized and asymmetric slow background activity, with 
+relative 
+attenuation of faster frequencies in the right hemisphere, 
+suggestive of focal cortical dysfunction in the right 
+hemisphere. There are very frequent both brief and prolonged 
+runs of broadly distributed sharp waves with A-P lag and 
+triphasic morphology in the right hemisphere indicative of high 
+epileptogenicity. There are runs of generalized polymorphic and 
+rhythmic delta activity along with runs of generalized sharp 
+waves indicative of moderate encephalopathy with generalized 
+cortical irritability. There are no pushbutton activations, 
+electrographic, or clinical seizures during this study. 
+
+EEG ___: This is an abnormal continuous VEEG recording due 
+to very 
+disorganized and asymmetric slow background activity with focal 
+slowing and relative attenuation of faster frequencies in the 
+right hemisphere suggestive of focal cortical and subcortical 
+dysfunction in the right hemisphere. During the course of the 
+study, there is improvment in the background activity. Frequent 
+runs of broadly distributed rhythmic right hemispheric sharp 
+waves are indicative of high epileptogenicity in the right 
+hemisphere. The runs of generalized polymorphic and rhythmic 
+delta activity, along with runs of generalized sharp waves and 
+SIRPIDs, are indicative of moderate encephalopathy with 
+generalized cortical irritability. There are no pushbutton 
+activations, electrographic, or clinical seizures during this 
+study. Both right hemispheric and generalized rhythmic sharp 
+waves are much less frequent and briefer during the second half 
+of the study after administration of intravenous levetiracetam. 
+
+Pathology:
+Right temporal lobe biopsy pathology report ___: CNS tissue 
+with involvement by a histiocyte rich infiltrate, see note.
+Note: The specimen consists of fragments of neural tissue.  An 
+interstitial infiltrate of lymphoid cells is present.  The cell 
+population consists of a mixture of predominantly small, 
+unremarkable lymphocytes and plasma cells.  The presence of 
+granulomas raises suspicious for CNS tuberculosis. Immunostains 
+for CD68 highlights normal histiocytes.  CD20 is seen in crushed 
+areas and fails to highlight intact cells.  CD3 immunostaining 
+demonstrates scattered T-lymphocytes in the histiocyte 
+population.  AFB and GMS stains are negative for microorganisms. 
+ The above study does not support a lymphoproliferative process. 
+ The histiocytic and T lymphocytic dominance favors a reactive 
+process.  While the histiocytes are suggestive of an infectious 
+etiology, including mycobacterial infection, the AFB is 
+negative.  PCR based studies to rule out mycobacteria and 
+clinical correlation is recommended.  Dr. ___ the 
+slides.
+
+ 
+Brief Hospital Course:
+This patient is an ___ year old right-handed woman presenting 
+with one day of acute right-sided hearing loss in the setting of 
+a recent ___ temporal lobe stereotactic biopsy for an 
+enhancing mass. She has a prior history of chronic vertigo and 
+headaches since ___, chronic left ear hearing loss, possible 
+small old cerebellar strokes, hypothyroidism, pancreatic cysts, 
+and polymyalgia rheumatica. She initially presented on ___ with acute on chronic horizontal vertigo with nausea and 
+emesis, presented as a Code Stroke, and then was found to have a 
+right temporal lobe and right occipital horn mass, which was 
+subsequently biopsied. On the day prior to admission, she 
+developed acute onset of complete hearing loss in the right ear. 
+
+
+# NEURO: 
+Preliminary pathology findings from the ___ brain biopsy 
+demonstrated caseating granulomas, concerning for CNS 
+tuberculosis. CSF studies demonstrated elevated protein and 
+lymphocytic pleocytosis, consistent with this diagnosis. MRI of 
+the brain from ___ showed old right cerebellar infarcts and a 
+new left middle cerebellar peduncle enhancing lesion, as well as 
+the previously noted enhancing lesion in the right temporal area 
+with appropriate post-biopsy changes. Given the progressive 
+imaging findings in conjunction with worsening cerebellar 
+deficits noted on exam, we, in consultation with the infectious 
+disease team, initiated anti-TB therapy on ___ with rifampin, 
+isoniazid, pyrazinamide, and ethambutol with pyridoxine 
+supplementation. LFTs were checked every three days and were 
+slightly elevated at the time of discharge. We thought that this 
+was likely due to the anti-TB therapy and would need to be 
+monitored closely on an outpatient basis. We discontinued her 
+daily prednisone. 
+
+In terms of the infectious work-up, PPD, Quantiferon TB gold, 
+and CSF TB PCR results were all negative. Remaining CSF studies 
+were also unrevealing (i.e. CSF HSV PCR, cryptococcal antigen, 
+and CSF viral/fungal cultures). Pathology tissue specimens were 
+not positive for ABF or fungal stains on all slides. Sputum 
+cultures did not detect any AFB on direct and concentrated 
+smears, and subsequently, respiratory precautions were lifted. 
+The AFB CSF cultures are still pending.     
+
+On hospital day #4 to 6, the patient developed worsening altered 
+mental status with intermittent somnolence and inability to 
+follow written instructions, which she had been able to do 
+earlier on this admission. 
+This was thought to be most likely secondary to sensory 
+deprivation due to her acute bilateral hearing loss in addition 
+to worsening of her underlying depression, dysregulated sleep 
+wake cycle and new epileptogenic activity in the right temporal 
+lobe. 
+The infectious disease specialists did not feel that the anti-TB 
+medications contributed to her change in mental status. EEG 
+showed epileptogenic activity in the right temporal lobe, so we 
+initiated Keppra for seizure prophylaxis, which improved the 
+EEG. We also increased her home dose of duloxetine from 20mg to 
+40mg daily for suspicion of worsening chronic depression. 
+Endocrine etiologies were ruled out (normal morning cortisol and 
+TSH levels). Infectious work-up was also reassuring, with a 
+negative chest x-ray and UA. Repeat MRI of the brain showed 
+stable to mildly improved lesions compared to prior. ENT was 
+consulted for the possibility of obtaining cochlear implants, 
+but were thought to be of minimal benefit to the patient given 
+the severity of her hearing loss. 
+We initiated daily seroquel and trazodone prior to bedtime to 
+improve her sleep-wake cycle. Her mental status gradually 
+improved over the course of her stay, and by discharge, she was 
+more alert and interactive, verbal (though still unable to 
+hear), and able to follow one-step commands via written 
+instructions. 
+
+We re-started tramadol for intermittent headaches. 
+
+# ID: 
+The patient was found to have an urinary tract infection with a 
+positive UA and leukocytosis on admission. Urine culture was 
+positive for E. Coli, and she was subsequently treated with 
+ciprofloxacin. In terms of the intracranial mass, it was managed 
+as described above.
+
+She should have weekly labs drawn (CBC with diff, BUN, Cr, LFTs) 
+and have the results faxed to the ___ clinic (fax #: 
+___. She should also have a baseline eye exam done for 
+risk of optic neuritis associated with ethambutol. She has a 
+follow-up appointment scheduled in infectious disease clinic. 
+
+# ___: 
+Aspirin was initially held for concern of punctage hemorrhages 
+seen on the initial head MRI, but restarted on hospital day #4. 
+We continued to monitor her on daily telemetry, which showed no 
+abnormalities. 
+
+# GI: 
+We continued her home omeprazole, docusate, and senna daily. As 
+mentioned above, LFTs were trended every three days and were 
+slightly elevated at the time of discharge. Fluids were given in 
+the setting of poor PO intake during her acute confusional 
+state, and electrolytes were repleted as needed. 
+
+# ENDO: 
+We continued levothyroxine 125mcg daily for hypothyroidism in 
+addition to calcium carbonate. In the setting of her recent 
+illness, we rechecked her TSH level, which was within normal 
+limits. Morning cortisol was also tested given the recent 
+discontinuation of her daily prednisone, and were within normal 
+limits unconcerning for adrenal insufficiency. 
+ 
+Medications on Admission:
+Duloxetine 20 mg daily
+Levothyroxine 125 mcg daily
+Prednisone 10 mg daily
+Docusate 100 mg BID
+Senna 1 tab BID
+Calcium carbonate 500 mg daily
+Omeprazole 20 mg daily
+Vitamin D 400 unit daily
+
+ 
+Discharge Medications:
+1. Levothyroxine Sodium 125 mcg PO DAILY 
+2. Aspirin 81 mg PO DAILY 
+3. Rifampin 600 mg PO Q24H 
+4. Pyrazinamide 1500 mg PO DAILY 
+5. Isoniazid ___ mg PO DAILY 
+6. Ethambutol HCl 1200 mg PO DAILY 
+7. Pyridoxine 50 mg PO DAILY 
+8. Senna 1 TAB PO BID 
+9. Bisacodyl 10 mg PO/PR DAILY:PRN constipation 
+10. Docusate Sodium 100 mg PO BID 
+11. Omeprazole 20 mg PO DAILY 
+12. TraMADOL (Ultram) 25 mg PO Q6H:PRN pain 
+13. Duloxetine 40 mg PO DAILY 
+14. LeVETiracetam 500 mg PO BID 
+15. Quetiapine Fumarate 25 mg PO QHS 
+16. traZODONE 25 mg PO HS 
+17. Calcium Carbonate 500 mg PO BID 
+18. Heparin 5000 UNIT SC TID 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary:
+- Extra-pulmonary Tuberculosis 
+
+Secondary:
+- seizures
+- Delirium
+- Dysregulated sleep-wake cycle
+- Bilateral Sensorineural Deafness
+- Pulmonary Tuberculosis
+- Polymyalgia Rheumatica
+
+ 
+Discharge Condition:
+Mental Status: Confused - always.
+Level of Consciousness: Lethargic but arousable.
+Activity Status: Out of Bed with assistance to chair or 
+wheelchair.
+
+ 
+Discharge Instructions:
+You were evaluated at ___ for 
+your chief complaint of sudden onset right sided hearing loss 
+which was similar to your sudden onset loss of hearing in the 
+left ear a few months ago and was in the setting of having a 
+recent biopsy of a lesion in the right posterior aspect of the 
+brain.  
+
+We received pathologic evidence of the lesion being consistent 
+with a tuberculosis infection which in the setting of your 
+steroid use for Polymyalgia Rheumatica and exposure to areas 
+where tuberculosis is endemic gave us high clinical suspicion of 
+the disease.  As a result, we consulted our infectious disease 
+specialists who after extensive review of your case recommended 
+the initiation of anti-tuberculosis antibiotics with close 
+monitoring of your bloodwork.  
+
+Other than the pathological evidence, our workup for 
+tuberculosis has been negative so far, although some results are 
+still pending. We performed a PPD test which was negative, but 
+may have been inconclusive due to your long term treatment with 
+steroids.  As a result, we performed a number of induced sputum 
+culture tests which were negative for active tuberculosis in the 
+lung.  These results allowed us to clear you from respiratory 
+isolation.
+
+We consulted our audiologist specialists from otolaryngology who 
+evaluated your bilateral hearing loss.  They did not feel that 
+cochlear implants would benefit you significantly given the 
+severity of your hearing loss. They are available to see you in 
+clinic if you have any further questions regarding this. 
+
+You also developed delirium, or confusion, during your 
+hospitalization. We sent several lab studies to evaluate for 
+infection, but they were all normal. You had some signs 
+suggesting seizures on the EEG, and we started antiseizure 
+medications, after which the EEG improved. We felt that your 
+confusion was most likely due to your hearing loss, a 
+dysregulated sleeping pattern, and possibly seizures. We added 
+new medications to help your sleep-wake cycle and orient you 
+better. 
+
+We added the following medications:
+Ethambutol 1200 mg daily
+Isoniazid ___ mg daily
+Keppra 500 mg twice daily
+Pyridoxine 50 mg daily
+Pyrazinamide 1500 mg daily
+Rifampin 600 mg daily
+Seroquel 25 mg 2 hours prior to bedtime
+Trazodone 25 mg 1 hour prior to bedtime
+Aspirin 81 mg daily 
+
+We changed the following medication:
+Duloxetine 40 mg daily
+
+We stopped the following medication:
+Prednisone 10 mg daily
+
+It was a pleasure taking care of you during this 
+hospitalization.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(16)</span></h3>
+  <ul>
+    <li>Tuberculose Extrapolmonar</li>
+    <li>Polimialgia Reumática</li>
+    <li>Osteoporose</li>
+    <li>Hipotireoidismo</li>
+    <li>Cisto Pancreático</li>
+    <li>Acidente Vascular Cerebral (AVC) Cerebelar Antigo</li>
+    <li>Infarto Cerebelar Agudo</li>
+    <li>Epilepsia</li>
+    <li>Delirium</li>
+    <li>Ciclos Sono-Vigília Desregulados</li>
+    <li>Surdez Neurossensorial Bilateral</li>
+    <li>Depressão</li>
+    <li>Infecção do Trato Urinário</li>
+    <li>Hipocalemia</li>
+    <li>Pneumocefalia</li>
+    <li>Hemorragia Subependimária</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(37)</span></h3>
+  <ul>
+    <li>Perda auditiva aguda no ouvido direito</li>
+    <li>Confusão mental</li>
+    <li>Vertigem horizontal</li>
+    <li>Náusea</li>
+    <li>Vômito</li>
+    <li>Nistagmo rotatório</li>
+    <li>Cefaleia</li>
+    <li>Letargia</li>
+    <li>Tontura</li>
+    <li>Dificuldade de marcha</li>
+    <li>Alteração do paladar</li>
+    <li>Perda auditiva bilateral</li>
+    <li>Tremor de intenção</li>
+    <li>Ataxia</li>
+    <li>Somnolência intermitente</li>
+    <li>Incapacidade de seguir comandos escritos</li>
+    <li>Leucocitose</li>
+    <li>Pleocitose linfocítica</li>
+    <li>Elevação de proteínas no líquor</li>
+    <li>Elevação de transaminases</li>
+    <li>Hipocalcemia</li>
+    <li>Hipofosfatemia</li>
+    <li>Urina turva</li>
+    <li>Hematuria</li>
+    <li>Leucocituria</li>
+    <li>Bacteriúria</li>
+    <li>Massa no lobo temporal direito</li>
+    <li>Massa no corno occipital do ventrículo lateral direito</li>
+    <li>Lesão no pedúnculo cerebelar médio esquerdo</li>
+    <li>Infarto subagudo cerebelar</li>
+    <li>Granulomas caseosos</li>
+    <li>Infiltrado rico em histiócitos</li>
+    <li>Pleocitose linfocítica no líquor</li>
+    <li>Hemiparesia leve (déficit motor leve não documentado explicitamente como tal, mas &#x27;decreased bulk&#x27; e &#x27;5-&#x27; sugerem fraqueza leve ou atrofia, removido para evitar alucinação de fraqueza ativa não confirmada)</li>
+    <li>Atrofia muscular (decreased bulk at the first dorsal interossei, EDBs)</li>
+    <li>Dormência (dormência) no braço esquerdo (histórico)</li>
+    <li>Fraqueza no braço esquerdo (histórico)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(24)</span></h3>
+  <ul>
+    <li>Duloxetina 20 mg diária</li>
+    <li>Levotiroxina 125 mcg diária</li>
+    <li>Prednisona 10 mg diária</li>
+    <li>Docusato 100 mg 2 vezes ao dia</li>
+    <li>Senna 1 comprimido 2 vezes ao dia</li>
+    <li>Carbonato de Cálcio 500 mg diária</li>
+    <li>Omeprazol 20 mg diária</li>
+    <li>Vitamina D 400 UI diária</li>
+    <li>Rifampicina 600 mg 24h</li>
+    <li>Pirazinamida 1500 mg diária</li>
+    <li>Isoniazida 300 mg diária</li>
+    <li>Etambutol HCl 1200 mg 24h</li>
+    <li>Piridoxina 50 mg 24h</li>
+    <li>Bisacodilo 10 mg diária (PRN constipação)</li>
+    <li>Docusato Sódico 100 mg 2 vezes ao dia</li>
+    <li>Tramadol 25 mg 6h (PRN dor)</li>
+    <li>Duloxetina 40 mg diária</li>
+    <li>Levetiracetam 500 mg 2 vezes ao dia</li>
+    <li>Quetiapina Fumarato 25 mg ao deitar</li>
+    <li>Trazodona 25 mg ao deitar</li>
+    <li>Carbonato de Cálcio 500 mg 2 vezes ao dia</li>
+    <li>Heparina 5000 UI subcutânea 3 vezes ao dia</li>
+    <li>Aspirina 81 mg diária</li>
+    <li>Ciprofloxacino</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(87)</span></h3>
+  <ul>
+    <li>Glicose-124</li>
+    <li>Ureia-9</li>
+    <li>Creatinina-0.5</li>
+    <li>Sódio-137</li>
+    <li>Potássio-3.8</li>
+    <li>Cloreto-100</li>
+    <li>CO2 Total-25</li>
+    <li>Gap Aniónico-16</li>
+    <li>Cálcio-9.1</li>
+    <li>Fosfato-2.9</li>
+    <li>Magnésio-2.2</li>
+    <li>Leucócitos (WBC)-16.9</li>
+    <li>Neutrófilos-83.3</li>
+    <li>Linfócitos-13.3</li>
+    <li>Plaquetas-276</li>
+    <li>Hemoglobina-14.7</li>
+    <li>Hematócrito-44.5</li>
+    <li>Cor da urina-Amarela</li>
+    <li>Aparência da urina-Turva</li>
+    <li>Sangue na urina-Moderado</li>
+    <li>Nitrito-Negativo</li>
+    <li>Proteína na urina-30</li>
+    <li>Glicose na urina-Negativo</li>
+    <li>Cetona na urina-10</li>
+    <li>Bilirrubina na urina-Negativo</li>
+    <li>Urobilinogênio-2</li>
+    <li>pH da urina-7.0</li>
+    <li>Leucócitos na urina-Grande quantidade</li>
+    <li>Hemácias na urina-129</li>
+    <li>Leucócitos na urina-&gt;182</li>
+    <li>Bactérias na urina-Moderado</li>
+    <li>Leveduras na urina-Nenhuma</li>
+    <li>Células epiteliais na urina-4</li>
+    <li>Leucócitos na urina (agrupados)-Muitos</li>
+    <li>Mucina na urina-Ocasional</li>
+    <li>Leucócitos (WBC)-10.8</li>
+    <li>Hemoglobina-12.8</li>
+    <li>Hematócrito-38.1</li>
+    <li>Glicose-93</li>
+    <li>Ureia-11</li>
+    <li>Sódio-136</li>
+    <li>Potássio-3.1</li>
+    <li>Cloreto-104</li>
+    <li>Bicarbonato-23</li>
+    <li>Gap Aniónico-12</li>
+    <li>ALT-41</li>
+    <li>AST-44</li>
+    <li>Fosfatase Alcalina-56</li>
+    <li>Bilirrubina Total-0.4</li>
+    <li>Cálcio-7.9</li>
+    <li>Fosfato-2.4</li>
+    <li>Magnésio-2.1</li>
+    <li>TSH-2.7</li>
+    <li>Cortisol-12.4</li>
+    <li>Cultura de Urina-Escherichia coli &gt;100.000 organismos/mL</li>
+    <li>Gram de Escarro-Múltiplos organismos consistentes com flora orofaríngea</li>
+    <li>Cultura Respiratória de Escarro-Crescimento moderado de flora respiratória comensal</li>
+    <li>Bacilo Ácido-Fast (BAF) no Escarro-Negativo</li>
+    <li>Cultura de Ácido-Fast no Escarro-Negativo (Mycobacterium não isolado)</li>
+    <li>Gram de Escarro (2ª amostra)-Contaminação extensa, resultados inválidos</li>
+    <li>Cultura Respiratória (2ª amostra)-Teste cancelado</li>
+    <li>BAF no Escarro (2ª amostra)-Negativo</li>
+    <li>Cultura de Ácido-Fast no Escarro (2ª amostra)-Negativo</li>
+    <li>Gram de Escarro (3ª amostra)-Contaminação extensa, resultados inválidos</li>
+    <li>Cultura Respiratória (3ª amostra)-Teste cancelado</li>
+    <li>BAF no Escarro (3ª amostra)-Negativo</li>
+    <li>Cultura de Ácido-Fast no Escarro (3ª amostra)-Negativo</li>
+    <li>Gram do Líquor-Negativo para microorganismos</li>
+    <li>Cultura do Líquor-Negativo</li>
+    <li>Cultura Fúngica do Líquor-Negativo</li>
+    <li>Cultura de Ácido-Fast do Líquor-Negativo (Mycobacterium não isolado)</li>
+    <li>Cultura Viral do Líquor-Negativo</li>
+    <li>Antígeno Criptocócico no Líquor-Negativo</li>
+    <li>PCR para TB no Líquor-Negativo</li>
+    <li>PCR para HSV no Líquor-Negativo</li>
+    <li>Análise do Líquor (Tubo 4): Leucócitos-99, Hemácias-419, Polimorfonucleares-0, Linfócitos-99, Monócitos-1</li>
+    <li>Análise do Líquor (Tubo 1): Leucócitos-64, Hemácias-475, Polimorfonucleares-1, Linfócitos-98, Monócitos-1</li>
+    <li>Análise do Líquor (Tubo 2): Proteína-187, Glicose-57, LDH-67</li>
+    <li>Quantiferon TB Gold-Negativo</li>
+    <li>Tomografia Computadorizada (TC) de Crânio-Sem contraste: Mudanças pós-biópsia, pneumocefalia resolvida, hiperdensidade focal, infartos cerebelares subagudos</li>
+    <li>Ressonância Magnética (RM) de Crânio-Sem contraste: Restrição de difusão no cerebelo direito, lesão no pedúnculo cerebelar médio esquerdo</li>
+    <li>Ressonância Magnética (RM) de Crânio-Com e sem contraste: Novos focos de restrição de difusão, realce mínimo, mudanças pós-biópsia</li>
+    <li>Raio-X de Tórax (CXR)-Sem processo cardiopulmonar agudo</li>
+    <li>Eletroencefalograma (EEG)-Anormal: Ondas lentas generalizadas, atividade epileptogênica no lobo temporal direito, encefalopatia moderada</li>
+    <li>Eletroencefalograma (VEEG)-Anormal: Atividade lenta assimétrica, ondas agudas frequentes, alta epileptogenicidade</li>
+    <li>Biópsia do Lobo Temporal Direito-Infiltrado rico em histiócitos, granulomas caseosos, suspeita de tuberculose do SNC, BAF e GMS negativos</li>
+    <li>PPD-Negativo</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(28)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+    <li>Ressonância Magnética (RM) de Crânio com contraste</li>
+    <li>Ressonância Magnética (RM) de Crânio sem contraste</li>
+    <li>Tomografia Computadorizada (TC) de Crânio sem contraste</li>
+    <li>Biópsia lesional estereotáxica</li>
+    <li>Audiograma</li>
+    <li>ENG (Eletronistagmografia)</li>
+    <li>Cultura de urina</li>
+    <li>Cultura de escarro induzido</li>
+    <li>Gram de escarro</li>
+    <li>Bacilo Ácido-Fast (BAF) no escarro</li>
+    <li>Cultura de ácido-fast no escarro</li>
+    <li>Gram do líquor</li>
+    <li>Cultura do líquor</li>
+    <li>Cultura fúngica do líquor</li>
+    <li>Cultura de ácido-fast do líquor</li>
+    <li>Cultura viral do líquor</li>
+    <li>Antígeno criptocócico no líquor</li>
+    <li>PCR para TB no líquor</li>
+    <li>PCR para HSV no líquor</li>
+    <li>Análise de líquor (contagem celular e química)</li>
+    <li>Quantiferon TB Gold</li>
+    <li>Raio-X de Tórax (CXR)</li>
+    <li>Eletroencefalograma (EEG)</li>
+    <li>Eletroencefalograma contínuo (VEEG)</li>
+    <li>Monitoramento por telemetria</li>
+    <li>Teste PPD</li>
+    <li>Biópsia do lobo temporal direito</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Escherichia coli</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente feminina, idosa, refere queixa principal de perda auditiva aguda no ouvido direito iniciada há um dia (embora a paciente mencione que começou há uma semana, as filhas relatam início súbito ontem). Relata que a perda auditiva é descrita como &#x27;vozes que não consigo ouvir&#x27;. Refere cefaleia de caráter &#x27;surdo&#x27;, não pulsátil, localizada no vértex, sem outras características associadas. Relata tontura com componente rotatório e dificuldade para caminhar com o andador. Refere que o paladar está alterado (exemplo: comer atum com pêssegos). Relata estar mais cansada e letárgica ao longo do dia e com menor apetite. Nega desmaios, perda de consciência inexplicada, dor torácica, dor cervical, dispneia ou palpitações. Na revisão de sistemas neurológica: endossa cefaleia, perda auditiva e vertigem. Nega tontura, confusão mental, dificuldade de produção ou compreensão da fala, perda de visão, visão turva, diplopia, disartria ou disfagia. Nega fraqueza muscular, perda de sensibilidade, incontinência ou retenção urinária/fecal. Nega febre, calafrios, sudorese noturna ou perda de peso perceptível. Nega dor torácica, palpitações, dispneia ou tosse. Nega náuseas, vômitos, diarreia, constipação ou dor abdominal. Nega disúria ou hematúria. Nega mialgias, artralgias ou rash. Histórico médico pregresso relevante: Osteoporose (T-score -2,5 no quadril, -5 no rádio e ulna), Polimialgia Reumática (em uso crônico de prednisona, recentemente aumentada para 60mg e em taper), suspeita de hiperparatireoidismo e hipocalemia (atribuída à atividade mineralocorticoide da prednisona). Histórico de cirurgia recente: Biópsia estereotáxica de lesão no lobo temporal direito e ventrículo lateral direito (ocipital) para massa realçante, com patologia inicial sugestiva de tuberculose do SNC. Histórico de episódios prévios de vertigem horizontal, náuseas, vômitos e cefaleia crônica. Histórico de perda auditiva moderada a severa no ouvido esquerdo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais na Admissão: Temperatura 97,9°F, Frequência Cardíaca 92 bpm, Pressão Arterial 147/92 mmHg, Frequência Respiratória 18 irpm, SatO2 98% em ar ambiente.
+Exame Físico Geral: Paciente idosa, bem aparecida, deitada confortavelmente na cama, sem sinais de angústia.
+Cabeça: Normocéfala, atrófica. Sem icterícia conjuntival. Sem lesões orofaríngeas. Sem obstrução aparente nos canais auditivos.
+Pescoço: Suplê, sem rigidez de nuca, sem meningismo, sem sopros.
+Cardiovascular: Ritmo regular, sem sopros, atritos ou galopes.
+Pulmões: Entrada de ar igual bilateralmente, sem estertores ou sibilos.
+Abdome: Macio, não doloroso à palpação, não distendido, com ruídos hidroaéreos presentes. Sem defesa.
+Extremidades: Quentes, sem edema. Pulsos radiais e dorsais dos pés palpáveis.
+Pele: Sem rash ou lesões.
+Exame Neurológico:
+- Estado Mental: Acordada, alerta, orientada x3. Atenção facilmente atingida e mantida. Responde perguntas apropriadamente (quando lidas de uma folha escrita pelo examinador). Fala fluente, frases completas, compreensão verbal intacta. Nomeação intacta. Sem parafasias. Prosódia normal. Sem disartria. Sem evidência de heminegligência. Sem agnosia direita-esquerda.
+- Nervos Cranianos: II - Pupilas isocóricas, fotorreagentes (2-&gt;1), bríscas. Campos visuais cheios à contagem de dedos. Fundoscopia obscurecida por pupilas pequenas e luz forte. III, IV, VI - Movimentos oculares intactos (EOMI), nistagmo rotatório anti-horário olhando para cima e para a esquerda, suprime ao olhar para a direita. V - Reflexo corneano presente bilateralmente. VII - Sem assimetria de movimento facial, embora o sulco nasolabial direito pareça ligeiramente mais plano em repouso. VIII - Perda auditiva bilateral: ouve o tique do relógio e a voz ao lado do ouvido direito (identifica nomes de dedos), mas não o atrito de dedos. Não ouve voz ou atrito de dedos no ouvido esquerdo, mas ouve o tique do relógio com dificuldade. IX, X - Elevação do palato simétrica. XI - Força do esternocleidomastóideo e trapézio 5/5 bilateralmente. XII - Língua na linha média.
+- Motor: Tônus normal. Diminuição de massa muscular no primeiro interósseo dorsal e no extensor curto dos dedos (EDB). Sem pronação, sem desvio. Sem tremor ou asterixis. Força 5/5 (ou 5- em alguns grupos musculares distais) em deltoides, bíceps, tríceps, extensores do carpo, interósseos, quadríceps, isquiotibiais, tibial anterior, gastrocnêmio e abdutores do hálux, bilateralmente.
+- Sensitivo: Sem déficits ao toque leve bilateralmente. Impairment leve da sensibilidade proprioceptiva nos primeiros dedos dos pés bilateralmente. Difícil avaliar ao pinprick no momento.
+- Reflexos: Bíceps 2+, Tríceps 2+, Braquiorradial 2+, Quadríceps 1+, Aquileano 0 bilateralmente. Resposta plantar flexora bilateralmente.
+- Coordenação: Sem dismetria franca no teste dedo-nariz bilateralmente, mas tremor de intenção presente bilateralmente. Boa velocidade e cadência intacta em movimentos alternados rápidos.
+- Marcha: Iniciação normal. Base muito larga. Comprimento da passada curto. Oscila para ambos os lados ao caminhar com assistência. Oscilação bilateral no teste de Romberg.
+Exame Físico na Alta: Acordada, intermitentemente desatenta. Incapaz de ouvir, mas segue comandos escritos de um passo. Melhora marcada em comparação aos dias anteriores, quando não seguia nenhum comando.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão (05:00 PM):
+- Glicose: 124 mg/dL
+- Ureia Nitrogênio: 9 mg/dL
+- Creatinina: 0,5 mg/dL
+- Sódio: 137 mEq/L
+- Potássio: 3,8 mEq/L
+- Cloreto: 100 mEq/L
+- CO2 Total: 25 mEq/L
+- Gap Aniónico: 16
+- Cálcio: 9,1 mg/dL
+- Fosfato: 2,9 mg/dL
+- Magnésio: 2,2 mg/dL
+- Leucócitos (WBC): 16.900/mm³
+- Hemácias (RBC): 4,61 milhões/mm³
+- Hemoglobina (HGB): 14,7 g/dL
+- Hematócrito (HCT): 44,5%
+- VCM: 97 fL
+- HCM: 32,0 pg
+- CHCM: 33,1 g/dL
+- RDW: 13,7%
+- Neutrófilos: 83,3%
+- Linfócitos: 13,3%
+- Monócitos: 2,8%
+- Eosinófilos: 0,4%
+- Basófilos: 0,2%
+- Plaquetas: 276.000/mm³
+- Urina (Cor: Amarela, Aparência: Turva, pH: 7,0):
+  - Sangue: Moderado
+  - Nitrito: Negativo
+  - Proteína: 30 mg/dL
+  - Glicose: Negativo
+  - Cetonas: 10 mg/dL
+  - Bilirrubina: Negativo
+  - Urobilinogênio: 2 EU
+  - Leucócitos: Grande quantidade
+  - Hemácias: 129 células/µL
+  - Leucócitos (microscopia): &gt;182 células/µL
+  - Bactérias: Moderado
+  - Leveduras: Nenhuma
+  - Células epiteliais: 4
+  - Agregados de leucócitos: Muitos
+  - Muco: Ocasional
+
+Alta (06:30 AM):
+- Leucócitos (WBC): 10.800/mm³
+- Hemácias (RBC): 4,05 milhões/mm³
+- Hemoglobina (HGB): 12,8 g/dL
+- Hematócrito (HCT): 38,1%
+- VCM: 94 fL
+- HCM: 31,6 pg
+- CHCM: 33,6 g/dL
+- RDW: 12,8%
+- Glicose: 93 mg/dL
+- Ureia Nitrogênio: 11 mg/dL
+- Creatinina: 0,5 mg/dL
+- Sódio: 136 mEq/L
+- Potássio: 3,1 mEq/L
+- Cloreto: 104 mEq/L
+- Bicarbonato (HCO3): 23 mEq/L
+- Gap Aniónico: 12
+- ALT: 41 U/L
+- AST: 44 U/L
+- Fosfatase Alcalina: 56 U/L
+- Bilirrubina Total: 0,4 mg/dL
+- Cálcio: 7,9 mg/dL
+- Fosfato: 2,4 mg/dL
+- Magnésio: 2,1 mg/dL
+
+Outros Exames:
+- TSH: 2,7 µUI/mL
+- Cortisol: 12,4 µg/dL
+- Cultura de Urina: Escherichia coli &gt;100.000 organismos/mL.
+- Esfregaço de Escarro (Gram): &lt;10 PMNs e &lt;10 células epiteliais/100X; Múltiplos organismos consistentes com flora orofaríngea. Qualidade da amostra não pode ser avaliada.
+- Cultura Respiratória: Crescimento moderado de flora respiratória comensal.
+- Esfregaço de Ácido-Fast (Escarro): Nenhum bacilo ácido-fast visto.
+- Cultura de Ácido-Fast (Escarro): Nenhum micobactéria isolada (preliminar).
+- Esfregaço de Escarro (2ª amostra): &lt;10 PMNs e &gt;10 células epiteliais/100X; contaminação extensa. Cultura bacteriana inválida.
+- Cultura de Ácido-Fast (Escarro 2ª amostra): Nenhum bacilo ácido-fast visto.
+- Esfregaço de Escarro (3ª amostra): &lt;10 PMNs e &gt;10 células epiteliais/100X; contaminação extensa. Cultura bacteriana cancelada.
+- Esfregaço de Ácido-Fast (Escarro 3ª amostra): Nenhum bacilo ácido-fast visto direto ou concentrado.
+- Líquido Cefalorraquidiano (LCR) - Gram: Nenhum leucócito polimorfonuclear visto. Nenhum microrganismo visto.
+- Cultura de Líquido: Nenhum crescimento.
+- Cultura Fúngica (LCR): Nenhum fungo isolado (preliminar).
+- Cultura de Ácido-Fast (LCR): Nenhum micobactéria isolada (preliminar).
+- Cultura Viral (LCR): Nenhum vírus isolado (preliminar).
+- Antígeno Criptocócico no LCR: Negativo.
+- PCR para TB no LCR: Negativo.
+- PCR para HSV no LCR: Negativo.
+- Análise do LCR (Tubo 4): Leucócitos 99, Hemácias 419, Polimorfonucleares 0, Linfócitos 99, Monócitos 1.
+- Análise do LCR (Tubo 1): Leucócitos 64, Hemácias 475, Polimorfonucleares 1, Linfócitos 98, Monócitos 1.
+- Análise do LCR (Tubo 2): Proteína 187 mg/dL, Glicose 57 mg/dL, LDH 67 U/L.
+- Quantiferon TB Gold: Negativo.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">TC de Crânio sem contraste: Mudanças pós-biópsia relacionadas à lesão subependimária no corno occipital do ventrículo lateral direito. Pneumocefalia vista no exame imediato pós-biópsia (___) resolveu-se. Hiperdensidade focal envolvendo o corno occipital do ventrículo lateral direito é ligeiramente mais evidente que no exame pré-biópsia e provavelmente representa lesão residual; pequeno foco de hemorragia associada não pode ser excluído. Infartos cerebelares subagudos à direita.
+
+RM de Crânio sem contraste: Estudo marcadamente limitado pois o gadolínio não foi administrado (paciente não conseguiu continuar). Novas áreas de restrição à difusão, provavelmente devido a infartos, são vistas no hemisfério cerebelar direito. Área de sinal aumentado com aparência de anel é vista no pedúnculo cerebelar médio esquerdo, não típica de infarto, podendo ser lesão neoplásica ou inflamatória. Estudo repetido com gadolínio recomendado. Avaliação limitada dos canais auditivos internos não demonstra lesão de massa óbvia, mas inflamação não pode ser excluída sem imagens com contraste.
+
+RM de Crânio com e sem contraste: Novos focos de restrição à difusão no cerebelo direito e pedúnculo cerebelar médio, representando possivelmente infartos agudos. Realce mínimo em uma das lesões cerebelares direitas, compatível com infarto subagudo. Lesão no pedúnculo cerebelar médio esquerdo não demonstra restrição à difusão centralmente, mas sim na periferia. Sem realce em anel significativo. Possível infarto de idade ligeiramente mais antiga. Mudanças pós-biópsia presumidas no lobo occipital direito. Melhora mínima na anormalidade realçante no corno occipital direito (possivelmente técnica). Punctate enhancement no lobo temporal direito anteriormente notado não é bem visto. Vazamentos de fluxo intracranianos mantidos.
+
+Raio-X de Tórax: Sem processo cardiopulmonar agudo.
+
+EEG (Rotina): Anormal devido a surtos frequentes de lentidão generalizada em fundo desorganizado, sugerindo disfunção de linha média profunda, mas inespecífico quanto à etiologia. Sem características epilépticas.
+
+EEG (VEEG Contínuo 1): Anormal devido a atividade de fundo muito desorganizada e assimétrica, com atenuação relativa de frequências mais rápidas no hemisfério direito, sugerindo disfunção cortical focal no lado direito. Frequentes ondas agudas breves e prolongadas distribuídas amplamente com atraso A-P e morfologia trifásica no hemisfério direito, indicativas de alta epileptogenicidade. Sinais de encefalopatia moderada com irritabilidade cortical generalizada. Sem convulsões eletrográficas ou clínicas.
+
+EEG (VEEG Contínuo 2): Anormal devido a atividade de fundo muito desorganizada e assimétrica com lentidão focal e atenuação no hemisfério direito, sugerindo disfunção cortical e subcortical focal. Melhora na atividade de fundo durante o estudo. Frequentes ondas agudas rítmicas no hemisfério direito indicam alta epileptogenicidade. Sinais de encefalopatia moderada. Ondas agudas rítmicas bilaterais e generalizadas muito menos frequentes e breves na segunda metade do estudo após administração de levetiracetam intravenoso.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente idosa feminina com histórico de polimialgia reumática em uso de corticosteroides, apresentando quadro de perda auditiva súbita bilateral (predominante à direita), vertigem, cefaleia e alteração do estado mental (delirium/confusão). O quadro clínico evoluiu com piora neurológica e alterações de imagem cerebelar. A biópsia da lesão temporal direita revelou infiltrado rico em histiócitos e granulomas, com suspeita patológica de tuberculose do SNC, embora as colorações para ácido-fast (AFB) e PCR para TB no LCR e tecidos tenham sido negativas. O quadro de linfocitose pleocitose no LCR e elevação de proteínas é consistente com meningite/tuberculose do SNC. A equipe de Doenças Infecciosas, em conjunto com Neurologia, decidiu tratar empiricamente para Tuberculose do SNC (extra-pulmonar) devido à alta suspeição clínica, achados patológicos sugestivos de granulomas e contexto de imunossupressão por corticosteroides, apesar dos testes de triagem (PPD, Quantiferon, culturas de escarro) serem negativos. O delirium e a alteração do estado mental foram atribuídos a múltiplos fatores: privação sensorial devido à surdez bilateral aguda, possível atividade epiléptica subclínica (confirmada por EEG com ondas agudas no hemisfério direito), ciclo sono-vigília desregulado e depressão. O EEG mostrou alta epileptogenicidade no lobo temporal direito, respondendo ao tratamento com levetiracetam. A infecção urinária por E. coli foi tratada com ciprofloxacino. A função hepática apresentou elevação leve, provavelmente secundária à terapia anti-TB, exigindo monitoramento. A surdez bilateral severa foi avaliada pela Otorrinolaringologia, que considerou implantes cocleares de benefício mínimo. O diagnóstico principal é Tuberculose do SNC (extra-pulmonar), com diagnósticos secundários de convulsões, delirium, ciclo sono-vigília desregulado, surdez sensorioneural bilateral e Polimialgia Reumática. A evolução hospitalar foi marcada por melhora gradual do estado mental após controle da atividade epiléptica e ajuste do ciclo sono-vigília, embora a paciente permaneça com déficits auditivos severos.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na Alta:
+1. Levothyroxine Sodium 125 mcg PO DIÁRIO
+2. Aspirin 81 mg PO DIÁRIO
+3. Rifampin 600 mg PO A cada 24 horas
+4. Pyrazinamide 1500 mg PO DIÁRIO
+5. Isoniazid [dose não especificada no texto, manter como prescrito] mg PO DIÁRIO
+6. Ethambutol HCl 1200 mg PO DIÁRIO
+7. Pyridoxine 50 mg PO DIÁRIO
+8. Senna 1 comprimido PO 2x ao dia
+9. Bisacodyl 10 mg PO/PR DIÁRIO: PRN constipação
+10. Docusate Sodium 100 mg PO 2x ao dia
+11. Omeprazole 20 mg PO DIÁRIO
+12. Tramadol 25 mg PO A cada 6 horas: PRN dor
+13. Duloxetine 40 mg PO DIÁRIO
+14. Levetiracetam 500 mg PO 2x ao dia
+15. Quetiapine Fumarate 25 mg PO À noite (QHS)
+16. Trazodone 25 mg PO À noite (HS)
+17. Calcium Carbonate 500 mg PO 2x ao dia
+18. Heparin 5000 UNIDADES SC 3x ao dia
+
+Orientações ao Paciente:
+- Continuar terapia anti-tuberculose conforme prescrito, com monitoramento rigoroso de exames de sangue (função hepática) semanalmente.
+- Realizar exame oftalmológico de base para avaliação de neurite óptica associada ao etambutol.
+- Monitorar sinais de hepatotoxicidade (icterícia, dor abdominal, náuseas) e neuropatia periférica.
+- Manter acompanhamento com clínica de Doenças Infecciosas.
+- Uso de medicações para controle do sono e ansiedade conforme prescrito.
+- Continuar uso de aspirina para profilaxia secundária de eventos isquêmicos.
+- Retomar prednisona apenas se indicado pelo reumatologista (atualmente descontinuada).
+
+Encaminhamentos e Seguimento:
+- Exames laboratoriais semanais (Hemograma completo com diferencial, BUN, Creatinina, Função Hepática) com resultados enviados para a clínica de Doenças Infecciosas.
+- Exame oftalmológico de base.
+- Consulta de retorno agendada na clínica de Doenças Infecciosas.
+- Acompanhamento com Neurologia para monitoramento de convulsões e alterações de imagem.
+- Acompanhamento com Otorrinolaringologia para avaliação contínua da perda auditiva.
+
+Retorno Programado:
+- Clínica de Doenças Infecciosas (data a ser agendada).
+- Neurologia (conforme necessidade ou agendamento padrão).
+- Reumatologia (para reavaliação da Polimialgia Reumática e possível reinício de corticosteroides se necessário).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '21182239';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

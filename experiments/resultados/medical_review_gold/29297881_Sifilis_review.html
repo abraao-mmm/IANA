@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 29297881 (Sifilis)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 29297881</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 29297881 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Sifilis &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> Sifilis<br>
+    <strong>Entidades extraídas:</strong> 77 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___.                Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+penicillin G
+ 
+Attending: ___.
+ 
+Chief Complaint:
+HMED Admission Note
+___
+
+cc: R eye vision loss
+ 
+Major Surgical or Invasive Procedure:
+lumbar puncture
+
+ 
+History of Present Illness:
+___ yo M with DM1 who presents with R eye vision loss due to 
+retinal necrosis with workup notable for positive syphilis here 
+for penicillin desensitization. Pt originally from ___, receives 
+his DM care at ___. Currently living in ___. Pt returned 
+home to be seen at ___ for evaluation of subaute R eye 
+pressure and blurry vision in RLQ of his field of vision from 
+the eye. Vision loss present since ___. Pt thought that he may 
+have DM retinopathy and was seen by his ophtalmologist who noed 
+acute retinal necrosis. Pt empirically started on Valtrex and 
+sent to ___ clinic. 
+
+In ___ clinic, pt had workup including CMV which was negative, 
+HSV antibodies are pending as is test of immunity to VZV. Pt is 
+HIV negative. Testing for syphilis returned positive by FTA and 
+RPR. Pt asked to come in to the hospital for PCN desensitization 
+(severe hives at age ___ to treat his syphilis. 
+
+Pt unaware of having syphilis prior to recent testing. Says he 
+has been monogamous with his partner in the past year. Does not 
+recall genital ulcerations or any other STD&#x27;s. 
+
+ROS: negative except as above
+ 
+Past Medical History:
+DM1 since age ___, complicated by retinopathy
+ 
+Social History:
+___
+Family History:
+No family history of eye disease.
+ 
+Physical Exam:
+Admission Exam: 
+Vitals: 98.1 137/95 74 18 99%RA
+Gen: NAD
+HEENT: r eye with injected sclera
+CV: rrr, no r/m/g
+Pulm: clear
+Abd: soft, nt/nd, +bs
+Ext: no edema
+Neuro: limited vision in RLQ on R eye
+
+Discharge Exam: 
+Vitals: T 97.9 BP 139/85 75 20 99%RA
+Gen: NAD
+HEENT: R eye with scleral injection 
+CV: RRR, no rmg
+Pulm: clear
+Ext: no edema
+Neuro: can read large text from R eye
+Skin: no rashes
+ 
+Pertinent Results:
+___ 03:00AM   WBC-8.1 RBC-5.03 HGB-15.3 HCT-43.0 MCV-86 
+MCH-30.5 MCHC-35.7* RDW-15.2
+___ 03:00AM   PLT COUNT-333
+___ 03:00AM   GLUCOSE-104* UREA N-13 CREAT-1.0 SODIUM-138 
+POTASSIUM-4.0 CHLORIDE-100 TOTAL CO2-28 ANION GAP-14
+___ 03:00AM   ___ PTT-31.0 ___
+
+Discharge Labs: 
+___ 07:20AM BLOOD WBC-6.0 RBC-4.53* Hgb-13.5* Hct-38.3* 
+MCV-85 MCH-29.8 MCHC-35.2* RDW-14.5 Plt ___
+___ 07:20AM BLOOD Neuts-59.6 ___ Monos-7.7 Eos-4.1* 
+Baso-0.8
+___ 12:49PM BLOOD Glucose-198* UreaN-14 Creat-1.0 Na-135 
+K-4.4 Cl-101 HCO3-26 AnGap-12
+___ 12:49PM BLOOD ALT-19 AST-24 AlkPhos-93 TotBili-0.5
+
+Serologies/CSF Studies: 
+___ CSF Tube 4 - WBC 4 (1%pmn, 86%L), RBC ___ CSF Tot protein 56, Gluc ___ CSF - Varicella PCR not detected, VDRL reactive at 1:1, HSV 
+PCR negative
+___ CSF - gram stain negative, culture ngtd 
+
+Outpatient Infectious Disease Studies:
+___ HIV Ab negative, viral load negative
+___ RPR reactive at 1:64, FTA-Abs reactive
+___ CMV viral load negative 
+___ Varicella Zoster IgG positive  
+
+ 
+Brief Hospital Course:
+___ yo M with DM1 here with acute retinal necrosis with concern 
+for infectious etiology (HSV vs syphilis). Pt admitted for PCN 
+desensitization. 
+
+# Acute retinal necrosis: Secondary to neurosyphilis.  Initially 
+desensitized to PCN but questionable rash noted during this 
+process, so was stopped briefly given development of a rash.  ID 
+and ophtho were consulted and felt strongly that PCN was the 
+drug of choice (rather than any alternative), and given the 
+progression of retinal necrosis it was decided in discussions 
+with Allergy to go ahead with full systemic dosing of 
+penicillin, which the patient tolerated well.  A midline was 
+placed for a planned course of 14 days. The start date is ___ 
+(time when PCN was restarted) and he will complete his course on 
+___. He has been set up with ___ and a home infusion pump. 
+
+He will also continue with Valacyclovir 2grams TID until that 
+time as HSV or VZV infection of the retina cannot be excluded. 
+He was seen by ophtalmology for follow up on ___, he has a 
+repeat appointment a week after discharge. 
+
+Per ID, he will need repeat RPR testing at 3, 6, 12, 24, and 36 
+months following the end of antibiotic therapy. 
+
+# DM: He was continued on his home equivalent doses of levamir 
+and novolog. 
+
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. Levemir 11 Units Breakfast
+Levemir 25 Units Dinner
+Insulin SC Sliding Scale using Novolog Insulin
+
+ 
+Discharge Medications:
+1. Levemir 11 Units Breakfast
+Levemir 25 Units Dinner
+Insulin SC Sliding Scale using Novolog Insulin
+2. Penicillin G Potassium 4 Million Units IV Q4H Duration: 12 
+Days 
+Please infuse slowly over 2 hours.  
+RX *penicillin G pot in dextrose 2 million unit/50 mL 4 million 
+units IV every 4 hours Disp #*144 Intravenous Bag Refills:*0
+3. ValACYclovir ___ mg PO Q8H 
+4. Cyclopentolate 1% 1 DROP RIGHT EYE BID 
+5. PrednisoLONE Acetate 1% Ophth. Susp. 1 DROP RIGHT EYE QID 
+
+ 
+Discharge Disposition:
+Home With Service
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+syphilis
+type 1 diabetes
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+Mr. ___,
+
+You were admitted with a change in your vision and found to have 
+neuro-syphilis complicated by retinitis. For this you required 
+penicillin treatment. You have undergone desensitization and 
+should complete a 2 week course of treatment. You have been set 
+up with home infusion under the guidance of a visiting nurse. 
+After completion of treatment you will need labs drawn to make 
+sure your titers have gone down and resolved. You have been set 
+up with a primary care appointment to arrange this for you. In 
+addition, you will complete a 2 week course of Valacyclovir to 
+finish when your antibiotics finish. In addition to the primary 
+care follow up, please also make sure to see Dr ___ in the 
+___ as scheduled. 
+
+Take care, 
+___
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(5)</span></h3>
+  <ul>
+    <li>Sífilis</li>
+    <li>Neurosífilis</li>
+    <li>Retinite necrosante aguda</li>
+    <li>Diabetes Mellitus tipo 1</li>
+    <li>Retinopatia diabética</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(7)</span></h3>
+  <ul>
+    <li>Perda de visão no olho direito</li>
+    <li>Visão turva no quadrante inferior direito do campo visual</li>
+    <li>Pressão ocular subaguda no olho direito</li>
+    <li>Esclera injetada no olho direito</li>
+    <li>Limitação visual no quadrante inferior direito do olho direito</li>
+    <li>Erupção cutânea (exantema) durante dessensibilização</li>
+    <li>Urticária grave</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(8)</span></h3>
+  <ul>
+    <li>Penicilina G Potássica 4 milhões de unidades IV a cada 4 horas</li>
+    <li>Valaciclovir 2 gramas por via oral a cada 8 horas</li>
+    <li>Ciclopentolato 1% 1 gota no olho direito 2 vezes ao dia</li>
+    <li>Acetato de Prednisolona 1% suspensão oftálmica 1 gota no olho direito 4 vezes ao dia</li>
+    <li>Levemir 11 unidades ao café da manhã</li>
+    <li>Levemir 25 unidades no jantar</li>
+    <li>Novolog (Insulina Aspart) escala deslizante subcutânea</li>
+    <li>Penicilina G (para dessensibilização)</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(56)</span></h3>
+  <ul>
+    <li>WBC-8.1</li>
+    <li>RBC-5.03</li>
+    <li>HGB-15.3</li>
+    <li>HCT-43.0</li>
+    <li>MCV-86</li>
+    <li>MCH-30.5</li>
+    <li>MCHC-35.7</li>
+    <li>RDW-15.2</li>
+    <li>PLT COUNT-333</li>
+    <li>GLUCOSE-104</li>
+    <li>UREA N-13</li>
+    <li>CREAT-1.0</li>
+    <li>SODIUM-138</li>
+    <li>POTASSIUM-4.0</li>
+    <li>CHLORIDE-100</li>
+    <li>TOTAL CO2-28</li>
+    <li>ANION GAP-14</li>
+    <li>PTT-31.0</li>
+    <li>WBC-6.0</li>
+    <li>RBC-4.53</li>
+    <li>HGB-13.5</li>
+    <li>HCT-38.3</li>
+    <li>MCV-85</li>
+    <li>MCH-29.8</li>
+    <li>MCHC-35.2</li>
+    <li>RDW-14.5</li>
+    <li>Neuts-59.6</li>
+    <li>Monos-7.7</li>
+    <li>Eos-4.1</li>
+    <li>Baso-0.8</li>
+    <li>Glucose-198</li>
+    <li>UreaN-14</li>
+    <li>Na-135</li>
+    <li>K-4.4</li>
+    <li>Cl-101</li>
+    <li>HCO3-26</li>
+    <li>AnGap-12</li>
+    <li>ALT-19</li>
+    <li>AST-24</li>
+    <li>AlkPhos-93</li>
+    <li>TotBili-0.5</li>
+    <li>CSF WBC-4</li>
+    <li>CSF Tot protein-56</li>
+    <li>Varicella PCR-Não detectado</li>
+    <li>VDRL-Reativo 1:1</li>
+    <li>HSV PCR-Negativo</li>
+    <li>Gram stain-Negativo</li>
+    <li>Culture-Negativo</li>
+    <li>HIV Ab-Negativo</li>
+    <li>HIV viral load-Negativo</li>
+    <li>RPR-Reativo 1:64</li>
+    <li>FTA-Abs-Reativo</li>
+    <li>CMV viral load-Negativo</li>
+    <li>Varicella Zoster IgG-Positivo</li>
+    <li>HSV Anticorpos-Pendente</li>
+    <li>Teste de imunidade VZV-Pendente</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(1)</span></h3>
+  <ul>
+    <li>Punção lombar</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, portador de Diabetes Mellitus tipo 1, apresenta-se com queixa principal de perda de visão no olho direito. Relata início da perda visual há tempo indeterminado, associada a pressão subaguda no olho direito e visão turva no quadrante inferior direito do campo visual. O paciente refere ter sido avaliado por oftalmologista, que diagnosticou necrose retiniana aguda. Relata início do tratamento empírico com Valtrex em ambulatório. Paciente refere desconhecer diagnóstico prévio de sífilis. Relata ser monogâmico com parceiro nos últimos 12 meses. Nega histórico de úlceras genitais ou outras doenças sexualmente transmissíveis. Nega febre, calafrios, cefaleia, náuseas, vômitos ou outras queixas sistêmicas (Revisão de Sistemas negativa, exceto pela queixa ocular). Histórico pregresso de Diabetes Mellitus tipo 1 desde a infância, complicado por retinopatia. Nega alergias medicamentosas, exceto penicilina G, à qual refere ter desenvolvido urticária grave em idade anterior.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Admissão:
+- Sinais Vitais: Temperatura 98.1°F, PA 137/95 mmHg, FC 74 bpm, FR 18 irpm, SpO2 99% em ar ambiente.
+- Geral: Paciente alerta, sem angústia aparente (NAD).
+- HEENT: Esclera injetada no olho direito.
+- Cardiovascular: Rítmico, sem sopros, rubores ou galopes.
+- Pulmões: Murmúrio vesicular claro, sem ruídos adventícios.
+- Abdome: Macio, não doloroso à palpação, sem distensão, ruídos hidroaéreos presentes.
+- Extremidades: Sem edema.
+- Neuro: Visão limitada no quadrante inferior direito do olho direito.
+
+Alta:
+- Sinais Vitais: Temperatura 97.9°F, PA 139/85 mmHg, FC 75 bpm, FR 20 irpm, SpO2 99% em ar ambiente.
+- Geral: Paciente alerta, sem angústia aparente (NAD).
+- HEENT: Injeção escleral no olho direito.
+- Cardiovascular: Rítmico, sem sopros, rubores ou galopes.
+- Pulmões: Murmúrio vesicular claro.
+- Extremidades: Sem edema.
+- Neuro: Capacidade de ler textos grandes com o olho direito.
+- Pele: Sem exantemas.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Admissão (03:00):
+- Hemograma: Leucócitos 8.1, Hemácias 5.03, Hemoglobina 15.3, Hematócrito 43.0, VCM 86, HCM 30.5, CHCM 35.7, RDW 15.2.
+- Plaquetas: 333.
+- Bioquímica: Glicose 104, Ureia 13, Creatinina 1.0, Sódio 138, Potássio 4.0, Cloreto 100, CO2 Total 28, Gap Aniônico 14.
+- Coagulação: TTPA 31.0.
+
+Alta (07:20):
+- Hemograma: Leucócitos 6.0, Hemácias 4.53, Hemoglobina 13.5, Hematócrito 38.3, VCM 85, HCM 29.8, CHCM 35.2, RDW 14.5.
+- Diferencial: Neutrófilos 59.6%, Monócitos 7.7%, Eosinófilos 4.1%, Basófilos 0.8%.
+
+Alta (12:49):
+- Bioquímica: Glicose 198, Ureia 14, Creatinina 1.0, Sódio 135, Potássio 4.4, Cloreto 101, Bicarbonato 26, Gap Aniônico 12.
+- Função Hepática: ALT 19, AST 24, Fosfatase Alcalina 93, Bilirrubina Total 0.5.
+
+Sorologias e Estudos de LCR:
+- LCR (Tubo 4): Leucócitos 4 (1% PMN, 86% Linfócitos), Proteína Total 56, VDRL reativo 1:1.
+- PCR no LCR: Varicela não detectada, HSV negativo.
+- LCR: Gram negativo, cultura negativa.
+- Estudos Ambulatoriais: HIV Ab negativo, carga viral negativa; RPR reativo 1:64, FTA-Abs reativo; Carga viral de CMV negativa; IgG para Varicela Zoster positiva.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Não foram realizados exames de imagem (radiografias, tomografias, ressonâncias ou ultrassonografias) descritos no prontuário fornecido.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com Diabetes Mellitus tipo 1 e necrose retiniana aguda no olho direito, secundária a neurosífilis confirmada. O diagnóstico foi estabelecido através de sorologias positivas (RPR 1:64, FTA-Abs reativo) e LCR com VDRL reativo (1:1) e pleocitose linfocítica, em contexto de HIV negativo e CMV negativo. O paciente foi admitido para dessensibilização à penicilina devido a histórico de urticária grave prévia. Durante o processo, houve suspeita de reação cutânea, interrompendo-se brevemente a medicação. Após avaliação conjunta das equipes de Infectologia e Oftalmologia, decidiu-se pela reindução e manutenção da penicilina G como tratamento de escolha, dada a progressão da necrose retiniana e a superioridade da penicilina sobre alternativas para neurosífilis. O paciente tolerou bem o esquema completo de dessensibilização e a terapia intravenosa subsequente. O tratamento inclui penicilina G por via intravenosa por 14 dias e valaciclovir por 14 dias para cobrir possível coinfecção viral não excluída (HSV/VZV). O paciente evoluiu com melhora da acuidade visual (capacidade de leitura) e sem novas lesões cutâneas. Diagnóstico principal: Neurosífilis com retinite. Diagnósticos diferenciais considerados e excluídos: Retinite por CMV (negativo), Retinite por HSV/VZV (PCR negativo, mas mantido tratamento empírico), Retinopatia diabética (excluída como causa aguda da necrose).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações na alta:
+1. Levemir (Insulina Detemir): 11 unidades subcutâneas pela manhã e 25 unidades subcutâneas à noite.
+2. Novolog (Insulina Aspart): Escala deslizante subcutânea conforme necessidade.
+3. Penicilina G Potássica: 4 milhões de unidades IV a cada 4 horas (infusão lenta sobre 2 horas), via bomba de infusão domiciliar, por 12 dias (completando 14 dias de tratamento).
+4. Valaciclovir: 2 gramas por via oral a cada 8 horas, por 14 dias.
+5. Ciclopentolato 1%: 1 gota no olho direito, 2 vezes ao dia.
+6. Prednisolona Acetato 1% (Suspensão Oftálmica): 1 gota no olho direito, 4 vezes ao dia.
+
+Orientações e Encaminhamentos:
+- Realizar acompanhamento com enfermeira de visita domiciliar para administração da infusão de penicilina.
+- Retorno com oftalmologista em 1 semana após a alta para reavaliação.
+- Retorno com Infectologista/Clínico para acompanhamento de titulação sorológica (RPR) aos 3, 6, 12, 24 e 36 meses após o término da antibioticoterapia.
+- Retorno com médico de família/clínico geral para agendamento dos exames de seguimento.
+- Monitorar sinais de reação alérgica tardia ou efeitos adversos da terapia.
+- Manter controle glicêmico rigoroso do Diabetes Mellitus tipo 1.</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

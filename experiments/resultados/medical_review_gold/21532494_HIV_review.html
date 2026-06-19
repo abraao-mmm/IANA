@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 21532494 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 920px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+.badge-ok { background: #d1fae5; color: #065f46; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-error { background: #fecaca; color: #991b1b; }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 600px; overflow-y: auto;
+}
+.ner-category {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px;
+}
+.ner-category .count {
+    color: #6b7280; font-size: 0.8rem; font-weight: normal;
+}
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field {
+    margin-bottom: 16px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+}
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+}
+.soap-field-body {
+    padding: 12px 16px; font-size: 0.9rem; white-space: pre-wrap;
+    line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+table.annotation {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+    font-size: 0.85rem;
+}
+table.annotation th, table.annotation td {
+    border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left;
+    vertical-align: top;
+}
+table.annotation th {
+    background: #e8eef6; color: #1e3a5f; font-weight: 600;
+}
+table.annotation td { min-height: 28px; }
+.annotation-instructions {
+    background: #eff6ff; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;
+}
+.footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6;
+    font-size: 0.8rem; color: #6b7280; text-align: center;
+}
+@media print {
+    body { max-width: 100%; padding: 12px; }
+    .original-text { max-height: none; overflow: visible; }
+    .alert-pathological { break-inside: avoid; }
+    .footer { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>Revisão Clínica — Nota 21532494</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 21532494 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Categoria:</strong> HIV<br>
+    <strong>Entidades extraídas:</strong> 67 &nbsp;|&nbsp;
+    <strong>NER:</strong> <span class="badge badge-ok">ok</span>
+    <strong>SOAP:</strong> <span class="badge badge-ok">ok</span>
+    <strong>Audit:</strong> <span class="badge badge-ok">ok</span>
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___               Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Sulfa (Sulfonamides) / Protonix / Lasix
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Chronic cough x 2 months
+ 
+Major Surgical or Invasive Procedure:
+None.
+ 
+History of Present Illness:
+___ w/ HIV on HAART, HCV cirrhosis, hx R hydrothorax s/p 
+pleurodesis, asthma not on inhalers p/w worsening non-productive 
+cough x 2 months. Patient states that his cough came on abruptly 
+with &quot;fevers&quot; about 2 months ago without an associated cold or 
+other URI, and has been continuously worsening since that time, 
+with associated chest tightness around the sternum w/o radiation 
+to arm or jaw, diaphoresis or dyspnea. He does get nauseated 
+after a bad coughing spell but has never vomited. He reports 
+some greenish phlegm without blood in the mornings with the 
+cough (pt is a smoker). He has tried multiple OTC drugs (Nyquil, 
+Benadryl, Theraflu) with no improvement. There are no 
+alleviating factors; he notes that the cough gets somewhat worse 
+with exertion. He has noticed exercise intolerance with the 
+cough over the last two months where he can only walk ~3 blocks 
+before stopping due to generalized weakness &quot;all over&quot;, he 
+denies dyspnea or gasping for breath at that point. He has a 
+history of asthma but has not used his inhalers for over a year. 
+Patient does not have a regular PCP but has ___ appointment set up 
+for ___ with a new PCP.  
+.  
+In the ED, he had resting O2 sat 94% with ambulatory sat of 94%. 
+He was given CTX, azithromycin, dapson and trimethoprim without 
+sulfamethoxazole, and admitted for further w/u.  
+.  
+This am, he continues to have occasional coughing fits with 
+associated chest tightness and slight bilateral rib pain with 
+cough. He reports some CP on maximal inhalation without 
+radiation to arm or jaw. Otherwise, he feels fine and denies 
+dyspnea.  
+.  
+ROS: No night sweats, hemoptysis, chills, vomiting, 
+diarrhea/constipation, recent unexplained weight changes.  
+
+ 
+Past Medical History:
+1. HIV on HAART  
+2. HCV cirrhosis, c/b ascites, thrombocytopenia, esophageal 
+varices s/p TIPS  
+3. R hydrothorax s/p R pleurodesis c/b tension pneumothorax at 
+___  
+4. Cholecystectomy ___  
+5. Asthma, not currently on inhalers.  
+6. GERD not currently on treatment  
+
+ 
+Social History:
+___
+Family History:
+No family hx of cancer, diabetes, CAD.
+ 
+Physical Exam:
+VS: Tc 98.6, Tm 98.6, BP 100/74 (94-118/66-74), HR 62-65, RR 16, 
+O2 Sat 97% RA.
+In ED, room air rest sat = 94%, ambulatory sat = 94%.
+GEN: Middle-aged Hispanic male lying in bed, occasional coughing 
+spells, not tachypneic or toxic-appearing, in NAD.
+HEENT: AT/NC, mild anisocoria with R pupil &gt; L, both reactive to 
+light, EOMI, OP clear without thrush or exudate, tongue midline, 
+palate rise symm. No LAD.
+NECK: Supple, no JVD, no LAD, slight buffalo hump on back.
+CV: RRR, no M/R/G, nl S1, S2.
+LUNGS: Diffuse wheezes, L worse than R, + bibasilar 
+end-inspiratory  crackles.
+ABD: +BS, soft, NT, ND.
+EXT: No edema, W/WP, 2+ DPs bilat.
+ 
+Pertinent Results:
+LABS AT ADMISSION:
+.
+140 | 109 | 15
+---------------&lt; 95 
+4.0 |  24 | 1.2
+.
+      14.8
+ 4.7 &gt;-----&lt; 32*
+      41.0
+.
+N 70.1 L 17.1 M 8.2 E 3.0 Bas 1.6
+.
+ALT 62, AST 50, LDH 130, AP 118, TBili 0.5, Lipase 54
+.
+ABG in ED: pH 7.41, pCO2 38, pO2 77, HCO3 25
+.
+___: CD4 189, HIV viral load undetectable.
+.
+___ EKG: normal EKG.
+.
+CXR ___: Prelim read: Small R pleural eff with elevation of R 
+hemidiaphragm, no infiltrate, clear lungs otherwise, no cavitary 
+lesions.
+.
+Sputum culture:
+Negative for Pneumocystis jerovicii x2
+ 
+Brief Hospital Course:
+___ w/ HIV, HCV cirrhosis and hx asthma p/w 2 months of 
+worsening cough, likely reactive airway disease/asthma in the 
+setting of not using his inhalers. 
+.
+Cough
+Likely secondary to reactive airway disease/cough-variant asthma 
+exacerbated by recent smoking history. His presentation was not 
+suggestive of an infectious etiology with normal WBC count, no 
+fevers, clear CXR and CD4 = 189/25% in ___. ABG in ED and 
+lack of ambulatory desat was also not suggestive of PCP/PJP 
+although this could be ruled out given his exercise intolerance 
+and borderline CD4 count. TB was felt unlikely given clear CXR 
+and no hemoptysis, night sweats. He was treated with albuterol 
+and ipratropium nebs as well as inhaled fluticasone which 
+improved his cough and chest tightness, as well as increasing 
+his peak flow from 190 to &gt;300. The patient was discharged on 
+fluticasone and albuterol inhalers. Induced sputum samples x2 
+were obtained for Pneumocystis assay which were both negative.
+.
+HIV
+Stable through his hospital course with no issues; last CD4 = 
+189/25% and viral load undetectable on Truvada and Viracept in 
+___. His home HIV meds were continued throughout his 
+hospital stay. His primary HIV physician is in ___ 
+who he has not seen for several years; he most recently saw Dr. 
+___ here ___ year ago in a transplant HIV capacity. An 
+appointment has been scheduled with Dr. ___ as a new HIV 
+patient for outpatient followup.
+
+HCV/Cirrhosis
+LFTs are at baseline for patient. No acute liver issues. Not 
+currently on transplant list due to recent drug use. Status post 
+TIPS, encephalopathy well controlled on rifaximine. Home 
+nadolol, rifaximine, amiloride were continued.
+.
+Thrombocytopenia
+Platelets of 32 are baseline for pt; no signs of active 
+bleeding, stable ___ hospital course.
+.
+Outpatient care
+No regular care/PCP at present. Patient has appointment for new 
+PCP care here at ___ in ___. New HIV appointment made as 
+mentioned above.
+.
+Code
+FULL for this admission
+ 
+Medications on Admission:
+1. Nelfinavir (Viracept) 1250mg PO BID
+2. Emtricitabine-Tenofovir (Truvada) 1 TAB PO DAILY
+3. Nadolol 20mg PO daily
+4. Rifaximin 400mg PO BID
+5. Amiloride 5mg PO TID
+ 
+Discharge Medications:
+1. Nelfinavir 625 mg Tablet Sig: Two (2) Tablet PO BID (2 times 
+a day).  
+2. Emtricitabine-Tenofovir 200-300 mg Tablet Sig: One (1) Tablet 
+PO DAILY (Daily).  
+3. Nadolol 20 mg Tablet Sig: One (1) Tablet PO DAILY (Daily).  
+4. Rifaximin 200 mg Tablet Sig: Two (2) Tablet PO BID (2 times a 
+day).  
+5. Albuterol Sulfate 90 mcg/Actuation HFA Aerosol Inhaler Sig: 
+___ puffs Inhalation four times a day as needed for cough, 
+breathing difficulty.
+Disp:*1 inhaler* Refills:*1*
+6. Amiloride 5 mg Tablet Sig: One (1) Tablet PO TID (3 times a 
+day).  
+7. Fluticasone 110 mcg/Actuation Aerosol Sig: Two (2) Puff 
+Inhalation BID (2 times a day).
+Disp:*1 inhaler* Refills:*1*
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Primary:
+1. Asthma
+
+Secondary:
+1. HIV infection
+2. Chronic HCV with cirrhosis
+
+ 
+Discharge Condition:
+Afebrile, satting &gt;96% on room air, ambulating well, no 
+leukocytosis, peak flow &gt; 300.
+
+ 
+Discharge Instructions:
+You were diagnosed with a condition called cough-variant asthma, 
+where your previously diagnosed asthma has worsened recently. 
+This has caused your chronic cough which you have had for 2 
+months. We have treated your asthma in the hospital with inhaled 
+medications which has resulted in an improvement in your 
+coughing and breathing. You should continue to experience 
+improvements in your cough and breathing as an outpatient as you 
+continue to use the inhaled medications we have prescribed for 
+you.
+
+IMPORTANT: We have added two new medications which you should 
+take as prescribed. You should take the Flovent inhaler, two 
+puffs twice a days for a total of 4 puffs a day. You should also 
+use the albuterol inhaler whenever your coughing or breathing 
+gets worse UP to 4 times a day. If you feel your heart beating 
+fast, or feel tremulous, stop using the albuterol inhaler for a 
+day.
+
+If you feel increased shortness of breath, experience worsening 
+of your cough, develop fevers, chills, nausea, vomiting, you 
+should seek medical attention as soon as possible.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas Extraídas (NER)</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(10)</span></h3>
+  <ul>
+    <li>Infecção pelo HIV</li>
+    <li>Hepatite C com cirrose</li>
+    <li>Ascite</li>
+    <li>Varizes esofágicas</li>
+    <li>Hidrotórax direito</li>
+    <li>Asma</li>
+    <li>Doença do Refluxo Gastroesofágico (DRGE)</li>
+    <li>Encefalopatia hepática</li>
+    <li>Trombocitopenia</li>
+    <li>Doença das vias aéreas reativas</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(15)</span></h3>
+  <ul>
+    <li>Tosse crônica não produtiva</li>
+    <li>Escarro esverdeado</li>
+    <li>Aperto torácico</li>
+    <li>Diaforese</li>
+    <li>Náusea</li>
+    <li>Intolerância ao exercício</li>
+    <li>Fraqueza generalizada</li>
+    <li>Dor costal bilateral</li>
+    <li>Sibilos difusos</li>
+    <li>Estertores bibasiliares</li>
+    <li>Anisocoria</li>
+    <li>Corcova de búfalo</li>
+    <li>Pico de fluxo expiratório reduzido</li>
+    <li>Tosse produtiva</li>
+    <li>Pneumotórax tensional</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(12)</span></h3>
+  <ul>
+    <li>Nelfinavir (Viracept)</li>
+    <li>Emtricitabina-Tenofovir (Truvada)</li>
+    <li>Nadolol</li>
+    <li>Rifaximina</li>
+    <li>Amilorida</li>
+    <li>Albuterol Sulfato</li>
+    <li>Fluticasona</li>
+    <li>Ceftriaxona (CTX)</li>
+    <li>Azitromicina</li>
+    <li>Dapsona</li>
+    <li>Trimetoprima</li>
+    <li>Ipratropium</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(23)</span></h3>
+  <ul>
+    <li>Leucócitos (WBC) 14.8</li>
+    <li>Hemoglobina 10.9</li>
+    <li>Plaquetas 32</li>
+    <li>Neutrófilos 70.1%</li>
+    <li>Linfócitos 17.1%</li>
+    <li>Monócitos 8.2%</li>
+    <li>Eosinófilos 3.0%</li>
+    <li>Basófilos 1.6%</li>
+    <li>ALT 62</li>
+    <li>AST 50</li>
+    <li>LDH 130</li>
+    <li>Fosfatase Alcalina (AP) 118</li>
+    <li>Bilirrubina Total (TBili) 0.5</li>
+    <li>Lipase 54</li>
+    <li>pH (ABG) 7.41</li>
+    <li>pCO2 (ABG) 38</li>
+    <li>pO2 (ABG) 77</li>
+    <li>HCO3 (ABG) 25</li>
+    <li>CD4 189</li>
+    <li>Carga viral do HIV indetectável</li>
+    <li>EKG normal</li>
+    <li>Cultura de escarro negativa para Pneumocystis jirovecii x2</li>
+    <li>Pico de fluxo expiratório &gt; 300</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(7)</span></h3>
+  <ul>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Eletrocardiograma (EKG)</li>
+    <li>Gasometria arterial (ABG)</li>
+    <li>Contagem de CD4</li>
+    <li>Carga viral do HIV</li>
+    <li>Cultura de escarro</li>
+    <li>Indução de escarro para análise de Pneumocystis</li>
+  </ul>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(0)</span></h3>
+  <p class="ner-empty">Nenhuma entidade extraída nesta categoria.</p>
+</div>
+
+<h2>3. Estrutura SOAP (português)</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente do sexo masculino, portador de HIV em uso de TARV, cirrose por HCV e histórico de asma, apresenta queixa principal de tosse crônica há 2 meses. Relata que a tosse iniciou-se abruptamente há 2 meses, associada a episódios de febre, sem quadro gripal ou de infecção de vias aéreas superiores associado. A tosse tem sido progressivamente pior, associada a aperto torácico retroesternal sem irradiação para braço ou mandíbula, diarreia ou dispneia. Refere náuseas após crises de tosse intensa, mas nunca vomitou. Relata expectoração de cor esverdeada pela manhã, sem sangue (paciente é tabagista). Tenteu múltiplos medicamentos de venda livre (Nyquil, Benadryl, Theraflu) sem melhora. Não há fatores de alívio; nota piora da tosse com esforço. Relata intolerância ao exercício nos últimos 2 meses, conseguindo caminhar apenas cerca de 3 quarteirões antes de parar devido a fraqueza generalizada, nega dispneia ou falta de ar nesses momentos. Refere histórico de asma, mas não utiliza inaladores há mais de um ano. Não possui médico de família regular, mas agendou consulta com novo médico. Na admissão, relata episódios ocasionais de crises de tosse com aperto torácico e leve dor bilateral nas costelas ao tossir. Relata dor torácica na inspiração máxima sem irradiação. Nega suores noturnos, hemoptise, calafrios, vômitos, diarreia/constipação e alterações de peso inexplicadas.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 98.6°F (axilar e timpânica), PA 100/74 mmHg (variação 94-118/66-74), FC 62-65 bpm, FR 16 irpm, SatO2 97% em ar ambiente. Na emergência: SatO2 em repouso 94% e em esforço 94% em ar ambiente. Geral: Homem hispânico de meia-idade, deitado na cama, com episódios ocasionais de tosse, não taquipneico, não tóxico, em bom estado geral. Cabeça e Pescoço: AT/NC, anisocoria leve com pupila direita maior que a esquerda, ambas reativas à luz, movimentos oculares intactos, orofaringe limpa sem candidíase ou exsudato, língua na linha média, elevação do palato simétrica. Sem linfadenopatia cervical. Pescoço: Suplê, sem jugular distendida, sem linfadenopatia, leve gibosidade dorsal (&#x27;corcova de búfalo&#x27;). Cardiovascular: Rítmico, sem sopros, atrito ou galope, S1 e S2 normais. Pulmões: Sibilos difusos, pior à esquerda que à direita, presença de estertores crepitantes bibasais no final da inspiração. Abdome: Ruídos hidroaéreos presentes, macio, não doloroso à palpação, sem distensão. Extremidades: Sem edema, pulsos dorsais dos pés palpáveis 2+ bilateralmente.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma: Leucócitos 14.8 (normal), Neutrófilos 70.1%, Linfócitos 17.1%, Monócitos 8.2%, Eosinófilos 3.0%, Basófilos 1.6%. Hemoglobina 14.8 g/dL. Plaquetas 32.000/mm³. Bioquímica: ALT 62 U/L, AST 50 U/L, LDH 130 U/L, Fosfatase Alcalina 118 U/L, Bilirrubina Total 0.5 mg/dL, Lipase 54 U/L, Creatinina 1.2 mg/dL. Gasometria Arterial (na emergência): pH 7.41, pCO2 38 mmHg, pO2 77 mmHg, HCO3 25 mEq/L. Sorologias/Marcadores: CD4 189 células/mm³ (25%), Carga Viral do HIV indetectável. Cultura de escarro: Negativa para Pneumocystis jirovecii (x2).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Radiografia de Tórax: Pequeno derrame pleural à direita com elevação do hemidiafragma direito. Sem infiltrados pulmonares. Pulmões limpos no restante. Sem lesões cavitárias. Eletrocardiograma: Eletrocardiograma normal.</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente masculino com histórico de HIV (em TARV estável, CD4 189, carga viral indetectável), cirrose por HCV e asma não controlada, apresenta quadro de tosse crônica de 2 meses de evolução. O raciocínio clínico aponta para exacerbação de doença das vias aéreas reativas/asma variante de tosse, agravada pelo tabagismo e pela falta de uso de inaladores há mais de um ano. A apresentação não foi sugestiva de etiologia infecciosa oportunista grave: contagem de leucócitos normal, ausência de febre atual, radiografia de tórax sem infiltrados ou lesões cavitárias, e CD4 &gt; 200 (embora 189 seja limítrofe, a ausência de dessaturação ambulatorial e gasometria normal tornam Pneumocystis jirovecii pouco provável, embora tenha sido investigado com escarro induzido negativo x2). Tuberculose considerada improvável dada a radiografia limpa e ausência de sintomas sistêmicos clássicos (suores noturnos, hemoptise). A melhora clínica significativa com broncodilatadores (albuterol/ipratrópio) e corticoide inalatório (fluticasona), com aumento do pico de fluxo de 190 para &gt;300, confirma o diagnóstico de asma. O paciente permanece estável quanto ao HIV e à cirrose (LFTs basais, plaquetas basais 32k, sem sangramento ativo).</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações de Alta:
+1. Nelfinavir (Viracept) 625 mg: 2 comprimidos via oral, 2 vezes ao dia.
+2. Emtricitabina-Tenofovir (Truvada) 200-300 mg: 1 comprimido via oral, 1 vez ao dia.
+3. Nadolol 20 mg: 1 comprimido via oral, 1 vez ao dia.
+4. Rifaximina 200 mg: 2 comprimidos via oral, 2 vezes ao dia.
+5. Albuterol Sulfato 90 mcg/ação (Inalador): 2 puffs por via inalatória, 4 vezes ao dia conforme necessidade para tosse ou dificuldade respiratória. (Dispensado 1 inalador, 1 renovação).
+6. Amilorida 5 mg: 1 comprimido via oral, 3 vezes ao dia.
+7. Fluticasona 110 mcg/ação (Inalador): 2 puffs por via inalatória, 2 vezes ao dia. (Dispensado 1 inalador, 1 renovação).
+
+Orientações ao Paciente:
+- Diagnóstico de asma variante de tosse confirmado. A tosse crônica deve melhorar com o uso contínuo dos inaladores prescritos.
+- Uso do inalador de Fluticasona (Flovent): 2 puffs, 2 vezes ao dia (total de 4 puffs/dia).
+- Uso do inalador de Albuterol: Conforme necessidade para piora da tosse ou falta de ar, até 4 vezes ao dia. Se sentir palpitações ou tremores, suspender o albuterol por um dia.
+- Sinais de alerta: Procurar atendimento médico imediatamente se houver aumento da falta de ar, piora da tosse, febre, calafrios, náuseas ou vômitos.
+
+Encaminhamentos e Seguimento:
+- Agendamento de consulta com novo médico de família (PCP) no centro de saúde local.
+- Agendamento de consulta com especialista em HIV como novo paciente para acompanhamento ambulatorial.
+- Retorno conforme necessidade ou agendamento prévio.
+- Continuidade do tratamento para cirrose e controle de encefalopatia (Rifaximina, Nadolol, Amilorida).</div>
+</div>
+
+<h2>4. Anotação do Especialista</h2>
+<div class="annotation-instructions">
+    <strong>Instruções:</strong> Por favor, anote abaixo qualquer erro encontrado
+    durante a revisão. Compare o texto original (Seção 1) com as entidades
+    extraídas (Seção 2) e a estrutura SOAP (Seção 3). Esta tabela será usada
+    para calibrar o pipeline antes do processamento das 738 notas restantes.<br><br>
+    <strong>Tipos de erro:</strong>
+    Omissão (entidade presente no texto mas não extraída) |
+    Categoria errada (entidade extraída na categoria incorreta) |
+    Negação vazada (teste negativo/pendente gerando entidade positiva) |
+    Tradução (erro de tradução EN→PT ou termo em inglês residual) |
+    Invenção (entidade que não existe no texto original) |
+    Outro
+</div>
+<table class="annotation">
+    <thead>
+        <tr>
+            <th style="width:18%">Categoria</th>
+            <th style="width:22%">Item</th>
+            <th style="width:18%">Tipo de erro</th>
+            <th style="width:12%">Severidade</th>
+            <th style="width:30%">Comentário</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    Projeto IANA — Pipeline v3.1 | Gerado em 2026-04-10 14:48 |
+    Material para revisão por especialista médico
+</div>
+</body>
+</html>

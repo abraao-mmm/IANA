@@ -1,0 +1,38 @@
+# Dados brutos do MIMIC-IV (gigantes, nao versionar)
+note_parquet/
+data/mimic-iv-note-deidentified-free-text-clinical-notes-2.2/
+
+# Dados do SemClinBr - VERSIONADOS (base leve, ~8MB de XMLs)
+
+# Credenciais
+.env
+
+# Ambientes virtuais Python
+venv/
+.venv/
+myenv/
+
+# Cache e checkpoints
+__pycache__/
+.ipynb_checkpoints/
+
+# Dados parquet (gerados localmente)
+*.parquet
+
+# Logs do vLLM
+vllm_server.log
+
+# Curso LangGraph (material externo, nao versionar)
+Curso_Introdutorio_de_Langgraph/
+# Artefatos de treino (modelos salvos no HuggingFace Hub)
+experiments/training/checkpoints/
+
+# Dados pré-processados para treino (regeráveis via data_prep/)
+experiments/training/data/splits/
+experiments/training/data/bio_tagging/
+experiments/training/data/chatml/
+experiments/training/data/gemma_format/
+
+# Predições geradas durante avaliação
+experiments/training/predictions/
+.claude/

@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 22924630 (HIV)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 22924630</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 22924630 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> HIV &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 440
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___              Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   M
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Dilantin / Sulfa (Sulfonamide Antibiotics) / morphine / abacavir
+ 
+Attending: ___.
+ 
+Chief Complaint:
+Dyspnea, altered sensorium
+ 
+Major Surgical or Invasive Procedure:
+___: endotracheal intubation
+___: brain biopsy 
+___: re-intubation after extubation on ___: tracheostomy
+___: PEG placed
+
+___: endotracheal intubation
+___: brain biopsy 
+___: re-intubation after extubation on ___: tracheostomy
+___: PEG placed
+
+ 
+History of Present Illness:
+This is a ___ year-old Male with PMH signficant for HIV/AIDS 
+infection (last CD4 count of 24 and HIV VL of greater than 1 
+million ___ ___, currently on ARV regimen with very poor 
+compliance), oxygen-dependent COPD (on 4L NC at home), chronic 
+diarrhea, ___ tobacco use, history of seizures ___ the setting 
+of Toxoplasmosis, ___ hypokalemia presenting with worsening 
+SOB with evidence of acute encephalopathy and evidence of 
+presumably new left-sided brain mass intubated for airway 
+protection.
+
+Patient was recently discharged from ___ ___ to 
+___ with an episode of shortness of breath attributed to 
+lymphocytic interstitial pneumonitis (restrictive disease noted 
+on PFTs ___ ___ and CT imaging notable for extensive 
+ground-glass densities) associated with untreated HIV infection. 
+He initially received Cefepime and Levofloxacin IV for bacterial 
+pneumonia coverage. He was seen by Pulmonary and ID who felt a 
+course of Prednisone 60 mg PO daily ___ addition to the 
+reinitiation of HAART was appropriate. He was started on Dapsone 
+for PJP ppx at that time as well. Although he presented on 
+prescribed HAART therapy, his ID provider felt he was not taking 
+his medications and given the concern for resistance stopped his 
+regimen. He continued Levofloxacin PO for a short-course for 
+empiric pneumonia coverage. He was discharged to ___ 
+___ following this admission. A midline line was placed ___ 
+to discharge.
+
+He returned to ___ ED on ___ from rehab and was 
+admitted after he was noted to have a period of unresponsiveness 
+and questionable seizure-like activity. He was unable to 
+verbally communicate and appeared confused. O2 sats were 90% on 
+5L NC at that time. He was also complaining of lethargy and 
+increased shortness of breath.  He was also reporting trouble 
+swallowing. While hospitalized, he was started on Zosyn IV 4.5g 
+Q6 hours. His phenobarbital level was 7.7 (low) which was 
+concerning given his presumed seizure activity. Given these 
+concerns, he required intubation for airway protection. He 
+underwent RSI with Etomidate 20g IV, Vercuronium 10mg IV and 
+received Fentanyl 100 mcg IV and Lidocaine 130 mg IV. CT imaging 
+of the head was obtained, ___ addition to a CXR. He received 
+Zosyn IV 4.5g ___ to transfer. His phenobarbital level was 7.7 
+___ the ED. He was transfered to ___ following intubation for 
+further evaluation and management.
+
+He has had multiple admissions to ___ for treated 
+of PJP pneumonia with Atovaquone and steroids.
+
+___ the ___ ED, initial VS 97.5 ___ 18 100% (AC/CMV 
+500/20/5/1.0). Outside imaging was uploaded into our system. 
+Propofol gtt was started for sedation ___ the setting of 
+mechanical ventilation. A repeat CXR was obtained. Neurosurgery 
+was consulted given the brain mass. ABG: 7.41/40/505 (on 
+500/20/5/1.0).
+
+On arrival to the MICU, patient was intubated and sedated on 
+propofol. Propofol stopped and patient not waking, minimally 
+responsive to commands.
+
+Review of systems:  
+(+) Per HPI  
+(-) Denies fever, chills, night sweats, recent weight loss or 
+gain. Denies headache, sinus tenderness, rhinorrhea or 
+congestion. Denies cough, shortness of breath, or wheezing. 
+Denies chest pain, chest pressure, palpitations, or weakness. 
+Denies nausea, vomiting, diarrhea, constipation, abdominal pain, 
+or changes ___ bowel habits. Denies dysuria, frequency, or 
+urgency. Denies arthralgias or myalgias. Denies rashes or skin 
+changes.  
+
+ 
+Past Medical History:
+1. HIV/AIDS infection (diagnosed ___ years ___ history of OI 
+and CD4 count nadir unknown. Last CD4 count was 24 and HIV VL 
+greater than 1 million as of ___. On ARV regimen with poor 
+compliance documented - followed by ___ from ___)
+2. History of multiple episodes of Pneumocystis pneumonia
+3. Oxygen-dependent chronic obstructive pulmonary disease
+4. ___ tobacco use
+5. History of seizures (attributed to history of Toxoplasmosis)
+6. Chronic diarrheal illness
+7. History of hypokalemia
+8. History of a right-sided burr hole
+9. Appendectomy
+ 
+Social History:
+___
+Family History:
+Both parents had congestive heart failure.
+
+ 
+Physical Exam:
+ADMISSION PHYSICAL EXAM:
+Vitals: 96.2 p82 125/84 R14 93% 
+Vent: AC Vt 500 (observed 886), f14,PEEP 5, FiO2 50 
+General: Ill appearing male, intubated
+HEENT:  Mucous membs moist
+Neck: JVP difficult to assess
+CV:  S1/S2 distant, no appreciable murmurs
+Lungs: Decreased air entry on left, harsh inspiratory and 
+expiratory breath sounds on right
+Abdomen: Soft, nontender, normoactive bowel sounds
+GU: foley 
+Ext:  Warm no peripheral edema 
+Neuro: Intubated. Examined few minutes after propofol held. Not 
+opening eyes. Briefly gripped hand but otherwise not following 
+commands. Pupils 1mm, ___, mildly reactive. Moves 4 
+extremities when suctioned. Downgoing Babinski
+
+DISCHARGE PHYSICAL EXAM:
+VS: 98.3 97 ___ 20 95-97%TM
+GEN: Lying ___ bed comfortably, Awake but not making eye contact. 
+Trached and unable to speak
+HEENT: Unable to examine mouth secondary to patient&#x27;s inability 
+to open. Sclera anicteric. No LAD
+RESP: Rhonchi appreciated bilaterally from anterior evaluation
+CV: Distant heart sounds, no murmurs, rubs, gallops
+Abd: Soft,non distended, no tenderness ___ all 4 quadrants. PEG 
+tube
+GU: Foley draining
+Ext: Warm, no edema. 
+Neuro: Non-verbal. Can squeeze hand when asked. Moves all 
+extremities. Not spontaneous making eye contact. LUE is 
+contracted.  
+
+ 
+Pertinent Results:
+ADMISSION LABS:
+==============
+___ 11:23PM   GLUCOSE-162* UREA N-22* CREAT-0.6 SODIUM-132* 
+POTASSIUM-4.3 CHLORIDE-100 TOTAL CO2-22 ANION GAP-14
+___ 11:23PM   CALCIUM-9.0 PHOSPHATE-2.8 MAGNESIUM-2.3
+___ 11:23PM   OSMOLAL-286
+___ 11:14PM   TYPE-ART PO2-209* PCO2-27* PH-7.55* TOTAL 
+CO2-24 BASE XS-3
+___ 11:14PM   GLUCOSE-164* LACTATE-2.0 NA+-132* K+-4.2 
+CL--102
+___ 11:14PM   freeCa-1.14
+___ 11:04PM URINE  HOURS-RANDOM CREAT-77 SODIUM-16 
+POTASSIUM-46 CHLORIDE-37
+___ 11:04PM URINE  OSMOLAL-991
+___ 11:04PM URINE  COLOR-Yellow APPEAR-Clear SP 
+___
+___ 11:04PM URINE  BLOOD-TR NITRITE-NEG PROTEIN-TR 
+GLUCOSE-NEG KETONE-10 BILIRUBIN-NEG UROBILNGN-2* PH-6.0 LEUK-NEG
+___ 10:45PM   ___ PO2-66* PCO2-33* PH-7.48* TOTAL 
+CO2-25 BASE XS-1
+___ 10:45PM   NA+-128* K+-6.2*
+___ 06:29PM   ___ PO2-72* PCO2-36 PH-7.47* TOTAL 
+CO2-27 BASE XS-2 COMMENTS-GREEN-TOP
+___ 06:29PM   GLUCOSE-131* LACTATE-1.8
+___ 06:29PM   freeCa-1.00*
+___ 06:12PM   GLUCOSE-142* UREA N-23* CREAT-0.7 SODIUM-127* 
+POTASSIUM-GREATER TH CHLORIDE-96 TOTAL CO2-25
+___ 06:12PM   ALT(SGPT)-161* AST(SGOT)-102* ALK PHOS-83 TOT 
+BILI-1.1
+___ 06:12PM   ALBUMIN-3.6 CALCIUM-9.0 PHOSPHATE-3.8 
+MAGNESIUM-2.4
+___ 06:12PM   OSMOLAL-286
+___ 06:12PM   WBC-10.4# RBC-5.44 HGB-15.5 HCT-44.1 MCV-81* 
+MCH-28.5 MCHC-35.1* RDW-15.6*
+___ 06:12PM   PLT COUNT-221
+___ 06:12PM   ___ PTT-25.5 ___
+___ 05:07PM   TYPE-ART PO2-96 PCO2-31* PH-7.49* TOTAL 
+CO2-24 BASE XS-1
+___ 05:07PM   LACTATE-1.6
+___ 05:07PM   O2 SAT-95
+___ 03:30PM   TYPE-ART PO2-148* PCO2-33* PH-7.48* TOTAL 
+CO2-25 BASE XS-2
+___ 03:30PM   O2 SAT-96
+___ 01:52PM   SODIUM-130*
+___ 01:52PM   OSMOLAL-QNS
+___ 09:51AM URINE  COLOR-Yellow APPEAR-Clear SP ___
+___ 09:51AM URINE  BLOOD-SM  NITRITE-NEG PROTEIN-30 
+GLUCOSE-NEG KETONE-TR BILIRUBIN-NEG UROBILNGN-2* PH-6.0 LEUK-NEG
+___ 09:51AM URINE  RBC-59* WBC-2 BACTERIA-NONE YEAST-NONE 
+EPI-0
+___ 09:51AM URINE  MUCOUS-OCC
+___ 06:59AM   TYPE-ART PO2-192* PCO2-40 PH-7.44 TOTAL 
+CO2-28 BASE XS-3
+___ 06:59AM   LACTATE-1.1
+___ 05:56AM   GLUCOSE-131* UREA N-22* CREAT-0.5 SODIUM-133 
+POTASSIUM-3.8 CHLORIDE-98 TOTAL CO2-25 ANION GAP-14
+___ 05:56AM   ALT(SGPT)-150* AST(SGOT)-57* LD(LDH)-320* ALK 
+PHOS-103 TOT BILI-1.0
+___ 05:56AM   CALCIUM-8.8 PHOSPHATE-3.9 MAGNESIUM-2.0
+___ 05:56AM   HBsAg-NEGATIVE HBs Ab-NEGATIVE HBc 
+Ab-NEGATIVE
+___ 05:56AM   HCV Ab-NEGATIVE
+___ 05:56AM   WBC-4.7 RBC-5.93 HGB-16.7 HCT-48.1 MCV-81* 
+MCH-28.2 MCHC-34.7 RDW-15.2
+___ 05:56AM   PLT COUNT-204
+___ 05:56AM    WBC-4.7  LYMPH-8* ABS LYMPH-376 CD3-65 ABS 
+CD3-245* CD4-3 ABS CD4-12* CD8-61 ABS CD8-230 CD4/CD8-0.1*
+___ 01:32AM   TYPE-ART RATES-/2  TIDAL VOL-300 PEEP-5 
+O2-100 PO2-505* PCO2-40 PH-7.41 TOTAL CO2-26 BASE XS-1 AADO2-169 
+REQ O2-38 INTUBATED-INTUBATED
+___ 01:32AM   O2 SAT-98
+___ 01:20AM URINE  HOURS-RANDOM
+___ 01:20AM URINE  bnzodzpn-NEG barbitrt-POS opiates-NEG 
+cocaine-NEG amphetmn-NEG mthdone-NEG
+___ 01:20AM URINE  COLOR-Yellow APPEAR-Clear SP ___
+___ 01:20AM URINE  BLOOD-SM  NITRITE-NEG PROTEIN-100 
+GLUCOSE-NEG KETONE-10 BILIRUBIN-NEG UROBILNGN-2* PH-6.0 LEUK-NEG
+___ 01:20AM URINE  RBC-9* WBC-4 BACTERIA-FEW YEAST-NONE 
+EPI-&lt;1
+___ 01:20AM URINE  HYALINE-6*
+___ 01:20AM URINE  MUCOUS-RARE
+___ 01:04AM   PH-7.41 COMMENTS-GREEN TOP 
+___ 01:04AM   GLUCOSE-155* LACTATE-1.8 NA+-135 K+-3.9 
+CL--101 TCO2-22
+___ 01:04AM   HGB-16.4 calcHCT-49 O2 SAT-95 CARBOXYHB-3 MET 
+HGB-0
+___ 01:04AM   freeCa-1.03*
+___ 12:50AM   GLUCOSE-161* UREA N-20 CREAT-0.9 SODIUM-131* 
+POTASSIUM-6.3* CHLORIDE-98 TOTAL CO2-20* ANION GAP-19
+___ 12:50AM   estGFR-Using this
+___ 12:50AM   ALT(SGPT)-134* AST(SGOT)-101* ALK PHOS-95 TOT 
+BILI-1.2
+___ 12:50AM   LIPASE-36
+___ 12:50AM   ALBUMIN-3.8
+___ 12:50AM   ASA-NEG ETHANOL-NEG ACETMNPHN-NEG 
+bnzodzpn-NEG barbitrt-NEG tricyclic-NEG
+___ 12:50AM   WBC-6.1 RBC-6.07 HGB-16.0 HCT-50.3 MCV-83 
+MCH-26.3* MCHC-31.7 RDW-15.4
+___ 12:50AM   NEUTS-88.4* LYMPHS-9.1* MONOS-1.6* EOS-0.4 
+BASOS-0.5
+___ 12:50AM   ___ PTT-29.2 ___
+___ 12:50AM   PLT COUNT-223
+___ 12:50AM   ___
+
+BLOOD SPECIMEN SEND OUTS:
+========================
+___ B-GLUCAN Test                        
+----                       
+Fungitell (tm) Assay for (1,3)-B-D-Glucans
+ 
+Results                                 Reference Ranges
+-------                                 ----------------
+Not Result*                             Negative       Less than 
+60 pg/mL
+                                        Indeterminate  60 - 79 
+pg/mL
+                                        Positive       Greater 
+than or 
+                                                       ___ to 
+80 pg/mL
+
+___ 04:10 B-GLUCAN 
+  Test                        
+----                       
+Fungitell (tm) Assay for (1,3)-B-D-Glucans
+ 
+Results                                 Reference Ranges
+-------                                 ----------------
+65 pg/mL                                Negative       Less than 
+60 pg/mL
+                                        Indeterminate  60 - 79 
+pg/mL
+                                        Positive       Greater 
+than or ___ to
+                                                       80 pg/mL
+
+ 
+___ ASPERGILLUS GALACTOMANNAN ANTIGEN 
+  Test                          Result              Reference 
+Range/Units
+INDEX VALUE                   7.19  H             &lt;0.50
+ASPERGILLUS AG,EIA,SERUM      Detected  A         Not Detected
+   
+___ ASPERGILLUS GALACTOMANNAN ANTIGEN 
+  Test                          Result              Reference 
+Range/Units
+INDEX VALUE                   7.19  H             &lt;0.50
+ASPERGILLUS AG,EIA,SERUM      Detected  A         Not Detected
+
+IMAGING:
+========
+___ EEG:
+FINDINGS: 
+ABNORMALITY #1: Throughout most of the recording, the background 
+rhythm was slow and mildly disorganized at about 7 Hz ___ both 
+posterior regions. 
+ABNORMALITY #2: There were bursts of delta slowing ___ the left 
+hemisphere, 
+more ___ the temporal region. 
+ABNORMALITY #3: There were independent bursts of mixed frequency 
+slowing ___ the right frontal region and hemisphere. 
+HYPERVENTILATION: Could not be performed. 
+INTERMITTENT PHOTIC STIMULATION: Could not be performed. 
+SLEEP: The patient appeared to remain awake throughout the 
+recording. 
+CARDIAC MONITOR: Showed a generally regular rhythm. 
+IMPRESSION: Abnormal extended routine EEG due to a mildly slow 
+background and the bilateral areas of intermittent focal 
+slowing. Any slow background 
+indicates a mild to moderate encephalopathy. The focal slowing 
+indicates 
+areas of subcortical dysfunction bilaterally. It does not 
+specify the 
+etiology. There were no epileptiform features or electrographic 
+seizures. 
+
+___ CXR:
+IMPRESSION:   
+1.  Acute pulmonary edema, significantly worsened compared with 
+radiograph performed two hours ___ to this exam, on the 
+background of bibasilar interstitial lung disease. 
+2.  Endotracheal tube ends 9 mm above the carina.  Withdrawal of 
+approximately 2 cm is recommended for proper placement. 
+3.  9 mm discrepancy between the caliber of the balloon of the 
+EET and the caliber of the distal trachea. 
+
+___ CXR:
+FINDINGS:  ___ comparison with the earlier study of this date, 
+the endotracheal tube has been pulled back so that the tip now 
+lies approximately 2.2 cm above the carina.  Nasogastric tube 
+extends at least to the lower body of the stomach where it 
+crosses the lower margin of the image. There are lower lung 
+volumes.  Diffuse prominence of interstitial markings reflects a 
+combination of interstitial fibrosis and pulmonary edema. 
+
+___ CXR:
+IMPRESSION: 
+1.  Midline catheter with tip overlying the right axilla. 
+2.  New moderate pulmonary edema. 
+3.  Left basilar opacity. Pneumonia cannot be excluded ___ the 
+correct clinical setting. 
+
+___ RUQ ULTRASOUND:
+IMPRESSION: 
+1.  Limited portable exam, however, no obvious hepatic lesions.  
+Patent portal vein with normal hepatopetal flow. 
+2.  Splenomegaly. 
+3.  Multiple gallbladder stones and tumefactive sludge without 
+evidence of acute cholecystitis.  Normal caliber biliary tree. 
+4.  Incidental note of simple appearing left renal cyst. 
+
+___ MRI BRAIN:
+IMPRESSION: 
+1.  Heterogeneously-enhancing lesions with prominent slow 
+diffusion ___ the left temporal lobe, left basal ganglia and 
+right frontal lobe with significant associated vasogenic edema.  
+ 
+  
+The findings are most suggestive of CNS lymphoma, though at 
+least a portion of the dominant lesion has a &quot;targetoid&quot; 
+appearance characteristic of toxoplasmosis.  The imaging 
+findings are quite atypical for pyogenic abscess, and PML, and 
+___ particular, ___ would be a far more remote 
+consideration, given the history of non-compliance.   
+  
+2.  Additional small foci of restricted diffusion, some of which 
+show faint ___ represent additional 
+intravascular involvement by lymphoma.   Alternatively, these 
+may represent septic emboli, if there is a source, or even 
+&quot;bland&quot; infarcts, given the ___ right basal ganglionic 
+infarct. 
+  
+3.  Subfalcine and very early left uncal herniation, unchanged 
+___ degree from CT ___. 
+  
+COMMENT:  Preliminary findings of subfalcine and early uncal 
+herniation were discussed with Dr. ___ (___ resident) 
+at 2:05 p.m. on ___, at the time of discovery. 
+
+___ CXR:
+INDINGS:  ___ comparison with the earlier study of this date, 
+there has been placement of a left subclavian PICC line that 
+extends to the lower portion of the SVC.  Otherwise, there is 
+little change ___ the moderate pulmonary edema, with supervening 
+pneumonia difficult to exclude ___ the appropriate clinical 
+setting. 
+
+___ CT HEAD
+IMPRESSION:  Since the ___ MRI, a stereotactic frame has been 
+placed.  
+Multiple enhancing lesions, the largest ___ the left basal 
+ganglia, are better 
+characterized on the ___ MRI and not changed.  There is 
+persistent rightward 
+shift of the normally midline structures and effacement of the 
+perimesencephalic cistern. 
+
+___ CT HEAD W/O CONTRAST:
+IMPRESSION: 
+1.  Post operative changes from left sided lesion biopsy, 
+without 
+pneumocephalus or blood products seen ___ the biopsy tract. 
+2.  No significant interval change ___ the other bilateral 
+lesions with 
+significant surrounding vasogenic edema, resulting mass effect 
+and 8mm of 
+midline shift to the right. 
+3.  Mild dilatation of the right ventricle is stable from ___ 
+MR. 
+___ and coarse calcifications at the level of the 
+right basal 
+ganglia and internal capsule were seen ___ ___. 
+
+___ CXR:
+FINDINGS:  Single semi-erect AP portable view of the chest was 
+obtained.  
+Endotracheal tube is seen, terminating approximately 3.7 cm 
+above the level of the carina.  An enteric tube is seen coursing 
+below the level of the diaphragm, inferior aspect not well seen. 
+ A left-sided PICC is seen, stable ___ position.  There are low 
+lung volumes.  Pulmonary edema persists.  There is no 
+pneumothorax.  No large pleural effusions. 
+  
+IMPRESSION:  No significant interval change.
+
+___ CXR:
+FINDINGS:  Comparison is made to the previous study from ___. 
+  There is an endotracheal tube whose tip is 3.8 cm below the 
+carina, 
+appropriately sited.  There are again seen diffuse airspace 
+opacities 
+bilaterally.  There are low lung volumes.  The heart size is 
+within normal limits.  There is a left-sided PICC line with 
+distal lead tip ___ the mid SVC.  No pneumothoraces are seen. 
+ 
+___ CXR:
+FINDINGS:  Comparison is made to previous study from ___. 
+  There is improvement of the consolidation throughout both lung 
+fields, 
+particularly at the lung bases.  Endotracheal tube and 
+left-sided PICC line are unchanged ___ position and appropriately 
+sited.  There are low lung volumes due to poor inspiratory 
+effort 
+
+___ CXR
+FINDINGS:  Comparison is made to ___ study from ___. 
+
+  
+Endotracheal tube, left-sided PICC line and an enteric tube are 
+unchanged ___ position.  Areas of consolidation throughout both 
+lung fields continue to improve.  There remains areas of 
+increased density within the lung bases.  There are no 
+pneumothoraces or pleural effusions. 
+
+___ CXR:
+FINDINGS:  Indwelling support and monitoring devices are ___ 
+standard position. Lung volumes are low, accentuating the 
+cardiac silhouette and bronchovascular markings.  With this 
+limitation ___ mind, widespread ground-glass and reticular 
+opacities are relatively similar to the ___ chest x-ray and 
+have been documented on older chest CT of ___.  
+Given apparent chronicity of an HIV status, chronic PCP should 
+be considered.  A more confluent area of opacity ___ the left 
+infrahilar region has increased compared to the recent 
+radiograph, and raises the possibility of a superimposed 
+bacterial pneumonia ___ the appropriate clinical setting.  There 
+is no evidence of pneumothorax or substantial pleural effusion. 
+
+___ CXR:
+FINDINGS:  As compared to the previous radiograph, there is no 
+relevant 
+change.  The lung volumes are low, despite intubation.  Normal 
+position of nasogastric tube.  Borderline size of the cardiac 
+silhouette.  Diffuse reticular nodular opacities ___ both lungs, 
+raising concern for chronic PCP. No pleural effusions.  No new 
+parenchymal opacities as compared to the previous examination.
+
+___ CXR:
+FINDINGS:  As compared to the previous radiograph, there is no 
+relevant 
+change.  The extensive parenchymal opacities ___ both lungs are 
+constant ___ appearance.  The lung volumes remain low.  Unchanged 
+borderline size of the cardiac silhouette.  Unchanged monitoring 
+and support devices.  No pleural effusions. 
+
+___ CXR:
+FINDINGS:  As compared to the previous image, the nasogastric 
+tube has been changed.  Course of the new tube is unremarkable, 
+the tip, however, is not visualized on the current image.  The 
+diffuse parenchymal changes are constant ___ appearance.  The 
+lung volumes remain low.  ___ the interval, the patient has been 
+extubated, but the left PICC line remains ___ situ.  No evidence 
+of pneumothorax or other complications. 
+
+___ CXR:
+IMPRESSION:  Unchanged coarse reticular basilar-predominant 
+opacities on 
+background of diffuse ground glass opacification. This may 
+represent chronic PCP or ___ diffuse fibrotic lung disease such as 
+NSIP. No evidence of Superimposed acute process.  
+
+___ CXR:
+FINDINGS:  ___ comparison with study of ___, there are continued 
+low lung 
+volumes.  Areas of increased opacification are again seen 
+bilaterally, 
+especially at the bases.  Again, this could reflect chronic 
+inflammatory or fibrotic lung disease with some atelectatic 
+changes.  ___ the appropriate clinical setting, some acute 
+element of infection would be difficult to exclude.
+
+___ MR HEAD W &amp; W/O CONTRAST:
+IMPRESSION:  Redemonstration of multiple abnormal enhancing 
+intracranial 
+lesions as above, with interval decrease ___ the size of many of 
+the lesions and decrease ___ the extent of mass effect.  There is 
+no new or enlarging focus of abnormal enhancement.   
+
+___ CHEST (PORTABLE AP):
+FINDINGS:  Tracheostomy tube and left PICC remain ___ standard 
+position, and cardiomediastinal contours are normal.  Diffuse 
+interstitial lung disease with associated low lung volumes 
+appear similar compared to ___ studies, with no superimposed 
+acute process evident. 
+
+___ CHEST (PORTABLE AP):
+FINDINGS:  ___ comparison with the study of ___, obliquity of the 
+patient 
+somewhat obscures detail.  There again are low lung volumes with 
+diffuse 
+interstitial lung disease.  Monitoring and support devices 
+remain ___ place. 
+
+___ CT ABD &amp; PELVIS W/O CON
+IMPRESSION: Small amount of intraperitoneal free air anterior to 
+the liver.  On review of the OMR, it is noted that the patient 
+recently had a percutaneous gastrostomy tube placed on ___.  Although it is possible that the intraperitoneal free air 
+is related to that procedure, clinical correlation is advised. 
+No radiopaque urinary tract calculi.  No hydronephrosis or 
+hydroureter. Cholelithiasis. Extensive ground-glass change 
+within both lung bases, highly concerning for atypical 
+pneumonia.  Bilateral femoral head AVN 
+
+MICROBIOLOGY:
+============
+___ 11:22 am SEROLOGY/BLOOD      Source: Venipuncture. 
+   CRYPTOCOCCAL ANTIGEN (Final ___: 
+      CRYPTOCOCCAL ANTIGEN NOT DETECTED. 
+         
+___ 11:30 am IMMUNOLOGY      Source: Venipuncture. 
+   HIV-1 Viral Load/Ultrasensitive (Final ___: 
+      244 copies/ml. 
+   
+___ 11:22 am URINE      Source: Catheter. 
+   Legionella Urinary Antigen  (Final ___: 
+      NEGATIVE FOR LEGIONELLA SEROGROUP 1 ANTIGEN. 
+           
+
+___ 8:06 pm BIOPSY     Site: BRAIN
+      LATERAL BRAIN BX R/O HSV AND CMV (SHELL VIAL). 
+
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+
+   TISSUE (Final ___:    NO GROWTH. 
+
+   ANAEROBIC CULTURE (Final ___:    NO GROWTH. 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      NO FUNGAL ELEMENTS SEEN. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+
+   ACID FAST CULTURE (Preliminary):    NO MYCOBACTERIA ISOLATED. 
+
+
+   VIRAL CULTURE (Preliminary):    NO VIRUS ISOLATED. 
+
+   NOCARDIA CULTURE (Preliminary):    NO NOCARDIA ISOLATED. 
+
+   CYTOMEGALOVIRUS EARLY ANTIGEN TEST (SHELL VIAL METHOD) (Final 
+___: 
+      Negative for Cytomegalovirus early antigen by 
+immunofluorescence. 
+      Refer to culture results for further information. 
+___ 8:06 pm BIOPSY     Site: BRAIN
+      MEDIAL BRAIN BX R/O HSV, EBV, CMV (SHELL VIAL). 
+
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+
+   TISSUE (Final ___: 
+      Reported to and read back by ___ ___ 
+2:50PM. 
+      VIRIDANS STREPTOCOCCI.    2 COLONIES. 
+         CLINICAL SIGNIFICANCE UNCERTAIN. 
+
+   ANAEROBIC CULTURE (Final ___:    NO ANAEROBES ISOLATED. 
+
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      NO FUNGAL ELEMENTS SEEN. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+
+   ACID FAST CULTURE (Preliminary):    NO MYCOBACTERIA ISOLATED. 
+
+
+   VIRAL CULTURE (Preliminary):    NO VIRUS ISOLATED. 
+
+   NOCARDIA CULTURE (Preliminary):    NO NOCARDIA ISOLATED. 
+
+   CYTOMEGALOVIRUS EARLY ANTIGEN TEST (SHELL VIAL METHOD) (Final 
+___: 
+      Negative for Cytomegalovirus early antigen by 
+immunofluorescence. 
+      Refer to culture results for further information. 
+
+___ 10:01 pm STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+
+                            **FINAL REPORT ___
+
+   C. difficile DNA amplification assay (Final ___: 
+      Negative for toxigenic C. difficile by the Illumigene DNA
+      amplification assay. 
+           (Reference Range-Negative). 
+
+___ 8:35 am SEROLOGY/BLOOD      CHEM# ___ ___. 
+
+                            **FINAL REPORT ___
+
+   RAPID PLASMA REAGIN TEST (Final ___: 
+      NONREACTIVE. 
+      Reference Range: Non-Reactive. 
+
+___ 4:22 pm BRONCHOALVEOLAR LAVAGE      BRONCHIAL LAVAGE. 
+      HSV CULTURE ADDED PER ADD-ON ___. 
+
+   GRAM STAIN (Final ___: 
+      1+    (&lt;1 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      NO MICROORGANISMS SEEN. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      ~1000/ML Commensal Respiratory Flora. 
+
+   LEGIONELLA CULTURE (Final ___:    NO LEGIONELLA 
+ISOLATED. 
+
+   POTASSIUM HYDROXIDE PREPARATION (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+      This is a low yield procedure based on our ___ 
+studies. 
+      if pulmonary Histoplasmosis, Coccidioidomycosis, 
+Blastomycosis,
+      Aspergillosis or Mucormycosis is strongly suspected, 
+contact the
+      Microbiology Laboratory (___). 
+
+   Immunoflourescent test for Pneumocystis jirovecii (carinii) 
+(Final
+      ___:    NEGATIVE for Pneumocystis jirovecii 
+(carinii).. 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   NOCARDIA CULTURE (Preliminary):    NO NOCARDIA ISOLATED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary):    NO MYCOBACTERIA ISOLATED. 
+
+
+   VIRAL CULTURE: R/O CYTOMEGALOVIRUS (Final ___: 
+      TEST CANCELLED, PATIENT CREDITED. 
+      Refer to ___ early antigen test result for further 
+information. 
+
+   CYTOMEGALOVIRUS EARLY ANTIGEN TEST (SHELL VIAL METHOD) (Final 
+___: 
+      POSITIVE FOR CYTOMEGALOVIRUS. 
+         Early antigen detected by immunofluorescence. 
+         Reported to and read back by ___ 2:09PM. 
+
+   VIRAL CULTURE: R/O HERPES SIMPLEX VIRUS (Final ___: 
+      HERPES SIMPLEX VIRUS TYPE 1. 
+         CONFIRMED BY MONOCLONAL FLUORESCENT ANTIBODY.. 
+
+___ 7:49 am SPUTUM      Source: Endotracheal. 
+   GRAM STAIN (Final ___: 
+      ___ PMNs and &lt;10 epithelial cells/100X field. 
+      1+    (&lt;1 per 1000X FIELD):   BUDDING YEAST. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      Commensal Respiratory Flora Absent. 
+      YEAST.    SPARSE GROWTH. 
+
+   FUNGAL CULTURE (Preliminary): 
+      YEAST. 
+
+___ 11:00 pm Immunology (CMV)      Source: Venipuncture. 
+
+                            **FINAL REPORT ___
+
+   CMV Viral Load (Final ___: 
+      438 IU/mL. 
+      Performed by Cobas Ampliprep / Cobas Taqman CMV Test. 
+      Linear range of quantification: 137 IU/mL - 9,100,000 
+IU/mL. 
+      Limit of detection 91 IU/mL. 
+      This test has been verified for use ___ the ___ patient 
+population. 
+      Reported to and read back by ___ (CC6D) ___ AT 
+1024. 
+
+___ 4:25 pm SPUTUM      Source: Endotracheal ENDOTRACHEAL. 
+
+                            **FINAL REPORT ___
+
+   GRAM STAIN (Final ___: 
+      &gt;25 PMNs and &lt;10 epithelial cells/100X field. 
+      1+    (&lt;1 per 1000X FIELD):   GRAM POSITIVE COCCI. 
+                                    ___ AND ___ PAIRS. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      RARE GROWTH Commensal Respiratory Flora. 
+      STAPH AUREUS COAG +.    RARE GROWTH. 
+         Oxacillin RESISTANT Staphylococci MUST be reported as 
+also
+         RESISTANT to other penicillins, cephalosporins, 
+carbacephems,
+         carbapenems, and beta-lactamase inhibitor combinations. 
+
+         Rifampin should not be used alone for therapy. 
+         SULFA X TRIMETH sensitivity testing confirmed by ___ 
+___. 
+
+___ 11:00 pm SPUTUM      Source: Endotracheal. 
+
+                            **FINAL REPORT ___
+
+   GRAM STAIN (Final ___: 
+      &gt;25 PMNs and &lt;10 epithelial cells/100X field. 
+      2+   ___ per 1000X FIELD):   GRAM NEGATIVE ROD(S). 
+      1+    (&lt;1 per 1000X FIELD):   GRAM POSITIVE COCCI. 
+                                    ___ PAIRS AND CLUSTERS. 
+      1+    (&lt;1 per 1000X FIELD):   BUDDING YEAST. 
+      SMEAR REVIEWED; RESULTS CONFIRMED. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      SPARSE GROWTH Commensal Respiratory Flora. 
+      STAPH AUREUS COAG +.    SPARSE GROWTH. 
+         Oxacillin RESISTANT Staphylococci MUST be reported as 
+also
+         RESISTANT to other penicillins, cephalosporins, 
+carbacephems,
+         carbapenems, and beta-lactamase inhibitor combinations. 
+
+         Rifampin should not be used alone for therapy. 
+         SULFA X TRIMETH sensitivity testing confirmed by ___ 
+___.  
+
+___ 12:45 pm BRONCHOALVEOLAR LAVAGE
+      RIGHT MIDDLE LOBE AFB FOR ATYPICAL MYCOBACTERIA. 
+
+   GRAM STAIN (Final ___: 
+      4+   (&gt;10 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      2+   ___ per 1000X FIELD):   GRAM NEGATIVE ROD(S). 
+      1+    (&lt;1 per 1000X FIELD):   GRAM POSITIVE COCCI. 
+                                    ___ PAIRS AND ___. 
+      SMEAR REVIEWED; RESULTS CONFIRMED. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      10,000-100,000 ORGANISMS/ML. Commensal Respiratory Flora. 
+      STAPH AUREUS COAG +.    10,000-100,000 ORGANISMS/ML.. 
+         SENSITIVITIES PERFORMED ON CULTURE # ___ ___. 
+
+   Immunoflourescent test for Pneumocystis jirovecii (carinii) 
+(Final
+      ___:    NEGATIVE for Pneumocystis jirovecii 
+(carinii).. 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+   VIRAL CULTURE: R/O CYTOMEGALOVIRUS (Preliminary): 
+      No Cytomegalovirus (CMV) isolated. 
+
+   VIRAL CULTURE: R/O HERPES SIMPLEX VIRUS (Preliminary): 
+      No Herpes simplex (HSV) virus isolated. 
+
+   CYTOMEGALOVIRUS EARLY ANTIGEN TEST (SHELL VIAL METHOD) 
+(Pending): 
+___ 12:45 pm BRONCHOALVEOLAR LAVAGE
+      RIGHT MIDDLE LOBE AFB FOR ATYPICAL MYCOBACTERIA. 
+
+   GRAM STAIN (Final ___: 
+      4+   (&gt;10 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      2+   ___ per 1000X FIELD):   GRAM NEGATIVE ROD(S). 
+      1+    (&lt;1 per 1000X FIELD):   GRAM POSITIVE COCCI. 
+                                    ___ PAIRS AND ___. 
+      SMEAR REVIEWED; RESULTS CONFIRMED. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      10,000-100,000 ORGANISMS/ML. Commensal Respiratory Flora. 
+      STAPH AUREUS COAG +.    10,000-100,000 ORGANISMS/ML.. 
+         SENSITIVITIES PERFORMED ON CULTURE # ___ ___. 
+
+   Immunoflourescent test for Pneumocystis jirovecii (carinii) 
+(Final
+      ___:    NEGATIVE for Pneumocystis jirovecii 
+(carinii).. 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+   VIRAL CULTURE: R/O CYTOMEGALOVIRUS (Preliminary): 
+      No Cytomegalovirus (CMV) isolated. 
+
+   VIRAL CULTURE: R/O HERPES SIMPLEX VIRUS (Preliminary): 
+      No Herpes simplex (HSV) virus isolated. 
+
+   CYTOMEGALOVIRUS EARLY ANTIGEN TEST (SHELL VIAL METHOD) 
+(Pending): 
+___ 12:45 pm BRONCHOALVEOLAR LAVAGE
+      RIGHT MIDDLE LOBE AFB FOR ATYPICAL MYCOBACTERIA. 
+
+   GRAM STAIN (Final ___: 
+      4+   (&gt;10 per 1000X FIELD):   POLYMORPHONUCLEAR 
+LEUKOCYTES. 
+      2+   ___ per 1000X FIELD):   GRAM NEGATIVE ROD(S). 
+      1+    (&lt;1 per 1000X FIELD):   GRAM POSITIVE COCCI. 
+                                    ___ PAIRS AND ___. 
+      SMEAR REVIEWED; RESULTS CONFIRMED. 
+
+   RESPIRATORY CULTURE (Final ___: 
+      10,000-100,000 ORGANISMS/ML. Commensal Respiratory Flora. 
+      STAPH AUREUS COAG +.    10,000-100,000 ORGANISMS/ML.. 
+         SENSITIVITIES PERFORMED ON CULTURE # ___ ___. 
+
+   Immunoflourescent test for Pneumocystis jirovecii (carinii) 
+(Final
+      ___:    NEGATIVE for Pneumocystis jirovecii 
+(carinii).. 
+
+   FUNGAL CULTURE (Preliminary):    NO FUNGUS ISOLATED. 
+
+   ACID FAST SMEAR (Final ___: 
+      NO ACID FAST BACILLI SEEN ON DIRECT SMEAR. 
+      NO ACID FAST BACILLI SEEN ON CONCENTRATED SMEAR. 
+
+   ACID FAST CULTURE (Preliminary): 
+
+   VIRAL CULTURE: R/O CYTOMEGALOVIRUS (Preliminary): 
+      No Cytomegalovirus (CMV) isolated. 
+
+   VIRAL CULTURE: R/O HERPES SIMPLEX VIRUS (Preliminary): 
+      No Herpes simplex (HSV) virus isolated. 
+
+   CYTOMEGALOVIRUS EARLY ANTIGEN TEST (SHELL VIAL METHOD) 
+(Pending): 
+
+___ 3:53 am STOOL     CONSISTENCY: NOT APPLICABLE
+      Source: Stool. 
+
+                            **FINAL REPORT ___
+
+   C. difficile DNA amplification assay (Final ___: 
+      Negative for toxigenic C. difficile by the Illumigene DNA
+      amplification assay. 
+           (Reference Range-Negative). 
+
+Discharge Labs:
+ 
+___ 06:27AM BLOOD WBC-10.2 RBC-4.10* Hgb-12.1* Hct-34.5* 
+MCV-84 MCH-29.5 MCHC-35.1* RDW-17.8* Plt ___
+___ 06:27AM BLOOD Glucose-88 UreaN-22* Creat-0.6 Na-136 
+K-4.0 Cl-95* HCO3-28 AnGap-17
+___ 06:27AM BLOOD Calcium-8.9 Phos-4.6* Mg-2.0
+
+ 
+Brief Hospital Course:
+PRIMARY REASON FOR ADMISSION:
+___ with HIV/AIDS, last CD4 count 24, recent admission for 
+respiratory distress and treated for Lymphocytic interstitial 
+pneumonitis and pneumonia returned with worsening SOB, 
+complicated by episode of unresponsiveness and worsening 
+lethargy requiring intubation for airway protection. Now 
+transferred to ___ after CT scan showed new brain mass with 
+reported vasogenic edema, effacement, and midline shift.
+. 
+ACTIVE ISSUES:
+# Toxoplasmosis: Given CD count &lt;50, concern for opportunistic 
+infection or AIDS related malignancy. Initially started 
+Vancomycin, Cefepime, and Flagyl at CNS doses for coverage of 
+bacterial CNS infection. Toxo coverage of Pyrimethamine and 
+Clindamycin added on ___. Patient continued on Dexamethasone 
+4mg Q6H initially and held ___ to biopsy. Started on Propofol, 
+Keppra, and Phenobarbital for seizure prophylaxis. MRI on 
+___ showed multiple ring enhancing with evidence 
+of uncal herniation and midline shift similar to previous CT. On 
+the afternoon of ___ patient&#x27;s pupils became more dilated, 
+assymetric L&gt;R, still responsive. Head of bed elevated, 
+hyperventilated to goal PCO2 of 30. Mannitol 50mg IV bolus 
+given. ID, Neurology, and Neurosurgery were consulted. ID 
+recommended the following infectious disease workup: CSF fluid 
+studies: ___ virus PCR, toxo PCR, EBV PCR, CMV PCR, HSV PCR, TB 
+PCR. No CSF was obtained ___ the biopsy and LP was not performed 
+due to increased ICP and concern for herniation. Gram stain on 
+___ returned without organisms so antibiotics were 
+discontinued. Biopsy results returned on ___ and were positive 
+for toxoplasmosis. The patient was continued on pyrimethamine, 
+clindamycin and leucovorin per ID recommendations. Pt had repeat 
+MRI on ___ which showed a decrease ___ size of the enhancing 
+intracranial lesions, as well as decrease ___ the extent of mass 
+effect, without any new lesions. Mannitol was discontinued, and 
+dexamethasone was reduced to 2 mg IV Q12H to be continued 
+pending improved edema on next MRI. He will be continued on the 
+same regimen of pyrimethamine, clindamycin and leucovorin x 6 
+weeks (Day ___. His Dexamethasone was changed to 2mg PO 
+at the time of discharge and should be continued at same dose 
+until ID and Neuro outpatient f/u. 
+.
+# Acute Encephalopathy. Likely related to toxoplasmosis, brain 
+edema, seizure and impending herniation at time of presentation. 
+___ to arrival at ___, the patient was intubated at ___ 
+___, wherein a CT scan showed large left sided brain mass. 
+He was transferred to the ___. A brain MRI showed two left 
+sided brain masses and an additional smaller one on the right, 
+with impending uncal herniation. His pupil dilated acutley while 
+___ the FICU. He was transferred to the SICU on the afternoon of 
+___. At this time, he underwent brain biopsy of these lesions. 
+Reports of seizure-like activity, especially given 
+subtherapeutic phenobarb level as well as ___ setting of 
+presumably new brain mass. Continued phenobarab, started keppra 
+and propofol. Continous EEG with MRI compatible leads placed 
+which showed background slowing and episodes of focal slowing 
+consistent with encephalopathy and subcortical dysfunction. 
+Pathology demonstrated two biopsies consistent with cerebral 
+toxoplasmosis. Mental status began to improve gradually with 
+treatment of elevated ICP and toxoplasma infection. On ___ he 
+underwent MRI scan which showed stable disease. ___ brain MRI 
+showed decreased lesion size and decreased mass effect. By time 
+of discharge, the patient was more alert and responsive: 
+tracking well, responding to verbal commands such as wiggling 
+toes, and squeezing his hand to respond to yes/no questions, 
+though he continues to be non verbal (trach&#x27;ed). It is unclear 
+the extent to which Mr ___ recover his pre-admission 
+cognitive baseline; would expect a prolonged and incomplete 
+recovery. 
+.
+# Hypoxic Respiratory Failure: Pt noted to be hypoxic despite 
+apparent good oxygenation. Methemoglobin level was 9. ID 
+consulted for a substitute for Dapsone, which was thought to be 
+causing his methemoglobinemia. Pt was started on pyrimethamine. 
+During the hospital course, the patient also developed 
+Ventilator-associated pneumonia. He was covered with vancomycin, 
+cefepime, as well as clindamycin. He underwent a trial of 
+extubation on ___, failed and was reintubated the same day. He 
+underwent bronch and BAL which initially showed only commensal 
+respiratory flora, though several days later returned positive 
+for CMV and HSV; pt was treated with ganciclovir. On ___ a 
+tracheostomy tube was placed. Acid fast staining of sputum 
+cultures and PPD were also negative. ___ and ___ sputum 
+cultures grew MRSA which was treated with vancomycin. Repeat BAL 
+on ___ grew staph aureus and vancomycin treatment was 
+continued. Aspergillus galactomman antigen returned positive on 
+___ and repeat was positive from ___. Per ID recommendations, 
+because the patient was clinically stable it was not necessary 
+to begin voriconazole treatment unless he were to deteriorate.  
+At time of discharge his ABx tehrapy consists of: ganciclovir 25 
+mg IV every 12 hours for HSV/CMV (last day ___, vanganciclovir 
+for HSV/CMV 900mg po daily from (___), vancomycin for MRSA 
+growth (last day ___.
+.
+# HIV/AIDS - Multiple ___ oppurtunistic infections 
+(toxoplasmosis, PCP, LIP). Per ID note at ___, no recent 
+resistant mutations on genotype. Not compliant with ARV regimen. 
+CD4 count was 12 with a viral load of 244 copies/mL. The patient 
+was continued on Truvada and raltegravir per ID recommendations. 
+He was continued on weekly azithromycin for ___ prophylaxis. PCP 
+prophylaxis was later changed to atovaquone, as the ID team felt 
+Dapsone may have contributed to methemaglobinemia. Given BAL 
+finding of CMV, ophtho did a retinal exam which did not show any 
+evidence of toxo or CMV retinitis. Per ID recommendations, 
+raltegravir was discontinued and darunavir/ritonavir were 
+restarted. HIV Genotype was sent ___ however, it was unable 
+to be performed as the pt&#x27;s viral load was &lt;1000, so the test 
+was cancelled. HIV VL will need to be checked at some point on 
+an outpatient basis. 
+.
+# Thrush/esophagitis: Pt had white oral secretions and 
+complained of throat pain. He was started on empiric therapy 
+with fluconazole. Last dose of Fluconazole was ___.  
+.
+# Transaminitis: New since ___, AST 39, ALT 84, AP 66, bili 
+0.7 when last checked on ___. Hepatitis serologies were 
+negative for acute infection with HBV or HCV. The patient is not 
+immune to HBV. RUQ U/S was within normal limits. His protease 
+inhibitor was initially held as above, and then restarted. 
+Likely related to polypharmacy, sepsis. LFTs had largely 
+normalized at the time of discharge. 
+.
+# Leukocytosis: On ___, patient had WBC elevation to 12.5, up 
+to 17.2 on ___. Patient remained clinically and hemodynamically 
+stable, with no increase ___ oxygen requirements. Blood, urine 
+and sputum cultures were unchanged from ___ (with normal WBC). 
+CT imaging on ___ showed small amout of free air and pt was 
+evaluated by surgery. They adjusted his PEG tube but did not 
+think this was reason for leukocytosis. He had a large BM on ___ 
+and his WBC count normalized on ___. C diff was sent on ___ and 
+was negative (had also been negative on ___. Leukocytosis 
+thought to be related to constipation, as no other source was 
+found, he remained afebrile and he clinically continued to 
+improve throughout his course on the medical floor. 
+.
+# History of seizures. Continued on Phenobarbital, added on 
+Keppra. Neuro evaluated ___ and felt pt was not having not 
+seizures; pt was continued with on keppra and phenobarbital. Per 
+neurology recommendations, he underwent phenobarb taper to 15mg 
+on ___ this should be discontinued on ___. He should remain on 
+keppra on an ongoing basis. Further titration of antiepileptics 
+per outpatient Neurology. 
+.
+# History of chronic diarrhea- C diff was negative on ___ and 
+___, not changed from baseline; likely related to HIV, 
+antibiotics. 
+.
+# Rash: Pt had a Hypopigmented macular rash on plantar aspect of 
+feet. Skin biopsy  from right arm was non-specific; immunostains 
+for toxo and treponemes were negative.
+.
+TRANSITIONAL ISSUES:
+- For MRSA PNA, patient receiving 2 week course of vancomycin 
+(last day ___. 
+- For Toxoplasmosis, pyrimethamine/leucovorin/clindamycin (last 
+dose ___. 
+- For HSV/CMV PNA, ganciclovir at 425mg IV q12 x3 weeks (last 
+day ___, then valgancyclovir 900mg po qday for another 21 days 
+(___)
+- Is getting 200ml free water flushs q8h; he should have weekly 
+electrolytes checked and free H2O can be adjusted as needed with 
+extra salt tablets given if necessary
+- Patient is not immune to HBV and should be vaccinated
+- Should have MRI with and without contrast, roughly 2 weeks 
+from discharge (scheduled for ___
+- Continue dexamethasone 2mg po q12. Discontinuation of this at 
+the discretion of outpatient ID and Neurology attendings. 
+- Continue to monitor for abnormal movements. If they occur with 
+increased frequency or intensity, would recommend 24-hour EEG 
+monitoring with video to further evaluate.  
+- ___ ad lib, no restrictions with focus on range of motion and 
+decreasing contractions. ___ consider splinting UE during sleep. 
+ 
+- To resend HIV genotyping, patient will need concurrent viral 
+load ordered. Need &gt;1000 copies to perform the test
+- The patient had two positive galactomannan antigen (serum) 
+with antigen ___ BAL negative. Per ID, not starting voriconazole 
+but would re-evaluate should the patient decompensate.
+
+-The following studies were pending at time of discharge:
+___ 15:10  BLOOD CULTURE Blood Culture, Routine
+___ 15:10  BLOOD CULTURE Blood Culture, Routine
+___ 14:45  SPUTUM RESPIRATORY CULTURE; LEGIONELLA CULTURE; 
+FUNGAL CULTURE
+___ 08:39  BLOOD CULTURE Blood Culture, Routine
+___ 02:50  BLOOD CULTURE Blood Culture, Routine
+___ 13:07  BRONCHOALVEOLAR LAVAGE FUNGAL CULTURE; ACID FAST 
+CULTURE; VIRAL CULTURE: R/O CYTOMEGALOVIRUS
+___ 17:41  BRONCHOALVEOLAR LAVAGE NOCARDIA CULTURE; ACID 
+FAST CULTURE
+___ 04:52  SPUTUM ACID FAST CULTURE
+___ 17:05  SPUTUM ACID FAST CULTURE
+___ 10:36  SPUTUM ACID FAST CULTURE
+___ 22:16  BIOPSY FUNGAL CULTURE; ACID FAST CULTURE; VIRAL 
+CULTURE
+___ 22:16  BIOPSY FUNGAL CULTURE; ACID FAST CULTURE; VIRAL 
+CULTURE
+___ 22:16  BIOPSY FUNGAL CULTURE; ACID FAST CULTURE; VIRAL 
+CULTURE
+___ 12:08  BLOOD CULTURE ( MYCO/F LYTIC BOTTLE) 
+BLOOD/FUNGAL CULTURE; BLOOD/AFB CULTURE
+
+- DISCHARGED TO: ___
+- FULL CODE
+
+ 
+Medications on Admission:
+The Preadmission Medication list is accurate and complete.
+1. albuterol sulfate *NF* 2.5 mg/0.5 mL Inhalation Q6 hours  as 
+needed for shortness of breath or wheezing 
+2. Ipratropium Bromide Neb 1 NEB IH Q6H as needed for shortness 
+of breath 
+3. Dapsone 50 mg PO DAILY 
+4. PredniSONE 30 mg PO DAILY 
+5. Potassium Chloride 40 mEq PO DAILY 
+6. OxycoDONE (Immediate Release)  5 mg PO QHS:PRN pain 
+7. Lorazepam 1 mg PO HS:PRN insomnia 
+8. PHENObarbital 30 mg PO DAILY 
+9. Raltegravir 400 mg PO BID 
+10. RiTONAvir 100 mg PO BID 
+11. Darunavir 600 mg PO BID 
+12. Emtricitabine-Tenofovir (Truvada) 1 TAB PO DAILY 
+
+ 
+Discharge Medications:
+1. Darunavir 800 mg PO DAILY 
+2. Emtricitabine-Tenofovir (Truvada) 1 TAB PO DAILY 
+3. Ipratropium Bromide Neb 1 NEB IH Q6H as needed for shortness 
+of breath 
+4. OxycoDONE (Immediate Release)  2.5 mg PO Q8H:PRN Pain 
+5. PHENObarbital 15 mg PO DAILY 
+last day ___ 
+6. RiTONAvir 100 mg PO DAILY 
+7. Leucovorin Calcium 25 mg PO DAILY 
+(day 1 ___, last ___ 
+8. LeVETiracetam 1250 mg PO Q12H 
+9. Pyrimethamine 75 mg PO DAILY 
+(day 1= ___, last ___ 
+10. Dexamethasone 2 mg IV Q12H 
+11. Clindamycin 600 mg IV Q6H 
+(day 1 ___, last ___  
+12. Vancomycin 1250 mg IV Q 8H 
+Last day: ___ or as per directed by ID. 
+13. Azithromycin 1200 mg PO 1X/WEEK (___) 
+14. Atovaquone Suspension 1500 mg PO DAILY 
+15. Senna 1 TAB PO BID:PRN constipation 
+Please hold for loose stools. 
+16. Docusate Sodium 100 mg NG BID:PRN constipation 
+17. Albuterol 0.083% Neb Soln 1 NEB IH Q6H 
+18. Dextrose 50% 12.5 gm IV PRN hypoglycemia protocol 
+19. Glucagon 1 mg IM Q15MIN:PRN hypoglycemia protocol 
+20. Glucose Gel 15 g PO PRN hypoglycemia protocol 
+21. Heparin 5000 UNIT SC TID 
+22. Insulin SC 
+      Sliding Scale
+
+Fingerstick QACHS
+Insulin SC Sliding Scale using HUM Insulin
+23. ValGANCIclovir 900 mg PO DAILY 
+Start day ___.  End day ___. Outpatient Lab Work
+Please draw CBC two times per week. Please fax results to ___, Attn: ___ MD
+___ Code: ___
+25. Outpatient Lab Work
+Please draw Renal function panel one time per week. Please fax 
+results to ___, Attn: Dr. ___
+ICD 9-code: ___
+26. Ganciclovir 425 mg IV Q12H CMV/HSV coinfection 
+last day ___. Sodium Chloride 1 gm PO DAILY 
+
+ 
+Discharge Disposition:
+Extended Care
+ 
+Facility:
+___
+ 
+Discharge Diagnosis:
+Primary diagnosis:
+- Toxoplasmosis
+- Ventilator-associated pneumonia 
+- MRSA/HSV/CMV Pneumonia
+- HIV/AIDS
+
+ 
+Discharge Condition:
+Mental Status: Confused - sometimes.
+Level of Consciousness: Lethargic but arousable.
+Activity Status: Ambulatory - requires assistance or aid (walker 
+or cane).
+
+ 
+Discharge Instructions:
+Dear Mr. ___,
+
+It was a pleasure caring for you during your hospitalization at 
+___. You were admitted on ___ from another hospital after 
+you had difficulty breathing and some changes ___ your mentation. 
+You were very, very sick. You required a tube to help you 
+breathe and were found to have masses ___ your brain. There was 
+swelling from the masses and this was pushing on your brain so 
+you were treated with medications to help decrease the pressure 
+from this swelling. A brain biopsy showed that the masses were 
+from an infection, called toxoplasmosis, and you were started on 
+medicines that will help treat this disease. You had repeat 
+imaging (an MRI) that showed that the masses had decreased 
+slightly ___ size towards the end of your hospitalization. You 
+will have another MRI ___ a couple of weeks so that your brain 
+infections and swelling can be monitored. You also had multiple 
+infections ___ your lungs. When you had the breathing tube, you 
+were found to have a pneumonia that was treated with 
+antibiotics. To identify other organisms that were infecting 
+your lungs, you had a procedure called a bronchoscopy, where a 
+tube was placed down your windpipe. You were found to have 
+multiple infectious organisms ___ your lungs, and you were 
+continued on antibiotics and antiviral medications to treat 
+these infections.  These medications will also need to be 
+continued.
+
+After your breathing tube was removed, you were having trouble 
+breathing on your own. You had a surgery to make a hole ___ your 
+windpipe (called a tracheostomy) to help you breathe. To help 
+you get the nutrition you require, you had another surgery to 
+put ___ a feeding tube. 
+
+You also were kept on anti-retroviral medications for your 
+HIV/AIDS. Your T cell count was very low (CD4 count of 12) and 
+you were followed by the Infectious Disease doctors. ___ to 
+admission, you also had been taking medications to prevent 
+certain infections that are more frequent ___ patients with AIDS. 
+Please note that changes were made to this regimen while you 
+were ___ the hospital and you have been discharged on different 
+medications. 
+
+You have a history of seizures and had been taking a medication 
+called phenobarbital. While you were ___ the hospital, you were 
+seen by the Neurology Service and you were slowly weaned off of 
+the phenobarbital and started on a different medication 
+(Keppra). 
+
+You will be followed by both the Infectious Disease clinic (to 
+monitor the treatment of your multiple lung infections) and the 
+Neurology clinic (see below for appointment information). You 
+have been started on many new medications to help treat the 
+infections ___ your brain and ___ your lungs and to treat the 
+swelling ___ your brain and prevent seizures. Please make sure to 
+take these medications appropriately as this is important for 
+your continued treatment and recovery.
+
+If you develop any fevers, chills, difficulty breathing, 
+numbness, tingling, weakness, chest pain, palpitations, vision 
+changes, or any other concerning symptoms, please call your 
+doctor right away.
+
+We wish you the best of luck!
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(23)</span></h3>
+  <ul>
+    <li>HIV/AIDS</li>
+    <li>Toxoplasmose cerebral</li>
+    <li>Pneumonia associada à ventilação mecânica</li>
+    <li>Pneumonia por Staphylococcus aureus resistente à meticilina (MRSA)</li>
+    <li>Pneumonia por Citomegalovírus (CMV)</li>
+    <li>Pneumonia por Herpes Simplex Vírus (HSV)</li>
+    <li>Pneumonia intersticial linfocítica</li>
+    <li>Doença pulmonar obstrutiva crônica (DPOC)</li>
+    <li>Encefalopatia aguda</li>
+    <li>Diarreia crônica</li>
+    <li>Colecistite litiásica (cálculos da vesícula biliar)</li>
+    <li>Osteonecrose da cabeça femoral bilateral</li>
+    <li>Transaminitis</li>
+    <li>Methemoglobinemia</li>
+    <li>Leucocitose</li>
+    <li>Constipação</li>
+    <li>Candidíase oral/esofágica</li>
+    <li>Erupção cutânea hipopigmentada macular</li>
+    <li>Insuficiência respiratória hipóxica</li>
+    <li>Ar livre intraperitoneal (pós-procedimento)</li>
+    <li>Splenomegalia</li>
+    <li>Cisto renal simples</li>
+    <li>Convulsões (histórico)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(77)</span></h3>
+  <ul>
+    <li>Dispneia</li>
+    <li>Alteração do sensorium</li>
+    <li>Letargia</li>
+    <li>Confusão mental</li>
+    <li>Dificuldade de deglutição</li>
+    <li>Dor de garganta</li>
+    <li>Secreções orais brancas</li>
+    <li>Roncos bilaterais</li>
+    <li>Entrada aérea diminuída à esquerda</li>
+    <li>Sons respiratórios ásperos à direita</li>
+    <li>Pupilas 1mm, reativas</li>
+    <li>Movimento das 4 extremidades ao ser aspirado</li>
+    <li>Reflexo de Babinski descendente</li>
+    <li>Não abertura de olhos</li>
+    <li>Não seguimento de comandos</li>
+    <li>Contratura do membro superior esquerdo</li>
+    <li>Não verbal</li>
+    <li>Não contato visual</li>
+    <li>Sangue na urina (microscópico)</li>
+    <li>Proteína na urina</li>
+    <li>Cetonas na urina</li>
+    <li>Urobilinogênio elevado na urina</li>
+    <li>Células epiteliais na urina</li>
+    <li>Mucosa na urina</li>
+    <li>Cilindros hialinos na urina</li>
+    <li>Células epiteliais no escarro</li>
+    <li>Polimorfonucleares no escarro</li>
+    <li>Leveduras brotantes no escarro</li>
+    <li>Cocos Gram-positivos no escarro</li>
+    <li>Bacilos Gram-negativos no escarro</li>
+    <li>Opacidades intersticiais difusas</li>
+    <li>Opacidades alveolares difusas</li>
+    <li>Consolidação pulmonar</li>
+    <li>Opacidade basilar esquerda</li>
+    <li>Edema pulmonar</li>
+    <li>Fibrose pulmonar intersticial</li>
+    <li>Desvio de linha média</li>
+    <li>Efeito de massa</li>
+    <li>Edema vasogênico</li>
+    <li>Restrição de difusão</li>
+    <li>Lesões anelares (ring-enhancing lesions)</li>
+    <li>Ar livre intraperitoneal</li>
+    <li>Sons cardíacos distantes</li>
+    <li>Sons intestinais normoativos</li>
+    <li>Mucosas úmidas</li>
+    <li>JVP difícil de avaliar</li>
+    <li>Sclera anicteric</li>
+    <li>Sopro cardíaco (ausente)</li>
+    <li>Edema periférico (ausente)</li>
+    <li>Linfadenopatia (ausente)</li>
+    <li>Dor à palpação abdominal (ausente)</li>
+    <li>Distensão abdominal (ausente)</li>
+    <li>Ritmo de galope (ausente)</li>
+    <li>Rubor (ausente)</li>
+    <li>Icterícia (ausente)</li>
+    <li>Febre (negada)</li>
+    <li>Calafrios (negados)</li>
+    <li>Suores noturnos (negados)</li>
+    <li>Perda de peso (negada)</li>
+    <li>Dor de cabeça (negada)</li>
+    <li>Tosse (negada)</li>
+    <li>Dor torácica (negada)</li>
+    <li>Palpitações (negadas)</li>
+    <li>Fraqueza (negada)</li>
+    <li>Náusea (negada)</li>
+    <li>Vômito (negado)</li>
+    <li>Diarreia aguda (negada no ROS)</li>
+    <li>Dor abdominal (negada)</li>
+    <li>Disúria (negada)</li>
+    <li>Frequência urinária (negada)</li>
+    <li>Urgência urinária (negada)</li>
+    <li>Artralgia (negada)</li>
+    <li>Mialgia (negada)</li>
+    <li>Erupção cutânea (negada no ROS)</li>
+    <li>Alterações na pele (negadas no ROS)</li>
+    <li>Herniação uncal</li>
+    <li>Herniação subfalcial</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(41)</span></h3>
+  <ul>
+    <li>Albuterol Sulfato</li>
+    <li>Ipratropium Bromide</li>
+    <li>Dapsona</li>
+    <li>Prednisona</li>
+    <li>Cloreto de Potássio</li>
+    <li>Oxicodona</li>
+    <li>Lorazepam</li>
+    <li>Fenobarbital</li>
+    <li>Raltegravir</li>
+    <li>Ritonavir</li>
+    <li>Darunavir</li>
+    <li>Emtricitabina-Tenofovir (Truvada)</li>
+    <li>Cefepima</li>
+    <li>Levofloxacino</li>
+    <li>Zosyn (Piperacilina-Tazobactam)</li>
+    <li>Etomidato</li>
+    <li>Vecurônio</li>
+    <li>Fentanil</li>
+    <li>Lidocaína</li>
+    <li>Propofol</li>
+    <li>Vancomicina</li>
+    <li>Metronidazol</li>
+    <li>Pirimetamina</li>
+    <li>Clindamicina</li>
+    <li>Leucovorina</li>
+    <li>Dexametasona</li>
+    <li>Manitol</li>
+    <li>Levetiracetam (Keppra)</li>
+    <li>Ganciclovir</li>
+    <li>Valganciclovir</li>
+    <li>Azitromicina</li>
+    <li>Atovaquona</li>
+    <li>Senna</li>
+    <li>Docusato de Sódio</li>
+    <li>Dextrose 50%</li>
+    <li>Glucagon</li>
+    <li>Gel de Glicose</li>
+    <li>Heparina</li>
+    <li>Insulina</li>
+    <li>Fluconazol</li>
+    <li>Cloreto de Sódio</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(263)</span></h3>
+  <ul>
+    <li>CD4-24</li>
+    <li>Carga Viral HIV &gt; 1 milhão</li>
+    <li>CD4-12</li>
+    <li>Carga Viral HIV-244 cópias/ml</li>
+    <li>WBC-10.4</li>
+    <li>HGB-15.5</li>
+    <li>HCT-44.1</li>
+    <li>MCV-81</li>
+    <li>MCHC-35.1</li>
+    <li>RDW-15.6</li>
+    <li>PLT-221</li>
+    <li>PTT-25.5</li>
+    <li>GLUCOSE-162</li>
+    <li>UREA N-22</li>
+    <li>CREAT-0.6</li>
+    <li>SODIUM-132</li>
+    <li>POTASSIUM-4.3</li>
+    <li>CHLORIDE-100</li>
+    <li>TOTAL CO2-22</li>
+    <li>ANION GAP-14</li>
+    <li>CALCIUM-9.0</li>
+    <li>PHOSPHATE-2.8</li>
+    <li>MAGNESIUM-2.3</li>
+    <li>OSMOLAL-286</li>
+    <li>ABG: pH-7.55, pCO2-27, pO2-209, TOTAL CO2-24, BASE XS-3</li>
+    <li>GLUCOSE-164</li>
+    <li>LACTATE-2.0</li>
+    <li>NA+-132</li>
+    <li>K+-4.2</li>
+    <li>CL--102</li>
+    <li>freeCa-1.14</li>
+    <li>URINE CREAT-77</li>
+    <li>URINE SODIUM-16</li>
+    <li>URINE POTASSIUM-46</li>
+    <li>URINE CHLORIDE-37</li>
+    <li>URINE OSMOLAL-991</li>
+    <li>URINE BLOOD-TR</li>
+    <li>URINE NITRITE-NEG</li>
+    <li>URINE PROTEIN-TR</li>
+    <li>URINE GLUCOSE-NEG</li>
+    <li>URINE KETONE-10</li>
+    <li>URINE BILIRUBIN-NEG</li>
+    <li>URINE UROBILNGN-2</li>
+    <li>URINE PH-6.0</li>
+    <li>URINE LEUK-NEG</li>
+    <li>ABG: pH-7.48, pCO2-33, pO2-66, TOTAL CO2-25, BASE XS-1</li>
+    <li>NA+-128</li>
+    <li>K+-6.2</li>
+    <li>ABG: pH-7.47, pCO2-36, pO2-72, TOTAL CO2-27, BASE XS-2</li>
+    <li>GLUCOSE-131</li>
+    <li>LACTATE-1.8</li>
+    <li>freeCa-1.00</li>
+    <li>GLUCOSE-142</li>
+    <li>UREA N-23</li>
+    <li>CREAT-0.7</li>
+    <li>SODIUM-127</li>
+    <li>CHLORIDE-96</li>
+    <li>TOTAL CO2-25</li>
+    <li>ALT-161</li>
+    <li>AST-102</li>
+    <li>ALK PHOS-83</li>
+    <li>TOT BILI-1.1</li>
+    <li>ALBUMIN-3.6</li>
+    <li>PHOSPHATE-3.8</li>
+    <li>MAGNESIUM-2.4</li>
+    <li>RBC-5.44</li>
+    <li>MCH-28.5</li>
+    <li>ABG: pH-7.49, pCO2-31, pO2-96, TOTAL CO2-24, BASE XS-1</li>
+    <li>LACTATE-1.6</li>
+    <li>O2 SAT-95</li>
+    <li>ABG: pH-7.48, pCO2-33, pO2-148, TOTAL CO2-25, BASE XS-2</li>
+    <li>O2 SAT-96</li>
+    <li>SODIUM-130</li>
+    <li>OSMOLAL-QNS</li>
+    <li>URINE BLOOD-SM</li>
+    <li>URINE PROTEIN-30</li>
+    <li>URINE KETONE-TR</li>
+    <li>URINE RBC-59</li>
+    <li>URINE WBC-2</li>
+    <li>URINE BACTERIA-NONE</li>
+    <li>URINE YEAST-NONE</li>
+    <li>URINE EPI-0</li>
+    <li>URINE MUCOUS-OCC</li>
+    <li>ABG: pH-7.44, pCO2-40, pO2-192, TOTAL CO2-28, BASE XS-3</li>
+    <li>LACTATE-1.1</li>
+    <li>CREAT-0.5</li>
+    <li>SODIUM-133</li>
+    <li>POTASSIUM-3.8</li>
+    <li>CHLORIDE-98</li>
+    <li>ALT-150</li>
+    <li>AST-57</li>
+    <li>LD-320</li>
+    <li>ALK PHOS-103</li>
+    <li>TOT BILI-1.0</li>
+    <li>CALCIUM-8.8</li>
+    <li>PHOSPHATE-3.9</li>
+    <li>MAGNESIUM-2.0</li>
+    <li>HBsAg-NEGATIVE</li>
+    <li>HBs Ab-NEGATIVE</li>
+    <li>HBc Ab-NEGATIVE</li>
+    <li>HCV Ab-NEGATIVE</li>
+    <li>WBC-4.7</li>
+    <li>RBC-5.93</li>
+    <li>HGB-16.7</li>
+    <li>HCT-48.1</li>
+    <li>MCH-28.2</li>
+    <li>MCHC-34.7</li>
+    <li>RDW-15.2</li>
+    <li>PLT-204</li>
+    <li>LYMPH-8</li>
+    <li>ABS LYMPH-376</li>
+    <li>CD3-65</li>
+    <li>ABS CD3-245</li>
+    <li>CD4-3</li>
+    <li>ABS CD4-12</li>
+    <li>CD8-61</li>
+    <li>ABS CD8-230</li>
+    <li>CD4/CD8-0.1</li>
+    <li>ABG: pH-7.41, pCO2-40, pO2-505, TOTAL CO2-26, BASE XS-1, AADO2-169</li>
+    <li>O2 SAT-98</li>
+    <li>URINE bnzodzpn-NEG</li>
+    <li>URINE barbitrt-POS</li>
+    <li>URINE opiates-NEG</li>
+    <li>URINE cocaine-NEG</li>
+    <li>URINE amphetmn-NEG</li>
+    <li>URINE mthdone-NEG</li>
+    <li>URINE PROTEIN-100</li>
+    <li>URINE RBC-9</li>
+    <li>URINE WBC-4</li>
+    <li>URINE BACTERIA-FEW</li>
+    <li>URINE EPI-&lt;1</li>
+    <li>URINE HYALINE-6</li>
+    <li>URINE MUCOUS-RARE</li>
+    <li>ABG: pH-7.41</li>
+    <li>GLUCOSE-155</li>
+    <li>NA+-135</li>
+    <li>K+-3.9</li>
+    <li>CL--101</li>
+    <li>TCO2-22</li>
+    <li>HGB-16.4</li>
+    <li>calcHCT-49</li>
+    <li>CARBOXYHB-3</li>
+    <li>MET HGB-0</li>
+    <li>freeCa-1.03</li>
+    <li>GLUCOSE-161</li>
+    <li>UREA N-20</li>
+    <li>CREAT-0.9</li>
+    <li>SODIUM-131</li>
+    <li>POTASSIUM-6.3</li>
+    <li>TOTAL CO2-20</li>
+    <li>ANION GAP-19</li>
+    <li>estGFR-Using this</li>
+    <li>ALT-134</li>
+    <li>AST-101</li>
+    <li>ALK PHOS-95</li>
+    <li>TOT BILI-1.2</li>
+    <li>LIPASE-36</li>
+    <li>ALBUMIN-3.8</li>
+    <li>ASA-NEG</li>
+    <li>ETHANOL-NEG</li>
+    <li>ACETMNPHN-NEG</li>
+    <li>bnzodzpn-NEG</li>
+    <li>barbitrt-NEG</li>
+    <li>tricyclic-NEG</li>
+    <li>WBC-6.1</li>
+    <li>RBC-6.07</li>
+    <li>HGB-16.0</li>
+    <li>HCT-50.3</li>
+    <li>MCV-83</li>
+    <li>MCH-26.3</li>
+    <li>MCHC-31.7</li>
+    <li>RDW-15.4</li>
+    <li>NEUTS-88.4</li>
+    <li>LYMPHS-9.1</li>
+    <li>MONOS-1.6</li>
+    <li>EOS-0.4</li>
+    <li>BASOS-0.5</li>
+    <li>PTT-29.2</li>
+    <li>PLT-223</li>
+    <li>B-GLUCAN-Not Result (Indeterminate/Negative)</li>
+    <li>B-GLUCAN-65 pg/mL (Indeterminate)</li>
+    <li>ASPERGILLUS GALACTOMANNAN ANTIGEN-7.19 (Positive)</li>
+    <li>ASPERGILLUS AG,EIA,SERUM-Detected</li>
+    <li>CRYPTOCOCCAL ANTIGEN-NOT DETECTED</li>
+    <li>HIV-1 Viral Load-244 copies/ml</li>
+    <li>Legionella Urinary Antigen-NEGATIVE</li>
+    <li>BRAIN BIOPSY GRAM STAIN-1+ PMNs, NO MICROORGANISMS</li>
+    <li>BRAIN BIOPSY TISSUE-NO GROWTH</li>
+    <li>BRAIN BIOPSY ANAEROBIC CULTURE-NO GROWTH</li>
+    <li>BRAIN BIOPSY FUNGAL CULTURE-NO FUNGUS ISOLATED</li>
+    <li>BRAIN BIOPSY KOH PREP-NO FUNGAL ELEMENTS</li>
+    <li>BRAIN BIOPSY ACID FAST SMEAR-NO ACID FAST BACILLI</li>
+    <li>BRAIN BIOPSY ACID FAST CULTURE-NO MYCOBACTERIA</li>
+    <li>BRAIN BIOPSY VIRAL CULTURE-NO VIRUS</li>
+    <li>BRAIN BIOPSY NOCARDIA CULTURE-NO NOCARDIA</li>
+    <li>BRAIN BIOPSY CMV EARLY ANTIGEN-NEGATIVE</li>
+    <li>BRAIN BIOPSY (MEDIAL) GRAM STAIN-1+ PMNs, NO MICROORGANISMS</li>
+    <li>BRAIN BIOPSY (MEDIAL) TISSUE-VIRIDANS STREPTOCOCCI (2 COLONIES)</li>
+    <li>BRAIN BIOPSY (MEDIAL) ANAEROBIC CULTURE-NO ANAEROBES</li>
+    <li>BRAIN BIOPSY (MEDIAL) FUNGAL CULTURE-NO FUNGUS</li>
+    <li>BRAIN BIOPSY (MEDIAL) KOH PREP-NO FUNGAL ELEMENTS</li>
+    <li>BRAIN BIOPSY (MEDIAL) ACID FAST SMEAR-NO ACID FAST BACILLI</li>
+    <li>BRAIN BIOPSY (MEDIAL) ACID FAST CULTURE-NO MYCOBACTERIA</li>
+    <li>BRAIN BIOPSY (MEDIAL) VIRAL CULTURE-NO VIRUS</li>
+    <li>BRAIN BIOPSY (MEDIAL) NOCARDIA CULTURE-NO NOCARDIA</li>
+    <li>BRAIN BIOPSY (MEDIAL) CMV EARLY ANTIGEN-NEGATIVE</li>
+    <li>STOOL C. difficile DNA-Negative</li>
+    <li>RAPID PLASMA REAGIN TEST-NONREACTIVE</li>
+    <li>BAL GRAM STAIN-1+ PMNs, NO MICROORGANISMS</li>
+    <li>BAL RESPIRATORY CULTURE-~1000/ML Commensal Flora</li>
+    <li>BAL LEGIONELLA CULTURE-NO LEGIONELLA</li>
+    <li>BAL KOH PREP-TEST CANCELLED</li>
+    <li>BAL Pneumocystis jirovecii Immunofluorescent-NEGATIVE</li>
+    <li>BAL FUNGAL CULTURE-NO FUNGUS</li>
+    <li>BAL NOCARDIA CULTURE-NO NOCARDIA</li>
+    <li>BAL ACID FAST SMEAR-NO ACID FAST BACILLI</li>
+    <li>BAL ACID FAST CULTURE-NO MYCOBACTERIA</li>
+    <li>BAL CMV EARLY ANTIGEN-POSITIVE</li>
+    <li>BAL HSV CULTURE-HERPES SIMPLEX VIRUS TYPE 1 CONFIRMED</li>
+    <li>SPUTUM GRAM STAIN-1+ PMNs, BUDDING YEAST</li>
+    <li>SPUTUM RESPIRATORY CULTURE-YEAST SPARSE GROWTH</li>
+    <li>SPUTUM FUNGAL CULTURE-YEAST</li>
+    <li>CMV Viral Load-438 IU/mL</li>
+    <li>SPUTUM GRAM STAIN-&gt;25 PMNs, 1+ GRAM POSITIVE COCCI</li>
+    <li>SPUTUM RESPIRATORY CULTURE-STAPH AUREUS COAG + RARE GROWTH</li>
+    <li>SPUTUM GRAM STAIN-&gt;25 PMNs, 2+ GRAM NEGATIVE RODS, 1+ GRAM POSITIVE COCCI, 1+ BUDDING YEAST</li>
+    <li>SPUTUM RESPIRATORY CULTURE-STAPH AUREUS COAG + SPARSE GROWTH</li>
+    <li>BAL (RIGHT MIDDLE LOBE) GRAM STAIN-4+ PMNs, 2+ GRAM NEGATIVE RODS, 1+ GRAM POSITIVE COCCI</li>
+    <li>BAL (RIGHT MIDDLE LOBE) RESPIRATORY CULTURE-10,000-100,000 ORGANISMS/ML, STAPH AUREUS COAG +</li>
+    <li>BAL (RIGHT MIDDLE LOBE) Pneumocystis jirovecii Immunofluorescent-NEGATIVE</li>
+    <li>BAL (RIGHT MIDDLE LOBE) FUNGAL CULTURE-NO FUNGUS</li>
+    <li>BAL (RIGHT MIDDLE LOBE) ACID FAST SMEAR-NO ACID FAST BACILLI</li>
+    <li>BAL (RIGHT MIDDLE LOBE) ACID FAST CULTURE-NO MYCOBACTERIA</li>
+    <li>BAL (RIGHT MIDDLE LOBE) CMV EARLY ANTIGEN-Pending</li>
+    <li>Discharge WBC-10.2</li>
+    <li>Discharge HGB-12.1</li>
+    <li>Discharge HCT-34.5</li>
+    <li>Discharge MCV-84</li>
+    <li>Discharge MCH-29.5</li>
+    <li>Discharge MCHC-35.1</li>
+    <li>Discharge RDW-17.8</li>
+    <li>Discharge Glucose-88</li>
+    <li>Discharge UreaN-22</li>
+    <li>Discharge Creat-0.6</li>
+    <li>Discharge Na-136</li>
+    <li>Discharge K-4.0</li>
+    <li>Discharge Cl-95</li>
+    <li>Discharge HCO3-28</li>
+    <li>Discharge AnGap-17</li>
+    <li>Discharge Calcium-8.9</li>
+    <li>Discharge Phos-4.6</li>
+    <li>Discharge Mg-2.0</li>
+    <li>Methemoglobin level-9</li>
+    <li>Phenobarbital level-7.7 (low)</li>
+    <li>AST-39</li>
+    <li>ALT-84</li>
+    <li>AP-66</li>
+    <li>bili-0.7</li>
+    <li>WBC-12.5</li>
+    <li>WBC-17.2</li>
+    <li>WBC-10.2 (discharge)</li>
+    <li>CD4-12 (discharge)</li>
+    <li>HIV VL-244 copies/mL (discharge)</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(30)</span></h3>
+  <ul>
+    <li>Endotraqueal intubação</li>
+    <li>Biópsia cerebral</li>
+    <li>Re-intubação</li>
+    <li>Traqueostomia</li>
+    <li>PEG (Gastrostomia percutânea)</li>
+    <li>Tomografia computadorizada (TC) de crânio</li>
+    <li>Ressonância magnética (RM) de crânio</li>
+    <li>Radiografia de tórax (CXR)</li>
+    <li>Ultrassom de abdome superior (RUQ)</li>
+    <li>Eletroencefalograma (EEG)</li>
+    <li>Broncoscopia</li>
+    <li>Lavagem broncoalveolar (BAL)</li>
+    <li>Biópsia de pele</li>
+    <li>Exame de fundo de olho</li>
+    <li>Genotipagem do HIV (cancelada)</li>
+    <li>Teste de PPD (negativo)</li>
+    <li>Cultura de sangue</li>
+    <li>Cultura de urina</li>
+    <li>Cultura de escarro</li>
+    <li>Cultura de fezes</li>
+    <li>Teste de antígeno de Cryptococcus</li>
+    <li>Teste de carga viral do HIV</li>
+    <li>Teste de antígeno de Legionella</li>
+    <li>Teste de antígeno de Aspergillus</li>
+    <li>Teste de antígeno de CMV</li>
+    <li>Teste de antígeno de HSV</li>
+    <li>Teste de antígeno de Pneumocystis</li>
+    <li>Teste de antígeno de Toxoplasma</li>
+    <li>Teste de antígeno de Treponema</li>
+    <li>Teste de antígeno de EBV</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(6)</span></h3>
+  <ul>
+    <li>Toxoplasma gondii</li>
+    <li>Staphylococcus aureus (MRSA)</li>
+    <li>Citomegalovírus (CMV)</li>
+    <li>Herpes Simplex Vírus (HSV) Tipo 1</li>
+    <li>Streptococcus viridans</li>
+    <li>HIV-1</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">ERRO: extração falhou</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body soap-empty">Campo não preenchido.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '22924630';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

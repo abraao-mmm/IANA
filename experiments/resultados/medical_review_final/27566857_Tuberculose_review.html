@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão — 27566857 (Tuberculose)</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6; color: #1a1a2e; background: #f8f9fa;
+    max-width: 980px; margin: 0 auto; padding: 24px 16px;
+}
+h1 { font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; }
+h2 {
+    font-size: 1.25rem; color: #1e3a5f; margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #dbe4f0;
+}
+h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.header-meta {
+    background: #e8eef6; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 24px; font-size: 0.9rem; line-height: 1.8;
+}
+.header-meta strong { color: #1e3a5f; }
+.reviewer-bar {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.reviewer-bar label { font-weight: 600; color: #1e3a5f; }
+.reviewer-bar input[type="text"] {
+    padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.95rem; min-width: 220px;
+}
+.reviewer-bar .nav { margin-left: auto; }
+.reviewer-bar a {
+    color: #2563eb; text-decoration: none; padding: 6px 12px;
+    border: 1px solid #2563eb; border-radius: 4px; font-size: 0.9rem;
+}
+.reviewer-bar a:hover { background: #eff6ff; }
+.original-text {
+    background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;
+    padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap;
+    word-wrap: break-word; max-height: 500px; overflow-y: auto;
+}
+.ner-category, .soap-field {
+    margin-bottom: 16px; padding: 12px 16px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+}
+.ner-category h3 { color: #1e3a5f; font-size: 0.95rem; margin: 0 0 8px; }
+.ner-category .count { color: #6b7280; font-size: 0.8rem; font-weight: normal; }
+.ner-category ul { padding-left: 20px; margin: 0; }
+.ner-category li { font-size: 0.9rem; margin: 2px 0; }
+.ner-empty { color: #9ca3af; font-style: italic; font-size: 0.9rem; }
+.soap-field-header {
+    padding: 8px 16px; color: #fff; font-weight: 600; font-size: 0.95rem;
+    margin: -12px -16px 12px; border-radius: 6px 6px 0 0;
+}
+.soap-field-body {
+    padding: 0; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;
+}
+.soap-empty { color: #9ca3af; font-style: italic; }
+.eval-block {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;
+    display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.eval-block label { font-weight: 600; color: #1e3a5f; font-size: 0.88rem; }
+.eval-block select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 0.9rem; background: #fff; cursor: pointer;
+}
+.eval-block select.status-correto { background: #d1fae5; color: #065f46; }
+.eval-block select.status-parcial { background: #fef3c7; color: #92400e; }
+.eval-block select.status-incorreto { background: #fecaca; color: #991b1b; }
+.eval-block textarea {
+    flex: 1; min-width: 300px; min-height: 38px; padding: 6px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem;
+    font-family: inherit; resize: vertical;
+}
+.export-bar {
+    position: sticky; bottom: 0; background: #1e3a5f; color: #fff;
+    padding: 12px 16px; margin: 32px -16px -24px;
+    display: flex; gap: 12px; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.export-bar .progress { flex: 1; font-size: 0.9rem; }
+.export-bar button {
+    padding: 8px 16px; background: #fff; color: #1e3a5f; border: none;
+    border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+}
+.export-bar button:hover { background: #e8eef6; }
+.export-bar button.secondary {
+    background: transparent; color: #fff; border: 1px solid #fff;
+}
+.export-bar button.secondary:hover { background: rgba(255,255,255,0.1); }
+.alert-pathological {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 12px 16px; margin: 16px 0; border-radius: 4px;
+    font-size: 0.95rem;
+}
+.footer {
+    margin-top: 24px; padding: 16px 0; font-size: 0.8rem;
+    color: #6b7280; text-align: center;
+}
+table.index { width: 100%; border-collapse: collapse; }
+table.index th, table.index td {
+    border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left;
+}
+table.index th { background: #1e3a5f; color: #fff; font-weight: 600; }
+table.index tr:nth-child(even) { background: #f8f9fa; }
+table.index a { color: #2563eb; text-decoration: none; font-weight: 600; }
+table.index a:hover { text-decoration: underline; }
+.badge-status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.status-pendente { background: #f3f4f6; color: #6b7280; }
+.status-iniciado { background: #fef3c7; color: #92400e; }
+.status-completo { background: #d1fae5; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="reviewer-bar">
+    <label for="reviewer-name">Revisor:</label>
+    <input type="text" id="reviewer-name" placeholder="Seu nome"/>
+    <span class="nav"><a href="index.html">← Índice</a></span>
+</div>
+
+<h1>Revisão Clínica — Nota 27566857</h1>
+<div class="header-meta">
+    <strong>Paciente ID:</strong> 27566857 &nbsp;|&nbsp;
+    <strong>Doença alvo:</strong> Tuberculose &nbsp;|&nbsp;
+    <strong>CID:</strong>  &nbsp;|&nbsp;
+    <strong>Entidades extraídas:</strong> 67
+</div>
+
+<h2>1. Nota Original (inglês)</h2>
+<div class="original-text"> 
+Name:  ___                   Unit No:   ___
+ 
+Admission Date:  ___              Discharge Date:   ___
+ 
+Date of Birth:  ___             Sex:   F
+ 
+Service: MEDICINE
+ 
+Allergies: 
+Patient recorded as having No Known Allergies to Drugs
+ 
+Attending: ___.
+ 
+Chief Complaint:
++AFB pleural fluid
+ 
+Major Surgical or Invasive Procedure:
+none
+ 
+History of Present Illness:
+This ___ year old female of ___ origin was admitted ___ 
+for fever, pneumonia and R pleural effusion.  She had been 
+treated with Augmentin prior to admission, then Ceftx + Azithro 
+changed to Vanco + Zosyn, changed to Levofloxacin, changed to 
+Moxifloxacin by discharge. About 900cc was thoracentesed and 
+thought to be parapneumonic process. She also received 
+pneumococcus, HIB and meningococcus vaccines, adn HIV antibody 
+testing was negative. Due to retained IVs by the patient she 
+developed left cephalic vein and left brachial vein thrombosis 
+-- seen on USS. She was anticoagulated with iv heparin and 
+loaded on po coumadin. she was discharged home on subcut lovonox 
+and will need coumadin therapy for 3 months. 
+.
+Since then, on ___ microbiology lab found that ___ pleural 
+fluid sample is AFB + and it was sent to state lab for culture 
+and identification, and on ___ the pleural effusion sample 
+was identified to have mycobacteria tuberculosis. Sputum has 
+remained negative.
+.
+She endorses night sweats about ___, but not drenching.  
+Denies cough, fever, headached, abd pain, joint pain or rashes.  
+No new lumps or bumps.  Other 10 pt system detailed ROS is 
+negative.
+
+ 
+Past Medical History:
+sickle cell disease
+asplenia
+gall stones
+GERD
+LUext DVT secondary to retained IV (pt refused d/c last hosp) - 
+to be on anticoagulation through ___
+ 
+Social History:
+___
+Family History:
+No family history of sickle cell disease.  Her sister is a 
+carrier.  She is the only one in her family who has the sickle 
+cell disease. 
+ 
+Physical Exam:
+Physical Exam:
+Vitals - T:98.4 BP:90/55 HR:66 RR:20 02 sat:93% on room air  
+GENERAL:  NAD
+HEENT: NCAT, sclera mildly incteric, neck supple, no LAD
+CARDIAC: regular rhythm, normal rate, normal s1, s2, no m/r/g
+LUNG: absent breath sounds at right base w/ (+) egophony 
+suggesting persistent effusion, no crackles, no wheezing, no 
+rhonchi. 
+ABDOMEN: normoactive BS, nontender to palpation at RUQ or 
+anywhere else. Non-distended.  Spleen not palpable.  
+EXT: No ___ edema, no cyanosis or clubbing 
+NEURO: AOx3, CNII-XII intact.  Neuro exam intact. 
+DERM: No skin lesion. 
+ 
+Pertinent Results:
+___ 01:00PM   ___
+___ 11:00AM BLOOD WBC-10.5 RBC-2.64* Hgb-7.6* Hct-21.8* 
+MCV-82 MCH-28.6 MCHC-34.8 RDW-18.7* Plt ___
+___ 11:00AM BLOOD Glucose-96 UreaN-6 Creat-0.5 Na-138 K-4.1 
+Cl-105 HCO3-26 AnGap-11
+___ 11:00AM BLOOD ALT-40 AST-71* LD(LDH)-872* AlkPhos-98 
+TotBili-2.9*
+___ 11:00AM BLOOD ___ PTT-31.4 ___
+ 
+Brief Hospital Course:
+___ yo female with MTB pleural effusion, s/p recent Augmentin and 
+Quinolone containing antibiotic regimen for presemed pneumonia 
+w/ parapneumonic effusion.  That she got better is likely due to 
+quinolones partial activity against MTB.
+
+Problem List:
+# Mycobacteria Tuberculosis - pleural effusion
+# L UExt DVT
+# Sickle Cell Anemia w/ chronic ___
+
+___ course:
+She was started on HREZ + Vit B6, and informed about potentiated 
+warfarin and rifampin interaction requiring close monitoring of 
+INR.  She was informed of the need to get a Ophthalmology 
+consult and why, and this was arranged.  A new baseline CXR PA &amp; 
+LAT was normal. Attempts to get induced Sputum were done, but 
+unsuccessful in getting anything.  Her coumadin was moved to 
+Coumadin 4mg qhs and monitored, and on discharge INR = 2.2. She 
+was continued Folic Acid.  She denied sexual activity, a 
+pregnancy test was negative, and she was informed about the 
+risks to fetus of her medications if she became pregnant.
+.
+I discussed discharge plan with ID team and with RN ___ 
+from Department of Public Health who is aware of hospitalization 
+and intention to send patient home to her dorm without a mask, 
+and am faxing a copy of this d/c summary to her with patient&#x27;s 
+permission. RN ___ will see the patient tomorrow afternoon.  Pt 
+has f/u appointments in the ___ Post Discharge Clinic where INR 
+can be checked again, and she can be hooked back into the 
+___ clinic.  She will have completed three months of 
+therapy on ___/ and after this date, she should no longer 
+need to take warfarin.
+.
+She has plans to travel across the ___ after graduation in ___, 
+then to travel to ___, ___ and back to ___ 
+this summer in anticipation of starting graduate school in 
+___.  Care regarding coordination of her TB med 
+administration will need to be handled in conjunction with DPH 
+and her PCP&#x27;s office.
+
+ 
+Medications on Admission:
+1. Acetaminophen 325 mg Tablet Sig: ___ Tablets PO Q6H (every 6 
+hours) as needed for pain, fever.
+2. Guaifenesin 100 mg/5 mL Syrup Sig: ___ MLs PO Q6H (every 6 
+hours) as needed for cough.
+3. Folic Acid 1 mg Tablet Sig: Five (5) Tablet PO DAILY (Daily). 
+
+4. Benzonatate 100 mg Capsule Sig: One (1) Capsule PO TID (3 
+times a day) 
+5. Coumadin daily
+ 
+Discharge Medications:
+1. Pantoprazole 40 mg Tablet, Delayed Release (E.C.) Sig: One 
+(1) Tablet, Delayed Release (E.C.) PO Q24H (every 24 hours).  
+2. Folic Acid 1 mg Tablet Sig: Five (5) Tablet PO DAILY (Daily). 
+ 
+3. Isoniazid ___ mg Tablet Sig: One (1) Tablet PO DAILY (Daily).
+Disp:*30 Tablet(s)* Refills:*0*
+4. Rifampin 300 mg Capsule Sig: Two (2) Capsule PO Q24H (every 
+24 hours).
+Disp:*60 Capsule(s)* Refills:*0*
+5. Pyrazinamide 500 mg Tablet Sig: Three (3) Tablet PO DAILY 
+(Daily).
+Disp:*90 Tablet(s)* Refills:*0*
+6. Ethambutol 400 mg Tablet Sig: Three (3) Tablet PO DAILY 
+(Daily).
+Disp:*90 Tablet(s)* Refills:*0*
+7. Pyridoxine 50 mg Tablet Sig: One (1) Tablet PO DAILY (Daily).
+Disp:*30 Tablet(s)* Refills:*0*
+8. Warfarin 2 mg Tablet Sig: Two (2) Tablet PO Once Daily at 4 
+___.  
+
+ 
+Discharge Disposition:
+Home
+ 
+Discharge Diagnosis:
+Mycobacterium tuberculosis - pleural fluid
+Sickle Cell Anemia w/o crisis
+
+ 
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+ 
+Discharge Instructions:
+You were admitted to hospital because cultures from the fluid 
+taken out of your chest cavity during last hospitalization is 
+growing Tuberculosis.  You were started on a regimen for your TB 
+listed on your discharge list.  One of them may augment the 
+warfarin effect to treat the clot you recently were diagnosed 
+with of your L arm.  Your INR will have to monitored carefully 
+in the next several weeks.  You will need to have periodic liver 
+function tests done by your doctor.
+
+You should check with your PCP office, but you will have 
+complete 3 months of anticoagulation on ___, after which you 
+may be able to discontinue the Warfarin (coumadin).
+
+You will also need an eye exam because of a rare potential 
+effect from Ethambutol, one of your TB meds (this was discussed 
+with you), and this appointment has been arranged below.
+
+The department of ___ health nurse, ___ RN, will follow 
+your treatment observation.  It is incredibly important that you 
+not miss ___ single dose of your TB medication unless otherwise 
+instructed so as to prevent drug resistant TB, or recurrent TB.
+
+Nurse ___ cell phone number is ___, and she will see 
+you tomorrow after noontime. She will be busy in clinic until 
+12noon, but can be reached afterwards.  I have given her your 
+cell phone number (___) which you gave me.
+
+It is important that you not become pregnant on your current 
+medications because of risks to a developing fetus.
+ 
+Followup Instructions:
+___
+</div>
+
+<h2>2. Entidades Clínicas (NER) — avaliar cada categoria</h2>
+<div class="ner-category">
+  <h3>Doenças e Síndromes <span class="count">(8)</span></h3>
+  <ul>
+    <li>Tuberculose pleural</li>
+    <li>Trombose da veia cefálica esquerda</li>
+    <li>Trombose da veia braquial esquerda</li>
+    <li>Doença falciforme</li>
+    <li>Asplenia</li>
+    <li>Cálculos biliares</li>
+    <li>Doença do Refluxo Gastroesofágico (DRGE)</li>
+    <li>Pneumonia</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_disease_or_syndrome-status">Avaliação:</label>
+    <select id="eval-ner_disease_or_syndrome-status" class="eval-status" data-key="ner_disease_or_syndrome">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_disease_or_syndrome"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Sinais e Sintomas <span class="count">(6)</span></h3>
+  <ul>
+    <li>Febre</li>
+    <li>Suores noturnos</li>
+    <li>Icterícia leve</li>
+    <li>Ausência de murmúrio vesicular na base direita</li>
+    <li>Egofonia positiva</li>
+    <li>Derrame pleural direito</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_sign_or_symptom-status">Avaliação:</label>
+    <select id="eval-ner_sign_or_symptom-status" class="eval-status" data-key="ner_sign_or_symptom">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_sign_or_symptom"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Substâncias Farmacológicas <span class="count">(20)</span></h3>
+  <ul>
+    <li>Acetaminofeno 325 mg</li>
+    <li>Guaifenesina 100 mg/5 mL</li>
+    <li>Ácido Fólico 1 mg</li>
+    <li>Benzonatato 100 mg</li>
+    <li>Varfarina</li>
+    <li>Pantoprazol 40 mg</li>
+    <li>Isoniazida</li>
+    <li>Rifampina 300 mg</li>
+    <li>Pirazinamida 500 mg</li>
+    <li>Etambutol 400 mg</li>
+    <li>Piridoxina 50 mg</li>
+    <li>Heparina</li>
+    <li>Enoxaparina</li>
+    <li>Amoxicilina-Clavulanato</li>
+    <li>Ceftriaxona</li>
+    <li>Azitromicina</li>
+    <li>Vancomicina</li>
+    <li>Piperacilina-Tazobactam</li>
+    <li>Levofloxacino</li>
+    <li>Moxifloxacino</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_pharmacologic_substance-status">Avaliação:</label>
+    <select id="eval-ner_pharmacologic_substance-status" class="eval-status" data-key="ner_pharmacologic_substance">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_pharmacologic_substance"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Resultados Laboratoriais <span class="count">(25)</span></h3>
+  <ul>
+    <li>HIV Anticorpo-Negativo</li>
+    <li>Líquido pleural AFB-Positivo</li>
+    <li>Líquido pleural Mycobacterium tuberculosis-Identificado</li>
+    <li>Esputo-Negativo</li>
+    <li>WBC-10.5</li>
+    <li>RBC-2.64</li>
+    <li>Hemoglobina-7.6</li>
+    <li>Hematócrito-21.8</li>
+    <li>RDW-18.7</li>
+    <li>Glucose-96</li>
+    <li>Ureia-6</li>
+    <li>Creatinina-0.5</li>
+    <li>Sódio-138</li>
+    <li>Potássio-4.1</li>
+    <li>Cloreto-105</li>
+    <li>Bicarbonato-26</li>
+    <li>Gap de Ânion-11</li>
+    <li>ALT-40</li>
+    <li>AST-71</li>
+    <li>LDH-872</li>
+    <li>Fosfatase Alcalina-98</li>
+    <li>Bilirrubina Total-2.9</li>
+    <li>PTT-31.4</li>
+    <li>Teste de Gravidez-Negativo</li>
+    <li>INR-2.2</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_laboratory_or_test_result-status">Avaliação:</label>
+    <select id="eval-ner_laboratory_or_test_result-status" class="eval-status" data-key="ner_laboratory_or_test_result">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_laboratory_or_test_result"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Procedimentos Diagnósticos <span class="count">(7)</span></h3>
+  <ul>
+    <li>Toracocentese</li>
+    <li>Ultrassonografia</li>
+    <li>Radiografia de tórax</li>
+    <li>Indução de esputo</li>
+    <li>Cultura e identificação de líquido pleural</li>
+    <li>Teste de HIV</li>
+    <li>Teste de gravidez</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_diagnostic_procedure-status">Avaliação:</label>
+    <select id="eval-ner_diagnostic_procedure-status" class="eval-status" data-key="ner_diagnostic_procedure">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_diagnostic_procedure"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="ner-category">
+  <h3>Organismos e Vírus <span class="count">(1)</span></h3>
+  <ul>
+    <li>Mycobacterium tuberculosis</li>
+  </ul>
+
+<div class="eval-block">
+    <label for="eval-ner_organism_or_virus-status">Avaliação:</label>
+    <select id="eval-ner_organism_or_virus-status" class="eval-status" data-key="ner_organism_or_virus">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="ner_organism_or_virus"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>3. Estrutura SOAP — avaliar cada campo</h2>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#2563eb;">Subjetivo</div>
+  <div class="soap-field-body">Paciente feminina relata internação recente por febre, pneumonia e derrame pleural direito. Refere ter sido tratada previamente com diversos antibióticos (Augmentin, Ceftriaxona + Azitromicina, Vancomicina + Zosyn, Levofloxacino e Moxifloxacino). Relata que foi submetida a toracocentese com retirada de aproximadamente 900cc de líquido, inicialmente considerado processo parapneumônico. Paciente refere histórico de HIV com teste de anticorpos negativo durante a internação atual. Relata episódios de sudorese noturna, mas não profusa. Nega tosse, febre atual, dor de cabeça, dor abdominal, dor articular ou erupções cutâneas. Nega presença de novos nódulos ou inchaços. Revisão dos sistemas detalhada é negativa para outros sintomas. Relata histórico de doença falciforme, asplenia, cálculos biliares e refluxo gastroesofágico (GERD). Refere episódio de trombose da veia cefálica e veia braquial esquerda secundário à retenção de cateteres venosos, sendo anticoagulada com heparina e varfarina. Nega atividade sexual recente. Paciente refere planos de viagem após a formatura e início de pós-graduação.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_subjetivo-status">Avaliação:</label>
+    <select id="eval-soap_subjetivo-status" class="eval-status" data-key="soap_subjetivo">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_subjetivo"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#059669;">Objetivo — Exame Físico</div>
+  <div class="soap-field-body">Sinais Vitais: Temperatura 98.4°F, PA 90/55 mmHg, FC 66 bpm, FR 20 irpm, SatO2 93% em ar ambiente. Geral: Paciente sem aparência de doença aguda (NAD). HEENT: Cefaléia, olhos, ouvidos, nariz e garganta normais; escleras levemente ictericas; pescoço suple, sem linfadenopatia. Cardíaco: Ritmo regular, frequência normal, S1 e S2 normais, sem sopros, atritos ou galopes. Pulmões: Ausência de murmúrio vesicular na base direita com egofonia positiva, sugerindo derrame pleural persistente; sem estertores, sibilos ou roncos. Abdome: Ruídos hidroaéreos normoativos, não doloroso à palpação no hipocôndrio direito ou em qualquer outra região; não distendido; baço não palpável. Extremidades: Sem edema, cianose ou acropaquia. Neurológico: Orientado x3, pares cranianos II-XII íntegros; exame neurológico intacto. Dermatológico: Sem lesões de pele.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_exame_fisico-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_exame_fisico-status" class="eval-status" data-key="soap_objetivo_exame_fisico">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_exame_fisico"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#7c3aed;">Objetivo — Laboratório</div>
+  <div class="soap-field-body">Hemograma: Leucócitos 10.5, Hemácias 2.64, Hemoglobina 7.6, Hematócrito 21.8, VCM 82, HCM 28.6, HCMC 34.8, RDW 18.7, Plaquetas (valor não especificado no texto). Bioquímica: Glicose 96, Ureia 6, Creatinina 0.5, Sódio 138, Potássio 4.1, Cloro 105, Bicarbonato 26, Gap de Ânions 11. Função Hepática: ALT 40, AST 71, LDH 872, Fosfatase Alcalina 98, Bilirrubina Total 2.9. Coagulação: TTPA 31.4. Sorologias: Teste de HIV negativo. Teste de gravidez negativo. Cultura de líquido pleural: Identificada Mycobacterium tuberculosis. Cultura de escarro: Negativa. INR na alta: 2.2.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_laboratorio-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_laboratorio-status" class="eval-status" data-key="soap_objetivo_laboratorio">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_laboratorio"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#d97706;">Objetivo — Imagem</div>
+  <div class="soap-field-body">Ultrassonografia (USS): Visualização de trombose na veia cefálica esquerda e veia braquial esquerda. Radiografia de Tórax (PA e LAT): Normal (nova radiografia de base).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_objetivo_imagem-status">Avaliação:</label>
+    <select id="eval-soap_objetivo_imagem-status" class="eval-status" data-key="soap_objetivo_imagem">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_objetivo_imagem"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#dc2626;">Avaliação</div>
+  <div class="soap-field-body">Paciente feminina com diagnóstico confirmado de Tuberculose Pleural (Mycobacterium tuberculosis isolado do líquido pleural), em contexto de doença falciforme e asplenia. A melhora clínica prévia com antibióticos contendo quinolonas sugere atividade parcial destas contra o Mycobacterium tuberculosis. Paciente apresenta anemia crônica compatível com doença falciforme (Hb 7.6) e icterícia leve. Complicação vascular recente: Trombose venosa profunda (TVP) de membro superior esquerdo, em tratamento anticoagulante. Interação medicamentosa crítica identificada entre Rifampina (antituberculose) e Varfarina, exigindo monitorização rigorosa do INR. Paciente está estável para alta, com plano de tratamento antituberculose iniciado (HREZ + Vitamina B6) e anticoagulação continuada. Necessidade de acompanhamento oftalmológico devido ao uso de Etambutol e monitoramento de função hepática. Coordenação com Departamento de Saúde Pública para observação direta da terapia (DOT).</div>
+
+<div class="eval-block">
+    <label for="eval-soap_avaliacao-status">Avaliação:</label>
+    <select id="eval-soap_avaliacao-status" class="eval-status" data-key="soap_avaliacao">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_avaliacao"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+<div class="soap-field">
+  <div class="soap-field-header" style="background:#0891b2;">Plano</div>
+  <div class="soap-field-body">Medicações de alta:
+1. Pantoprazol 40 mg, 1 comprimido VO a cada 24 horas.
+2. Ácido Fólico 1 mg, 5 comprimidos VO diariamente.
+3. Isoniazida 300 mg (dose ajustada conforme prescrição de 1 comprimido), 1 comprimido VO diariamente.
+4. Rifampina 300 mg, 2 cápsulas VO a cada 24 horas.
+5. Pirazinamida 500 mg, 3 comprimidos VO diariamente.
+6. Etambutol 400 mg, 3 comprimidos VO diariamente.
+7. Piridoxina (Vitamina B6) 50 mg, 1 comprimido VO diariamente.
+8. Varfarina 2 mg, 2 comprimidos VO uma vez ao dia às 16h.
+
+Orientações ao paciente:
+- Monitoramento rigoroso do INR nas próximas semanas devido à interação entre Rifampina e Varfarina.
+- Realizar exames periódicos de função hepática.
+- Não interromper doses dos medicamentos antituberculose para evitar resistência ou recidiva.
+- Evitar gravidez durante o tratamento devido aos riscos fetais.
+- Realizar exame oftalmológico de rotina devido ao uso de Etambutol.
+
+Encaminhamentos e Seguimento:
+- Consulta com Oftalmologia (agendada).
+- Acompanhamento com Enfermeira do Departamento de Saúde Pública (RN ___) para observação da terapia.
+- Retorno à Clínica de Pós-Alta para verificação de INR e reencaminhamento para a clínica de tuberculose.
+- Previsão de término da anticoagulação (Varfarina) após 3 meses de terapia (data específica a ser confirmada pelo médico assistente).
+- Coordenação com médico de família e departamento de saúde para continuidade do tratamento durante viagens futuras.</div>
+
+<div class="eval-block">
+    <label for="eval-soap_plano-status">Avaliação:</label>
+    <select id="eval-soap_plano-status" class="eval-status" data-key="soap_plano">
+        <option value="">— selecionar —</option>
+        <option value="correto">Correto</option>
+        <option value="parcial">Parcial</option>
+        <option value="incorreto">Incorreto</option>
+    </select>
+    <textarea class="eval-comment" data-key="soap_plano"
+              placeholder="Comentario (opcional): correcoes, omissoes, categoria errada..."></textarea>
+</div>
+</div>
+
+<h2>4. Comentários Gerais (opcional)</h2>
+<div class="ner-category">
+    <textarea id="general-comments" class="eval-comment" style="width:100%; min-height:80px;"
+              placeholder="Observacoes sobre a nota como um todo: padroes de erro, qualidade geral, recomendacoes..."></textarea>
+</div>
+
+<div class="export-bar">
+    <span class="progress" id="progress-text">0 de 12 categorias avaliadas</span>
+    <button class="secondary" onclick="clearLocal()">Limpar</button>
+    <button onclick="exportJSON()">Exportar JSON</button>
+</div>
+
+<div class="footer">
+    Projeto IANA — Validação clínica do gold test set | Gerado em 2026-04-29
+</div>
+<script>const PID = '27566857';
+const STORAGE_KEY = 'iana_review_' + PID;
+const REVIEWER_KEY = 'iana_reviewer';
+
+function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+function saveState(state) {
+    state._updated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgressBar();
+}
+function updateProgressBar() {
+    const state = loadState();
+    const selects = document.querySelectorAll('select.eval-status');
+    let filled = 0;
+    selects.forEach(s => { if (s.value) filled++; });
+    document.getElementById('progress-text').textContent =
+        `${filled} de ${selects.length} categorias avaliadas`;
+}
+function applyStatusClass(select) {
+    select.classList.remove('status-correto','status-parcial','status-incorreto');
+    if (select.value) select.classList.add('status-' + select.value);
+}
+function attachHandlers() {
+    document.querySelectorAll('select.eval-status').forEach(sel => {
+        const key = sel.dataset.key;
+        const state = loadState();
+        if (state[key]?.status) { sel.value = state[key].status; applyStatusClass(sel); }
+        sel.addEventListener('change', () => {
+            applyStatusClass(sel);
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].status = sel.value;
+            saveState(state);
+        });
+    });
+    document.querySelectorAll('textarea.eval-comment').forEach(ta => {
+        const key = ta.dataset.key;
+        const state = loadState();
+        if (state[key]?.comment) ta.value = state[key].comment;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state[key] = state[key] || {};
+            state[key].comment = ta.value;
+            saveState(state);
+        });
+    });
+    const ta = document.getElementById('general-comments');
+    if (ta) {
+        const state = loadState();
+        if (state._general) ta.value = state._general;
+        ta.addEventListener('input', () => {
+            const state = loadState();
+            state._general = ta.value;
+            saveState(state);
+        });
+    }
+    const reviewer = document.getElementById('reviewer-name');
+    if (reviewer) {
+        reviewer.value = localStorage.getItem(REVIEWER_KEY) || '';
+        reviewer.addEventListener('input', () => {
+            localStorage.setItem(REVIEWER_KEY, reviewer.value);
+        });
+    }
+}
+function exportJSON() {
+    const state = loadState();
+    const reviewer = localStorage.getItem(REVIEWER_KEY) || 'anonimo';
+    const out = {
+        paciente_id: PID,
+        reviewer: reviewer,
+        timestamp: new Date().toISOString(),
+        evaluations: state,
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `review_${reviewer.replace(/\W+/g,'_')}_${PID}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function clearLocal() {
+    if (confirm('Apagar avaliacao desta nota? (sem desfazer)')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    attachHandlers();
+    updateProgressBar();
+});
+</script>
+</body>
+</html>

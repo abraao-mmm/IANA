@@ -1,0 +1,59 @@
+{
+  "model": "gemma4_e4b",
+  "per_category": {
+    "disease_or_syndrome": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 263
+    },
+    "sign_or_symptom": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 450
+    },
+    "pharmacologic_substance": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 325
+    },
+    "laboratory_or_test_result": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1503
+    },
+    "diagnostic_procedure": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 291
+    },
+    "organism_or_virus": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 38
+    }
+  },
+  "micro": {
+    "precision": 0,
+    "recall": 0.0,
+    "f1": 0
+  },
+  "macro_f1": 0.0
+}
