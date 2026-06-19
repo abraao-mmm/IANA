@@ -1,6 +1,6 @@
 # 📁 Diretório `data/`
 
-Este diretório gerencia a obtenção e o pré-processamento inicial das bases de dados brutas utilizadas no projeto **EHR-Sentinel**.
+Este diretório gerencia a obtenção e o pré-processamento inicial das bases de dados brutas utilizadas no projeto **IANÃ**.
 
 > **Nota:** Os dados brutos do MIMIC-IV (`.csv`, `.parquet`) **nao** sao versionados por questoes de tamanho (~6.3GB). Use os scripts `download_mimic.py` e `extract_mimic.py` para obte-los localmente. A base SemClinBr (`.xml`, ~8MB) **e versionada** e ja esta incluida no repositorio.
 
